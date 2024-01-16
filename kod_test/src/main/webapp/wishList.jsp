@@ -1,3 +1,4 @@
+<%@page import="model.dto.MemberDTO"%>
 <%@page import="model.dto.WishListDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -39,6 +40,8 @@
 							<h3 class="title">
 								<div class="box-page-count" style="display: flex; align-items: center; ">
 									<div class="l-cont">
+									<%String memberID=((MemberDTO)session.getAttribute("member")).getMemberID(); %>
+									<div><%=memberID %></div>
 			                      		<%
 			                      		ArrayList<WishListDTO> wishListDatas = (ArrayList<WishListDTO>) request.getAttribute("wishListDatas");
 			                      		int wishListCnt = wishListDatas.size();

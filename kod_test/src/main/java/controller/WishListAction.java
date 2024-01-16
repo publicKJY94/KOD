@@ -25,14 +25,21 @@ public class WishListAction implements Action{
 		forward.setRedirect(false);
 		
 		request.setCharacterEncoding("UTF-8");
-		System.out.println("들어옴 2");
+		
+		/*
+		 * 세션으로 부터 로그인 정보를 받아온다.
+		 * 로그인 하지 않았다면
+		 * 위시리스트 정보 없음
+		 * 로그인을 했다면
+		 * 위시리스트 정보 반환하기
+		 */
 		
 		WishListDAO wishListDAO = new WishListDAO();
 		WishListDTO wishListDTO = new WishListDTO();
 		
 		System.out.println("wishListAction들어옴");
 		HttpSession session = request.getSession();
-		String memberID = (String)session.getAttribute("member");
+		String memberID = ((MemberDTO)session.getAttribute("member")).getMemberID();
 		
 		System.out.println(memberID);
 		wishListDTO.setMemberID(memberID);
@@ -40,7 +47,7 @@ public class WishListAction implements Action{
 		ArrayList<WishListDTO> wishListDatas = wishListDAO.selectAll(wishListDTO);
 		request.setAttribute("wishListDatas", wishListDatas);
 		
-		System.out.println("들어옴3");
+		
 		return forward;
 	}
 }

@@ -16,24 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public FrontController() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doAction(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doAction(request, response);
 	}
@@ -71,13 +62,15 @@ public class FrontController extends HttpServlet {
 		}
 		else if(action.equals("/address.do")) {
 			forward = new AddressAction().execute(request, response);
-		}else if(action.equals("/wishList.do")) {
-			System.out.println("들어옴1");
+		}
+		else if(action.equals("/wishList.do")) {
 			forward= new WishListAction().execute(request, response);
-		}else if(action.equals("/alert.do")) {
+		}
+		else if(action.equals("/alert.do")) {
 			forward= new AlertAction().execute(request, response);
 			
-		}else if(action.equals("/payInfoPage.do")) {
+		}
+		else if(action.equals("/payInfoPage.do")) {
 			System.out.println("[로그]");
 			System.out.println(request.getParameter("productID"));
 			forward = new PayInfoPage().execute(request, response);
