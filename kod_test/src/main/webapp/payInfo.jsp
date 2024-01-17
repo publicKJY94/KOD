@@ -45,7 +45,7 @@
 	<%
 		ProductDTO productDTO = (ProductDTO) request.getAttribute("pDTO");
 		System.out.println(productDTO);
-		MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("member");
+		MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("memberDTO");
 		System.out.println(memberDTO);
 	%>
 		<!-- BREADCRUMB -->

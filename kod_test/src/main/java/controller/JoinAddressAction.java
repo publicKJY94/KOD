@@ -5,32 +5,28 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import model.dao.AddressDAO;
 import model.dao.MemberDAO;
 import model.dto.AddressDTO;
 import model.dto.MemberDTO;
 
-public class AddressInsertAction implements Action {
+public class JoinAddressAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		ActionForward forward = new ActionForward();
 		request.setCharacterEncoding("UTF-8");
-		
-		HttpSession session=request.getSession();
-		session.getAttribute("memberDTO");
-		System.out.println("로그 : 멤버아이디"+session.getAttribute("memberDTO"));
-		
+
 		MemberDTO mDTO = new MemberDTO();
-	
-		mDTO.setMemberID(((MemberDTO)session.getAttribute("memberDTO")).getMemberID());
+		MemberDAO mDAO = new MemberDAO();
 		
-		System.out.println("로그1 주소추가"+mDTO);
-		
+		mDTO.setMemberID((String)request.getAttribute("memberDTO"));
+		mDTO.setSearchCondition("ID체크");
+		mDAO.selectOne(mDTO);
+
 		AddressDAO aDAO = new AddressDAO();
 		AddressDTO aDTO = new AddressDTO();
 
@@ -40,12 +36,13 @@ public class AddressInsertAction implements Action {
 		aDTO.setAdrsDetail(request.getParameter("adrsDetail")); // 상세 주소
 		aDTO.setAdrsZipcode(request.getParameter("adrsZipcode")); // 우편 번호
 		aDTO.setMemberID(mDTO.getMemberID());
-		
-		boolean flag=aDAO.insert(aDTO);
-		
+		System.out.println(aDTO);
+
+		boolean flag = aDAO.insert(aDTO);
+
 		if (flag) {
-			forward.setPath("myPage.do");
-			forward.setRedirect(true);
+			forward.setPath("main.do");
+			forward.setRedirect(false);
 		}
 
 		else {
@@ -53,7 +50,7 @@ public class AddressInsertAction implements Action {
 			forward.setPath("goback.do");
 			forward.setRedirect(false);
 		}
-		
+
 		return forward;
 	}
 
