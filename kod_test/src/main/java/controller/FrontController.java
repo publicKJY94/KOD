@@ -9,88 +9,108 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class FrontController
- */
 @WebServlet("*.do")
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public FrontController() {
+	
+	private MainAction mainAction;
+	private ProductAction productAction;
+	private ProductDetailAction productDetailAction;
+	private MapPageAction mapPageAction;
+	private JoinPageAction joinPageAction;
+	private LoginAction loginAction;
+	private LoginPageAction loginPageAction;
+	private LogoutAction logoutAction;
+	private MyPageAction myPageAction;
+	private AddressAction addressAction;
+	private WishListAction wishListAction;
+	private AlertAction alertAction;
+	private PayInfoPage payInfoPage;
+    private PaymentPageAction paymentPageAction;
+    private OrderListAction orderListAction;
+    
+	public FrontController() {
         super();
-        // TODO Auto-generated constructor stub
+        mainAction = new MainAction();
+        productAction = new ProductAction();
+        productDetailAction = new ProductDetailAction();
+        mapPageAction = new MapPageAction();
+        joinPageAction = new JoinPageAction();
+        loginPageAction = new LoginPageAction();
+        logoutAction = new LogoutAction();
+        myPageAction = new MyPageAction();
+        addressAction = new AddressAction();
+        wishListAction = new WishListAction();
+        alertAction = new AlertAction();
+        payInfoPage = new PayInfoPage();
+        paymentPageAction = new PaymentPageAction();
+        orderListAction = new OrderListAction();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doAction(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doAction(request, response);
 	}
 	public void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String uri = request.getRequestURI();
 		String cp = request.getContextPath();
 		String action = uri.substring(cp.length());
 		ActionForward forward = null;
 		if(action.equals("/main.do")) {
-			forward = new MainAction().execute(request, response);
+			forward = mainAction.execute(request, response);
 		}
 		else if(action.equals("/store.do")) {
-			forward = new ProductAction().execute(request, response);
+			forward = productAction.execute(request, response);
 		}
 		else if(action.equals("/productDetail.do")) {
-			forward = new ProductDetailAction().execute(request, response);
+			forward = productDetailAction.execute(request, response);
 		}
 		else if(action.equals("/mapPage.do")) {
-			forward = new MapPageAction().execute(request, response);
+			forward = mapPageAction.execute(request, response);
 		}
 		else if(action.equals("/joinPage.do")) {
-			forward = new JoinPageAction().execute(request, response);
+			forward = joinPageAction.execute(request, response);
 		}
 		else if(action.equals("/loginPage.do")) {
-			forward = new LoginPageAction().execute(request, response);
+			forward = loginPageAction.execute(request, response);
 		}
 		else if(action.equals("/login.do")) {
-			forward = new LoginAction().execute(request, response);
+			forward = loginAction.execute(request, response);
 		}
 		else if(action.equals("/logout.do")) {
-			forward = new LogoutAction().execute(request, response);
+			forward = logoutAction.execute(request, response);
 		}
-		else if(action.equals("/myPage.do")) {
-			forward = new myPageAction().execute(request, response);
+		else if(action.equals("/MyPage.do")) {
+			forward = myPageAction.execute(request, response);
 		}
 		else if(action.equals("/address.do")) {
-			forward = new AddressAction().execute(request, response);
-		}else if(action.equals("/wishList.do")) {
-			System.out.println("들어옴1");
-			forward= new WishListAction().execute(request, response);
-		}else if(action.equals("/alert.do")) {
-			forward= new AlertAction().execute(request, response);
+			forward = addressAction.execute(request, response);
+		}
+		else if(action.equals("/wishList.do")) {
+			forward = wishListAction.execute(request, response);
+		}
+		else if(action.equals("/alert.do")) {
+			forward= alertAction.execute(request, response);
 			
-		}else if(action.equals("/payInfoPage.do")) {
+		}
+		else if(action.equals("/payInfoPage.do")) {
 			System.out.println("[로그]");
 			System.out.println(request.getParameter("productID"));
-			forward = new PayInfoPage().execute(request, response);
+			forward = payInfoPage.execute(request, response);
 		}
 		else if(action.equals("/paymentPage.do")) {
 			System.out.println("[로그]");
 			System.out.println(request.getParameter("productID"));
-			forward = new PaymentPageAction().execute(request, response);
+			forward = paymentPageAction.execute(request, response);
 		}
 		else if(action.equals("/orderList.do")) {
 			System.out.println("[로그2]");
 			System.out.println("orderList pid : "+request.getParameter("productID"));
-			forward = new OrderListAction().execute(request, response);
+			forward = orderListAction.execute(request, response);
 		}
 		
 		if(forward == null) {
@@ -103,7 +123,6 @@ public class FrontController extends HttpServlet {
 		else {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
 			dispatcher.forward(request, response);
-			// pageContext.forward(forward.getPath());
 		}
 	}
 
