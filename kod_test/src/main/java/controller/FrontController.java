@@ -37,6 +37,7 @@ public class FrontController extends HttpServlet {
         mapPageAction = new MapPageAction();
         joinPageAction = new JoinPageAction();
         loginPageAction = new LoginPageAction();
+        loginAction = new LoginAction();
         logoutAction = new LogoutAction();
         myPageAction = new MyPageAction();
         addressAction = new AddressAction();
