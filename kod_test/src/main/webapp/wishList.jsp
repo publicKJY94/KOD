@@ -64,6 +64,38 @@
 						</div>
 					</div>
 					<!-- /section title -->
+					
+					
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+    $('.add-to-wishlist').on('click', function(){
+        console.log('위시리스트 버튼 클릭됨');
+        
+        var productID = $(this).find('.productID').text();
+        var heartIcon = $(this).find('#heartIcon');
+        
+        console.log('productID:', productID);
+        
+        $.ajax({
+            type: "POST",
+            url: 'IsWishedAction',
+            data: { 'productID': productID },
+            success: function(data){
+                console.log(data);
+                // 클릭 시 하트 아이콘 토글
+                heartIcon.toggleClass('fa-heart-o fa-heart');
+            },
+            error: function(error){
+                console.log("에러: " + error);
+            }
+        });
+    });
+});
+</script>
+
+
+
 
 					<!-- Products tab & slick -->
 <div class="col-md-12">
@@ -77,18 +109,29 @@
                         if (wishListDatas == null || wishListDatas.isEmpty()) {
                             out.println("위시리스트 목록이 없습니다.");
                         } else {
-                            for (WishListDTO data : wishListDatas) {
-                                if (data != null) {
+                            for (WishListDTO wishList : wishListDatas) {
+                                if (wishList != null) {
                     %>
                                     <!-- product -->
                                     <div class="product" style="flex: 0 0 calc(33.33% - 20px); margin: 10px;">
+	                                    <div class="product-body">
+										    <div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
+										        <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
+										        <div class="product-btns">
+										             <button class="add-to-wishlist">
+										                <div class="productID" hidden><%=wishList.getProductID()%></div>
+										                <i class="fa fa-heart" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
+										            </button>
+										        </div>
+										    </div>
+										</div>
                                         <div class="product-img">
-                                            <img src="<%=data.getProductImg()%>" alt="Product Image" />
+                                            <img src="<%=wishList.getProductImg()%>" alt="Product Image" />
                                         </div>
                                         <div class="product-body">
-                                            <p class="product-category"><%=data.getProductCategory()%></p>
-                                            <h3 class="product-name"><a href="#" tabindex="-1"><%=data.getProductName()%></a></h3>
-                                            <h4 class="product-price"><%=data.getProductPrice() %></h4>
+                                            <p class="product-category"><%=wishList.getProductCategory()%></p>
+                                            <h3 class="product-name"><a href="#" tabindex="-1"><%=wishList.getProductName()%></a></h3>
+                                            <h4 class="product-price"><%=wishList.getProductPrice() %></h4>
                                         </div>
                                     </div>
                     <%

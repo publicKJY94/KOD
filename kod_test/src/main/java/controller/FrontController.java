@@ -14,7 +14,6 @@ public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private MainAction mainAction;
-	private ProductAction productAction;
 	private ProductDetailAction productDetailAction;
 	private MapPageAction mapPageAction;
 	private JoinPageAction joinPageAction;
@@ -32,6 +31,7 @@ public class FrontController extends HttpServlet {
 	private AddressPageAction addressPageAction;
 	private JoinAddressAction joinAddressAction;
 	private AddressInsertAction addressInsertAction;
+  private CheckWishedAction checkWishedAction;
 
 	public FrontController() {
 		super();
@@ -54,6 +54,7 @@ public class FrontController extends HttpServlet {
 		addressPageAction = new AddressPageAction();
 		joinAddressAction = new JoinAddressAction();
 		addressInsertAction = new AddressInsertAction();
+    checkWishedAction = new CheckWishedAction();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -76,9 +77,11 @@ public class FrontController extends HttpServlet {
 
 		if (action.equals("/main.do")) {
 			forward = mainAction.execute(request, response);
-		} else if (action.equals("/store.do")) {
-			forward = productAction.execute(request, response);
-		} else if (action.equals("/productDetail.do")) {
+		}
+		else if(action.equals("/store.do")) {
+			forward = checkWishedAction.execute(request, response);
+		}
+		else if(action.equals("/productDetail.do")) {
 			forward = productDetailAction.execute(request, response);
 		} else if (action.equals("/mapPage.do")) {
 			forward = mapPageAction.execute(request, response);
@@ -98,11 +101,14 @@ public class FrontController extends HttpServlet {
 			forward = myPageAction.execute(request, response);
 		} else if (action.equals("/address.do")) {
 			forward = addressAction.execute(request, response);
-		} else if (action.equals("/wishList.do")) {
+		}else if(action.equals("/checkWished.do")) {
+			forward = checkWishedAction.execute(request,response);
+    }else if(action.equals("/wishList.do")) {
+			System.out.println("wishList.do 들어옴");
 			forward = wishListAction.execute(request, response);
-		} else if (action.equals("/alert.do")) {
-			forward = alertAction.execute(request, response);
-		} else if (action.equals("/payInfoPage.do")) {
+		}else if(action.equals("/alert.do")) {
+			forward= alertAction.execute(request, response);
+		}else if(action.equals("/payInfoPage.do")) {
 			System.out.println("[로그]");
 			System.out.println(request.getParameter("productID"));
 			forward = payInfoPage.execute(request, response);

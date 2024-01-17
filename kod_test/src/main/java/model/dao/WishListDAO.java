@@ -13,7 +13,7 @@ public class WishListDAO {
 	private Connection conn; // DB와의 연결을 담당
 	private PreparedStatement pstmt; // CRUD 수행을 담당
 
-	private static final String SELECTALL_WISHLIST_RANK_BY_PRODUCT = 
+	private static final String SELECTALL_WISHLIST_RANK_BY_PRODUCT = // 모든상품인기순 정렬
 			  "SELECT "
 			+ "    RANK() OVER (ORDER BY COUNT(W.WISHLIST_ID) DESC) AS RANK, "
 			+ "    P.PRODUCT_NAME, "
@@ -22,7 +22,7 @@ public class WishListDAO {
 			+ "JOIN WISHLIST W ON P.PRODUCT_ID = W.PRODUCT_ID "
 			+ "GROUP BY P.PRODUCT_NAME "
 			+ "ORDER BY RANK ";
-	private static final String SELECTALL_WISHLIST_RANK_BY_GENDER = 
+	private static final String SELECTALL_WISHLIST_RANK_BY_GENDER = // 성별 인기순 정렬
 			"SELECT "
 			+ "    ROW_NUMBER() OVER (ORDER BY COUNT(W.WISHLIST_ID) DESC) AS RANK, "
 			+ "    COUNT(W.WISHLIST_ID) AS WISHLIST_COUNT, "
@@ -44,7 +44,7 @@ public class WishListDAO {
 			+ "    P.PRODUCT_PRICE, "
 			+ "    P.PRODUCT_IMG "
 			+ "ORDER BY RANK ";
-	private static final String SELECTALL_WISHLIST_RANK_BY_AGE = 
+	private static final String SELECTALL_WISHLIST_RANK_BY_AGE = // 연령별 인기순
 			"SELECT "
 			+ "  CASE "
 			+ "    WHEN AGE >= 10 AND AGE < 20 THEN '10대' "
@@ -79,6 +79,7 @@ public class WishListDAO {
 	private static final String SELECTALL_WISHLIST_BY_MEMBER = 
 			  "SELECT "
 			+ "    M.MEMBER_NAME, "
+			+ "    P.PRODUCT_ID, "
 			+ "    P.PRODUCT_BRAND, "
 			+ "    P.PRODUCT_NAME, "
 			+ "    P.PRODUCT_CATEGORY, "
@@ -91,6 +92,24 @@ public class WishListDAO {
 			+ "JOIN "
 			+ "    PRODUCT P ON W.PRODUCT_ID = P.PRODUCT_ID "
 			+ "WHERE M.MEMBER_ID=? ";
+	
+	private static final String SELECTALL_WISHLIST_BY_MEMBER_ISWISHED = 
+			"SELECT "
+					+ "    CASE WHEN WL.PRODUCT_ID IS NULL THEN 0 ELSE 1 END AS ISWISHED, "
+					+ "    P.PRODUCT_ID, "
+					+ "    P.PRODUCT_BRAND, "
+					+ "    P.PRODUCT_NAME, "
+					+ "    P.PRODUCT_CATEGORY, "
+					+ "    P.PRODUCT_PRICE, "
+					+ "    P.PRODUCT_IMG "
+					+ "FROM "
+					+ "    PRODUCT P "
+					+ "LEFT OUTER JOIN ( "
+					+ "    SELECT PRODUCT_ID "
+					+ "    FROM WISHLIST "
+					+ "    WHERE MEMBER_ID=? "
+					+ ") WL "
+					+ "ON P.PRODUCT_ID = WL.PRODUCT_ID ";
 	
 	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST =
 			"SELECT WISHLIST_ID "
@@ -142,9 +161,37 @@ public class WishListDAO {
 				
 				while(rs.next()) {
 					WishListDTO data = new WishListDTO();
+					data.setProductID(rs.getInt("PRODUCT_ID"));
+//					System.out.println("wlDAO pID : "+rs.getString("PRODUCT_ID"));
 					data.setProductBrand(rs.getString("PRODUCT_BRAND"));
 					data.setProductName(rs.getString("PRODUCT_NAME"));
-					System.out.println(rs.getString("PRODUCT_NAME"));
+//					System.out.println(rs.getString("PRODUCT_NAME"));
+					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
+					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+					data.setProductImg(rs.getString("PRODUCT_IMG"));
+					datas.add(data);
+				}
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
+			}
+			return datas;
+		}
+		else if(wishListDTO.getSearchCondition().equals("찜")) {
+			conn=JDBCUtil.connect();
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISHLIST_BY_MEMBER_ISWISHED);
+				System.out.println("위시DAO 회원아이디"+wishListDTO.getMemberID());
+				pstmt.setString(1, wishListDTO.getMemberID());
+				ResultSet rs = pstmt.executeQuery();
+				while(rs.next()) {
+					WishListDTO data = new WishListDTO();
+					data.setIsWished(rs.getInt("ISWISHED"));
+					data.setProductID(rs.getInt("PRODUCT_ID"));
+					data.setProductBrand(rs.getString("PRODUCT_BRAND"));
+					data.setProductName(rs.getString("PRODUCT_NAME"));
 					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
 					data.setProductImg(rs.getString("PRODUCT_IMG"));

@@ -43,7 +43,7 @@
 	<jsp:include page="util/header.jsp"></jsp:include>
 	<jsp:include page="util/navigation.jsp"></jsp:include>
 	<%
-	ArrayList<ProductDTO> productDatas = (ArrayList<ProductDTO>) request.getAttribute("productDatas");
+	
 	ArrayList<ProductDTO> productCategoryDatas = (ArrayList<ProductDTO>) request.getAttribute("productCategoryDatas");
 	System.out.print(productCategoryDatas);
 	%>
@@ -238,15 +238,14 @@ $(document).ready(function(){
         console.log('위시리스트 버튼 클릭됨');
         
         var productID = $(this).find('.productID').text();
-        var memberID = $(this).find('.memberID').text();
-        var heartIcon = $(this).find('#heartIcon');
+        var heartIcon = $(this).find('.fa-heart-o');
         
-        console.log('memberID:', memberID, 'productID:', productID);
+        console.log('productID:', productID);
         
         $.ajax({
             type: "POST",
             url: 'IsWishedAction',
-            data: { 'memberID': memberID, 'productID': productID },
+            data: {'productID': productID },
             success: function(data){
                 console.log(data);
                 // 클릭 시 하트 아이콘 토글
@@ -258,85 +257,66 @@ $(document).ready(function(){
         });
     });
 });
-</script>
-
-<!-- <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // 제품 로드할 때 각 제품에 대해 위시리스트에 있는지 여부를 확인
-    document.querySelectorAll('.product').forEach(function (product) {
-        var productID = product.querySelector('.productID').textContent;
-        var heartIcon = product.querySelector('.fa-heart-o'); // 하트 아이콘
-
-        fetch('CheckWishListAction', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 'productID': productID }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('data >> ' + JSON.stringify(data));
-
-            // 클릭 시 하트 아이콘 토글
-            if (data.existsInWishList) {
-                heartIcon.classList.remove('fa-heart-o');
-                heartIcon.classList.add('fa-heart');
-            }
-        })
-        .catch(error => {
-            console.error("에러: " + error);
-        });
-    });
-});
-</script> -->
-
-<script>
 
 </script>
-				
-					
-						<!-- product -->
-						<%
-						for (ProductDTO productData : productDatas) {
-						%>
-						<div class="col-md-4 col-xs-6">
-							<div class="product">
-						    <div class="product-body">
-							    <div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
-							        <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
-							        <div class="product-btns">
-							            <button class="add-to-wishlist">
-							                <div class="productID" hidden><%=productData.getProductID()%></div>
-							                <i class="fa fa-heart-o" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
-							            </button>
-							        </div>
-							    </div>
-							</div>
-						    <div class="product-img">
-						        <img src="<%=productData.getProductImg()%>" alt="">
-						    </div>
-						    <div class="product-body">
-						        <p class="product-category"><%=productData.getProductCategory()%></p>
-						        <h3 class="product-name">
-						            <a href="productDetail.do?productId=<%=productData.getProductID()%>"><%=productData.getProductName()%></a>
-						        </h3>
-						        <h4 class="product-price"><%=productData.getProductPrice()%><del class="product-old-price"></del></h4>
-						        <div class="product-rating">
-						            <%--평점 들어가는 라인 --%>
+
+<!--
+V는 C한테
+   ♥♡를 구분해야하니까
+   1,0 등의 신호를 주세요.
+C는 V한테 줘야되니까
+   SELECTALL 해올적에
+   SELECT ??? FROM
+      ???에 1,0 등의 값을
+      받아올수있도록 해달라고
+      M한테 요청
+M은 C한테 1,0 등의 값을 줘야하니까
+   SQL문을 수정해야됨
+   SELECTALL이 되는상황
+  -->
+					<!-- product -->
+					<%
+					ArrayList<WishListDTO> isWishedDatas = (ArrayList<WishListDTO>) request.getAttribute("isWishedDatas");
+					for (WishListDTO isWishedData : isWishedDatas) {
+					%>
+					<div class="col-md-4 col-xs-6">
+						<div class="product">
+					    <div class="product-body">
+						    <div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
+						        <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
+						        <div class="product-btns">
+						            <button class="add-to-wishlist">
+				                        <div class="productID" hidden><%=isWishedData.getProductID()%></div>
+				                        <i class="fa <%= isWishedData.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>"></i><span class="tooltipp">위시리스트에 추가</span>
+				                    </button>
 						        </div>
 						    </div>
-						    <div class="add-to-cart">
-						        <button class="add-to-cart-btn">
-						            <i class="fa fa-shopping-cart"></i> add to cart
-						        </button>
-						    </div>
 						</div>
-						</div>
-						<%
-						}
-						%>
-						<!-- /product -->
+					    <div class="product-img">
+					        <img src="<%=isWishedData.getProductImg()%>" alt="">
+					        console.log();
+					    </div>
+					    <div class="product-body">
+					        <p class="product-category"><%=isWishedData.getProductCategory()%></p>
+					        <h3 class="product-name">
+					            <a href="productDetail.do?productId=<%=isWishedData.getProductID()%>"><%=isWishedData.getProductName()%></a>
+					        </h3>
+					        <h4 class="product-price"><%=isWishedData.getProductPrice()%><del class="product-old-price"></del></h4>
+					        <div class="product-rating">
+					            <%--평점 들어가는 라인 --%>
+					        </div>
+					    </div>
+					    <div class="add-to-cart">
+					        <button class="add-to-cart-btn">
+					            <i class="fa fa-shopping-cart"></i> add to cart
+					        </button>
+					    </div>
+					</div>
+					</div>
+					<%
+					}
+					%>
+					<!-- /product -->
 
 					</div>
 					<!-- /store products -->
