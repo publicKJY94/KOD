@@ -28,14 +28,14 @@ public class AddressDAO {
 			pstmt=conn.prepareStatement(SELECTALL);
 
 			ResultSet rs=pstmt.executeQuery();
-
 			while(rs.next()) {
 				AddressDTO data=new AddressDTO();
-				pstmt.setString(1, aDTO.getAdrsName());
-				pstmt.setString(2, aDTO.getAdrsStreet());
-				pstmt.setString(3, aDTO.getAdrsLotNum());
-				pstmt.setString(4, aDTO.getAdrsDetail());
-				pstmt.setString(5, aDTO.getAdrsZipcode());
+				data.setAdrsID(rs.getInt("ADDRESS_ID"));
+				data.setAdrsName(rs.getString("ADDRESS_NAME"));
+				data.setAdrsStreet(rs.getString("ADDRESS_STREET"));
+				data.setAdrsLotNum(rs.getString("ADDRESS_LOTNUM"));
+				data.setAdrsDetail(rs.getString("ADDRESS_DETAIL"));
+				data.setAdrsZipcode(rs.getString("ADDRESS_ZIPCODE"));
 				datas.add(data);
 			}
 

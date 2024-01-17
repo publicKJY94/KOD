@@ -58,7 +58,7 @@
 							
 							<div class="form-group">
 								<div class="input__block">
-		<form  action="address.do" method="post">	
+		<form  action="addressInsert.do" method="post">	
 		<div class="form-group">
 								<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
 							</div>					

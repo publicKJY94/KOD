@@ -21,7 +21,7 @@ public class LogoutAction implements Action{
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session=request.getSession();
-		session.removeAttribute("member");
+		session.removeAttribute("memberDTO");
 		request.setAttribute("msg", "로그아웃 성공!");
 		
 		
