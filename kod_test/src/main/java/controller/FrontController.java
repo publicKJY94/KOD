@@ -29,30 +29,22 @@ public class FrontController extends HttpServlet {
     private PaymentPageAction paymentPageAction;
     private OrderListAction orderListAction;
     
-    public FrontController(MainAction mainAction, ProductAction productAction, ProductDetailAction productDetailAction,
-			MapPageAction mapPageAction, JoinPageAction joinPageAction, LoginPageAction loginPageAction,
-			LogoutAction logoutAction, MyPageAction myPageAction, AddressAction addressAction,
-			WishListAction wishListAction, AlertAction alertAction, PayInfoPage payInfoPage,
-			PaymentPageAction paymentPageAction, OrderListAction orderListAction) {
-		super();
-		this.mainAction = mainAction;
-		this.productAction = productAction;
-		this.productDetailAction = productDetailAction;
-		this.mapPageAction = mapPageAction;
-		this.joinPageAction = joinPageAction;
-		this.loginPageAction = loginPageAction;
-		this.logoutAction = logoutAction;
-		this.myPageAction = myPageAction;
-		this.addressAction = addressAction;
-		this.wishListAction = wishListAction;
-		this.alertAction = alertAction;
-		this.payInfoPage = payInfoPage;
-		this.paymentPageAction = paymentPageAction;
-		this.orderListAction = orderListAction;
-	}
-
 	public FrontController() {
         super();
+        mainAction = new MainAction();
+        productAction = new ProductAction();
+        productDetailAction = new ProductDetailAction();
+        mapPageAction = new MapPageAction();
+        joinPageAction = new JoinPageAction();
+        loginPageAction = new LoginPageAction();
+        logoutAction = new LogoutAction();
+        myPageAction = new MyPageAction();
+        addressAction = new AddressAction();
+        wishListAction = new WishListAction();
+        alertAction = new AlertAction();
+        payInfoPage = new PayInfoPage();
+        paymentPageAction = new PaymentPageAction();
+        orderListAction = new OrderListAction();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,6 +55,7 @@ public class FrontController extends HttpServlet {
 		doAction(request, response);
 	}
 	public void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String uri = request.getRequestURI();
 		String cp = request.getContextPath();
 		String action = uri.substring(cp.length());
@@ -98,14 +91,8 @@ public class FrontController extends HttpServlet {
 			forward = addressAction.execute(request, response);
 		}
 		else if(action.equals("/wishList.do")) {
-			forward= wishListAction.execute(request, response);
+			forward = wishListAction.execute(request, response);
 		}
-//		else if(action.equals("/isWished.do")) {
-//			System.out.println("isWished.do 들어옴");
-//			System.out.println("회원아이디"+request.getAttribute("memberID"));
-//			System.out.println("상품아이디"+request.getAttribute("productID"));
-////			forward= new isWishedAction().execute(request, response);
-//		}
 		else if(action.equals("/alert.do")) {
 			forward= alertAction.execute(request, response);
 			
@@ -136,7 +123,6 @@ public class FrontController extends HttpServlet {
 		else {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
 			dispatcher.forward(request, response);
-			// pageContext.forward(forward.getPath());
 		}
 	}
 
