@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.util.JDBCUtil;  
+import model.util.JDBCUtil;
 import model.dto.WishListDTO;
 
 public class WishListDAO {
@@ -23,7 +23,27 @@ public class WishListDAO {
 			+ "GROUP BY P.PRODUCT_NAME "
 			+ "ORDER BY RANK ";
 	private static final String SELECTALL_WISHLIST_RANK_BY_GENDER = 
-			"";
+			"SELECT "
+			+ "    ROW_NUMBER() OVER (ORDER BY COUNT(W.WISHLIST_ID) DESC) AS RANK, "
+			+ "    COUNT(W.WISHLIST_ID) AS WISHLIST_COUNT, "
+			+ "    M.MEMBER_GENDER, "
+			+ "    P.PRODUCT_BRAND, "
+			+ "    P.PRODUCT_NAME, "
+			+ "    P.PRODUCT_CATEGORY, "
+			+ "    P.PRODUCT_PRICE, "
+			+ "    P.PRODUCT_IMG "
+			+ "FROM WISHLIST W "
+			+ "JOIN MEMBER M ON W.MEMBER_ID = M.MEMBER_ID "
+			+ "JOIN PRODUCT P ON W.PRODUCT_ID = P.PRODUCT_ID "
+			+ "WHERE M.MEMBER_GENDER = ? "
+			+ "GROUP BY "
+			+ "    M.MEMBER_GENDER, "
+			+ "    P.PRODUCT_BRAND, "
+			+ "    P.PRODUCT_NAME, "
+			+ "    P.PRODUCT_CATEGORY, "
+			+ "    P.PRODUCT_PRICE, "
+			+ "    P.PRODUCT_IMG "
+			+ "ORDER BY RANK ";
 	private static final String SELECTALL_WISHLIST_RANK_BY_AGE = 
 			"SELECT "
 			+ "  CASE "
@@ -72,7 +92,28 @@ public class WishListDAO {
 			+ "    PRODUCT P ON W.PRODUCT_ID = P.PRODUCT_ID "
 			+ "WHERE M.MEMBER_ID=? ";
 	
-	private static final String INSERT = "";
+	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST =
+			"SELECT WISHLIST_ID "
+			+ "FROM WISHLIST "
+			+ "WHERE MEMBER_ID=? AND PRODUCT_ID=? ";
+	
+	
+	private static final String UPDATE_ADD_PRODUCT_TO_WISHLIST =
+			  "UPDATE WISHLIST "
+			+ "SET IS_WISHED = 1 "
+			+ "WHERE MEMBER_ID = ? AND PRODUCT_ID = ? ";
+	private static final String UPDATE_REMOVE_PRODUCT_FROM_WISHLIST =
+			  "UPDATE WISHLIST "
+			+ "SET IS_WISHED = 0 "
+			+ "WHERE MEMBER_ID = ? AND PRODUCT_ID = ? ";
+	
+	private static final String INSERT_WISHLIST_BY_PRODUCT = 
+			"INSERT INTO WISHLIST (WISHLIST_ID,MEMBER_ID, PRODUCT_ID) "
+					+ "VALUES ((SELECT NVL(MAX(WISHLIST_ID),0)+1 FROM WISHLIST),?, ?) ";
+
+	private static final String DELETE_WISHLIST_BY_PRODUCT = 
+			"DELETE FROM WISHLIST "
+			+ "WHERE MEMBER_ID = ? AND PRODUCT_ID = ? ";
 	/*
 	  isWished 클래스를 가진 버튼이 클릭되면 
 		 비동기적으로 상품을 추가하는 기능을 수행하고 싶어
@@ -88,7 +129,6 @@ public class WishListDAO {
 		 
 		 jsp에서 비동기적으로 보여질 부분은 상품이미지 속 하트버튼
 	 */
-	private static final String DELETE = "";
 	
 	public ArrayList<WishListDTO> selectAll(WishListDTO wishListDTO){
 		ArrayList<WishListDTO> datas = new ArrayList<WishListDTO>();
@@ -114,7 +154,7 @@ public class WishListDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-//				JDBCUtil.disconnect(pstmt, conn);
+				JDBCUtil.disconnect(pstmt, conn);
 			}
 			return datas;
 		}
@@ -136,6 +176,7 @@ public class WishListDAO {
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISHLIST_RANK_BY_GENDER);
 				ResultSet rs = pstmt.executeQuery();
+				pstmt.setString(1, wishListDTO.getMemberGender());
 				rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -161,15 +202,75 @@ public class WishListDAO {
 			return null;
 		}
 		
-		
 	}
+	
+	public WishListDTO selectOne(WishListDTO wishListDTO) {
+		conn=JDBCUtil.connect();
+		WishListDTO data=null;
+		try {
+			pstmt=conn.prepareStatement(SELECTONE_IS_PRODUCT_IN_WISHLIST);
+			pstmt.setString(1, wishListDTO.getMemberID());
+			pstmt.setInt(2, wishListDTO.getProductID());
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				data = new WishListDTO();
+				data.setWishListID(rs.getInt("WISHLIST_ID"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.disconnect(pstmt, conn);
+		}
+		return data;
+	}
+	
 		
-	public boolean insert(WishListDTO wishListDTO) {	// 회원가입
+	public boolean update(WishListDTO wishListDTO) {
+		conn=JDBCUtil.connect();
+		if(wishListDTO.getSearchCondition().equals("위시리스트상품추가")) {
+			try {
+				pstmt=conn.prepareStatement(UPDATE_ADD_PRODUCT_TO_WISHLIST);
+				pstmt.setString(1, wishListDTO.getMemberID());
+				pstmt.setInt(2, wishListDTO.getProductID());
+				int result = pstmt.executeUpdate();
+				if(result<=0) {
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
+			}
+			return true;
+		}
+		else if(wishListDTO.getSearchCondition().equals("위시리스트상품삭제")) {
+			try {
+				pstmt=conn.prepareStatement(UPDATE_REMOVE_PRODUCT_FROM_WISHLIST);
+				pstmt.setString(1, wishListDTO.getMemberID());
+				pstmt.setInt(2, wishListDTO.getProductID());
+				int result = pstmt.executeUpdate();
+				if(result<=0) {
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
+			}
+			return true;
+			}
+		else {
+			return false;
+		}
+	}
+	public boolean insert(WishListDTO wishListDTO) {
 		conn=JDBCUtil.connect();
 		try {
-			pstmt=conn.prepareStatement(INSERT);
+			pstmt=conn.prepareStatement(INSERT_WISHLIST_BY_PRODUCT);
+			pstmt.setString(1, wishListDTO.getMemberID());
+			pstmt.setInt(2, wishListDTO.getProductID());
 			int result = pstmt.executeUpdate();
-			if(result <= 0) {
+			if(result<=0) {
 				return false;
 			}
 		} catch (SQLException e) {
@@ -183,7 +284,12 @@ public class WishListDAO {
 	public boolean delete(WishListDTO wishListDTO) {
 		conn=JDBCUtil.connect();
 		try {
-			pstmt=conn.prepareStatement(DELETE);
+			pstmt=conn.prepareStatement(DELETE_WISHLIST_BY_PRODUCT);
+			System.out.println("wishListDAO들어옴");
+			System.out.println("getMemberID : "+wishListDTO.getMemberID());
+			System.out.println("getProductID : "+wishListDTO.getProductID());
+			pstmt.setString(1, wishListDTO.getMemberID());
+			pstmt.setInt(2, wishListDTO.getProductID());
 			int result = pstmt.executeUpdate();
 			if(result<=0) {
 				return false;

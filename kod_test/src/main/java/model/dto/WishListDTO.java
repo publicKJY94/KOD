@@ -6,13 +6,14 @@ public class WishListDTO {
 	private int wishListID;
 	private Time wishListAddTime;
 	private String memberID;
-	private int productPrice;
+	private String memberGender;
+	private int productID;
 	private String productBrand;
 	private String productName;
 	private String productCategory;
 	private String productImg;
+	private int productPrice;
 	private String searchCondition;
-	
 	
 	public int getWishListID() {
 		return wishListID;
@@ -32,11 +33,17 @@ public class WishListDTO {
 	public void setMemberID(String memberID) {
 		this.memberID = memberID;
 	}
-	public int getProductPrice() {
-		return productPrice;
+	public String getMemberGender() {
+		return memberGender;
 	}
-	public void setProductPrice(int productPrice) {
-		this.productPrice = productPrice;
+	public void setMemberGender(String memberGender) {
+		this.memberGender = memberGender;
+	}
+	public int getProductID() {
+		return productID;
+	}
+	public void setProductID(int productID) {
+		this.productID = productID;
 	}
 	public String getProductBrand() {
 		return productBrand;
@@ -62,12 +69,19 @@ public class WishListDTO {
 	public void setProductImg(String productImg) {
 		this.productImg = productImg;
 	}
+	public int getProductPrice() {
+		return productPrice;
+	}
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
 	public String getSearchCondition() {
 		return searchCondition;
 	}
 	public void setSearchCondition(String searchCondition) {
 		this.searchCondition = searchCondition;
 	}
+	
 	
 	
 }
