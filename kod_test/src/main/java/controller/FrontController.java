@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	
 	private MainAction mainAction;
-	private ProductAction productAction;
 	private ProductDetailAction productDetailAction;
 	private MapPageAction mapPageAction;
 	private JoinPageAction joinPageAction;
@@ -28,19 +28,21 @@ public class FrontController extends HttpServlet {
 	private PayInfoPage payInfoPage;
     private PaymentPageAction paymentPageAction;
     private OrderListAction orderListAction;
+    private CheckWishedAction checkWishedAction;
     
 	public FrontController() {
         super();
         mainAction = new MainAction();
-        productAction = new ProductAction();
         productDetailAction = new ProductDetailAction();
         mapPageAction = new MapPageAction();
         joinPageAction = new JoinPageAction();
+        loginAction = new LoginAction();
         loginPageAction = new LoginPageAction();
         logoutAction = new LogoutAction();
         myPageAction = new MyPageAction();
         addressAction = new AddressAction();
         wishListAction = new WishListAction();
+        checkWishedAction = new CheckWishedAction();
         alertAction = new AlertAction();
         payInfoPage = new PayInfoPage();
         paymentPageAction = new PaymentPageAction();
@@ -64,7 +66,7 @@ public class FrontController extends HttpServlet {
 			forward = mainAction.execute(request, response);
 		}
 		else if(action.equals("/store.do")) {
-			forward = productAction.execute(request, response);
+			forward = checkWishedAction.execute(request, response);
 		}
 		else if(action.equals("/productDetail.do")) {
 			forward = productDetailAction.execute(request, response);
@@ -90,12 +92,15 @@ public class FrontController extends HttpServlet {
 		else if(action.equals("/address.do")) {
 			forward = addressAction.execute(request, response);
 		}
+		else if(action.equals("/checkWished.do")) {
+			forward = checkWishedAction.execute(request,response);
+		}
 		else if(action.equals("/wishList.do")) {
+			System.out.println("wishList.do 들어옴");
 			forward = wishListAction.execute(request, response);
 		}
 		else if(action.equals("/alert.do")) {
 			forward= alertAction.execute(request, response);
-			
 		}
 		else if(action.equals("/payInfoPage.do")) {
 			System.out.println("[로그]");

@@ -51,19 +51,20 @@ public class WishListAction implements Action{
 			request.setAttribute("msg", "로그인 후 이용해주세요.");
 			forward.setPath("alert.do");
 			forward.setRedirect(false);
-			
 		}
 		else {
 			System.out.println(memberID);
-			wishListDTO.setMemberID(memberID);
 			wishListDTO.setSearchCondition("회원별찜목록");
+			wishListDTO.setMemberID(memberID);
 			ArrayList<WishListDTO> wishListDatas = wishListDAO.selectAll(wishListDTO);
+//			for (WishListDTO data : wishListDatas) {
+//				System.out.println("wlAction pid : "+data.getProductID());
+//			}
+			
 			request.setAttribute("wishListDatas", wishListDatas);
 			forward.setPath("wishList.jsp");
 			forward.setRedirect(false);
 		}
-		
-		
 		
 		return forward;
 	}
