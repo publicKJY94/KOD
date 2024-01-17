@@ -15,7 +15,8 @@ public class MemberDAO {
 	
 	private static final String SELECTALL="SELECT * FROM MEMBER";
 	private static final String SELECTONE="SELECT * FROM MEMBER WHERE MEMBER_ID=? AND MEMBER_PW=? ";
-	private static final String INSERT="INSERT INTO MEMBER VALUES(?,?,?,?,?,?,?,user)";
+	private static final String SELECTONE_CHECK="SELECT * FROM MEMBER WHERE MEMBER_ID=?";
+	private static final String INSERT="INSERT INTO MEMBER VALUES(?,?,?,?,?,'USER',?,?)";
 	private static final String UPDATE="UPDATE MEMBER SET NAME=? WHERE MEMBER_ID=? ";
 	private static final String DELETE="DELETE FROM MEMBER WHERE MID=?";
 	
@@ -38,7 +39,7 @@ public class MemberDAO {
 				data.setMemberEmail(rs.getString("MEMBER_EMAIL"));
 				data.setMemberGrade(rs.getString("MEMBER_GRADE"));
 				data.setMemberGender(rs.getString("MEMBER_GENDER"));
-				data.setMemberBirth(rs.getDate("MEMBER_BIRTH"));
+				data.setMemberBirth(rs.getString("MEMBER_BIRTH"));
 				datas.add(data);
 			}
 
@@ -52,50 +53,75 @@ public class MemberDAO {
 		return datas;
 	}
 	
-	
 	public MemberDTO selectOne(MemberDTO mDTO) {
-		MemberDTO data=null;
-		
+        MemberDTO data=null;
+
+        conn=JDBCUtil.connect();
+        try {
+        if(mDTO.getSearchCondition().equals("로그인")) {
+            pstmt=conn.prepareStatement(SELECTONE);
+            pstmt.setString(1,mDTO.getMemberID());
+            pstmt.setString(2,mDTO.getMemberPW());
+        }
+        else if(mDTO.getSearchCondition().equals("ID체크")){
+            pstmt=conn.prepareStatement(SELECTONE_CHECK);
+            pstmt.setString(1,mDTO.getMemberID());
+        } 
+
+            ResultSet rs=pstmt.executeQuery();
+
+            if(rs.next()) {
+                data=new MemberDTO();
+                data.setMemberID(rs.getString("MEMBER_ID"));
+                data.setMemberName(rs.getString("MEMBER_NAME"));
+                data.setMemberEmail(rs.getString("MEMBER_EMAIL"));
+                data.setMemberPhNum(rs.getString("MEMBER_PHONE"));
+              
+            }
+            rs.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JDBCUtil.disconnect(pstmt, conn);
+        }
+
+        return data;
+    }
+	
+	public boolean insert(MemberDTO mDTO) {
 		conn=JDBCUtil.connect();
+		
+		
 		try {
-			pstmt=conn.prepareStatement(SELECTONE);
+			pstmt=conn.prepareStatement(INSERT);
 			pstmt.setString(1,mDTO.getMemberID());
 			pstmt.setString(2,mDTO.getMemberPW());
-			
-			ResultSet rs=pstmt.executeQuery();
-			
-			if(rs.next()) {
-				data=new MemberDTO();
-				data.setMemberID(rs.getString("MEMBER_ID"));
-				data.setMemberName(rs.getString("MEMBER_NAME"));
-				data.setMemberEmail(rs.getString("MEMBER_EMAIL"));
-				data.setMemberPhNum(rs.getString("MEMBER_PHONE"));
+			pstmt.setString(3,mDTO.getMemberName());
+			pstmt.setString(4,mDTO.getMemberPhNum());
+			pstmt.setString(5,mDTO.getMemberEmail());
+			pstmt.setString(6,mDTO.getMemberGender());
+			pstmt.setString(7,mDTO.getMemberBirth());
+			int rs=pstmt.executeUpdate();
+			if(rs<=0) {
+				return false;
 				
 			}
-			rs.close();
-			
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+			return false;
+		} finally {
 			JDBCUtil.disconnect(pstmt, conn);
+			
 		}
 		
-		return data;
+			return true;
 	}
-	/*public boolean insert(MemberDTO mDTO) {
-		conn=JDBCUtil.connect();
 		
-		pstmt=conn.prepareStatement(INSERT);
-		pstmt.setString(1,mDTO.getmemberID);
-		pstmt.setString(2,mDTO.getmemberPW);
-		pstmt.setString(1,mDTO.getmemberName);
-		pstmt.setString(1,mDTO.getmemberBirth);
-		pstmt.setString(1,mDTO.getmemberPhNum);
-		pstmt.setString(1,mDTO.getmemberEmail);
-		pstmt.setString(1,mDTO.getmemberPhNum);
-		return true;
-	}
-	*/
+		
+	
+	
 	public void update() {
 		
 	}

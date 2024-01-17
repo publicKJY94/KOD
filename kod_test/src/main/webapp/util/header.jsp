@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="icon" type="image/x-icon" href="/img/favion.ico" >
 </head>
 <body>
 	<!-- HEADER -->
@@ -17,7 +18,7 @@
 							찾아오시는 길</a></li>
 				</ul>
 				<%
-				if((MemberDTO)session.getAttribute("member")==null){
+				if((MemberDTO)session.getAttribute("memberDTO")==null){
 				%>
 				<ul class="header-links pull-right">
 					<li><a href="loginPage.do"><i class="fa fa-user-o"></i>
