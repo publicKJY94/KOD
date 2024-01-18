@@ -26,7 +26,7 @@ public class CheckWishedAction implements Action {
 		
 		System.out.println("CheckWishedAction들어옴");
 		HttpSession session = request.getSession();
-		String memberID = ((MemberDTO)session.getAttribute("member")).getMemberID();
+		String memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		WishListDAO wishListDAO = new WishListDAO();
 		WishListDTO wishListDTO = new WishListDTO();
 		wishListDTO.setMemberID(memberID);
