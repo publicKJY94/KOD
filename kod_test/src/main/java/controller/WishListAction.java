@@ -40,7 +40,7 @@ public class WishListAction implements Action{
 		HttpSession session = request.getSession();
 		String memberID = null;
 		try {
-			memberID = ((MemberDTO)session.getAttribute("member")).getMemberID();
+			memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
