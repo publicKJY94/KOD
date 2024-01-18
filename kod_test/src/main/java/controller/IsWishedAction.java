@@ -33,7 +33,7 @@ public class IsWishedAction extends HttpServlet {
 		
 		
 		HttpSession session = request.getSession();
-		String memberID = ((MemberDTO)session.getAttribute("member")).getMemberID();
+		String memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		
 		int productID = Integer.parseInt(request.getParameter("productID"));
 		
