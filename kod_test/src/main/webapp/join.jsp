@@ -20,12 +20,12 @@
         <form action="join.do" method="POST">
             <!-- ID input -->
             <div class="first-input input__block first-input__block">
-                <input type="text" placeholder="아이디를 입력해주세요." class="input" id="memberID" name="memberID" minlength="6"  maxlength="13" required  />
+                <input type="text" placeholder="아이디를 입력해주세요.(최소 6글자 이상, 최대 13자까지)" class="input" id="memberID" name="memberID" minlength="6"  maxlength="13" required  />
             </div>
             
             <!-- password input -->
             <div class="input__block">
-                <input type="password" placeholder="비밀번호를 입력해주세요." class="input" id="memberPW" name="memberPW" minlength="6"  maxlength="13" required />
+                <input type="password" placeholder="비밀번호를 입력해주세요.(최소 6글자 이상, 최대 13자까지)" class="input" id="memberPW" name="memberPW" minlength="6"  maxlength="13" required />
             </div>
     
             <!-- password repeat input -->
@@ -109,10 +109,8 @@
 	
 		<!-- <input type="text" id="sample4_extraAddress" placeholder="참고항목" style="margin-top: 5px;"> -->
 	</div>
-            
-
             <!-- join button -->
-            <button class="join__btn" onclick="location.href='join.do'">
+            <button class="join__btn" type="submit">
                 회원가입
             </button>
         </form>
@@ -153,9 +151,9 @@
                     
                     // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
                     if(roadAddr !== ''){
-                        document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+                        document.getElementById("sample4_detailAddress").value = extraRoadAddr;
                     } else {
-                        document.getElementById("sample4_extraAddress").value = '';
+                        document.getElementById("sample4_detailAddress").value = '';
                     }
 
                     var guideTextBox = document.getElementById("guide");
