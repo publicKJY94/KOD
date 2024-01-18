@@ -1,3 +1,5 @@
+<%@page import="controller.WishListService"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="model.dto.*"%>
 <!DOCTYPE html>
@@ -17,7 +19,7 @@
 							찾아오시는 길</a></li>
 				</ul>
 				<%
-				if((MemberDTO)session.getAttribute("member")==null){
+				if((MemberDTO)session.getAttribute("memberDTO")==null){
 				%>
 				<ul class="header-links pull-right">
 					<li><a href="loginPage.do"><i class="fa fa-user-o"></i>
@@ -74,8 +76,15 @@
 							<div>
 								<a href="wishList.do"> <i class="fa fa-heart-o"></i> <span>My
 										Wishlist</span>
-									<div class="qty">2</div>
+								<%
+								    // request.getAttribute("wishListCnt")의 값을 가져오기
+								    Integer wishListCntObj = (Integer)request.getAttribute("wishListCnt");
+								    // 값이 null이면 0으로 설정, 그렇지 않으면 가져온 값 사용
+								    int wishListCnt = (wishListCntObj != null) ? wishListCntObj : 0;
+								%>
+								<div class="qty"><%=wishListCnt%></div>
 								</a>
+								
 							</div>
 							<!-- /Wishlist -->
 

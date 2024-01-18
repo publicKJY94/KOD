@@ -238,14 +238,14 @@ $(document).ready(function(){
         console.log('위시리스트 버튼 클릭됨');
         
         var productID = $(this).find('.productID').text();
-        var heartIcon = $(this).find('.fa-heart-o');
+        var heartIcon = $(this).find('#heartIcon');
         
         console.log('productID:', productID);
         
         $.ajax({
             type: "POST",
             url: 'IsWishedAction',
-            data: {'productID': productID },
+            data: { 'productID': productID },
             success: function(data){
                 console.log(data);
                 // 클릭 시 하트 아이콘 토글
@@ -287,14 +287,13 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						        <div class="product-btns">
 						            <button class="add-to-wishlist">
 				                        <div class="productID" hidden><%=isWishedData.getProductID()%></div>
-				                        <i class="fa <%= isWishedData.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>"></i><span class="tooltipp">위시리스트에 추가</span>
+				                        <i class="fa <%= isWishedData.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
 				                    </button>
 						        </div>
 						    </div>
 						</div>
 					    <div class="product-img">
 					        <img src="<%=isWishedData.getProductImg()%>" alt="">
-					        console.log();
 					    </div>
 					    <div class="product-body">
 					        <p class="product-category"><%=isWishedData.getProductCategory()%></p>

@@ -26,7 +26,7 @@ public class CheckWishedAction implements Action {
 		
 		System.out.println("CheckWishedAction들어옴");
 		HttpSession session = request.getSession();
-		String memberID = ((MemberDTO)session.getAttribute("member")).getMemberID();
+		String memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		WishListDAO wishListDAO = new WishListDAO();
 		WishListDTO wishListDTO = new WishListDTO();
 		wishListDTO.setMemberID(memberID);
@@ -45,6 +45,16 @@ public class CheckWishedAction implements Action {
 		System.out.println(productCategoryDatas);
 		
 		request.setAttribute("isWishedDatas", isWishedDatas);
+		
+		wishListDTO.setMemberID(memberID);
+		wishListDTO.setSearchCondition("찜수량");
+		wishListDTO = wishListDAO.selectOne(wishListDTO);
+		int wishListCnt = wishListDTO.getWishListCnt();
+		request.setAttribute("wishListCnt", wishListCnt);
+		System.out.println("wishListCnt : "+wishListCnt);
+		
+		
+		
 		
 		
 		return forward;

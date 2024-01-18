@@ -32,7 +32,7 @@ public class LoginAction implements Action{
 		if(mDTO != null) {
 
 			HttpSession session=request.getSession();
-			session.setAttribute("member",mDTO);
+			session.setAttribute("memberDTO",mDTO);
 			
 			forward.setPath("main.do");
 			forward.setRedirect(true);

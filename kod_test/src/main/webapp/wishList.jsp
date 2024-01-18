@@ -40,7 +40,7 @@
 							<h3 class="title">
 								<div class="box-page-count" style="display: flex; align-items: center; ">
 									<div class="l-cont">
-									<%String memberID=((MemberDTO)session.getAttribute("member")).getMemberID(); %>
+									<%String memberID=((MemberDTO)session.getAttribute("memberDTO")).getMemberID(); %>
 									<div><%=memberID %></div>
 			                      		<%
 			                      		ArrayList<WishListDTO> wishListDatas = (ArrayList<WishListDTO>) request.getAttribute("wishListDatas");
