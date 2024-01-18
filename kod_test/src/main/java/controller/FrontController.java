@@ -36,7 +36,7 @@ public class FrontController extends HttpServlet {
 	public FrontController() {
 		super();
 		mainAction = new MainAction();
-		productAction = new ProductAction();
+		//productAction = new ProductAction();
 		productDetailAction = new ProductDetailAction();
 		mapPageAction = new MapPageAction();
 		joinPageAction = new JoinPageAction();
