@@ -5,6 +5,7 @@ import java.sql.Time;
 public class WishListDTO {
 	private int wishListID;
 	private int isWished;
+	private int wishListCnt;
 	private Time wishListAddTime;
 	private String memberID;
 	private String memberGender;
@@ -28,6 +29,12 @@ public class WishListDTO {
 	}
 	public void setIsWished(int isWished) {
 		this.isWished = isWished;
+	}
+	public int getWishListCnt() {
+		return wishListCnt;
+	}
+	public void setWishListCnt(int wishListCnt) {
+		this.wishListCnt = wishListCnt;
 	}
 	public Time getWishListAddTime() {
 		return wishListAddTime;

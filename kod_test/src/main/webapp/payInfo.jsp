@@ -1,4 +1,3 @@
-<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="model.dto.*"%>
 <!DOCTYPE html>
@@ -29,8 +28,6 @@
 
  		<!-- Custom stlylesheet -->
  		<link type="text/css" rel="stylesheet" href="css/style.css"/>
- 		
- 		<link type="text/css" rel="stylesheet" href="css/payInfo.css"/>
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -46,14 +43,9 @@
         <jsp:include page="util/navigation.jsp"></jsp:include>
 		<!-- /HEADER, NAVIGATION -->
 	<%
-	
-		System.out.println("[info]");
-		ArrayList<CartDTO> cDatas =(ArrayList<CartDTO>)request.getAttribute("cartDTO");
-		//System.out.println(cDatas);
-		CartDTO cartDTO = cDatas.get(1);
-		/* ProductDTO productDTO = (ProductDTO) request.getAttribute("pDTO");
-		System.out.println(productDTO); */
-		MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("memberDTO");
+		ProductDTO productDTO = (ProductDTO) request.getAttribute("pDTO");
+		System.out.println(productDTO);
+		MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("member");
 		System.out.println(memberDTO);
 	%>
 		<!-- BREADCRUMB -->
@@ -78,85 +70,55 @@
 			<div class="container" >
 				<!-- row -->
 				<div class="row">
-					<form action="paymentPage.do" method="POST">
-						
+
 					<div class="col-md-9" style="margin-left: 10%;">
 						<!-- Billing Details -->
-						
 						<div class="billing-details"  >
 							<div class="section-title">
 								<h3 class="title">구매자 정보</h3>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="memberName" placeholder="이름" value="<%=memberDTO.getMemberName()%>" disabled>
+								<input class="input" type="text" name="memberName" placeholder="이름" value="<%=memberDTO.getMemberName()%>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="email" name="memberEmail" placeholder="Email" value="<%=memberDTO.getMemberEmail()%>" disabled>
+								<input class="input" type="email" name="memberEmail" placeholder="Email" value="<%=memberDTO.getMemberEmail()%>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="tel" name="memberPhNum" placeholder="전화번호" value="<%=memberDTO.getMemberPhNum()%>" disabled>
+								<input class="input" type="tel" name="memberPhNum" placeholder="전화번호" value="<%=memberDTO.getMemberPhNum()%>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsZipcode" placeholder="우편번호" disabled>
+								<input class="input" type="text" name="adrsZipcode" placeholder="우편번호">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsStreet" placeholder="도로명주소" disabled>
+								<input class="input" type="text" name="adrsStreet" placeholder="도로명주소">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsLotNum" placeholder="지번주소" disabled>
+								<input class="input" type="text" name="adrsLotNum" placeholder="지번주소">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsDetail" placeholder="상세주소" disabled>
+								<input class="input" type="text" name="adrsDetail" placeholder="상세주소">
 							</div>
 						</div>
 						<!-- /Billing Details -->
 
 						<!-- Billing Details -->
-						<%-- <div class="billing-details" style="display: block;">
+						<div class="billing-details" style="display: block;">
 							<div class="section-title">
 								<h3 class="title">상품 정보</h3>
 							</div>
-							<div style="border: solid;">
-								<div class="form-group" style="width: 200px; height: 200px; display: flex; flex-direction: row;">
-									<img src="<%=productDTO.getProductImg()%>" style="width: 100%">
-								</div>
-								<div class="form-group" style="display: flex;" >
-									<input class="input" type="text" name="productName" placeholder="상품이름" value="<%=productDTO.getProductName()%>" disabled>
-								</div>
-								<div class="form-group" style="display: flex;">
-									<input class="input" type="text" name="productPrice" placeholder="상품가격" value="<%=productDTO.getProductPrice()%>" disabled>
-								</div>
-								<div class="form-group" style="display: flex;">
-									<input class="input" type="text" name="OrderContentCnt" placeholder="주문개수" value="<%=productDTO.getProductCnt()%>" disabled>
-								</div>
+							<div class="form-group" style="width: 200px; height: 200px; display: block;">
+								<img src="<%=productDTO.getProductImg()%>" style="width: 100%">
 							</div>
-						</div> --%>
-						<br><br>
-						<div class="billing-details">
-						<table style="width: 100%; text-align: center;">
-					        <thead>
-					            <tr>
-					                <th style="text-align: center;">상품</th>
-					                <th style="text-align: center;">상품이름</th>
-					                <th style="text-align: center;">구매개수</th>
-					                <th style="text-align: center;">가격</th>
-					            </tr>
-					        </thead>
-					        <%for(CartDTO cData:cDatas){ %>
-					        
-					        <tbody>
-					            <tr>
-					                <td><img src="<%=cData.getProductImg()%>" alt="img" style="width: 200px; height: 200px;"></td>
-					                <td><%=cData.getProductName()%></td>
-					                <td><%=cData.getCartProductCnt()%></td>
-					                <td><%=cData.getProductPrice()%></td>
-					            </tr>
-					        </tbody>
-					        
-					        <%} %>
-					        
-					    </table>
-					    </div>
+							<div class="form-group">
+								<input class="input" type="text" name="last-name" placeholder="상품이름" value="<%=productDTO.getProductName()%>">
+							</div>
+							<div class="form-group">
+								<input class="input" type="email" name="email" placeholder="상품가격" value="<%=productDTO.getProductPrice()%>">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="address" placeholder="주문개수" value="<%=productDTO.getProductCnt()%>">
+							</div>
+						</div>
 						<!-- /Billing Details -->
 						<div class="order-details">
 							<div class="section-title text-center">
@@ -168,35 +130,22 @@
 									<div><strong>TOTAL</strong></div>
 								</div>
 								<div class="order-products">
-								<%for(CartDTO cData:cDatas){ %>
 									<div class="order-col">
-										<div><%=cData.getProductName()%></div>
-										<div style="text-align: right;"><%=cData.getProductPrice()%>원</div>
-										<input type="hidden" name="productID" value="<%=cData.getProductID()%>">
-										<input type="hidden" name="productName" value="<%=cData.getProductName()%>">
-										<input type="hidden" name="productCnt" value="<%=cData.getCartProductCnt()%>">
-										<input type="hidden" name="productPrice" value="<%=cData.getProductPrice()%>">
+										<div>1x Product Name Goes Here</div>
+										<div>$980.00</div>
 									</div>
-									<%} %>
-									<!-- <div class="order-col">
+									<div class="order-col">
 										<div>2x Product Name Goes Here</div>
 										<div>$980.00</div>
-									</div> -->
+									</div>
 								</div>
 								<div class="order-col">
-									<div>배송비</div>
+									<div>Shiping</div>
 									<div><strong>FREE</strong></div>
 								</div>
 								<div class="order-col">
 									<div><strong>TOTAL</strong></div>
-									<%
-									int total=0;
-									for(CartDTO cData : cDatas){
-										total += cData.getProductPrice()*cData.getCartProductCnt(); 
-									}
-									%>
-									<div style="text-align: right;"><strong class="order-total" ><%=total%>원</strong></div>
-									<input type="hidden" name="totalPrice" value="<%=total%>">
+									<div><strong class="order-total">$2940.00</strong></div>
 								</div>
 							</div>
 							<div class="payment-method" style="align-items: center; display: flex;">
@@ -207,12 +156,10 @@
 								 	<option value="html5_inicis">이니시스</option>
 								</select>
 							</div>
-							
-							
-							<button type="submit" class="primary-btn order-submit" style="width: 50%; margin-left: 25%">결제하기</button>
+							<a href="paymentPage.do" class="primary-btn order-submit" style="width: 50%; margin-left: 25%">결제하기</a>
 						</div>
 					</div>
-					</form>
+
 					<!-- Order Details -->
 					
 					<!-- /Order Details -->

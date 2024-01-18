@@ -66,6 +66,30 @@ public class WishListAction implements Action{
 			forward.setRedirect(false);
 		}
 		
+		try {
+			memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("memberID : "+memberID);
+		if(memberID==null) {
+			
+		}
+		else {
+		wishListDTO = new WishListDTO();
+		wishListDAO = new WishListDAO();
+		
+		wishListDTO.setMemberID(memberID);
+		wishListDTO.setSearchCondition("찜수량");
+		wishListDTO = wishListDAO.selectOne(wishListDTO);
+		int wishListCnt = wishListDTO.getWishListCnt();
+		request.setAttribute("wishListCnt", wishListCnt);
+		System.out.println("wishListCnt : "+wishListCnt);
+		}
+		
+		
+		
+		
 		return forward;
 	}
 }

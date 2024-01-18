@@ -42,6 +42,7 @@ public class IsWishedAction extends HttpServlet {
 		WishListDTO wishListDTO = new WishListDTO();
 		wishListDTO.setMemberID(memberID);
 		wishListDTO.setProductID(productID);
+		wishListDTO.setSearchCondition("위시리스트추가삭제");
 		wishListDTO = wishListDAO.selectOne(wishListDTO);
 		
 		System.out.println(memberID);

@@ -111,6 +111,10 @@ public class WishListDAO {
 					+ ") WL "
 					+ "ON P.PRODUCT_ID = WL.PRODUCT_ID ";
 	
+	private static final String SELECTONE_WISHLIST_CNT_BY_MEMBER =
+			"SELECT COUNT(WISHLIST_ID) AS WISHLIST_CNT FROM WISHLIST WHERE MEMBER_ID=? ";
+	
+
 	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST =
 			"SELECT WISHLIST_ID "
 			+ "FROM WISHLIST "
@@ -254,6 +258,7 @@ public class WishListDAO {
 	public WishListDTO selectOne(WishListDTO wishListDTO) {
 		conn=JDBCUtil.connect();
 		WishListDTO data=null;
+		if(wishListDTO.getSearchCondition().equals("위시리스트추가삭제")) {
 		try {
 			pstmt=conn.prepareStatement(SELECTONE_IS_PRODUCT_IN_WISHLIST);
 			pstmt.setString(1, wishListDTO.getMemberID());
@@ -270,6 +275,27 @@ public class WishListDAO {
 		}
 		return data;
 	}
+		else if(wishListDTO.getSearchCondition().equals("찜수량")) {
+			try {
+				pstmt=conn.prepareStatement(SELECTONE_WISHLIST_CNT_BY_MEMBER);
+				pstmt.setString(1, wishListDTO.getMemberID());
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
+					data = new WishListDTO();
+					data.setWishListCnt(rs.getInt("WISHLIST_CNT"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
+			}
+			return data;
+		}
+		else {
+			return null;
+		}
+	}
+	
 	
 		
 	public boolean update(WishListDTO wishListDTO) {

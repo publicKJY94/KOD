@@ -24,9 +24,7 @@ public class LogoutAction implements Action{
 		session.removeAttribute("memberDTO");
 		request.setAttribute("msg", "로그아웃 성공!");
 		
-		
 		return forward;
 		
 	}
-
 }

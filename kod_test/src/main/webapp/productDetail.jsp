@@ -151,7 +151,8 @@
 									</select>
 								</label>
 							</div>
-							<form method="POST" action="cartInsert.do">
+							<form method="POST" action="payInfoPage.do">
+							<% System.out.println("로그 : "+productDTO.getProductID()); %>
 							<div class="add-to-cart">
 								
 								<div class="qty-label">

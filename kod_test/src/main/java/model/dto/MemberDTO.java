@@ -5,21 +5,15 @@ import java.sql.Date;
 public class MemberDTO {
 	private String memberID;
 	private String memberPW;
-	private String memberPWCK;
 	private String memberName;
 	private String memberPhNum;
 	private String memberEmail;
 	private String memberGrade;
 	private String memberGender;
-	private String memberBirth;
+	private Date memberBirth;
+	
 	private String searchCondition;
 	
-	public String getMemberPWCK() {
-		return memberPWCK;
-	}
-	public void setMemberPWCK(String memberPWCK) {
-		this.memberPWCK = memberPWCK;
-	}
 	public String getMemberID() {
 		return memberID;
 	}
@@ -32,6 +26,7 @@ public class MemberDTO {
 	public void setMemberPW(String memberPW) {
 		this.memberPW = memberPW;
 	}
+	
 	public String getMemberName() {
 		return memberName;
 	}
@@ -62,10 +57,10 @@ public class MemberDTO {
 	public void setMemberGender(String memberGender) {
 		this.memberGender = memberGender;
 	}
-	public String getMemberBirth() {
+	public Date getMemberBirth() {
 		return memberBirth;
 	}
-	public void setMemberBirth(String memberBirth) {
+	public void setMemberBirth(Date memberBirth) {
 		this.memberBirth = memberBirth;
 	}
 	public String getSearchCondition() {
@@ -76,10 +71,10 @@ public class MemberDTO {
 	}
 	@Override
 	public String toString() {
-		return "MemberDTO [memberID=" + memberID + ", memberPW=" + memberPW + ", memberPWCK=" + memberPWCK
-				+ ", memberName=" + memberName + ", memberPhNum=" + memberPhNum + ", memberEmail=" + memberEmail
-				+ ", memberGrade=" + memberGrade + ", memberGender=" + memberGender + ", memberBirth=" + memberBirth
-				+ ", searchCondition=" + searchCondition + "]";
+		return "MemberDTO [memberID=" + memberID + ", memberPW=" + memberPW + ", memberName=" + memberName
+				+ ", memberPhNum=" + memberPhNum + ", memberEmail=" + memberEmail + ", memberGrade=" + memberGrade
+				+ ", memberGender=" + memberGender + ", memberBirth=" + memberBirth + ", searchCondition="
+				+ searchCondition + "]";
 	}
 	
 	

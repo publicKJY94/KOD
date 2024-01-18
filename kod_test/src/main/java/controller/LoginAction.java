@@ -26,14 +26,12 @@ public class LoginAction implements Action{
 		mDTO.setMemberID(request.getParameter("memberID"));
 		mDTO.setMemberPW(request.getParameter("memberPW"));
 		
-		mDTO.setSearchCondition("로그인");
 		mDTO=mDAO.selectOne(mDTO);
-		System.out.println("로그인로그"+mDTO);
+		System.out.println(mDTO);
 		
 		if(mDTO != null) {
 
 			HttpSession session=request.getSession();
-		//	session.setAttribute("member",mDTO.getMemberID());
 			session.setAttribute("memberDTO",mDTO);
 			
 			forward.setPath("main.do");
