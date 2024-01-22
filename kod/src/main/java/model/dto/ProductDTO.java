@@ -9,15 +9,8 @@ public class ProductDTO {
 	private String productCategory;
 	private String productInfo;
 	private String productImg;
+	private String searchCondition;
 	
-	private String[] categoryList;
-	
-	public String[] getCategoryList() {
-		return categoryList;
-	}
-	public void setCategoryList(String[] categoryList) {
-		this.categoryList = categoryList;
-	}
 	public int getProductID() {
 		return productID;
 	}
@@ -65,6 +58,12 @@ public class ProductDTO {
 	}
 	public void setProductImg(String productImg) {
 		this.productImg = productImg;
+	}
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
 	}
 	@Override
 	public String toString() {
