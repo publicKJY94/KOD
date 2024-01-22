@@ -11,6 +11,15 @@ public class ProductDTO {
 	private String productImg;
 	private String searchCondition;
 	
+	
+	private String[] categoryList;
+	
+	public String[] getCategoryList() {
+		return categoryList;
+	}
+	public void setCategoryList(String[] categoryList) {
+		this.categoryList = categoryList;
+	}
 	public int getProductID() {
 		return productID;
 	}
