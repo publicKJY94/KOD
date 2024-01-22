@@ -22,7 +22,21 @@ public class ProductDAO {
 			+ "FROM PRODUCT WHERE PRODUCT_ID=?";
 	private static final String SELECTONE_CHOICE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_CNT, PRODUCT_IMG "
 			+ " FROM PRODUCT ";
-	private static final String INSERT = "";
+	private static final String INSERT_CRAWLING = 
+			  "INSERT "
+			+ "INTO PRODUCT( "
+			+ "  PRODUCT_ID, "
+			+ "  PRODUCT_NAME, "
+			+ "  PRODUCT_BRAND, "
+			+ "  PRODUCT_PRICE, "
+			+ "  PRODUCT_INFO, "
+			+ "  PRODUCT_CATEGORY,  "
+			+ "  PRODUCT_CNT,  "
+			+ "  PRODUCT_IMG) "
+			+ "VALUES(" // 이름 가격 정보 카테고리 수량 이미지
+			+ "  (SELECT NVL(MAX(PRODUCT_ID),1000)+1 FROM PRODUCT), "
+			+ "?,'Bang&Olufsen',?,?,'헤드폰',5,?)"; // 상품 크롤링
+			
 	private static final String UPDATE = "";
 	private static final String DELETE = "";
 
@@ -164,8 +178,29 @@ public class ProductDAO {
 		return data;
 	}
 
-	public void insert() {
-
+	public boolean insert(ProductDTO productDTO) {
+		if(productDTO.getSearchCondition().equals("크롤링")) {
+			conn=JDBCUtil.connect();
+			try {
+				pstmt = conn.prepareStatement(INSERT_CRAWLING);
+				pstmt.setString(1, productDTO.getProductName());
+				pstmt.setInt(2, productDTO.getProductPrice());
+				pstmt.setString(3, productDTO.getProductInfo());
+				pstmt.setString(4, productDTO.getProductImg());
+				int result = pstmt.executeUpdate();
+				if(result <= 0) {
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
+			}
+		}
+		else {
+			return false;
+		}
+		return true;
 	}
 
 	public void update() {
