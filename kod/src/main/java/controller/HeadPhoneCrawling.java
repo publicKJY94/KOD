@@ -11,7 +11,7 @@ import model.dto.ProductDTO;
 
 public class HeadPhoneCrawling {
 
-	public ArrayList<ProductDTO> crawling() {
+	public ArrayList<ProductDTO> crawl() {
 		
 		System.out.println("[로그]HeadPhoneCrawling 들어옴");
 		

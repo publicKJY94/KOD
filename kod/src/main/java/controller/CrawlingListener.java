@@ -27,11 +27,19 @@ public class CrawlingListener implements ServletContextListener {
     	System.out.println("[로그] 리스너 서블릿 클래스 들어옴");
     	
 //    	HeadPhoneCrawling headPhoneCrawling = new HeadPhoneCrawling();
-//    	ArrayList<ProductDTO> headPhoneDatas = headPhoneCrawling.crawling();
+//    	ArrayList<ProductDTO> headPhoneDatas = headPhoneCrawling.crawl();
 //    	ProductDAO productDAO = new ProductDAO();
 //    	for (ProductDTO headPhoneData : headPhoneDatas) {
 //			headPhoneData.setSearchCondition("크롤링");
 //			productDAO.insert(headPhoneData);
+//		}
+    	
+//    	SpeakerCrawling speakerCrawling = new SpeakerCrawling();
+//    	ArrayList<ProductDTO> speakerDatas = speakerCrawling.crawl();
+//    	ProductDAO productDAO = new ProductDAO();
+//    	for (ProductDTO speakerData : speakerDatas) {
+//			speakerData.setSearchCondition("크롤링");
+//			productDAO.insert(speakerData);
 //		}
     	
     }
