@@ -22,7 +22,7 @@ public class CheckWishedAction implements Action {
 		ActionForward forward = new ActionForward();
 		forward.setPath("product.do");
 		forward.setRedirect(false);
-		
+		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("UTF-8");
 		
 		System.out.println("CheckWishedAction들어옴");

@@ -15,10 +15,11 @@ public class ProductAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ActionForward forward = new ActionForward();
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=utf-8");
 		forward.setPath("productCategory.do");
 		forward.setRedirect(false);
 
-		request.setCharacterEncoding("UTF-8");
 
 		ProductDTO pDTO = new ProductDTO();
 		ProductDAO pDAO = new ProductDAO();

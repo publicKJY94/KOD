@@ -21,7 +21,7 @@ function selectProduct(categoryList) {
 		success: function(data) {
 			product ="";
 			var elem = "";
-			$.each(data, (data) => {
+			$.each((i,data), (i,data) => {
 				elem += `
 					<div class="col-md-4 col-xs-6">
 						<div class="product">

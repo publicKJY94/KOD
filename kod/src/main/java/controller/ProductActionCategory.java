@@ -14,11 +14,12 @@ public class ProductActionCategory implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=utf-8");
 		ActionForward forward = new ActionForward();
 		forward.setPath("store.jsp");
 		forward.setRedirect(false);
 
-		request.setCharacterEncoding("UTF-8");
 
 		ProductDTO pDTO = new ProductDTO();
 		ProductDAO pDAO = new ProductDAO();
