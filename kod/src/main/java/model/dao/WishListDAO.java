@@ -111,20 +111,14 @@ public class WishListDAO {
 					+ ") WL "
 					+ "ON P.PRODUCT_ID = WL.PRODUCT_ID ";
 	
+	private static final String SELECTONE_WISHLIST_CNT_BY_MEMBER =
+			"SELECT COUNT(WISHLIST_ID) AS WISHLIST_CNT FROM WISHLIST WHERE MEMBER_ID=? ";
+	
+
 	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST =
 			"SELECT WISHLIST_ID "
 			+ "FROM WISHLIST "
 			+ "WHERE MEMBER_ID=? AND PRODUCT_ID=? ";
-	
-	
-	private static final String UPDATE_ADD_PRODUCT_TO_WISHLIST =
-			  "UPDATE WISHLIST "
-			+ "SET IS_WISHED = 1 "
-			+ "WHERE MEMBER_ID = ? AND PRODUCT_ID = ? ";
-	private static final String UPDATE_REMOVE_PRODUCT_FROM_WISHLIST =
-			  "UPDATE WISHLIST "
-			+ "SET IS_WISHED = 0 "
-			+ "WHERE MEMBER_ID = ? AND PRODUCT_ID = ? ";
 	
 	private static final String INSERT_WISHLIST_BY_PRODUCT = 
 			"INSERT INTO WISHLIST (WISHLIST_ID,MEMBER_ID, PRODUCT_ID) "
@@ -175,7 +169,7 @@ public class WishListDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				//JDBCUtil.disconnect(pstmt, conn);
+				JDBCUtil.disconnect(pstmt, conn);
 			}
 			return datas;
 		}
@@ -201,20 +195,30 @@ public class WishListDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-//				JDBCUtil.disconnect(pstmt, conn);
+				JDBCUtil.disconnect(pstmt, conn);
 			}
 			return datas;
 		}
-		else if(wishListDTO.getSearchCondition().equals("제품별찜랭킹")) {
+		else if(wishListDTO.getSearchCondition().equals("인기순")) {
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISHLIST_RANK_BY_PRODUCT);
 				ResultSet rs = pstmt.executeQuery();
+				while(rs.next()) {
+					WishListDTO data = new WishListDTO();
+					data.setProductID(rs.getInt("PRODUCT_ID"));
+					data.setProductBrand(rs.getString("PRODUCT_BRAND"));
+					data.setProductName(rs.getString("PRODUCT_NAME"));
+					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
+					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+					data.setProductImg(rs.getString("PRODUCT_IMG"));
+					datas.add(data);
+				}
 				rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				//JDBCUtil.disconnect(pstmt, conn);
+				JDBCUtil.disconnect(pstmt, conn);
 			}
 			return datas;
 		}
@@ -228,7 +232,7 @@ public class WishListDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				//JDBCUtil.disconnect(pstmt, conn);
+				JDBCUtil.disconnect(pstmt, conn);
 			}
 			return datas;
 		}
@@ -241,7 +245,7 @@ public class WishListDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				//JDBCUtil.disconnect(pstmt, conn);
+				JDBCUtil.disconnect(pstmt, conn);
 			}
 			return datas;
 		}
@@ -254,6 +258,7 @@ public class WishListDAO {
 	public WishListDTO selectOne(WishListDTO wishListDTO) {
 		conn=JDBCUtil.connect();
 		WishListDTO data=null;
+		if(wishListDTO.getSearchCondition().equals("위시리스트추가삭제")) {
 		try {
 			pstmt=conn.prepareStatement(SELECTONE_IS_PRODUCT_IN_WISHLIST);
 			pstmt.setString(1, wishListDTO.getMemberID());
@@ -266,50 +271,32 @@ public class WishListDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			//JDBCUtil.disconnect(pstmt, conn);
+			JDBCUtil.disconnect(pstmt, conn);
 		}
 		return data;
 	}
-	
-		
-	public boolean update(WishListDTO wishListDTO) {
-		conn=JDBCUtil.connect();
-		if(wishListDTO.getSearchCondition().equals("위시리스트상품추가")) {
+		else if(wishListDTO.getSearchCondition().equals("찜수량")) {
 			try {
-				pstmt=conn.prepareStatement(UPDATE_ADD_PRODUCT_TO_WISHLIST);
+				pstmt=conn.prepareStatement(SELECTONE_WISHLIST_CNT_BY_MEMBER);
 				pstmt.setString(1, wishListDTO.getMemberID());
-				pstmt.setInt(2, wishListDTO.getProductID());
-				int result = pstmt.executeUpdate();
-				if(result<=0) {
-					return false;
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
+					data = new WishListDTO();
+					data.setWishListCnt(rs.getInt("WISHLIST_CNT"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				//JDBCUtil.disconnect(pstmt, conn);
+				JDBCUtil.disconnect(pstmt, conn);
 			}
-			return true;
+			return data;
 		}
-		else if(wishListDTO.getSearchCondition().equals("위시리스트상품삭제")) {
-			try {
-				pstmt=conn.prepareStatement(UPDATE_REMOVE_PRODUCT_FROM_WISHLIST);
-				pstmt.setString(1, wishListDTO.getMemberID());
-				pstmt.setInt(2, wishListDTO.getProductID());
-				int result = pstmt.executeUpdate();
-				if(result<=0) {
-					return false;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				//JDBCUtil.disconnect(pstmt, conn);
-			}
-			return true;
-			}
 		else {
-			return false;
+			return null;
 		}
 	}
+	
+	
 	public boolean insert(WishListDTO wishListDTO) {
 		conn=JDBCUtil.connect();
 		try {
@@ -323,7 +310,7 @@ public class WishListDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			//JDBCUtil.disconnect(pstmt, conn);
+			JDBCUtil.disconnect(pstmt, conn);
 		}
 		return true;
 	}
