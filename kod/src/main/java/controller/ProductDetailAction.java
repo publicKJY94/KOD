@@ -22,8 +22,8 @@ public class ProductDetailAction implements Action {
 
 		ProductDAO productDAO = new ProductDAO();
 		ProductDTO productData = new ProductDTO();
-		System.out.println(Integer.parseInt(request.getParameter("productId")));
-		productData.setProductID(Integer.parseInt(request.getParameter("productId")));
+		System.out.println(Integer.parseInt(request.getParameter("productID")));
+		productData.setProductID(Integer.parseInt(request.getParameter("productID")));
 		productData = productDAO.selectOne(productData);
 		System.out.println(productData);
 		request.setAttribute("productData", productData);

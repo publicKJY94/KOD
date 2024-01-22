@@ -34,13 +34,13 @@ public class CrawlingListener implements ServletContextListener {
 //			productDAO.insert(headPhoneData);
 //		}
     	
-//    	SpeakerCrawling speakerCrawling = new SpeakerCrawling();
-//    	ArrayList<ProductDTO> speakerDatas = speakerCrawling.crawl();
-//    	ProductDAO productDAO = new ProductDAO();
-//    	for (ProductDTO speakerData : speakerDatas) {
-//			speakerData.setSearchCondition("크롤링");
-//			productDAO.insert(speakerData);
-//		}
+    	SpeakerCrawling speakerCrawling = new SpeakerCrawling();
+    	ArrayList<ProductDTO> speakerDatas = speakerCrawling.crawl();
+    	ProductDAO productDAO = new ProductDAO();
+    	for (ProductDTO speakerData : speakerDatas) {
+			speakerData.setSearchCondition("크롤링");
+			productDAO.insert(speakerData);
+		}
     	
     }
 	
