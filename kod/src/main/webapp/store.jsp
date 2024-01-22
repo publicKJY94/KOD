@@ -274,61 +274,74 @@ M은 C한테 1,0 등의 값을 줘야하니까
    SQL문을 수정해야됨
    SELECTALL이 되는상황
   -->
-					<!-- product -->
-					<%
-					ArrayList<WishListDTO> isWishedDatas = (ArrayList<WishListDTO>) request.getAttribute("isWishedDatas");
-					for (WishListDTO isWishedData : isWishedDatas) {
-					%>
-					<div class="col-md-4 col-xs-6" style="margin-top: 30px;">
-						<div class="product">
-					    <div class="product-body">
-						    <div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
-						        <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
-						        <div class="product-btns">
-						            <button class="add-to-wishlist">
-				                        <div class="productID" hidden><%=isWishedData.getProductID()%></div>
-				                        <i class="fa <%= isWishedData.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
-				                    </button>
-						        </div>
-						    </div>
-						</div>
-					    <div class="product-img">
-					        <img src="<%=isWishedData.getProductImg()%>" alt="">
-					    </div>
-					    <div class="product-body">
-					        <p class="product-category"><%=isWishedData.getProductCategory()%></p>
-					        <h3 class="product-name" style="height: 31px;">
-					            <a href="productDetail.do?productId=<%=isWishedData.getProductID()%>"><%=isWishedData.getProductName()%></a>
-					        </h3>
-					        <h4 class="product-price"><%=isWishedData.getProductPrice()%><del class="product-old-price"></del></h4>
-					        <div class="product-rating">
-					            <%--평점 들어가는 라인 --%>
-					        </div>
-					    </div>
-					    <div class="add-to-cart">
-					        <button class="add-to-cart-btn">
-					            <i class="fa fa-shopping-cart"></i> add to cart
-					        </button>
-					    </div>
-					</div>
-					</div>
-					<%
-					}
-					%>
-					<!-- /product -->
-					<!-- /store products -->
+				<!-- product -->
+<%
+    ArrayList<WishListDTO> currentPageProducts = (ArrayList<WishListDTO>) request.getAttribute("currentPageProducts");
+	int startIndex = 0;
+	int endIndex = currentPageProducts.size();
+	for (WishListDTO isWishedData : currentPageProducts) {
+%>
+    <div class="col-md-4 col-xs-6" style="margin-top: 30px;">
+        <div class="product">
+            <div class="product-body">
+                <div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
+                    <div class="product-btns">
+                        <button class="add-to-wishlist">
+                            <div class="productID" hidden><%=isWishedData.getProductID()%></div>
+                            <i class="fa <%= isWishedData.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-img">
+                <img src="<%=isWishedData.getProductImg()%>" alt="">
+            </div>
+            <div class="product-body">
+                <p class="product-category"><%=isWishedData.getProductCategory()%></p>
+                <h3 class="product-name" style="height: 31px;">
+                    <a href="productDetail.do?productID=<%=isWishedData.getProductID()%>"><%=isWishedData.getProductName()%></a>
+                </h3>
+                <h4 class="product-price"><%=isWishedData.getProductPrice()%><del class="product-old-price"></del></h4>
+                <div class="product-rating">
+                    <%--평점 들어가는 라인 --%>
+                </div>
+            </div>
+            <div class="add-to-cart">
+                <button class="add-to-cart-btn">
+                    <i class="fa fa-shopping-cart"></i> add to cart
+                </button>
+            </div>
+        </div>
+    </div>
+<%
+    }
+%>
+<!-- /product -->
+<!-- /store products -->
 
-					<!-- store bottom filter -->
-					<div class="store-filter clearfix">
-						<span class="store-qty">Showing 20-100 products</span>
-						<ul class="store-pagination">
-							<li class="active">1</li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-						</ul>
-					</div>
+<!-- store bottom filter -->
+<div class="store-filter clearfix">
+    <span class="store-qty">Showing <%=startIndex + 1%> - <%=endIndex%> products</span>
+    <ul class="store-pagination">
+        <%-- 이전 페이지 링크 --%>
+        <% if ((int)request.getAttribute("currentPage") > 1) { %>
+            <li><a href="checkWished.do?page=<%=(int)request.getAttribute("currentPage") - 1 %>"><i class="fa fa-angle-left"></i></a></li>
+        <% } %>
+
+        <%-- 페이지 번호 출력 --%>
+        <% for (int i = 1; i <= (int)request.getAttribute("totalPages"); i++) { %>
+            <li class="<%= (i == (int)request.getAttribute("currentPage")) ? "active" : "" %>">
+                <a href="checkWished.do?page=<%=i%>"><%=i%></a>
+            </li>
+        <% } %>
+
+        <%-- 다음 페이지 링크 --%>
+        <% if ((int)request.getAttribute("currentPage") < (int)request.getAttribute("totalPages")) { %>
+            <li><a href="checkWished.do?page=<%=(int)request.getAttribute("currentPage") + 1 %>"><i class="fa fa-angle-right"></i></a></li>
+        <% } %>
+    </ul>
+</div>
 					<!-- /store bottom filter -->
 				</div>
 				<!-- /STORE -->

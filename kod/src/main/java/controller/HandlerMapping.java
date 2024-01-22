@@ -16,8 +16,8 @@ public class HandlerMapping {
 		this.mappings.put("/join.do", new JoinMemberAction());
 		this.mappings.put("/joinAddress.do", new JoinAddressAction());
 		this.mappings.put("/joinPage.do", new JoinPageAction());
-		this.mappings.put("/productDetailAction", new ProductDetailAction());
-		this.mappings.put("/mapPageAction", new MapPageAction());
+		this.mappings.put("/productDetail.do", new ProductDetailAction());
+		this.mappings.put("/mapPage.do", new MapPageAction());
 		this.mappings.put("/address.do", new AddressAction());
 		this.mappings.put("/addressPage.do", new AddressPageAction());
 		this.mappings.put("/addressInsert.do", new AddressInsertAction());
@@ -25,7 +25,7 @@ public class HandlerMapping {
 		this.mappings.put("/orderList.do", new OrderListAction());
 		this.mappings.put("/payInfo.do", new PayInfoAction());
 		this.mappings.put("/payInfoPage.do", new PayInfoPageAction());
-		this.mappings.put("/paySelect", new PaySelectAction());
+		this.mappings.put("/paySelect.do", new PaySelectAction());
 		this.mappings.put("/paymentPage.do", new PaymentPageAction());
 		this.mappings.put("/wishList.do", new WishListAction());
 		this.mappings.put("/checkWished.do", new CheckWishedAction());
