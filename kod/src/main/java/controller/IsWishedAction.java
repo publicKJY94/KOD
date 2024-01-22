@@ -28,9 +28,7 @@ public class IsWishedAction extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println();
 		System.out.println("dd");
-		
 		
 		HttpSession session = request.getSession();
 		String memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
@@ -42,6 +40,7 @@ public class IsWishedAction extends HttpServlet {
 		WishListDTO wishListDTO = new WishListDTO();
 		wishListDTO.setMemberID(memberID);
 		wishListDTO.setProductID(productID);
+		wishListDTO.setSearchCondition("위시리스트추가삭제");
 		wishListDTO = wishListDAO.selectOne(wishListDTO);
 		
 		System.out.println(memberID);
@@ -60,15 +59,21 @@ public class IsWishedAction extends HttpServlet {
 		else if(wishListDTO==null) {
 			flag=true;
 			wishListDTO = new WishListDTO();
-			wishListDTO.setMemberID(memberID);
 			wishListDTO.setProductID(productID);
+			wishListDTO.setMemberID(memberID);
 			wishListDAO.insert(wishListDTO);
 			System.out.println("위시리스트 추가성공");
 		}
-		
+
 		System.out.println("위시리스트 추가or삭제 : "+flag);
 		request.setAttribute("flag", flag);
-	
+		
+		wishListDTO.setMemberID(memberID);
+		System.out.println("memberID >> "+memberID);
+		wishListDTO.setSearchCondition("찜수량");
+		wishListDTO = wishListDAO.selectOne(wishListDTO);
+		int updatedWishListCnt = wishListDTO.getWishListCnt();
+		System.out.println("updatedWishListCnt >> "+updatedWishListCnt);
+		response.getWriter().write(String.valueOf(updatedWishListCnt));
 	}
-
 }

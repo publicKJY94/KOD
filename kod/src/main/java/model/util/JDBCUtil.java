@@ -12,7 +12,7 @@ public class JDBCUtil {
 	
 	static final String driverName="oracle.jdbc.driver.OracleDriver";
 	static final String url="jdbc:oracle:thin:@localhost:1521:xe";
-	static final String user="PHM";
+	static final String user="HJ";
 	static final String passwd="1234";
 	
 	public static Connection connect() {
@@ -32,12 +32,16 @@ public class JDBCUtil {
 	}
 	
 	public static void disconnect(PreparedStatement pstmt, Connection conn) {
-		try {
-			// 4. 연결 해제
-			pstmt.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	    try {
+	        // 4. 연결 해제
+	        if (pstmt != null) {
+	            pstmt.close();
+	        }
+	        if (conn != null) {
+	            conn.close();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 }
