@@ -52,7 +52,8 @@ public class HeadPhoneCrawling {
 					productDTO.setProductName(productName);
 					productDTO.setProductPrice(price);
 					productDTO.setProductInfo(productInfo);
-					productDTO.setProductImg(productImgUrl);
+					productDTO.setProductImg(productImgUrl); 
+					productDTO.setProductCategory("헤드폰");
 					productDatas.add(productDTO);
 					
 					

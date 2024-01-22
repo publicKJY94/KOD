@@ -15,13 +15,14 @@ function selectProduct(categoryList) {
 	console.log(categoryList);
 	$.ajax({
 		type: "POST",
-		url: "Test",
+		url: "test",
 		data: { "categoryList": categoryList},
 		dataType: "json", 
 		success: function(data) {
-			var text = "";
-			$.each(data, function(data) {
-				text += `
+			product ="";
+			var elem = "";
+			$.each(data, (data) => {
+				elem += `
 					<div class="col-md-4 col-xs-6">
 						<div class="product">
 							<div class="product-body">
@@ -65,7 +66,7 @@ function selectProduct(categoryList) {
 						</div>
 					</div>`;
 			});
-			product.innerHTML(text);
+			product.append(elem);
 		}
 	});
 }

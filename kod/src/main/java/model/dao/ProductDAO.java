@@ -15,9 +15,9 @@ public class ProductDAO {
 
 	private static final String SELECTALL = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_CNT, PRODUCT_IMG "
 			+ " FROM PRODUCT";
-	private static final String SELECTALLCATEGORY = "SELECT PRODUCT_CATEGORY, COUNT(PRODUCT_CATEGORY) AS COUNT"
+	private static final String SELECTALL_CATEGORY = "SELECT PRODUCT_CATEGORY, COUNT(PRODUCT_CATEGORY) AS COUNT"
 			+ " FROM PRODUCT GROUP BY PRODUCT_CATEGORY";
-	private static final String SELECTALLCHIOCE = "SELECT * " + " FROM PRODUCT WHERE PRODUCT_CATEGORY = ? ?";
+	private static final String SELECTALL_CHIOCE = "SELECT * FROM PRODUCT WHERE 1=1 ? ";
 	private static final String SELECTONE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_CNT, PRODUCT_IMG "
 			+ "FROM PRODUCT WHERE PRODUCT_ID=?";
 	private static final String SELECTONE_CHOICE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_CNT, PRODUCT_IMG "
@@ -35,7 +35,7 @@ public class ProductDAO {
 			+ "  PRODUCT_IMG) "
 			+ "VALUES(" // 이름 가격 정보 카테고리 수량 이미지
 			+ "  (SELECT NVL(MAX(PRODUCT_ID),1000)+1 FROM PRODUCT), "
-			+ "?,'Bang&Olufsen',?,?,'헤드폰',5,?)"; // 상품 크롤링
+			+ "?,'Bang&Olufsen',?,?,?,5,?)"; // 상품 크롤링
 			
 	private static final String UPDATE = "";
 	private static final String DELETE = "";
@@ -67,19 +67,17 @@ public class ProductDAO {
 		return datas;
 
 	}
+	
 	public ArrayList<ProductDTO> selectCategory(ProductDTO pDTO) {
 		ArrayList<ProductDTO> datas = new ArrayList<ProductDTO>();
 		conn = JDBCUtil.connect();
 		try {
-			pstmt = conn.prepareStatement(SELECTALLCHIOCE);
-			pstmt.setString(1, pDTO.getCategoryList()[0]);
+			pstmt = conn.prepareStatement(SELECTALL_CHIOCE);
 			String result = "";
-			if (pDTO.getCategoryList().length <= 1) {
-				for (int i = 1; i < pDTO.getCategoryList().length; i++) {
-					result += " OR PRODUCT_CATEGORY =" + pDTO.getCategoryList()[i];
-				}
+			for (int i = 1; i < pDTO.getCategoryList().length; i++) {
+				result += " OR PRODUCT_CATEGORY =" + pDTO.getCategoryList()[i];
 			}
-			pstmt.setString(2, result);
+			pstmt.setString(1, result);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				ProductDTO data = new ProductDTO();
@@ -106,7 +104,7 @@ public class ProductDAO {
 		ArrayList<ProductDTO> datas = new ArrayList<ProductDTO>();
 		conn = JDBCUtil.connect();
 		try {
-			pstmt = conn.prepareStatement(SELECTALLCATEGORY);
+			pstmt = conn.prepareStatement(SELECTALL_CATEGORY);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				ProductDTO data = new ProductDTO();
@@ -186,7 +184,8 @@ public class ProductDAO {
 				pstmt.setString(1, productDTO.getProductName());
 				pstmt.setInt(2, productDTO.getProductPrice());
 				pstmt.setString(3, productDTO.getProductInfo());
-				pstmt.setString(4, productDTO.getProductImg());
+				pstmt.setString(4, productDTO.getProductCategory());
+				pstmt.setString(5, productDTO.getProductImg());
 				int result = pstmt.executeUpdate();
 				if(result <= 0) {
 					return false;

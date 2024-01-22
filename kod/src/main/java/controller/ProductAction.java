@@ -15,7 +15,7 @@ public class ProductAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ActionForward forward = new ActionForward();
-		forward.setPath("store.jsp");
+		forward.setPath("productCategory.do");
 		forward.setRedirect(false);
 
 		request.setCharacterEncoding("UTF-8");
@@ -26,10 +26,10 @@ public class ProductAction implements Action {
 		ArrayList<ProductDTO> productDatas = new ArrayList<ProductDTO>();
 		productDatas = pDAO.selectAll(pDTO);
 		request.setAttribute("productDatas", productDatas);
-		ArrayList<ProductDTO> productCategoryDatas = new ArrayList<ProductDTO>();
-		productCategoryDatas = pDAO.selectAllCategory(pDTO);
-		request.setAttribute("productCategoryDatas", productCategoryDatas);
-		System.out.println(productCategoryDatas);
+//		ArrayList<ProductDTO> productCategoryDatas = new ArrayList<ProductDTO>();
+//		productCategoryDatas = pDAO.selectAllCategory(pDTO);
+//		request.setAttribute("productCategoryDatas", productCategoryDatas);
+//		System.out.println(productCategoryDatas);
 		return forward;
 	}
 }
