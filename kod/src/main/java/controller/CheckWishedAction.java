@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +57,24 @@ public class CheckWishedAction implements Action {
 		System.out.println("updatedWishListCnt >> "+updatedWishListCnt);
 		response.getWriter().write(String.valueOf(updatedWishListCnt));
 		request.setAttribute("wishListCnt", updatedWishListCnt);
+		
+		//===페이징처리===
+		int productPerPage = 6;
+		int currentPage = (request.getParameter("page") != null && !request.getParameter("page").isEmpty())
+		                    ? Integer.parseInt(request.getParameter("page"))
+		                    : 1;
+
+		int startIndex = (currentPage - 1) * productPerPage;
+		int endIndex = Math.min(startIndex + productPerPage, isWishedDatas.size());
+
+		List<WishListDTO> currentPageProducts = isWishedDatas.subList(startIndex, endIndex);
+		ArrayList<WishListDTO> newArrayList = new ArrayList<WishListDTO>(currentPageProducts);
+		
+		
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("totalPages", (int) Math.ceil((double) isWishedDatas.size() / productPerPage));
+		request.setAttribute("currentPageProducts", newArrayList);
+
 		
 		
 		return forward;

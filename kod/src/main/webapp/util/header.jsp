@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="model.dto.*"%>
 <!DOCTYPE html>
@@ -47,7 +48,7 @@
 					<!-- LOGO -->
 					<div class="col-md-3">
 						<div class="header-logo">
-							<a href="main.do" class="logo"> <img src="./img/logo.png" alt="">
+							<a href="main.do" class="logo"> <img src="./img/logo.png" style="width: 250px" height="65px" alt="">
 							</a>
 						</div>
 					</div>
@@ -75,8 +76,28 @@
 							<div>
 								<a href="wishList.do"> <i class="fa fa-heart-o"></i> <span>My
 										Wishlist</span>
-									<div class="qty">2</div>
+								<%
+								    // request.getAttribute("wishListCnt")의 값을 가져오기
+								    Integer wishListCntObj = (Integer)request.getAttribute("wishListCnt");
+								    // 값이 null이면 0으로 설정, 그렇지 않으면 가져온 값 사용
+								    int wishListCnt = (wishListCntObj != null) ? wishListCntObj : 0;
+								    // JavaScript에서 받아온 값을 JSP 변수에 할당
+								    String updatedWishListCntStr = (String) request.getAttribute("updatedWishListCnt");
+								
+								    int updatedWishListCnt = wishListCnt; // 기본값 설정
+								
+								    if (updatedWishListCntStr != null && !updatedWishListCntStr.isEmpty()) {
+								        try {
+								            updatedWishListCnt = Integer.parseInt(updatedWishListCntStr);
+								        } catch (NumberFormatException e) {  
+								            // 변환에 실패한 경우에 대한 예외 처리
+								            e.printStackTrace(); // 또는 다른 로깅 방식을 사용할 수 있습니다.
+								        }
+								    }
+								%>
+								<div class="qty wishListCnt"><%=updatedWishListCnt%></div>
 								</a>
+								
 							</div>
 							<!-- /Wishlist -->
 
