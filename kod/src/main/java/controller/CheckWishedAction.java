@@ -20,7 +20,7 @@ public class CheckWishedAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ActionForward forward = new ActionForward();
-		forward.setPath("store.jsp");
+		forward.setPath("product.do");
 		forward.setRedirect(false);
 		
 		request.setCharacterEncoding("UTF-8");
@@ -38,14 +38,6 @@ public class CheckWishedAction implements Action {
 		wishListDTO.setMemberID(memberID);
 		wishListDTO.setSearchCondition("찜");
 		ArrayList<WishListDTO> isWishedDatas = wishListDAO.selectAll(wishListDTO);
-		
-		ProductDTO pDTO = new ProductDTO();
-		ProductDAO pDAO = new ProductDAO();
-
-		ArrayList<ProductDTO> productCategoryDatas = new ArrayList<ProductDTO>();
-		productCategoryDatas = pDAO.selectAllCategory(pDTO);
-		request.setAttribute("productCategoryDatas", productCategoryDatas);
-		System.out.println(productCategoryDatas);
 		
 		request.setAttribute("isWishedDatas", isWishedDatas);
 		

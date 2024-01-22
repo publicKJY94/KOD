@@ -30,7 +30,8 @@ public class HandlerMapping {
 		this.mappings.put("/wishList.do", new WishListAction());
 		this.mappings.put("/checkWished.do", new CheckWishedAction());
 		this.mappings.put("/alert.do", new AlertAction());
-		
+		this.mappings.put("/product.do", new ProductAction());
+		this.mappings.put("/productCategory.do", new ProductActionCategory());
 	}
 	
 	public Action getAction(String commed) {

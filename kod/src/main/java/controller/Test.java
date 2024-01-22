@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -12,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.dao.ProductDAO;
 import model.dto.ProductDTO;
 
-@WebServlet("/Test")
+@WebServlet("/test")
 public class Test extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public Test() {
@@ -27,6 +29,8 @@ public class Test extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=utf-8");
 		ProductDAO productDAO = new ProductDAO();
 		ProductDTO productDTO = new ProductDTO();
 		ArrayList<ProductDTO> productDatas = new ArrayList<ProductDTO>();
@@ -39,6 +43,8 @@ public class Test extends HttpServlet {
 		productDTO.setCategoryList(ar);
 		//System.out.println(productDTO.getCategoryList());
 		productDatas = productDAO.selectAllCategory(productDTO);
-		request.setAttribute("productDatas", productDatas);
+		
+		PrintWriter out = response.getWriter();
+		out.print(productDatas);
 	}
 }
