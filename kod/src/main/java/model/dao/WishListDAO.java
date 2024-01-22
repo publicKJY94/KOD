@@ -14,14 +14,42 @@ public class WishListDAO {
 	private PreparedStatement pstmt; // CRUD 수행을 담당
 
 	private static final String SELECTALL_WISHLIST_RANK_BY_PRODUCT = // 모든상품인기순 정렬
-			  "SELECT "
-			+ "    RANK() OVER (ORDER BY COUNT(W.WISHLIST_ID) DESC) AS RANK, "
-			+ "    P.PRODUCT_NAME, "
-			+ "    COUNT(W.WISHLIST_ID) AS WISHLIST_COUNT "
-			+ "FROM PRODUCT P "
-			+ "JOIN WISHLIST W ON P.PRODUCT_ID = W.PRODUCT_ID "
-			+ "GROUP BY P.PRODUCT_NAME "
-			+ "ORDER BY RANK ";
+			"SELECT "
+			+ "    CASE WHEN WL.PRODUCT_ID IS NULL THEN 0 ELSE 1 END AS ISWISHED, "
+			+ "    RANK, "
+			+ "    RANKED_PRODUCTS.PRODUCT_ID, "
+			+ "    RANKED_PRODUCTS.PRODUCT_BRAND, "
+			+ "    RANKED_PRODUCTS.PRODUCT_NAME, "
+			+ "    RANKED_PRODUCTS.PRODUCT_CATEGORY, "
+			+ "    RANKED_PRODUCTS.PRODUCT_PRICE, "
+			+ "    RANKED_PRODUCTS.PRODUCT_IMG, "
+			+ "    RANKED_PRODUCTS.WISHLIST_COUNT "
+			+ "FROM ( "
+			+ "    SELECT "
+			+ "        RANK() OVER (ORDER BY COUNT(W.WISHLIST_ID) DESC) AS RANK, "
+			+ "        P.PRODUCT_ID, "
+			+ "        P.PRODUCT_BRAND, "
+			+ "        P.PRODUCT_NAME, "
+			+ "        P.PRODUCT_CATEGORY, "
+			+ "        P.PRODUCT_PRICE, "
+			+ "        P.PRODUCT_IMG, "
+			+ "        COUNT(W.WISHLIST_ID) AS WISHLIST_COUNT "
+			+ "    FROM PRODUCT P "
+			+ "    LEFT JOIN WISHLIST W ON P.PRODUCT_ID = W.PRODUCT_ID "
+			+ "    GROUP BY "
+			+ "        P.PRODUCT_ID, "
+			+ "        P.PRODUCT_BRAND, "
+			+ "        P.PRODUCT_NAME, "
+			+ "        P.PRODUCT_CATEGORY, "
+			+ "        P.PRODUCT_PRICE, "
+			+ "        P.PRODUCT_IMG "
+			+ ") RANKED_PRODUCTS "
+			+ "LEFT JOIN ( "
+			+ "    SELECT PRODUCT_ID "
+			+ "    FROM WISHLIST "
+			+ "    WHERE MEMBER_ID = ? "
+			+ ") WL ON RANKED_PRODUCTS.PRODUCT_ID = WL.PRODUCT_ID "
+			+ "WHERE RANK <= 7 ";
 	private static final String SELECTALL_WISHLIST_RANK_BY_GENDER = // 성별 인기순 정렬
 			"SELECT "
 			+ "    ROW_NUMBER() OVER (ORDER BY COUNT(W.WISHLIST_ID) DESC) AS RANK, "
@@ -199,10 +227,11 @@ public class WishListDAO {
 			}
 			return datas;
 		}
-		else if(wishListDTO.getSearchCondition().equals("인기순")) {
+		else if(wishListDTO.getSearchCondition().equals("인기상품")) {
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISHLIST_RANK_BY_PRODUCT);
+				pstmt.setString(1, wishListDTO.getMemberID());
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
 					WishListDTO data = new WishListDTO();
@@ -212,6 +241,7 @@ public class WishListDAO {
 					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
 					data.setProductImg(rs.getString("PRODUCT_IMG"));
+					data.setIsWished(rs.getInt("ISWISHED"));
 					datas.add(data);
 				}
 				rs.close();
