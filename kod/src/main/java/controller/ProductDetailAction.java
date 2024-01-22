@@ -13,11 +13,12 @@ public class ProductDetailAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=utf-8");
 		ActionForward forward = new ActionForward();
 		forward.setPath("productDetail.jsp");
 		forward.setRedirect(false);
 
-		request.setCharacterEncoding("UTF-8");
 
 		ProductDAO productDAO = new ProductDAO();
 		ProductDTO productData = new ProductDTO();
