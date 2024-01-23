@@ -9,6 +9,8 @@ public class WishListDTO {
 	private Time wishListAddTime;
 	private String memberID;
 	private String memberGender;
+	private int memberMinAge;
+	private int memberMaxAge;
 	private int productID;
 	private String productBrand;
 	private String productName;
@@ -16,6 +18,7 @@ public class WishListDTO {
 	private String productImg;
 	private int productPrice;
 	private String searchCondition;
+	
 	
 	public int getWishListID() {
 		return wishListID;
@@ -53,6 +56,18 @@ public class WishListDTO {
 	}
 	public void setMemberGender(String memberGender) {
 		this.memberGender = memberGender;
+	}
+	public int getMemberMinAge() {
+		return memberMinAge;
+	}
+	public void setMemberMinAge(int memberMinAge) {
+		this.memberMinAge = memberMinAge;
+	}
+	public int getMemberMaxAge() {
+		return memberMaxAge;
+	}
+	public void setMemberMaxAge(int memberMaxAge) {
+		this.memberMaxAge = memberMaxAge;
 	}
 	public int getProductID() {
 		return productID;

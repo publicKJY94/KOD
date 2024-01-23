@@ -62,6 +62,28 @@ public class MainAction implements Action{
 		}
 		
 		
+		WishListDAO	wishListDAO = new WishListDAO();
+		WishListDTO wishListDTO = new WishListDTO();
+		wishListDTO.setMemberMinAge(10);
+		wishListDTO.setMemberMaxAge(20);
+		wishListDTO.setSearchCondition("나이별찜랭킹");
+		ArrayList<WishListDTO> teenagerRanking = wishListDAO.selectAll(wishListDTO);
+		request.setAttribute("teenagerRanking", teenagerRanking);
+		
+		wishListDTO.setMemberMinAge(20);
+		wishListDTO.setMemberMaxAge(30);
+		wishListDTO.setSearchCondition("나이별찜랭킹");
+		ArrayList<WishListDTO> twentyRanking = wishListDAO.selectAll(wishListDTO);
+		request.setAttribute("twentyRanking", twentyRanking);
+
+		wishListDTO.setMemberMinAge(30);
+		wishListDTO.setMemberMaxAge(40);
+		wishListDTO.setSearchCondition("나이별찜랭킹");
+		ArrayList<WishListDTO> thirtyRanking = wishListDAO.selectAll(wishListDTO);
+		request.setAttribute("thirtyRanking", thirtyRanking);
+		
+		
+		
 		
 		
 		
