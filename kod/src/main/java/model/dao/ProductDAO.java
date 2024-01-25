@@ -17,7 +17,7 @@ public class ProductDAO {
 			+ " FROM PRODUCT";
 	private static final String SELECTALL_CATEGORY = "SELECT PRODUCT_CATEGORY, COUNT(PRODUCT_CATEGORY) AS COUNT"
 			+ " FROM PRODUCT GROUP BY PRODUCT_CATEGORY";
-	private static final String SELECTALL_CHIOCE = "SELECT * FROM PRODUCT WHERE 1=1 ? ";
+	private static final String SELECTALL_CHIOCE = "SELECT * FROM PRODUCT WHERE ";
 	private static final String SELECTONE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_CNT, PRODUCT_IMG "
 			+ "FROM PRODUCT WHERE PRODUCT_ID=?";
 	private static final String SELECTONE_CHOICE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_CNT, PRODUCT_IMG "
@@ -72,13 +72,19 @@ public class ProductDAO {
 		ArrayList<ProductDTO> datas = new ArrayList<ProductDTO>();
 		conn = JDBCUtil.connect();
 		try {
-			pstmt = conn.prepareStatement(SELECTALL_CHIOCE);
 			String result = "";
-			for (int i = 1; i < pDTO.getCategoryList().length; i++) {
-				result += " OR PRODUCT_CATEGORY =" + pDTO.getCategoryList()[i];
+			if(pDTO.getCategoryList().length>1) {
+				result = " PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
+				for (int i = 1; i < pDTO.getCategoryList().length; i++) {
+					result += " OR PRODUCT_CATEGORY = " + " '" + pDTO.getCategoryList()[i] + "' " ;
+				}
 			}
-			pstmt.setString(1, result);
+			pstmt = conn.prepareStatement(SELECTALL_CHIOCE + result);
+			System.out.println(SELECTALL_CHIOCE + result);
+//			pstmt.setString(1, result);
+//			System.out.println(SELECTALL_CHIOCE);
 			ResultSet rs = pstmt.executeQuery();
+			System.out.println(rs);
 			while (rs.next()) {
 				ProductDTO data = new ProductDTO();
 				data.setProductID(rs.getInt("PRODUCT_ID"));
@@ -89,6 +95,7 @@ public class ProductDAO {
 				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 				data.setProductInfo(rs.getString("PRODUCT_INFO"));
 				data.setProductImg(rs.getString("PRODUCT_IMG"));
+				System.out.println(data);
 				datas.add(data);
 			}
 			rs.close();

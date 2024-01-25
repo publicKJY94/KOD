@@ -5,12 +5,12 @@ function selectcheckbox() {
 		lists.push(checkbox.name); // 체크박스의 name 속성 값 가져오기
 	});
 	var categoryList = JSON.stringify(lists);
-	console.log(categoryList);
 	selectProduct(categoryList);
 }
 
 
-var product = $('div.row');
+var elem = "";
+var product = $('div.product');
 function selectProduct(categoryList) {
 	console.log(categoryList);
 	$.ajax({
@@ -18,10 +18,9 @@ function selectProduct(categoryList) {
 		url: "test",
 		data: { "categoryList": categoryList},
 		dataType: "json", 
-		success: function(data) {
-			product ="";
-			var elem = "";
-			$.each((i,data), (i,data) => {
+		success: data => {
+			console.log(data);
+			$.each(data, data => {
 				elem += `
 					<div class="col-md-4 col-xs-6">
 						<div class="product">
@@ -34,7 +33,7 @@ function selectProduct(categoryList) {
 								</div>
 							</div>
 							<div class="product-img">
-								<img src="${data.getProductImg()}" alt="">
+								<img src="${data.productFilterDatas.getProductImg()}" alt="">
 								<div class="product-label">
 									<span class="new">NEW</span>
 								</div>
@@ -46,12 +45,12 @@ function selectProduct(categoryList) {
 											추가</span>
 									</button>
 								</div>
-								<p class="product-category">${data.getProductCategory()}</p>
+								<p class="product-category">${data.productFilterDatas.getProductCategory()}</p>
 								<h3 class="product-name">
 									<a
-										href="productDetail.do?productId=${data.getProductID()}">${data.getProductName()}</a>
+										href="productDetail.do?productId=${data.productFilterDatas.getProductID()}">${data.productFilterDatas.getProductName()}</a>
 								</h3>
-								<h4 class="product-price">${data.getProductPrice()}<del
+								<h4 class="product-price">${data.productFilterDatas.getProductPrice()}<del
 										class="product-old-price"></del>
 								</h4>
 								<div class="product-rating">

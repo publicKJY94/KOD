@@ -17,7 +17,7 @@ public class ProductActionCategory implements Action {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
 		ActionForward forward = new ActionForward();
-		forward.setPath("store.jsp");
+		forward.setPath("productRank.do");
 		forward.setRedirect(false);
 
 
