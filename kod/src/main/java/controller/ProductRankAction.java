@@ -10,24 +10,27 @@ import javax.servlet.http.HttpServletResponse;
 import model.dao.ProductDAO;
 import model.dto.ProductDTO;
 
-public class ProductActionCategory implements Action {
+public class ProductRankAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		ActionForward forward = new ActionForward();
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
-		ActionForward forward = new ActionForward();
-		forward.setPath("productRank.do");
+		forward.setPath("store.jsp");
 		forward.setRedirect(false);
 
 
 		ProductDTO pDTO = new ProductDTO();
 		ProductDAO pDAO = new ProductDAO();
 
-		ArrayList<ProductDTO> productCategoryDatas = new ArrayList<ProductDTO>();
-		productCategoryDatas = pDAO.selectAllCategory(pDTO);
-		request.setAttribute("productCategoryDatas", productCategoryDatas);
-
+		ArrayList<ProductDTO> productDatas = new ArrayList<ProductDTO>();
+		productDatas = pDAO.selectAll(pDTO);
+		request.setAttribute("productDatas", productDatas);
+//		ArrayList<ProductDTO> productCategoryDatas = new ArrayList<ProductDTO>();
+//		productCategoryDatas = pDAO.selectAllCategory(pDTO);
+//		request.setAttribute("productCategoryDatas", productCategoryDatas);
+//		System.out.println(productCategoryDatas);
 		return forward;
 	}
 }

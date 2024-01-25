@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,12 @@ public class MainAction implements Action{
 		}
 		System.out.println("memberID : "+memberID);
 		if(memberID==null) {
-			
+			WishListDAO wishListDAO = new WishListDAO();
+			WishListDTO wishListDTO = new WishListDTO();
+			wishListDTO.setMemberID("admin");
+			wishListDTO.setSearchCondition("인기상품");
+			ArrayList<WishListDTO> popularAllItems = wishListDAO.selectAll(wishListDTO);
+			request.setAttribute("popularAllItems", popularAllItems);
 		}
 		else {
 		WishListDTO wishListDTO = new WishListDTO();
@@ -45,7 +51,52 @@ public class MainAction implements Action{
 		int wishListCnt = wishListDTO.getWishListCnt();
 		request.setAttribute("wishListCnt", wishListCnt);
 		System.out.println("wishListCnt : "+wishListCnt);
+		
+		wishListDAO = new WishListDAO();
+		wishListDTO = new WishListDTO();
+		wishListDTO.setMemberID(memberID);
+		wishListDTO.setSearchCondition("인기상품");
+		ArrayList<WishListDTO> popularAllItems = wishListDAO.selectAll(wishListDTO);
+		request.setAttribute("popularAllItems", popularAllItems);
+		
 		}
+		
+		
+		WishListDAO	wishListDAO = new WishListDAO();
+		WishListDTO wishListDTO = new WishListDTO();
+		wishListDTO.setMemberMinAge(10);
+		wishListDTO.setMemberMaxAge(20);
+		wishListDTO.setSearchCondition("나이별찜랭킹");
+		ArrayList<WishListDTO> teenagerRanking = wishListDAO.selectAll(wishListDTO);
+		request.setAttribute("teenagerRanking", teenagerRanking);
+		
+		wishListDTO.setMemberMinAge(20);
+		wishListDTO.setMemberMaxAge(30);
+		wishListDTO.setSearchCondition("나이별찜랭킹");
+		ArrayList<WishListDTO> twentyRanking = wishListDAO.selectAll(wishListDTO);
+		request.setAttribute("twentyRanking", twentyRanking);
+
+		wishListDTO.setMemberMinAge(30);
+		wishListDTO.setMemberMaxAge(40);
+		wishListDTO.setSearchCondition("나이별찜랭킹");
+		ArrayList<WishListDTO> thirtyRanking = wishListDAO.selectAll(wishListDTO);
+		request.setAttribute("thirtyRanking", thirtyRanking);
+		
+		
+		
+		
+		
+		
+		//=== 인기상품 ===
+//		WishListDAO wishListDAO = new WishListDAO();
+//		WishListDTO wishListDTO = new WishListDTO();
+//		wishListDTO.setSearchCondition("인기상품");
+//		ArrayList<WishListDTO> popularAllItems = wishListDAO.selectAll(wishListDTO);
+//		request.setAttribute("popularAllItems", popularAllItems);
+		
+		
+		
+		
 		
 		
 		

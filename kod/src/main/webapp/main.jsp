@@ -1,3 +1,5 @@
+<%@page import="model.dto.WishListDTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -106,18 +108,49 @@
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">New Products</h3>
+							<h3 class="title">인기 상품</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
-									<li class="active"><a data-toggle="tab" href="#tab1">Laptops</a></li>
-									<li><a data-toggle="tab" href="#tab1">Smartphones</a></li>
-									<li><a data-toggle="tab" href="#tab1">Cameras</a></li>
-									<li><a data-toggle="tab" href="#tab1">Accessories</a></li>
+									<li class="active"><a data-toggle="tab" href="#tab1">실시간 랭킹</a></li>
+									<li><a data-toggle="tab" href="#tab1">스피커</a></li>
+									<li><a data-toggle="tab" href="#tab1">헤드폰 및 이어폰</a></li>
 								</ul>
 							</div>
 						</div>
 					</div>
 					<!-- /section title -->
+					
+					
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+    $('.add-to-wishlist').on('click', function(){
+        console.log('위시리스트 버튼 클릭됨');
+        
+        var productID = $(this).find('.productID').text();
+        var heartIcon = $(this).find('#heartIcon');
+        console.log('productID:', productID);
+        
+        $.ajax({
+            type: "POST",
+            url: 'IsWishedAction',
+            data: { 'productID': productID },
+            success: function(data){
+                console.log(data);
+                // 클릭 시 하트 아이콘 토글
+                heartIcon.toggleClass('fa-heart-o fa-heart');
+                
+                var updatedWishListCnt = parseInt(data); // data가 업데이트된 카운트를 받아와야합니다.
+                $('.wishListCnt').text(updatedWishListCnt); // 위시리스트의 개수를 업데이트해줌
+                console.log("updatedWishListCnt >> "+updatedWishListCnt)
+            },
+            error: function(error){
+                console.log("에러: " + error);
+            }
+        });
+    });
+});
+</script>
 
 					<!-- Products tab & slick -->
 					<div class="col-md-12">
@@ -126,150 +159,52 @@
 								<!-- tab -->
 								<div id="tab1" class="tab-pane active">
 									<div class="products-slick" data-nav="#slick-nav-1">
+										<%
+										ArrayList<WishListDTO> popularAllItems = (ArrayList<WishListDTO>)request.getAttribute("popularAllItems");
+										ArrayList<WishListDTO> isWishedDatas = (ArrayList<WishListDTO>)request.getAttribute("isWishedDatas");
+										
+										for(WishListDTO item : popularAllItems){
+										%>
 										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product01.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-													<span class="new">NEW</span>
+												<div class="col-md-4 col-xs-6" style="margin-top: 30px;">
+													<div class="product">
+														<div class="product-body">
+															<div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
+																<span class="new" style="color: #D10024;"><strong>NEW</strong></span>
+																<div class="product-btns">
+																	<button class="add-to-wishlist">
+																		<div class="productID" hidden><%=item.getProductID()%></div>
+																		<i class="fa <%= item.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="product-img">
+															<img src="<%=item.getProductImg()%>" alt="">
+														</div>
+														<div class="product-body">
+															<p class="product-category"><%=item.getProductCategory()%></p>
+															<h3 class="product-name" style="height: 31px;">
+																	<a href="productDetail.do?productID=<%=item.getProductID()%>"><%=item.getProductName()%></a>
+															</h3>
+															<h4 class="product-price"><%=item.getProductPrice()%><del class="product-old-price"></del></h4>
+															<div class="product-rating">
+																<%--평점 들어가는 라인 --%>
+															</div>
+														</div>
+														<div class="add-to-cart">
+															<button class="add-to-cart-btn">
+																<i class="fa fa-shopping-cart"></i> add to cart
+															</button>
+														</div>
+													</div>
 												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
+										<%
+												}
+										%>
 										<!-- /product -->
 
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product02.png" alt="">
-												<div class="product-label">
-													<span class="new">NEW</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product03.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product04.png" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product05.png" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+										
 									</div>
 									<div id="slick-nav-1" class="products-slick-nav"></div>
 								</div>
@@ -278,6 +213,7 @@
 						</div>
 					</div>
 					<!-- Products tab & slick -->
+					
 				</div>
 				<!-- /row -->
 			</div>
@@ -519,6 +455,13 @@
 			<!-- /container -->
 		</div>
 		<!-- /SECTION -->
+		
+		
+		<%
+		ArrayList<WishListDTO> teenagerRanking = (ArrayList<WishListDTO>)request.getAttribute("teenagerRanking");
+		ArrayList<WishListDTO> twentyRanking = (ArrayList<WishListDTO>)request.getAttribute("twentyRanking");
+		ArrayList<WishListDTO> thirtyRanking = (ArrayList<WishListDTO>)request.getAttribute("thirtyRanking");
+		%>
 
 		<!-- SECTION -->
 		<div class="section">
@@ -528,7 +471,7 @@
 				<div class="row">
 					<div class="col-md-4 col-xs-6">
 						<div class="section-title">
-							<h4 class="title">Top selling</h4>
+							<h4 class="title">10대 추천 PICK</h4>
 							<div class="section-nav">
 								<div id="slick-nav-3" class="products-slick-nav"></div>
 							</div>
@@ -537,91 +480,54 @@
 						<div class="products-widget-slick" data-nav="#slick-nav-3">
 							<div>
 								<!-- product widget -->
+								<%
+									for(int i=0;i<teenagerRanking.size()-3;i++){
+										
+								%>
 								<div class="product-widget">
 									<div class="product-img">
-										<img src="./img/product07.png" alt="">
+										<img src="<%=teenagerRanking.get(i).getProductImg() %>" alt="">
 									</div>
 									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<p class="product-category"><%=teenagerRanking.get(i).getProductCategory() %></p>
+										<h3 class="product-name"><a href="#"><%=teenagerRanking.get(i).getProductName() %></a></h3>
+										<h4 class="product-price"><%=teenagerRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
 									</div>
 								</div>
+								<%
+									}
+								%>
 								<!-- /product widget -->
 
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product08.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product09.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
 							</div>
 
 							<div>
 								<!-- product widget -->
+								<%
+									for(int i=3;i<teenagerRanking.size();i++){
+										
+								%>
 								<div class="product-widget">
 									<div class="product-img">
-										<img src="./img/product01.png" alt="">
+										<img src="<%=teenagerRanking.get(i).getProductImg() %>" alt="">
 									</div>
 									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<p class="product-category"><%=teenagerRanking.get(i).getProductCategory() %></p>
+										<h3 class="product-name"><a href="#"><%=teenagerRanking.get(i).getProductName() %></a></h3>
+										<h4 class="product-price"><%=teenagerRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
 									</div>
 								</div>
+								<%
+									}
+								%>
 								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product02.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product03.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
 							</div>
 						</div>
 					</div>
 
 					<div class="col-md-4 col-xs-6">
 						<div class="section-title">
-							<h4 class="title">Top selling</h4>
+							<h4 class="title">20대 추천 PICK</h4>
 							<div class="section-nav">
 								<div id="slick-nav-4" class="products-slick-nav"></div>
 							</div>
@@ -630,84 +536,45 @@
 						<div class="products-widget-slick" data-nav="#slick-nav-4">
 							<div>
 								<!-- product widget -->
+								<%
+									for(int i=0;i<twentyRanking.size()-3;i++){
+								%>
 								<div class="product-widget">
 									<div class="product-img">
-										<img src="./img/product04.png" alt="">
+										<img src="<%=twentyRanking.get(i).getProductImg() %>" alt="">
 									</div>
 									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<p class="product-category"><%=twentyRanking.get(i).getProductCategory() %></p>
+										<h3 class="product-name"><a href="#"><%=twentyRanking.get(i).getProductName() %></a></h3>
+										<h4 class="product-price"><%=twentyRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
 									</div>
 								</div>
+								<%
+									}
+								%>
 								<!-- /product widget -->
 
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product05.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product06.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
 							</div>
 
 							<div>
 								<!-- product widget -->
+								<%
+									for(int i=3;i<twentyRanking.size();i++){
+								%>
 								<div class="product-widget">
 									<div class="product-img">
-										<img src="./img/product07.png" alt="">
+										<img src="<%=twentyRanking.get(i).getProductImg() %>" alt="">
 									</div>
 									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<p class="product-category"><%=twentyRanking.get(i).getProductCategory() %></p>
+										<h3 class="product-name"><a href="#"><%=twentyRanking.get(i).getProductName() %></a></h3>
+										<h4 class="product-price"><%=twentyRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
 									</div>
 								</div>
+								<%
+									}
+								%>
 								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product08.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product09.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
 							</div>
 						</div>
 					</div>
@@ -716,7 +583,7 @@
 
 					<div class="col-md-4 col-xs-6">
 						<div class="section-title">
-							<h4 class="title">Top selling</h4>
+							<h4 class="title">30대 추천 PICK</h4>
 							<div class="section-nav">
 								<div id="slick-nav-5" class="products-slick-nav"></div>
 							</div>
@@ -725,84 +592,44 @@
 						<div class="products-widget-slick" data-nav="#slick-nav-5">
 							<div>
 								<!-- product widget -->
+								<%
+									for(int i=0;i<thirtyRanking.size()-3;i++){
+								%>
 								<div class="product-widget">
 									<div class="product-img">
-										<img src="./img/product01.png" alt="">
+										<img src="<%=thirtyRanking.get(i).getProductImg() %>" alt="">
 									</div>
 									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<p class="product-category"><%=thirtyRanking.get(i).getProductCategory() %></p>
+										<h3 class="product-name"><a href="#"><%=thirtyRanking.get(i).getProductName() %></a></h3>
+										<h4 class="product-price"><%=thirtyRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
 									</div>
 								</div>
+								<%
+									}
+								%>
 								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product02.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product03.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
 							</div>
 
 							<div>
 								<!-- product widget -->
+								<%
+									for(int i=3;i<thirtyRanking.size();i++){
+								%>
 								<div class="product-widget">
 									<div class="product-img">
-										<img src="./img/product04.png" alt="">
+										<img src="<%=thirtyRanking.get(i).getProductImg() %>" alt="">
 									</div>
 									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<p class="product-category"><%=thirtyRanking.get(i).getProductCategory() %></p>
+										<h3 class="product-name"><a href="#"><%=thirtyRanking.get(i).getProductName() %></a></h3>
+										<h4 class="product-price"><%=thirtyRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
 									</div>
 								</div>
+								<%
+									}
+								%>
 								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product05.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product06.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
 							</div>
 						</div>
 					</div>

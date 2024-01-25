@@ -14,14 +14,42 @@ public class WishListDAO {
 	private PreparedStatement pstmt; // CRUD 수행을 담당
 
 	private static final String SELECTALL_WISHLIST_RANK_BY_PRODUCT = // 모든상품인기순 정렬
-			  "SELECT "
-			+ "    RANK() OVER (ORDER BY COUNT(W.WISHLIST_ID) DESC) AS RANK, "
-			+ "    P.PRODUCT_NAME, "
-			+ "    COUNT(W.WISHLIST_ID) AS WISHLIST_COUNT "
-			+ "FROM PRODUCT P "
-			+ "JOIN WISHLIST W ON P.PRODUCT_ID = W.PRODUCT_ID "
-			+ "GROUP BY P.PRODUCT_NAME "
-			+ "ORDER BY RANK ";
+			"SELECT "
+			+ "    CASE WHEN WL.PRODUCT_ID IS NULL THEN 0 ELSE 1 END AS ISWISHED, "
+			+ "    RANK, "
+			+ "    RANKED_PRODUCTS.PRODUCT_ID, "
+			+ "    RANKED_PRODUCTS.PRODUCT_BRAND, "
+			+ "    RANKED_PRODUCTS.PRODUCT_NAME, "
+			+ "    RANKED_PRODUCTS.PRODUCT_CATEGORY, "
+			+ "    RANKED_PRODUCTS.PRODUCT_PRICE, "
+			+ "    RANKED_PRODUCTS.PRODUCT_IMG, "
+			+ "    RANKED_PRODUCTS.WISHLIST_COUNT "
+			+ "FROM ( "
+			+ "    SELECT "
+			+ "        RANK() OVER (ORDER BY COUNT(W.WISHLIST_ID) DESC) AS RANK, "
+			+ "        P.PRODUCT_ID, "
+			+ "        P.PRODUCT_BRAND, "
+			+ "        P.PRODUCT_NAME, "
+			+ "        P.PRODUCT_CATEGORY, "
+			+ "        P.PRODUCT_PRICE, "
+			+ "        P.PRODUCT_IMG, "
+			+ "        COUNT(W.WISHLIST_ID) AS WISHLIST_COUNT "
+			+ "    FROM PRODUCT P "
+			+ "    LEFT JOIN WISHLIST W ON P.PRODUCT_ID = W.PRODUCT_ID "
+			+ "    GROUP BY "
+			+ "        P.PRODUCT_ID, "
+			+ "        P.PRODUCT_BRAND, "
+			+ "        P.PRODUCT_NAME, "
+			+ "        P.PRODUCT_CATEGORY, "
+			+ "        P.PRODUCT_PRICE, "
+			+ "        P.PRODUCT_IMG "
+			+ ") RANKED_PRODUCTS "
+			+ "LEFT JOIN ( "
+			+ "    SELECT PRODUCT_ID "
+			+ "    FROM WISHLIST "
+			+ "    WHERE MEMBER_ID = ? "
+			+ ") WL ON RANKED_PRODUCTS.PRODUCT_ID = WL.PRODUCT_ID "
+			+ "WHERE RANK <= 7 ";
 	private static final String SELECTALL_WISHLIST_RANK_BY_GENDER = // 성별 인기순 정렬
 			"SELECT "
 			+ "    ROW_NUMBER() OVER (ORDER BY COUNT(W.WISHLIST_ID) DESC) AS RANK, "
@@ -46,36 +74,63 @@ public class WishListDAO {
 			+ "ORDER BY RANK ";
 	private static final String SELECTALL_WISHLIST_RANK_BY_AGE = // 연령별 인기순
 			"SELECT "
-			+ "  CASE "
-			+ "    WHEN AGE >= 10 AND AGE < 20 THEN '10대' "
-			+ "    WHEN AGE >= 20 AND AGE < 30 THEN '20대' "
-			+ "    WHEN AGE >= 30 AND AGE < 40 THEN '30대' "
-			+ "    WHEN AGE >= 40 AND AGE < 50 THEN '40대' "
-			+ "    ELSE '기타' "
-			+ "  END AS 나이대, "
+			+ "  나이대, "
+			+ "  PRODUCT_IMG, "
+			+ "  PRODUCT_CATEGORY, "
 			+ "  PRODUCT_NAME, "
-			+ "  COUNT(WISHLIST_ID) AS 총_상품_개수 "
+			+ "  PRODUCT_PRICE, "
+			+ "  총_상품_개수 "
 			+ "FROM ( "
 			+ "  SELECT "
-			+ "    M.MEMBER_ID, "
-			+ "    P.PRODUCT_BRAND, "
-			+ "    P.PRODUCT_NAME, "
-			+ "    P.PRODUCT_CATEGORY, "
-			+ "    W.WISHLIST_ID, "
-			+ "    TRUNC(MONTHS_BETWEEN(SYSDATE, M.MEMBER_BIRTH) / 12) AS AGE "
-			+ "  FROM MEMBER M "
-			+ "  JOIN WISHLIST W ON M.MEMBER_ID = W.MEMBER_ID "
-			+ "  JOIN PRODUCT P ON W.PRODUCT_ID = P.PRODUCT_ID "
-			+ ") Q "
-			+ "WHERE AGE >= ? AND AGE < ? -- ??대인 멤버만 추출 "
-			+ "GROUP BY CASE "
-			+ "    WHEN AGE >= 10 AND AGE < 20 THEN '10대' "
-			+ "    WHEN AGE >= 20 AND AGE < 30 THEN '20대' "
-			+ "    WHEN AGE >= 30 AND AGE < 40 THEN '30대' "
-			+ "    WHEN AGE >= 40 AND AGE < 50 THEN '40대' "
-			+ "    ELSE '기타' "
-			+ "  END, PRODUCT_NAME "
-			+ "ORDER BY COUNT(WISHLIST_ID) DESC ";
+			+ "    나이대, "
+			+ "    PRODUCT_IMG, "
+			+ "    PRODUCT_CATEGORY, "
+			+ "    PRODUCT_NAME, "
+			+ "    PRODUCT_PRICE, "
+			+ "    총_상품_개수, "
+			+ "    ROW_NUMBER() OVER (ORDER BY 총_상품_개수 DESC) AS RANK "
+			+ "  FROM ( "
+			+ "    SELECT "
+			+ "      CASE "
+			+ "        WHEN AGE >= 10 AND AGE < 20 THEN '10대' "
+			+ "        WHEN AGE >= 20 AND AGE < 30 THEN '20대' "
+			+ "        WHEN AGE >= 30 AND AGE < 40 THEN '30대' "
+			+ "        WHEN AGE >= 40 AND AGE < 50 THEN '40대' "
+			+ "        ELSE '기타' "
+			+ "      END AS 나이대, "
+			+ "      PRODUCT_IMG, "
+			+ "      PRODUCT_CATEGORY, "
+			+ "      PRODUCT_NAME, "
+			+ "      PRODUCT_PRICE, "
+			+ "      COUNT(WISHLIST_ID) AS 총_상품_개수 "
+			+ "    FROM ( "
+			+ "      SELECT"
+			+ "        M.MEMBER_ID,"
+			+ "        P.PRODUCT_BRAND, "
+			+ "        P.PRODUCT_NAME, "
+			+ "        P.PRODUCT_CATEGORY, "
+			+ "        P.PRODUCT_IMG, "
+			+ "        P.PRODUCT_PRICE, "
+			+ "        W.WISHLIST_ID, "
+			+ "        TRUNC(MONTHS_BETWEEN(SYSDATE, M.MEMBER_BIRTH) / 12) AS AGE "
+			+ "      FROM MEMBER M "
+			+ "      JOIN WISHLIST W ON M.MEMBER_ID = W.MEMBER_ID "
+			+ "      JOIN PRODUCT P ON W.PRODUCT_ID = P.PRODUCT_ID "
+			+ "    ) Q "
+			+ "    WHERE AGE >= ? AND AGE < ? "
+			+ "    GROUP BY "
+			+ "      CASE "
+			+ "        WHEN AGE >= 10 AND AGE < 20 THEN '10대' "
+			+ "        WHEN AGE >= 20 AND AGE < 30 THEN '20대' "
+			+ "        WHEN AGE >= 30 AND AGE < 40 THEN '30대' "
+			+ "        WHEN AGE >= 40 AND AGE < 50 THEN '40대' "
+			+ "        ELSE '기타' "
+			+ "      END, PRODUCT_NAME, PRODUCT_IMG, PRODUCT_CATEGORY, PRODUCT_PRICE "
+			+ "  ) "
+			+ ") "
+			+ "WHERE RANK <= 6 "
+			+ "ORDER BY RANK ";
+	
 	private static final String SELECTALL_WISHLIST_BY_MEMBER = 
 			  "SELECT "
 			+ "    M.MEMBER_NAME, "
@@ -199,10 +254,11 @@ public class WishListDAO {
 			}
 			return datas;
 		}
-		else if(wishListDTO.getSearchCondition().equals("인기순")) {
+		else if(wishListDTO.getSearchCondition().equals("인기상품")) {
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISHLIST_RANK_BY_PRODUCT);
+				pstmt.setString(1, wishListDTO.getMemberID());
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
 					WishListDTO data = new WishListDTO();
@@ -212,6 +268,7 @@ public class WishListDAO {
 					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
 					data.setProductImg(rs.getString("PRODUCT_IMG"));
+					data.setIsWished(rs.getInt("ISWISHED"));
 					datas.add(data);
 				}
 				rs.close();
@@ -240,7 +297,17 @@ public class WishListDAO {
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISHLIST_RANK_BY_AGE);
+				pstmt.setInt(1, wishListDTO.getMemberMinAge());
+				pstmt.setInt(2, wishListDTO.getMemberMaxAge());
 				ResultSet rs = pstmt.executeQuery();
+				while(rs.next()) {
+					WishListDTO data = new WishListDTO();
+					data.setProductImg(rs.getString("PRODUCT_IMG"));
+					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
+					data.setProductName(rs.getString("PRODUCT_NAME"));
+					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+					datas.add(data);
+				}
 				rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -252,7 +319,6 @@ public class WishListDAO {
 		else {
 			return null;
 		}
-		
 	}
 	
 	public WishListDTO selectOne(WishListDTO wishListDTO) {

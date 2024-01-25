@@ -31,6 +31,7 @@ public class HandlerMapping {
 		this.mappings.put("/checkWished.do", new CheckWishedAction());
 		this.mappings.put("/alert.do", new AlertAction());
 		this.mappings.put("/product.do", new ProductAction());
+		this.mappings.put("/productRank.do", new ProductRankAction());
 		this.mappings.put("/productCategory.do", new ProductActionCategory());
 	}
 	
