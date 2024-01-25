@@ -9,8 +9,8 @@ function selectcheckbox() {
 }
 
 
-var elem = "";
-var product = $('div.product');
+
+var product = $('div.store > div.row');
 function selectProduct(categoryList) {
 	console.log(categoryList);
 	$.ajax({
@@ -18,22 +18,24 @@ function selectProduct(categoryList) {
 		url: "test",
 		data: { "categoryList": categoryList},
 		dataType: "json", 
-		success: data => {
-			console.log(data);
-			$.each(data, data => {
+		success: function(productDTO){
+			console.log("확인");
+			console.log(productDTO);
+			var elem = "";
+			$.each(productDTO => function(index, product){
 				elem += `
 					<div class="col-md-4 col-xs-6">
 						<div class="product">
 							<div class="product-body">
 								<div class="product-btns">
 									<button class="add-to-wishlist">
-										<i class="fa fa-heart-o"></i><span class="tooltipp">위시리스트에
-											추가</span>
+										<i class="fa fa-heart-o"></i>
+										<span class="tooltipp">위시리스트에 추가</span>
 									</button>
 								</div>
 							</div>
 							<div class="product-img">
-								<img src="${data.productFilterDatas.getProductImg()}" alt="">
+								<img src="${product.productImg}" alt="">
 								<div class="product-label">
 									<span class="new">NEW</span>
 								</div>
@@ -41,17 +43,16 @@ function selectProduct(categoryList) {
 							<div class="product-body">
 								<div class="product-btns">
 									<button class="add-to-wishlist">
-										<i class="fa fa-heart-o"></i><span class="tooltipp">위시리스트에
-											추가</span>
+										<i class="fa fa-heart-o"></i>
+										<span class="tooltipp">위시리스트에 추가</span>
 									</button>
 								</div>
-								<p class="product-category">${data.productFilterDatas.getProductCategory()}</p>
+								<p class="product-category">${product.productCategory}</p>
 								<h3 class="product-name">
-									<a
-										href="productDetail.do?productId=${data.productFilterDatas.getProductID()}">${data.productFilterDatas.getProductName()}</a>
+									<a href="productDetail.do?productId=${product.productID}">${product.productName}</a>
 								</h3>
-								<h4 class="product-price">${data.productFilterDatas.getProductPrice()}<del
-										class="product-old-price"></del>
+								<h4 class="product-price">
+									${product.productPrice}<del class="product-old-price"></del>
 								</h4>
 								<div class="product-rating">
 								</div>
@@ -66,6 +67,12 @@ function selectProduct(categoryList) {
 					</div>`;
 			});
 			product.append(elem);
+		},
+		error:function(err){
+			console.log(err.status);
+			console.log('ggg');
 		}
+		
 	});
+	
 }

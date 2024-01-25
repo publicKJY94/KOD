@@ -73,7 +73,7 @@ public class ProductDAO {
 		conn = JDBCUtil.connect();
 		try {
 			String result = "";
-			if(pDTO.getCategoryList().length>1) {
+			if(pDTO.getCategoryList().length>0) {
 				result = " PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
 				for (int i = 1; i < pDTO.getCategoryList().length; i++) {
 					result += " OR PRODUCT_CATEGORY = " + " '" + pDTO.getCategoryList()[i] + "' " ;
