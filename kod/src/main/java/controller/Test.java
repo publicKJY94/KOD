@@ -33,18 +33,19 @@ public class Test extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8");
 		ProductDAO productDAO = new ProductDAO();
 		ProductDTO productDTO = new ProductDTO();
-		ArrayList<ProductDTO> productDatas = new ArrayList<ProductDTO>();
+		ArrayList<ProductDTO> productFilterDatas = new ArrayList<ProductDTO>();
 		String categoryList = request.getParameter("categoryList");
 		categoryList = categoryList.replace("[", "");
 		categoryList = categoryList.replace("]", "");
 		categoryList = categoryList.replace("\"", "");
 		String[] ar = categoryList.split(",");
-		//System.out.println(ar[0]);
+		
+		System.out.println(ar[0]);
 		productDTO.setCategoryList(ar);
 		//System.out.println(productDTO.getCategoryList());
-		productDatas = productDAO.selectAllCategory(productDTO);
+		productFilterDatas = productDAO.selectCategory(productDTO);
 		
 		PrintWriter out = response.getWriter();
-		out.print(productDatas);
+		out.print(productFilterDatas);
 	}
 }
