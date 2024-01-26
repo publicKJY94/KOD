@@ -1,14 +1,14 @@
 function selectcheckbox() {
 	var checkboxes = document.querySelectorAll('input[type=checkbox]:checked'); // 카테고리명은 실제 카테고리의 이름으로 대체해야 합니다.
+	var max = document.querySelector('input[name=maxPrice]'); // 카테고리명은 실제 카테고리의 이름으로 대체해야 합니다.
 	var lists = [];
 	checkboxes.forEach(function(checkbox) {
 		lists.push(checkbox.name); // 체크박스의 name 속성 값 가져오기
 	});
 	var categoryList = JSON.stringify(lists);
 	selectProduct(categoryList);
+	console.log(max);
 }
-
-
 
 var product = $('div.store > div.row');
 function selectProduct(categoryList) {
@@ -16,13 +16,15 @@ function selectProduct(categoryList) {
 	$.ajax({
 		type: "POST",
 		url: "test",
-		data: { "categoryList": categoryList},
+		data: { 
+			"categoryList": categoryList,
+		},
 		dataType: "json", 
 		success: function(productDTO){
 			console.log("확인");
 			console.log(productDTO);
 			var elem = "";
-			$.each(productDTO => function(index, product){
+			$.each(productDTO, function(index, product){
 				elem += `
 					<div class="col-md-4 col-xs-6">
 						<div class="product">
@@ -66,7 +68,7 @@ function selectProduct(categoryList) {
 						</div>
 					</div>`;
 			});
-			product.append(elem);
+			product.text(elem);
 		},
 		error:function(err){
 			console.log(err.status);
