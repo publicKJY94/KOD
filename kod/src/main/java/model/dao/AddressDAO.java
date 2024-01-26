@@ -28,7 +28,7 @@ public class AddressDAO {
 	private static final String DELETE = "DELETE FROM ADDRESS WHERE ADDRESS_ID=?";
 
 	public ArrayList<AddressDTO> selectAll(AddressDTO aDTO) {
-		ArrayList<AddressDTO> datas = new ArrayList<AddressDTO>();
+		ArrayList<AddressDTO> datas = new ArrayList<AddressDTO>();	
 
 		conn = JDBCUtil.connect();
 		try {
@@ -61,11 +61,17 @@ public class AddressDAO {
 
 		conn = JDBCUtil.connect();
 		try {
+			if(aDTO.getSearchCondition().equals("배송지관리")) {
 			pstmt = conn.prepareStatement(SELECTONE);
 			pstmt.setInt(1, aDTO.getAdrsID());
 
+			}
+			else if(aDTO.getSearchCondition().equals("장바구니배송지")) {
+				pstmt = conn.prepareStatement(SELECTONE_CARTINFO);
+	            pstmt.setString(1, aDTO.getMemberID());
+				
+			}
 			ResultSet rs = pstmt.executeQuery();
-
 			if (rs.next()) {
 				data = new AddressDTO();
 				data.setAdrsID(rs.getInt("ADDRESS_ID"));
@@ -83,34 +89,7 @@ public class AddressDAO {
 		}
 		return data;
 	}
-	public AddressDTO selectOneCartInfo(AddressDTO aDTO) { // 결제 전 페이지에서 사용자 주소 띄우기
-        AddressDTO data = null;
-
-        conn = JDBCUtil.connect();
-        try {
-            pstmt = conn.prepareStatement(SELECTONE_CARTINFO);
-            pstmt.setString(1, aDTO.getMemberID());
-
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                data = new AddressDTO();
-                data.setAdrsID(rs.getInt("ADDRESS_ID"));
-                data.setAdrsStreet(rs.getString("ADDRESS_STREET"));
-                data.setAdrsLotNum(rs.getString("ADDRESS_LOTNUM"));
-                data.setAdrsZipcode(rs.getString("ADDRESS_ZIPCODE"));
-                data.setAdrsDetail(rs.getString("ADDRESS_DETAIL"));
-            }
-            rs.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JDBCUtil.disconnect(pstmt, conn);
-        }
-        return data;
-    }
-
+	
 	public boolean insert(AddressDTO aDTO) {
 		conn = JDBCUtil.connect();
 		try {
@@ -139,12 +118,12 @@ public class AddressDAO {
 		conn = JDBCUtil.connect();
 		try {
 			pstmt = conn.prepareStatement(UPDATE);
-			pstmt.setInt(1, aDTO.getAdrsID());
-			pstmt.setString(2, aDTO.getAdrsName());
-			pstmt.setString(3, aDTO.getAdrsStreet());
-			pstmt.setString(4, aDTO.getAdrsLotNum());
-			pstmt.setString(5, aDTO.getAdrsDetail());
-			pstmt.setString(6, aDTO.getAdrsZipcode());
+			pstmt.setString(1, aDTO.getAdrsName());
+			pstmt.setString(2, aDTO.getAdrsStreet());
+			pstmt.setString(3, aDTO.getAdrsLotNum());
+			pstmt.setString(4, aDTO.getAdrsDetail());
+			pstmt.setString(5, aDTO.getAdrsZipcode());
+			pstmt.setInt(6, aDTO.getAdrsID()); 
 			int rs = pstmt.executeUpdate();
 
 			if (rs <= 0) {
@@ -156,7 +135,7 @@ public class AddressDAO {
 		} finally {
 			JDBCUtil.disconnect(pstmt, conn);
 		}
-		return true;
+		return true; 
 	}
 
 	public boolean delete(AddressDTO aDTO) {

@@ -56,7 +56,8 @@ public class PayInfoAction implements Action{
 		AddressDAO aDAO = new AddressDAO();
 		
 		aDTO.setMemberID(memberID);
-		aDTO = aDAO.selectOneCartInfo(aDTO);
+//		aDTO.setSearchCondition("장바구니배송지");
+//		aDTO = aDAO.selectOne(aDTO);
 		System.out.println("결제전 주소지 : "+aDTO);
 		request.setAttribute("addressDTO", aDTO);
 		

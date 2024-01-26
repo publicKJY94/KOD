@@ -21,6 +21,8 @@ public class HandlerMapping {
 		this.mappings.put("/address.do", new AddressAction());
 		this.mappings.put("/addressPage.do", new AddressPageAction());
 		this.mappings.put("/addressInsert.do", new AddressInsertAction());
+		this.mappings.put("/addressUpdate.do", new AddressUpdateAction());
+		this.mappings.put("/addressDelete.do", new AddressDeleteAction());
 		this.mappings.put("/cartInsert.do", new CartInsertAction());
 		this.mappings.put("/orderList.do", new OrderListAction());
 		this.mappings.put("/payInfo.do", new PayInfoAction());
@@ -33,6 +35,7 @@ public class HandlerMapping {
 		this.mappings.put("/product.do", new ProductAction());
 		this.mappings.put("/productRank.do", new ProductRankAction());
 		this.mappings.put("/productCategory.do", new ProductActionCategory());
+		this.mappings.put("/goback.do", new GobackAction());
 	}
 	
 	public Action getAction(String commed) {
