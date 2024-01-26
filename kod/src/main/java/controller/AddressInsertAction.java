@@ -49,7 +49,7 @@ public class AddressInsertAction implements Action {
 		}
 
 		else {
-			request.setAttribute("msg", "회원가입에 실패하였습니다");
+			request.setAttribute("msg", "주소지를 올바르게 입력해주세요");
 			forward.setPath("goback.do");
 			forward.setRedirect(false);
 		}

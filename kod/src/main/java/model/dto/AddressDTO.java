@@ -9,6 +9,8 @@ public class AddressDTO {
 	private String adrsZipcode; //우편번호
 	private String memberID; // MID
 	
+	private String searchCondition;
+	
 	public int getAdrsID() {
 		return adrsID;
 	}
@@ -51,6 +53,20 @@ public class AddressDTO {
 	public void setMemberID(String memberID) {
 		this.memberID = memberID;
 	}
+	
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
+	@Override
+	public String toString() {
+		return "AddressDTO [adrsID=" + adrsID + ", adrsName=" + adrsName + ", adrsStreet=" + adrsStreet
+				+ ", adrsLotNum=" + adrsLotNum + ", adrsDetail=" + adrsDetail + ", adrsZipcode=" + adrsZipcode
+				+ ", memberID=" + memberID + "]";
+	}
+	
 	
 	
 }
