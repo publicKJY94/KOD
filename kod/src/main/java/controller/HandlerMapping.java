@@ -18,7 +18,6 @@ public class HandlerMapping {
 		this.mappings.put("/joinPage.do", new JoinPageAction());
 		this.mappings.put("/productDetail.do", new ProductDetailAction());
 		this.mappings.put("/mapPage.do", new MapPageAction());
-		this.mappings.put("/address.do", new AddressAction());
 		this.mappings.put("/addressPage.do", new AddressPageAction());
 		this.mappings.put("/addressInsert.do", new AddressInsertAction());
 		this.mappings.put("/addressUpdate.do", new AddressUpdateAction());

@@ -18,18 +18,20 @@ public class AddressInsertAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		
+		System.out.println("addressInsert 들어옴");
 		ActionForward forward = new ActionForward();
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session=request.getSession();
 		session.getAttribute("memberDTO");
-		System.out.println("로그 : 멤버아이디"+session.getAttribute("memberDTO"));
+		System.out.println("로그 : 멤버아이디 in addressInsert"+session.getAttribute("memberDTO"));
 		
 		MemberDTO mDTO = new MemberDTO();
 	
 		mDTO.setMemberID(((MemberDTO)session.getAttribute("memberDTO")).getMemberID());
 		
-		System.out.println("로그1 주소추가"+mDTO);
+		System.out.println("addressInsert 로그 1 주소추가"+mDTO);
 		
 		AddressDAO aDAO = new AddressDAO();
 		AddressDTO aDTO = new AddressDTO();
@@ -40,6 +42,8 @@ public class AddressInsertAction implements Action {
 		aDTO.setAdrsDetail(request.getParameter("adrsDetail")); // 상세 주소
 		aDTO.setAdrsZipcode(request.getParameter("adrsZipcode")); // 우편 번호
 		aDTO.setMemberID(mDTO.getMemberID());
+		
+		System.out.println("addressInsert 로그 2");
 		
 		boolean flag=aDAO.insert(aDTO);
 		
