@@ -26,6 +26,7 @@ public class AddressUpdateAction implements Action {
 		AddressDTO aDTO=new AddressDTO();
 		
 		String adrsIdStr = request.getParameter("adrsId");
+		System.out.println(request.getParameter("adrsId"));
 		
 		if (adrsIdStr != null && !adrsIdStr.isEmpty()) {
 		    try {

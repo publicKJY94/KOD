@@ -18,12 +18,13 @@ public class AddressDeleteAction implements Action {
 		ActionForward forward = new ActionForward();
 		request.setCharacterEncoding("UTF-8");
 		forward.setPath("myPage.do"); 
-		forward.setRedirect(false);
+		forward.setRedirect(true);
 		
 		AddressDAO aDAO=new AddressDAO();
 		AddressDTO aDTO=new AddressDTO();
-		
+		System.out.println("삭제 로그 1");
 		String adrsIdStr = request.getParameter("adrsId");
+		System.out.println(request.getParameter("adrsId"));
 		
 		if (adrsIdStr != null && !adrsIdStr.isEmpty()) {
 		    try {
@@ -37,24 +38,20 @@ public class AddressDeleteAction implements Action {
 		} 
 		else {
 		}
-		
-		aDAO.delete(aDTO);
+		System.out.println("삭제 로그 2");
+		System.out.println("삭제 로그 3");
+		System.out.println(aDTO);
 		boolean flag=aDAO.delete(aDTO);
-		
 		if (flag) {
 			forward.setPath("myPage.do");
 			forward.setRedirect(true);
 		}
-
 		else {
-			request.setAttribute("msg", "회원가입에 실패하였습니다");
+			request.setAttribute("msg", "ㄴㄴㄴㄴ안됨");
 			forward.setPath("goback.do");
 			forward.setRedirect(false);
 		}
-		
-		
-		
-		
+		System.out.println(flag);
 		return forward;
 	}
 
