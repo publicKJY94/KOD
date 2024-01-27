@@ -83,8 +83,8 @@ public class WishListAction implements Action{
 		wishListDTO.setSearchCondition("찜수량");
 		wishListDTO = wishListDAO.selectOne(wishListDTO);
 		int wishListCnt = wishListDTO.getWishListCnt();
-		request.setAttribute("wishListCnt", wishListCnt);
 		System.out.println("wishListCnt : "+wishListCnt);
+		request.setAttribute("wishListCnt", wishListCnt);
 		}
 		
 		

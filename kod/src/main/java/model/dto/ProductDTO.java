@@ -3,6 +3,7 @@ package model.dto;
 public class ProductDTO {
 	private int productID;
 	private int productCnt;
+	private int productStock;
 	private int productPrice;
 	private String productName;
 	private String productBrand;
@@ -31,6 +32,12 @@ public class ProductDTO {
 	}
 	public void setProductCnt(int productCnt) {
 		this.productCnt = productCnt;
+	}
+	public int getProductStock() {
+		return productStock;
+	}
+	public void setProductStock(int productStock) {
+		this.productStock = productStock;
 	}
 	public int getProductPrice() {
 		return productPrice;
@@ -76,7 +83,7 @@ public class ProductDTO {
 	}
 	@Override
 	public String toString() {
-		return "ProductDTO [productID=" + productID + ", productCnt=" + productCnt + ", productPrice=" + productPrice
+		return "ProductDTO [productID=" + productID + ", productStock=" + productStock + ", productPrice=" + productPrice
 				+ ", productName=" + productName + ", productBrand=" + productBrand + ", productCategory="
 				+ productCategory + ", productInfo=" + productInfo + ", productImg=" + productImg + "]";
 	}
