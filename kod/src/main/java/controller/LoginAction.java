@@ -15,7 +15,7 @@ public class LoginAction implements Action{
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-	
+	System.out.println("로그 로그인액션");
 		ActionForward forward = new ActionForward();
 		
 		request.setCharacterEncoding("UTF-8");
@@ -28,16 +28,17 @@ public class LoginAction implements Action{
 		
 		mDTO.setSearchCondition("로그인");
 		mDTO=mDAO.selectOne(mDTO);
-		System.out.println("로그인로그"+mDTO);
+		
+		
 		
 		if(mDTO != null) {
-
 			HttpSession session=request.getSession();
-		//	session.setAttribute("member",mDTO.getMemberID());
 			session.setAttribute("memberDTO",mDTO);
+			request.setAttribute("msg", "로그인에 성공. ");
 			
-			forward.setPath("main.do");
-			forward.setRedirect(true);
+			
+			forward.setPath("loginsuccess.do");
+			forward.setRedirect(false);
 			
 			
 		}else {
