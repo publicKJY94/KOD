@@ -27,15 +27,15 @@ function handleAddressManage() {
                     '<td>' + addressDTO.adrsDetail + '</td>' +
                     '</div>' +
                     '<div style="margin-bottom:5px;">' +
-                    '<button onclick="openModal('+addressDTO.adrsID+')" style="margin-left: 85%; background-color: skyblue; color: white; border: outset;">수정</button>' +
-                    '<button onclick="removeCheck('+addressDTO.adrsID+')" style="background-color: lawngreen; color: white; border: outset;">삭제</button>' +
+                    '<button id="modifyButton_" onclick="openModifyModal('+addressDTO.adrsID+')" style="margin-left: 85%; background-color: skyblue; color: white; border: outset;">수정</button>' +
+                    '<button id="deleteButton_" onclick="openDeleteModal('+addressDTO.adrsID+')" style="background-color: lawngreen; color: white; border: outset;">삭제</button>' +
                     '</div>' +
                     '</div>' 
                     
             });
             $('#addressContainer').html(contentHtml);
             if (data.length < 5) {
-                $('#addressContainer').append('<button style="margin-left:33%; background-color: deepskyblue; color: white; border: outset; padding: 20px 0px; font-size : large">배송지 추가하기</button>');
+                $('#addressContainer').append('<button id="insertButton_" onclick="openInsertModal()" style="margin-left:33%; background-color: deepskyblue; color: white; border: outset; padding: 20px 0px; font-size : large">배송지 추가하기</button>');
             }
             
         },
@@ -45,3 +45,13 @@ function handleAddressManage() {
         
     });
 }
+				document.getElementById("modifyButton_").addEventListener("click", function() {
+  				openModal(addressDTO.adrsID);
+				});
+				document.getElementById("deleteButton_").addEventListener("click", function() {
+  				  openDeleteModal(addressDTO.adrsID);
+				});
+		
+				document.getElementById("insertButton_").addEventListener("click", function() {
+					openInsertModal();
+				});
