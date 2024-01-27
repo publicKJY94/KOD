@@ -270,8 +270,8 @@ M은 C한테 1,0 등의 값을 줘야하니까
             <div class="product-body">
                 <p class="product-category"><%=isWishedData.getProductCategory()%></p>
                 <h3 class="product-name" style="height: 31px;">
-                    <a href="productDetail.do?productID=<%=isWishedData.getProductID()%>"><%=isWishedData.getProductName()%></a>
-                </h3>
+                    <a href="productDetail.do?productID=<%=isWishedData.getProductID()%>&productCategory=<%=isWishedData.getProductCategory()%>"><%=isWishedData.getProductName()%></a>
+                </h3>																
                 <h4 class="product-price"><%=isWishedData.getProductPrice()%><del class="product-old-price"></del></h4>
                 <div class="product-rating">
                     <%--평점 들어가는 라인 --%>

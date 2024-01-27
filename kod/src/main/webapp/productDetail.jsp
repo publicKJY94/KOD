@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.dto.WishListDTO"%>
 <%@page import="model.dto.ProductDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -41,9 +43,95 @@
 	<body>
 		<jsp:include page="util/header.jsp"></jsp:include>
 		<jsp:include page="util/navigation.jsp"></jsp:include>
+		
+		
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+	  $(".add-to-wishlist2").on("click", function(e){
+	    e.preventDefault(); // 기본 클릭 이벤트를 중단하여 링크가 이동하는 것을 방지
+
+	    console.log("위시리스트 버튼 클릭됨");
+	    
+	    var productID = $(this).find(".productID").text();
+	    var heartIcon = $(this).find("#heartIcon");
+	    console.log("productID", productID);
+	    
+	    $.ajax({
+	      type: "POST",
+	      url: "IsWishedAction",
+	      data: {"productID": productID},
+	      success: function(data){
+	        console.log(data);
+	        heartIcon.toggleClass('fa-heart-o fa-heart');
+	        
+	        var updatedWishListCnt = parseInt(data);
+	        $(".wishListCnt").text(updatedWishListCnt);
+	        console.log("updatedWishListCnt >> " + updatedWishListCnt);
+	        
+		    $.ajax({
+			      type: "POST",
+			      url: "wishTotalCntAction",
+			      data: {"productID": productID},
+			      success: function(data){
+			        console.log(data);
+
+			        var updatedwishTotalCnt = parseInt(data);
+			        $(".wishTotalCnt").text(updatedwishTotalCnt);
+			        console.log("updatedwishTotalCnt >> " + updatedwishTotalCnt);
+
+			      },
+			      error: function(error){
+			        console.log("에러: " + error);
+			      } 
+			    });
+	        
+	      },
+	      error: function(error){
+	        console.log("에러: " + error);
+	      } 
+	    });
+	    
+
+	  });
+	});
+
+</script>
+
+<script>
+$(document).ready(function(){
+	  $(".add-to-wishlist").on("click", function(e){
+	    e.preventDefault(); // 기본 클릭 이벤트를 중단하여 링크가 이동하는 것을 방지
+
+	    console.log("위시리스트 버튼 클릭됨");
+	    
+	    var productID = $(this).find(".productID").text();
+	    var heartIcon = $(this).find("#heartIcon");
+	    console.log("productID", productID);
+	    
+	    $.ajax({
+	      type: "POST",
+	      url: "IsWishedAction",
+	      data: {"productID": productID},
+	      success: function(data){
+	        console.log(data);
+	        heartIcon.toggleClass('fa-heart-o fa-heart');
+	        
+	        var updatedWishListCnt = parseInt(data);
+	        $(".wishListCnt").text(updatedWishListCnt);
+	        console.log("updatedWishListCnt >> " + updatedWishListCnt);
+	        
+	      },
+	      error: function(error){
+	        console.log("에러: " + error);
+	      } 
+	    });
+	  });
+	});
+
+</script>
 	<%
-		ProductDTO productDTO = (ProductDTO) request.getAttribute("productData");
-		System.out.println(productDTO);
+		WishListDTO productWishDetailData = (WishListDTO)request.getAttribute("productWishDetailData");
 	%>
 		<!-- BREADCRUMB -->
 		<div id="breadcrumb" class="section">
@@ -56,7 +144,7 @@
 							<li><a href="#">Home</a></li>
 							<li><a href="#">All Categories</a></li>
 							<li><a href="#">Accessories</a></li>
-							<li><a href="#">Headphones</a></li>
+							<li><a href="#"><%=productWishDetailData.getProductCategory() %></a></li>
 							<li class="active">Product name goes here</li>
 						</ul>
 					</div>
@@ -77,10 +165,10 @@
 					<div class="col-md-5 col-md-push-2">
 						<div id="product-main-img">
 							<div class="product-preview">
-								<img src="./img/product01.png" alt="">
+								<img src="<%=productWishDetailData.getProductImg() %>" alt="">
 							</div>
 
-							<div class="product-preview">
+							<!-- <div class="product-preview">
 								<img src="./img/product03.png" alt="">
 							</div>
 
@@ -90,7 +178,7 @@
 
 							<div class="product-preview">
 								<img src="./img/product08.png" alt="">
-							</div>
+							</div> -->
 						</div>
 					</div>
 					<!-- /Product main img -->
@@ -99,10 +187,10 @@
 					<div class="col-md-2  col-md-pull-5">
 						<div id="product-imgs">
 							<div class="product-preview">
-								<img src="./img/product01.png" alt="">
+								<img src="<%=productWishDetailData.getProductImg() %>" alt="">
 							</div>
 
-							<div class="product-preview">
+							<!-- <div class="product-preview">
 								<img src="./img/product03.png" alt="">
 							</div>
 
@@ -112,7 +200,7 @@
 
 							<div class="product-preview">
 								<img src="./img/product08.png" alt="">
-							</div>
+							</div> -->
 						</div>
 					</div>
 					<!-- /Product thumb imgs -->
@@ -120,7 +208,7 @@
 					<!-- Product details -->
 					<div class="col-md-5">
 						<div class="product-details">
-							<h2 class="product-name"><%=productDTO.getProductName()%></h2>
+							<h2 class="product-name"><%=productWishDetailData.getProductName()%></h2>
 							<div>
 								<div class="product-rating">
 									<i class="fa fa-star"></i>
@@ -132,12 +220,12 @@
 								<a class="review-link" href="#">10 Review(s) | Add your review</a>
 							</div>
 							<div>
-								<h3 class="product-price"><%=productDTO.getProductPrice() %><del class="product-old-price">$990.00</del></h3>
+								<h3 class="product-price"><%=productWishDetailData.getProductPrice() %><del class="product-old-price"></del></h3>
 								<span class="product-available">In Stock</span>
 							</div>
-							<p><%=productDTO.getProductInfo() %></p>
+							<p><%=productWishDetailData.getProductInfo()%></p>
 
-							<div class="product-options">
+							<!-- <div class="product-options">
 								<label>
 									Size
 									<select class="input-select">
@@ -150,34 +238,54 @@
 										<option value="0">Red</option>
 									</select>
 								</label>
-							</div>
+							</div> -->
 							<form method="POST" action="cartInsert.do">
 							<div class="add-to-cart">
 								
 								<div class="qty-label">
 									수량
 									<div class="input-number">
-									<input type="hidden" name ="productID" value="<%=productDTO.getProductID()%>">
-									<input type="hidden" name="productName" value="<%=productDTO.getProductName()%>">
-									<input type="hidden" name="productPrice" value="<%=productDTO.getProductPrice()%>">
+									<input type="hidden" name ="productID" value="<%=productWishDetailData.getProductID()%>">
+									<input type="hidden" name="productName" value="<%=productWishDetailData.getProductName()%>">
+									<input type="hidden" name="productPrice" value="<%=productWishDetailData.getProductPrice()%>">
 										<input name="purchaseCnt" type="number">
 										<span class="qty-up">+</span>
 										<span class="qty-down">-</span>
 									</div>
 								</div>
-								<button class="add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i> add to cart</button>
-								
+								<button class="add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+								<button class="buy-now add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i>구매하기</button>
 							</div>
-							</form>
+							</form>	
 							<ul class="product-btns">
-								<li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-								<li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
+								<li>
+								  <a href="#" class="add-to-wishlist2">
+								    <i class="fa <%= productWishDetailData.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i> add to wishList
+								    <span class="productID" style="display:none;"><%=productWishDetailData.getProductID() %></span>
+								  </a>
+								</li>
+								<%
+									int wishTotalCnt = (int)request.getAttribute("wishTotalCnt");
+								    Integer wishTotalCntObj = (Integer) request.getAttribute("wishTotalCnt");
+								    wishTotalCnt = (wishTotalCntObj != null) ? wishTotalCntObj : wishTotalCnt;
+								
+								    String updatedWishTotalCntStr = (String) request.getAttribute("updatedWishListCnt");
+								    int updatedWishTotalCnt = wishTotalCnt; // 기본값 설정
+								
+								    if (updatedWishTotalCntStr != null && !updatedWishTotalCntStr.isEmpty()) {
+								        try {
+								            updatedWishTotalCnt = Integer.parseInt(updatedWishTotalCntStr);
+								        } catch (NumberFormatException e) {
+								            e.printStackTrace(); // 또는 다른 로깅 방식을 사용할 수 있습니다.
+								        }
+								    }
+								%>
+								<Strong><span class="wishTotalCnt" style="padding-left: 10px"><%=wishTotalCnt %></span></Strong>
 							</ul>
 
 							<ul class="product-links">
 								<li>Category:</li>
-								<li><a href="#">Headphones</a></li>
-								<li><a href="#">Accessories</a></li>
+								<li><a href="#"><%=productWishDetailData.getProductCategory() %></a></li>
 							</ul>
 
 							<ul class="product-links">
@@ -420,129 +528,73 @@
 				<!-- row -->
 				<div class="row">
 
+
 					<div class="col-md-12">
 						<div class="section-title text-center">
-							<h3 class="title">Related Products</h3>
+							<h3 class="title">(로그인)한회원 연령에 따라 상품추천 && (비로그인)카테고리 관련 추천상품</h3>
 						</div>
 					</div>
 
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="./img/product01.png" alt="">
-								<div class="product-label">
-									<span class="sale">-30%</span>
+					<%ArrayList<WishListDTO> productWishDatas = (ArrayList<WishListDTO>)request.getAttribute("productWishDatas"); %>
+					
+					<!-- Products tab & slick -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="products-tabs">
+								<!-- tab -->
+								<div id="tab1" class="tab-pane active">
+									<div class="products-slick" data-nav="#slick-nav-1">
+										<%
+										for(WishListDTO data : productWishDatas){
+										%>
+										<!-- product -->
+												<div class="col-md-4 col-xs-6" style="margin-top: 30px;">
+													<div class="product">
+														<div class="product-body">
+															<div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
+																<span class="new" style="color: #D10024;"><strong>NEW</strong></span>
+																<div class="product-btns">
+																	<button class="add-to-wishlist">
+																		<div class="productID" hidden><%=data.getProductID()%></div>
+																		<i class="fa <%= data.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="product-img">
+															<img src="<%=data.getProductImg()%>" alt="">
+														</div>
+														<div class="product-body">
+															<p class="product-category"><%=data.getProductCategory()%></p>
+															<h3 class="product-name" style="height: 31px;">
+																	<a href="productDetail.do?productID=<%=data.getProductID()%>"><%=data.getProductName()%></a>
+															</h3>
+															<h4 class="product-price"><%=data.getProductPrice()%><del class="product-old-price"></del></h4>
+															<div class="product-rating">
+																<%--평점 들어가는 라인 --%>
+															</div>
+														</div>
+														<div class="add-to-cart">
+															<button class="add-to-cart-btn">
+																<i class="fa fa-shopping-cart"></i> add to cart
+															</button>
+														</div>
+													</div>
+												</div>
+										<%
+												}
+										%>
+										<!-- /product -->
+
+										
+									</div>
+									<div id="slick-nav-1" class="products-slick-nav"></div>
 								</div>
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+								<!-- /tab -->
 							</div>
 						</div>
 					</div>
-					<!-- /product -->
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="./img/product02.png" alt="">
-								<div class="product-label">
-									<span class="new">NEW</span>
-								</div>
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
-					<div class="clearfix visible-sm visible-xs"></div>
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="./img/product03.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="./img/product04.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
+					<!-- Products tab & slick -->
 
 				</div>
 				<!-- /row -->
@@ -550,6 +602,7 @@
 			<!-- /container -->
 		</div>
 		<!-- /Section -->
+		
 
 		<!-- NEWSLETTER -->
 		<div id="newsletter" class="section">

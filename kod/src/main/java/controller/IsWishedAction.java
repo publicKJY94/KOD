@@ -28,8 +28,6 @@ public class IsWishedAction extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("dd");
-		
 		HttpSession session = request.getSession();
 		String memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		
@@ -53,7 +51,6 @@ public class IsWishedAction extends HttpServlet {
 			wishListDTO.setMemberID(memberID);
 			wishListDTO.setProductID(productID);
 			wishListDAO.delete(wishListDTO);
-			System.out.println("메롱");
 			System.out.println("위시리스트 삭제성공");
 		}
 		else if(wishListDTO==null) {
@@ -65,6 +62,7 @@ public class IsWishedAction extends HttpServlet {
 			System.out.println("위시리스트 추가성공");
 		}
 
+		
 		System.out.println("위시리스트 추가or삭제 : "+flag);
 		request.setAttribute("flag", flag);
 		

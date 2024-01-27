@@ -36,8 +36,7 @@ public class MainAction implements Action{
 		if(memberID==null) {
 			WishListDAO wishListDAO = new WishListDAO();
 			WishListDTO wishListDTO = new WishListDTO();
-			wishListDTO.setMemberID("admin");
-			wishListDTO.setSearchCondition("인기상품");
+			wishListDTO.setSearchCondition("인기상품LOGOUT");
 			ArrayList<WishListDTO> popularAllItems = wishListDAO.selectAll(wishListDTO);
 			request.setAttribute("popularAllItems", popularAllItems);
 		}
@@ -55,7 +54,7 @@ public class MainAction implements Action{
 		wishListDAO = new WishListDAO();
 		wishListDTO = new WishListDTO();
 		wishListDTO.setMemberID(memberID);
-		wishListDTO.setSearchCondition("인기상품");
+		wishListDTO.setSearchCondition("인기상품LOGIN");
 		ArrayList<WishListDTO> popularAllItems = wishListDAO.selectAll(wishListDTO);
 		request.setAttribute("popularAllItems", popularAllItems);
 		
