@@ -35,6 +35,8 @@ public class HandlerMapping {
 		this.mappings.put("/productRank.do", new ProductRankAction());
 		this.mappings.put("/productCategory.do", new ProductActionCategory());
 		this.mappings.put("/goback.do", new GobackAction());
+		this.mappings.put("/loginsuccess.do", new LoginsuccessAction());
+		this.mappings.put("/joinsuccess.do", new JoinsuccessAction());
 	}
 	
 	public Action getAction(String commed) {

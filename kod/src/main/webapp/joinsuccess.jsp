@@ -5,14 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>알림창</title>
+<title>Insert title here</title>
 </head>
 <body>
-
+	
 
 <script>
 	alert('${msg}');
-	location.href='main.do';
+	window.location.href="main.jsp";
 </script>
 
 </body>
