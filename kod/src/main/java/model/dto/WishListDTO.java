@@ -6,19 +6,23 @@ public class WishListDTO {
 	private int wishListID;
 	private int isWished;
 	private int wishListCnt;
+	private int wishTotalCnt;
 	private Time wishListAddTime;
 	private String memberID;
 	private String memberGender;
+	private int memberAge;
 	private int memberMinAge;
 	private int memberMaxAge;
 	private int productID;
 	private String productBrand;
 	private String productName;
 	private String productCategory;
+	private String productInfo;
 	private String productImg;
 	private int productPrice;
+	private int productCnt;
+	private int productStock;
 	private String searchCondition;
-	
 	
 	public int getWishListID() {
 		return wishListID;
@@ -39,6 +43,12 @@ public class WishListDTO {
 	public void setWishListCnt(int wishListCnt) {
 		this.wishListCnt = wishListCnt;
 	}
+	public int getWishTotalCnt() {
+		return wishTotalCnt;
+	}
+	public void setWishTotalCnt(int wishTotalCnt) {
+		this.wishTotalCnt = wishTotalCnt;
+	}
 	public Time getWishListAddTime() {
 		return wishListAddTime;
 	}
@@ -56,6 +66,12 @@ public class WishListDTO {
 	}
 	public void setMemberGender(String memberGender) {
 		this.memberGender = memberGender;
+	}
+	public int getMemberAge() {
+		return memberAge;
+	}
+	public void setMemberAge(int memberAge) {
+		this.memberAge = memberAge;
 	}
 	public int getMemberMinAge() {
 		return memberMinAge;
@@ -93,6 +109,12 @@ public class WishListDTO {
 	public void setProductCategory(String productCategory) {
 		this.productCategory = productCategory;
 	}
+	public String getProductInfo() {
+		return productInfo;
+	}
+	public void setProductInfo(String productInfo) {
+		this.productInfo = productInfo;
+	}
 	public String getProductImg() {
 		return productImg;
 	}
@@ -104,6 +126,18 @@ public class WishListDTO {
 	}
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
+	}
+	public int getProductCnt() {
+		return productCnt;
+	}
+	public void setProductCnt(int productCnt) {
+		this.productCnt = productCnt;
+	}
+	public int getProductStock() {
+		return productStock;
+	}
+	public void setProductStock(int productStock) {
+		this.productStock = productStock;
 	}
 	public String getSearchCondition() {
 		return searchCondition;
