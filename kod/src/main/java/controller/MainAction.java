@@ -30,7 +30,8 @@ public class MainAction implements Action{
 		try {
 			memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("로그아웃상태 : memberID is null");
 		}
 		System.out.println("memberID : "+memberID);
 		if(memberID==null) {
