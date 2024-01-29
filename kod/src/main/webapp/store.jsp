@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" import="model.dto.*, java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +78,6 @@ label:hover{
 <body>
 	<jsp:include page="util/header.jsp"></jsp:include>
 	<jsp:include page="util/navigation.jsp"></jsp:include>
-
 	<!-- SECTION -->
 	<div class="section">
 		<!-- container -->
@@ -97,7 +97,9 @@ label:hover{
 									name="${productCategoryData.productCategory}"
 									> <label
 									for="category-${i.index+1}"> <span></span>${productCategoryData.productCategory}
-									<small>(${productCategoryData.productCnt})
+									<small>
+									(<fmt:formatNumber value="${productCategoryData.productCnt}" type="currency" pattern="#,###" />)
+									<fmt:setLocale value="ko_KR"/>
 								</small>
 								</label>
 							</div>
@@ -180,8 +182,9 @@ label:hover{
 									<a href="productDetail.do?productID=${productRankData.productID}">${productRankData.productName}</a>
 								</h3>
 								<h4 class="product-price">
-									${productRankData.productPrice}
-									<del class="product-old-price">$990.00</del>
+									<fmt:setLocale value="ko_KR"/>
+									<fmt:formatNumber value="${productRankData.productPrice}" type="currency"/>
+									<!-- <del class="product-old-price">$990.00</del> -->
 								</h4>
 							</div>
 						</div>
