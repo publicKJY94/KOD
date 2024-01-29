@@ -23,9 +23,9 @@ public class JoinAddressAction implements Action {
 		MemberDTO mDTO = new MemberDTO();
 		MemberDAO mDAO = new MemberDAO();
 		
-		mDTO.setMemberID((String)request.getAttribute("memberDTO"));
+		mDTO.setMemberID((String)request.getParameter("memberID"));
 		mDTO.setSearchCondition("ID체크");
-		mDAO.selectOne(mDTO);
+		mDTO=mDAO.selectOne(mDTO);
 
 		AddressDAO aDAO = new AddressDAO();
 		AddressDTO aDTO = new AddressDTO();
@@ -41,7 +41,8 @@ public class JoinAddressAction implements Action {
 		boolean flag = aDAO.insert(aDTO);
 
 		if (flag) {
-			forward.setPath("main.do");
+			request.setAttribute("msg","회원가입 성공!");
+			forward.setPath("joinsuccess.do");
 			forward.setRedirect(false);
 		}
 
