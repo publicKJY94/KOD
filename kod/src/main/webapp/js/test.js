@@ -68,7 +68,7 @@ function selectProduct(categoryList) {
 						</div>
 					</div>`;
 			});
-			product.text(elem);
+			product.html(elem);
 		},
 		error:function(err){
 			console.log(err.status);

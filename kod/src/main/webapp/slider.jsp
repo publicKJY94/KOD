@@ -9,7 +9,7 @@
 <title>Price Range Slider</title>
 <style>
 #price-slider-container {
-	width: inherit;
+	width: 98%;
 	margin: 2px;
 }
 
@@ -37,7 +37,7 @@ label:hover{
 			<form method="POST" action="" style="position: absolute; top: 0.5em; right: 1em;">
 				<input type="hidden" name="maxPrice" value="" /> 
 				<input type="hidden" name="minPrice" value="" /> 
-				<label for="searchBtn"><img alt="search" src="img/search.png" width="30px" height="30px"/></label>
+				<label for="searchBtn" ><img alt="search" src="img/search.png" style="position: absolute; top: 0.5em; right: 1em;" width="30px" height="30px" /></label>
 				<input type="submit" name="searchBtn" id="searchBtn" value="검색" style="display: none;" onclick="selectcheckbox()">
 			</form>
 			<div id="price-range"></div>
@@ -75,6 +75,6 @@ label:hover{
 			}
 		});
 	</script>
-
+	<script src="js/test.js"></script>
 </body>
 </html>

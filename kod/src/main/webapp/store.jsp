@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="model.dto.*, java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,36 +39,44 @@
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<style>
+#price-slider-container {
+	width: 100%;
+	margin: 2px;
+}
+
+#price-range {
+	width: 100%;
+}
+
+#price-output {
+	font-size: 18px;
+	margin-top: 10px;
+}
+label:hover{
+	cursor: pointer;
+}
+</style>
 
 </head>
+	<!-- jQuery Plugins -->
+	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!-- <script src="js/jquery.min.js"></script> -->
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/slick.min.js"></script>
+	<script src="js/nouislider.min.js"></script>
+	<script src="js/jquery.zoom.min.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/test.js"></script>
 <body>
 	<jsp:include page="util/header.jsp"></jsp:include>
 	<jsp:include page="util/navigation.jsp"></jsp:include>
-	<%
-	
-	ArrayList<ProductDTO> productCategoryDatas = (ArrayList<ProductDTO>) request.getAttribute("productCategoryDatas");
-	System.out.print(productCategoryDatas);
-	%>
-	<!-- BREADCRUMB -->
-	<div id="breadcrumb" class="section">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<ul class="breadcrumb-tree">
-						<li><a href="main.do">Home</a></li>
-						<li><a href="#">All Categories</a></li>
-						<li><a href="#">Accessories</a></li>
-						<li class="active">Headphones (227,490 Results)</li>
-					</ul>
-				</div>
-			</div>
-			<!-- /row -->
-		</div>
-		<!-- /container -->
-	</div>
-	<!-- /BREADCRUMB -->
 
 	<!-- SECTION -->
 	<div class="section">
@@ -81,23 +90,26 @@
 					<div class="aside">
 						<h3 class="aside-title">Categories</h3>
 						<div class="checkbox-filter">
-							<%
-							for(int i=0; i<productCategoryDatas.size(); i++){
-							%>
+						<c:forEach var="productCategoryData" items="${productCategoryDatas}" varStatus="i">
+						
 							<div class="input-checkbox">
-								<input type="checkbox" id="category-<%=i+1%>" name="<%=productCategoryDatas.get(i).getProductCategory() %>" onclick="selectcheckbox()"> <label
-									for="category-<%=i+1%>"> <span></span><%=productCategoryDatas.get(i).getProductCategory()%> <small>(<%=productCategoryDatas.get(i).getProductCnt() %>) </small>
+								<input type="checkbox" id="category-${i.index+1}"
+									name="${productCategoryData.productCategory}"
+									> <label
+									for="category-${i.index+1}"> <span></span>${productCategoryData.productCategory}
+									<small>(${productCategoryData.productCnt})
+								</small>
 								</label>
 							</div>
-							<%
-							}
-							%>
+						</c:forEach>
 						</div>
 					</div>
 					<!-- /aside Widget -->
-
-					<!-- aside Widget -->
 					<div class="aside">
+						<jsp:include page="slider.jsp"></jsp:include>
+					</div>
+					<!-- aside Widget -->
+					<!-- <div class="aside">
 						<h3 class="aside-title">Price</h3>
 						<div class="price-filter">
 							<div id="price-slider"></div>
@@ -111,7 +123,9 @@
 									class="qty-up">+</span> <span class="qty-down">-</span>
 							</div>
 						</div>
-					</div>
+					</div> -->
+
+
 					<!-- /aside Widget -->
 
 					<!-- aside Widget -->
@@ -155,21 +169,23 @@
 					<!-- aside Widget -->
 					<div class="aside">
 						<h3 class="aside-title">Top selling</h3>
+						<c:forEach var="productRankData" items="${orderRankDatas}">
 						<div class="product-widget">
 							<div class="product-img">
-								<img src="./img/product01.png" alt="">
+								<img src="${productRankData.productImg}" alt="">
 							</div>
 							<div class="product-body">
-								<p class="product-category">Category</p>
+								<p class="product-category">${productRankData.productCategory}</p>
 								<h3 class="product-name">
-									<a href="#">product name goes here</a>
+									<a href="productDetail.do?productID=${productRankData.productID}">${productRankData.productName}</a>
 								</h3>
 								<h4 class="product-price">
-									$980.00
+									${productRankData.productPrice}
 									<del class="product-old-price">$990.00</del>
 								</h4>
 							</div>
 						</div>
+						</c:forEach>
 					</div>
 					<!-- /aside Widget -->
 				</div>
@@ -200,7 +216,6 @@
 					<!-- store products -->
 					<div class="row">
 					
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function(){
     $('.add-to-wishlist').on('click', function(){
@@ -231,7 +246,7 @@ $(document).ready(function(){
 });
 </script>
 
-<!--
+						<!--
 V는 C한테
    ♥♡를 구분해야하니까
    1,0 등의 신호를 주세요.
@@ -324,50 +339,9 @@ M은 C한테 1,0 등의 값을 줘야하니까
 	<!-- /SECTION -->
 	</div>
 
-	<!-- NEWSLETTER -->
-	<div id="newsletter" class="section">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="newsletter">
-						<p>
-							Sign Up for the <strong>NEWSLETTER</strong>
-						</p>
-						<form>
-							<input class="input" type="email" placeholder="Enter Your Email">
-							<button class="newsletter-btn">
-								<i class="fa fa-envelope"></i> Subscribe
-							</button>
-						</form>
-						<ul class="newsletter-follow">
-							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-							<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-							<li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /row -->
-		</div>
-		<!-- /container -->
-	</div>
-	<!-- /NEWSLETTER -->
-
 	<jsp:include page="util/footer.jsp"></jsp:include>
 
-	<!-- jQuery Plugins -->
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/slick.min.js"></script>
-	<script src="js/nouislider.min.js"></script>
-	<script src="js/jquery.zoom.min.js"></script>
-	<script src="js/main.js"></script>
-	<script src="js/test.js"></script>
+
 
 </body>
 </html>
