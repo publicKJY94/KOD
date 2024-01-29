@@ -31,7 +31,8 @@ public class CheckWishedAction implements Action {
 		try {
 			memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("로그아웃상태 : memberID is null");
 		}
 		WishListDAO wishListDAO = new WishListDAO();
 		WishListDTO wishListDTO = new WishListDTO();
