@@ -55,8 +55,7 @@ public class JoinMemberAction implements Action {
 		boolean flag = mDAO.insert(mDTO);
 
 		if (flag) {
-			request.setAttribute("msg","회원가입 성공!");
-			forward.setPath("joinsuccess.do");
+			forward.setPath("joinAddress.do");
 			forward.setRedirect(false);
 		} else {
 			request.setAttribute("msg","회원가입에 실패하였습니다");
