@@ -29,4 +29,15 @@
 		</nav>
 		<!-- /NAVIGATION -->
 </body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	var lists = document.querySelectorAll(".nav li");
+	function clickEvent(){
+		for(int i = 0 ; i < lists.length; i++){
+			lists[i].classList.remove("active");
+		}
+		this.classList.add("active");
+	}
+</script>
 </html>

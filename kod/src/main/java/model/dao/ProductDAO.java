@@ -73,14 +73,18 @@ public class ProductDAO {
 		conn = JDBCUtil.connect();
 		try {
 			String result = "";
+			//result += " (PRODUCT_PRICE BETWEEN " + pDTO.getMin() + " AND " + pDTO.getMax() + " ) AND ";
 			if(pDTO.getCategoryList().length>0) {
-				result = " PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
+				result += " ( PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
 				for (int i = 1; i < pDTO.getCategoryList().length; i++) {
 					result += " OR PRODUCT_CATEGORY = " + " '" + pDTO.getCategoryList()[i] + "' " ;
 				}
+				result += " ) ";
+				result += SELECTALL_CHIOCE+result;
+			}else {
+				result = SELECTALL;
 			}
-			pstmt = conn.prepareStatement(SELECTALL_CHIOCE + result);
-			System.out.println(SELECTALL_CHIOCE + result);
+			pstmt = conn.prepareStatement(result);
 //			pstmt.setString(1, result);
 //			System.out.println(SELECTALL_CHIOCE);
 			ResultSet rs = pstmt.executeQuery();
