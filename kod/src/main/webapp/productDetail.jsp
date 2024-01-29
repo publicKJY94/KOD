@@ -4,6 +4,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="kim" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -11,6 +13,10 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<c:if test="${fn:length(datas) >= 2}">
+		[ 삭 제 ]
+	</c:if>
 
 		<title>Electro - HTML Ecommerce Template</title>
 
@@ -131,26 +137,14 @@ $(document).ready(function(){
 	});
 
 </script>
-	<%
+	<%--
 		WishListDTO productWishDetailData = (WishListDTO)request.getAttribute("productWishDetailData");
-	%>
+	--%>
 		<!-- BREADCRUMB -->
 		<div id="breadcrumb" class="section">
 			<!-- container -->
 			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12">
-						<ul class="breadcrumb-tree">
-							<li><a href="#">Home</a></li>
-							<li><a href="#">All Categories</a></li>
-							<li><a href="#">Accessories</a></li>
-							<li><a href="#"><%=productWishDetailData.getProductCategory() %></a></li>
-							<li class="active">Product name goes here</li>
-						</ul>
-					</div>
-				</div>
-				<!-- /row -->
+				<kim:menu apple="10" />
 			</div>
 			<!-- /container -->
 		</div>
@@ -166,7 +160,7 @@ $(document).ready(function(){
 					<div class="col-md-5 col-md-push-2">
 						<div id="product-main-img">
 							<div class="product-preview">
-								<img src="<%=productWishDetailData.getProductImg() %>" alt="">
+								<img src="${productWishDetailData.productImg}" alt="">
 							</div>
 
 							<!-- <div class="product-preview">
@@ -188,7 +182,7 @@ $(document).ready(function(){
 					<div class="col-md-2  col-md-pull-5">
 						<div id="product-imgs">
 							<div class="product-preview">
-								<img src="<%=productWishDetailData.getProductImg() %>" alt="">
+								<img src="${productWishDetailData.getProductImg()}" alt="">
 							</div>
 
 							<!-- <div class="product-preview">
@@ -209,7 +203,7 @@ $(document).ready(function(){
 					<!-- Product details -->
 					<div class="col-md-5">
 						<div class="product-details">
-							<h2 class="product-name"><%=productWishDetailData.getProductName()%></h2>
+							<h2 class="product-name">${productWishDetailData.productName}</h2>
 							<div>
 								<div class="product-rating">
 									<i class="fa fa-star"></i>
@@ -221,10 +215,10 @@ $(document).ready(function(){
 								<a class="review-link" href="#">10 Review(s) | Add your review</a>
 							</div>
 							<div>
-								<h3 class="product-price"><%=productWishDetailData.getProductPrice() %><del class="product-old-price"></del></h3>
+								<h3 class="product-price">${productWishDetailData.productPrice}<del class="product-old-price"></del></h3>
 								<span class="product-available">In Stock</span>
 							</div>
-							<p><%=productWishDetailData.getProductInfo()%></p>
+							<p>${productWishDetailData.productInfo}</p>
 
 							<!-- <div class="product-options">
 								<label>
@@ -246,9 +240,9 @@ $(document).ready(function(){
 								<div class="qty-label">
 									수량
 									<div class="input-number">
-									<input type="hidden" name ="productID" value="<%=productWishDetailData.getProductID()%>">
-									<input type="hidden" name="productName" value="<%=productWishDetailData.getProductName()%>">
-									<input type="hidden" name="productPrice" value="<%=productWishDetailData.getProductPrice()%>">
+									<input type="hidden" name ="productID" value="${productWishDetailData.productID}">
+									<input type="hidden" name="productName" value="${productWishDetailData.productName}">
+									<input type="hidden" name="productPrice" value="${productWishDetailData.productPrice}">
 										<input name="purchaseCnt" type="number">
 										<span class="qty-up">+</span>
 										<span class="qty-down">-</span>
@@ -261,8 +255,13 @@ $(document).ready(function(){
 							<ul class="product-btns">
 								<li>
 								  <a href="#" class="add-to-wishlist2">
-								    <i class="fa <%= productWishDetailData.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i> add to wishList
-								    <span class="productID" style="display:none;"><%=productWishDetailData.getProductID() %></span>
+								  <c:if test="${productWishDetailData.isWished == 1}">
+								    <i class="fa fa-heart" id="heartIcon"></i> add to wishList
+								  </c:if>
+								  <c:if test="${productWishDetailData.isWished != 1}">
+								    <i class="fa fa-heart-o" id="heartIcon"></i> add to wishList
+								  </c:if>
+								    <span class="productID" style="display:none;">${productWishDetailData.productID}</span>
 								  </a>
 								</li>
 								<%
@@ -286,7 +285,7 @@ $(document).ready(function(){
 
 							<ul class="product-links">
 								<li>Category:</li>
-								<li><a href="#"><%=productWishDetailData.getProductCategory() %></a></li>
+								<li><a href="#">${productWishDetailData.productCategory}</a></li>
 							</ul>
 
 							<ul class="product-links">
@@ -536,7 +535,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 
-					<%ArrayList<WishListDTO> productWishDatas = (ArrayList<WishListDTO>)request.getAttribute("productWishDatas"); %>
+					<%--ArrayList<WishListDTO> productWishDatas = (ArrayList<WishListDTO>)request.getAttribute("productWishDatas"); --%>
 					
 					<!-- Products tab & slick -->
 					<div class="col-md-12">
@@ -545,9 +544,7 @@ $(document).ready(function(){
 								<!-- tab -->
 								<div id="tab1" class="tab-pane active">
 									<div class="products-slick" data-nav="#slick-nav-1">
-										<%
-										for(WishListDTO data : productWishDatas){
-										%>
+										<c:forEach var="data" items="${productWishDatas}">						
 										<!-- product -->
 												<div class="col-md-4 col-xs-6" style="margin-top: 30px;">
 													<div class="product">
@@ -556,21 +553,26 @@ $(document).ready(function(){
 																<span class="new" style="color: #D10024;"><strong>NEW</strong></span>
 																<div class="product-btns">
 																	<button class="add-to-wishlist">
-																		<div class="productID" hidden><%=data.getProductID()%></div>
-																		<i class="fa <%= data.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
+																		<div class="productID" hidden>${data.productID}</div>
+																		<c:if test="${data.isWished == 1}">
+																			<i class="fa fa-heart" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
+																		</c:if>
+																		<c:if test="${data.isWished != 1}">
+																			<i class="fa fa-heart-o" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
+																		</c:if>
 																	</button>
 																</div>
 															</div>
 														</div>
 														<div class="product-img">
-															<img src="<%=data.getProductImg()%>" alt="">
+															<img src="${data.productCategory}" alt="">
 														</div>
 														<div class="product-body">
-															<p class="product-category"><%=data.getProductCategory()%></p>
+															<p class="product-category">${data.productImg}</p>
 															<h3 class="product-name" style="height: 31px;">
-																	<a href="productDetail.do?productID=<%=data.getProductID()%>"><%=data.getProductName()%></a>
+																	<a href="productDetail.do?productID=${data.productID}">${data.productName}</a>
 															</h3>
-															<h4 class="product-price"><%=data.getProductPrice()%><del class="product-old-price"></del></h4>
+															<h4 class="product-price">${data.productPrice}<del class="product-old-price"></del></h4>
 															<div class="product-rating">
 																<%--평점 들어가는 라인 --%>
 															</div>
@@ -582,9 +584,7 @@ $(document).ready(function(){
 														</div>
 													</div>
 												</div>
-										<%
-												}
-										%>
+										</c:forEach>
 										<!-- /product -->
 
 										
