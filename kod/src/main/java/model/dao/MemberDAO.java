@@ -76,8 +76,9 @@ public class MemberDAO {
 			if(rs.next()) {
 				data=new MemberDTO();
 				data.setMemberID(rs.getString("MEMBER_ID"));
-				data.setMemberPW(rs.getString("MEMBER_PW"));
 				data.setMemberName(rs.getString("MEMBER_NAME"));
+				data.setMemberEmail(rs.getString("MEMBER_EMAIL"));
+				data.setMemberPhNum(rs.getString("MEMBER_PHONE"));
 				
 			}
 			rs.close();

@@ -9,7 +9,15 @@ public class CartDTO {
 	private String productName;
 	private int productPrice;
 	private String productImg;
+	private int sumProductPrice;
 	
+	
+	public int getSumProductPrice() {
+		return sumProductPrice;
+	}
+	public void setSumProductPrice(int sumProductPrice) {
+		this.sumProductPrice = sumProductPrice;
+	}
 	public String getProductName() {
 		return productName;
 	}

@@ -85,7 +85,7 @@
 	                            <p><%=cData.getProductName()%> / <%=cData.getCartProductCnt()%>개</p>
 	                            <button class="cart__list__optionbtn">주문조건 추가/변경</button>
 	                        </td>
-	                        <td><span class="price"><%=cData.getProductPrice()*cData.getCartProductCnt()%></span><br>
+	                        <td><span class="price"><%=cData.getProductPrice()*cData.getCartProductCnt()%>원</span><br>
 	                            <button class="cart__list__orderbtn">주문하기</button>
 	                        </td>
 	                        <td>무료</td>

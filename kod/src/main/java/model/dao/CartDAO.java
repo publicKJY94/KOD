@@ -14,10 +14,14 @@ public class CartDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	
-	private static final String SELECTALL="SELECT * FROM CART C INNER JOIN PRODUCT P ON P.PRODUCT_ID = C.PRODUCT_ID WHERE MEMBER_ID=?";
-	private static final String SELECTONE="SELECT * FROM CART C "
+	private static final String SELECTALL="SELECT C.PRODUCT_ID, P.PRODUCT_IMG, P.PRODUCT_NAME, P.PRODUCT_PRICE ,SUM(P.PRODUCT_PRICE) AS SUM_PRODUCT_PRICE, C.MEMBER_ID , SUM(C.CART_PRODUCT_CNT) AS CART_PRODUCT_CNT FROM CART C "
 			+ "	INNER JOIN PRODUCT P ON P.PRODUCT_ID = C.PRODUCT_ID "
-			+ " WHERE C.MEMBER_ID = ? AND C.PRODUCT_ID = ?";
+			+ "	WHERE C.MEMBER_ID = ? "
+			+ "	GROUP BY C.PRODUCT_ID,P.PRODUCT_IMG, P.PRODUCT_NAME, P.PRODUCT_PRICE, C.MEMBER_ID ,C.CART_PRODUCT_CNT";
+	private static final String SELECTONE="SELECT C.PRODUCT_ID , P.PRODUCT_NAME , P.PRODUCT_IMG, C.MEMBER_ID ,SUM(C.CART_PRODUCT_CNT) AS CART_PRODUCT_CNT  ,SUM(P.PRODUCT_PRICE) AS PRODUCT_PRICE  FROM CART C "
+			+ "	INNER JOIN PRODUCT P ON P.PRODUCT_ID = C.PRODUCT_ID "
+			+ "	WHERE C.MEMBER_ID = ? AND C.PRODUCT_ID = ? "
+			+ " GROUP BY C.PRODUCT_ID ,P.PRODUCT_NAME , P.PRODUCT_IMG, C.MEMBER_ID ,P.PRODUCT_PRICE, C.CART_PRODUCT_CNT";
 	private static final String INSERT="INSERT INTO CART VALUES ((SELECT NVL(MAX(CART_ID),1)+1 FROM CART), ?, ?, ?)";
 	private static final String UPDATE="";
 	private static final String DELETE="";
@@ -33,13 +37,14 @@ public class CartDAO {
 
 			while(rs.next()) {
 				CartDTO data=new CartDTO();
-				data.setCartID(rs.getInt("CART_ID"));
+				//data.setCartID(rs.getInt("CART_ID"));
 				data.setCartProductCnt(rs.getInt("CART_PRODUCT_CNT"));
 				data.setMemberID(rs.getString("MEMBER_ID"));
 				data.setProductID(rs.getInt("PRODUCT_ID"));
 				data.setProductImg(rs.getString("PRODUCT_IMG"));
 				data.setProductName(rs.getString("PRODUCT_NAME"));
 				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+				data.setSumProductPrice(rs.getInt("SUM_PRODUCT_PRICE"));
 				datas.add(data);
 			}
 			rs.close();
@@ -65,7 +70,7 @@ public class CartDAO {
             if(rs.next()) {
             	System.out.println("rs로그");
                 data=new CartDTO();
-                data.setCartID(rs.getInt("CART_ID"));
+                //data.setCartID(rs.getInt("CART_ID"));
 				data.setCartProductCnt(rs.getInt("CART_PRODUCT_CNT"));
 				data.setMemberID(rs.getString("MEMBER_ID"));
 				data.setProductID(rs.getInt("PRODUCT_ID"));

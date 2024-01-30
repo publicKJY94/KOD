@@ -1,7 +1,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="model.dto.*"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -113,25 +113,6 @@
 						<!-- /Billing Details -->
 
 						<!-- Billing Details -->
-						<%-- <div class="billing-details" style="display: block;">
-							<div class="section-title">
-								<h3 class="title">상품 정보</h3>
-							</div>
-							<div style="border: solid;">
-								<div class="form-group" style="width: 200px; height: 200px; display: flex; flex-direction: row;">
-									<img src="<%=productDTO.getProductImg()%>" style="width: 100%">
-								</div>
-								<div class="form-group" style="display: flex;" >
-									<input class="input" type="text" name="productName" placeholder="상품이름" value="<%=productDTO.getProductName()%>" disabled>
-								</div>
-								<div class="form-group" style="display: flex;">
-									<input class="input" type="text" name="productPrice" placeholder="상품가격" value="<%=productDTO.getProductPrice()%>" disabled>
-								</div>
-								<div class="form-group" style="display: flex;">
-									<input class="input" type="text" name="OrderContentCnt" placeholder="주문개수" value="<%=productDTO.getProductCnt()%>" disabled>
-								</div>
-							</div>
-						</div> --%>
 						<br><br>
 						<div class="billing-details">
 						<table style="width: 100%; text-align: center;">
