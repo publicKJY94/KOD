@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="model.dto.*, java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +29,7 @@
 
  		<!-- Custom stlylesheet -->
  		<link type="text/css" rel="stylesheet" href="css/style.css"/>
+ 		<link type="text/css" rel="stylesheet" href="css/payInfo.css"/>
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,6 +40,21 @@
 
     </head>
 	<body>
+	<%
+	
+		System.out.println("[orderInfo jsp]");
+		ArrayList<CartDTO> cDatas =(ArrayList<CartDTO>)request.getAttribute("cartDTO");
+		
+		
+		ArrayList<OrderContentDTO> ocDatas = (ArrayList<OrderContentDTO>)request.getAttribute("oContentDTO");
+		System.out.println("ocDatas : "+ocDatas);
+		
+		MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("memberDTO");
+		System.out.println(memberDTO);
+		AddressDTO addressDTO = (AddressDTO)request.getAttribute("addressDTO");
+		System.out.println("orderInfo 주소지 : "+addressDTO);
+		
+	%>
 		<!-- HEADER, NAVIGATION -->
 		<jsp:include page="util/header.jsp"></jsp:include>
         <jsp:include page="util/navigation.jsp"></jsp:include>
@@ -74,25 +90,19 @@
 								<h3 class="title">구매자 정보</h3>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="memberName" placeholder="이름">
+								<input class="input" type="text" name="memberName" placeholder="이름" value="<%=memberDTO.getMemberName()%>" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="email" name="memberEmail" placeholder="Email">
+								<input class="input" type="email" name="memberEmail" placeholder="Email" value="<%=memberDTO.getMemberEmail()%>" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="tel" name="memberPhNum" placeholder="전화번호">
+								<input class="input" type="tel" name="memberPhNum" placeholder="전화번호" value="<%=memberDTO.getMemberPhNum()%>" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsZipcode" placeholder="우편번호">
+								<input class="input" type="text" name="adrsStreet" placeholder="도로명주소" value="<%=addressDTO.getAdrsStreet()%>" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsStreet" placeholder="도로명주소">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="adrsLotNum" placeholder="지번주소">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="adrsDetail" placeholder="상세주소">
+								<input class="input" type="text" name="adrsDetail" placeholder="상세주소" value="<%=addressDTO.getAdrsDetail()%>" disabled>
 							</div>
 						</div>
 						<!-- /Billing Details -->
@@ -100,23 +110,36 @@
 						<!-- Billing Details -->
 						<div class="billing-details">
 							<div class="section-title">
-								<h3 class="title">상품 정보</h3>
+								<h3 class="title">주문 내역</h3>
 							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="first-name" placeholder="상품이미지">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="last-name" placeholder="상품이름">
-							</div>
-							<div class="form-group">
-								<input class="input" type="email" name="email" placeholder="상품가격">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="address" placeholder="주문개수">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="address" placeholder="총 가격">
-							</div>
+							
+							<table style="width: 100%; text-align: center;">
+					        <thead>
+					            <tr>
+					                <th style="text-align: center;">상품</th>
+					                <th style="text-align: center;">상품이름</th>
+					                <th style="text-align: center;">구매개수</th>
+					                <th style="text-align: center;">가격</th>
+					            </tr>
+					        </thead>
+					        <%for(OrderContentDTO ocdata : ocDatas){%>
+					        
+					        <tbody>
+					            <tr>
+					                <td><img src="<%=ocdata.getProductImg()%>" alt="img" style="width: 200px; height: 200px;"></td>
+					                <td><%=ocdata.getProductName()%></td>
+					                <td><%=ocdata.getOdContentCnt()%></td>
+					                <td><%=ocdata.getProductPrice()*ocdata.getOdContentCnt()%></td>
+					            </tr>
+					        </tbody>
+					        
+					        <%} %>
+					        
+					    </table>
+							
+							
+							
+							
 						</div>
 						<!-- /Billing Details -->
 						

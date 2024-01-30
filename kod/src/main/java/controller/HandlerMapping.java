@@ -28,6 +28,8 @@ public class HandlerMapping {
 		this.mappings.put("/payInfoPage.do", new PayInfoPageAction());
 		this.mappings.put("/paySelect.do", new PaySelectAction());
 		this.mappings.put("/paymentPage.do", new PaymentPageAction());
+		this.mappings.put("/orderInfoPage.do", new OrderInfoPageAction());
+		this.mappings.put("/orderInfo.do", new OrderInfoAction());
 		this.mappings.put("/wishList.do", new WishListAction());
 		this.mappings.put("/checkWished.do", new CheckWishedAction());
 		this.mappings.put("/alert.do", new AlertAction());
