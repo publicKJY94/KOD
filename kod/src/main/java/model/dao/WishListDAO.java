@@ -262,7 +262,7 @@ public class WishListDAO {
 			+ "        SELECT COUNT(W.WISHLIST_ID) "
 			+ "        FROM WISHLIST W "
 			+ "        WHERE W.PRODUCT_ID = P.PRODUCT_ID "
-			+ "    ) AS WISHLIST_CNT, "
+			+ "    ) AS WISH_TOTAL_CNT, "
 			+ "    MAX(CASE WHEN W.PRODUCT_ID IS NOT NULL THEN 1 ELSE 0 END) AS ISWISHED "
 			+ "FROM "
 			+ "    PRODUCT P "
@@ -278,7 +278,6 @@ public class WishListDAO {
 	private static final String SELECTONE_WISHLIST_CNT_BY_MEMBER =
 			"SELECT COUNT(WISHLIST_ID) AS WISHLIST_CNT FROM WISHLIST WHERE MEMBER_ID=? ";
 	
-
 	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST =
 			"SELECT WISHLIST_ID "
 			+ "FROM WISHLIST "
@@ -298,6 +297,54 @@ public class WishListDAO {
 			+ "FROM MEMBER M "
 			+ "WHERE M.MEMBER_ID= ? ";
 	
+	private static final String SELECTONE_CHECK_ISWISHED=
+			  "SELECT "
+			+ "    CASE WHEN WL.PRODUCT_ID IS NULL THEN 0 ELSE 1 END AS ISWISHED "
+			+ "FROM "
+			+ "    MEMBER M "
+			+ "LEFT JOIN "
+			+ "    WISHLIST WL ON M.MEMBER_ID = WL.MEMBER_ID AND WL.PRODUCT_ID = ? "
+			+ "WHERE "
+			+ "    M.MEMBER_ID = ? ";
+	
+	private static final String SELECTONE_MOST_AGE_RANGE=
+			"SELECT "
+			+ "    AGE_RANGE, "
+			+ "    MEMBER_COUNT "
+			+ "FROM ( "
+			+ "    SELECT "
+			+ "        AGE_RANGE, "
+			+ "        MEMBER_COUNT, "
+			+ "        RANK() OVER (ORDER BY MIN_AGE ASC) AS RANK_ORDER "
+			+ "    FROM ( "
+			+ "        SELECT "
+			+ "            CASE "
+			+ "                WHEN AGE >= 10 AND AGE < 20 THEN 10 "
+			+ "                WHEN AGE >= 20 AND AGE < 30 THEN 20 "
+			+ "                WHEN AGE >= 30 AND AGE < 40 THEN 30 "
+			+ "                WHEN AGE >= 40 AND AGE < 50 THEN 40 "
+			+ "                ELSE 50 "
+			+ "            END AS AGE_RANGE,"
+			+ "            COUNT(*) AS MEMBER_COUNT,"
+			+ "            MIN(AGE) AS MIN_AGE "
+			+ "        FROM ( "
+			+ "            SELECT "
+			+ "                MEMBER_ID, "
+			+ "                TRUNC(MONTHS_BETWEEN(SYSDATE, MEMBER_BIRTH) / 12) AS AGE "
+			+ "            FROM "
+			+ "                MEMBER "
+			+ "        ) AGE_DATA "
+			+ "        GROUP BY "
+			+ "            CASE "
+			+ "                WHEN AGE >= 10 AND AGE < 20 THEN 10 "
+			+ "                WHEN AGE >= 20 AND AGE < 30 THEN 20 "
+			+ "                WHEN AGE >= 30 AND AGE < 40 THEN 30 "
+			+ "                WHEN AGE >= 40 AND AGE < 50 THEN 40 "
+			+ "                ELSE 50 "
+			+ "            END "
+			+ "    ) "
+			+ ") "
+			+ "WHERE RANK_ORDER = 1 ";
 	
 	private static final String INSERT_WISHLIST_BY_PRODUCT = 
 			"INSERT INTO WISHLIST (WISHLIST_ID,MEMBER_ID, PRODUCT_ID) "
@@ -540,20 +587,57 @@ public class WishListDAO {
 			return datas;
 			/*
 			 * 해당 코드의 특징
-			 * SELECTALL_WISH_RANKING_BY_AGE 쿼리는 
+			 * SELECTALL_WISH_RANKING_BY_AGE 쿼리는 연령별 추천상품을 조회하는 쿼리로서
+			 * 상품을 선택하면 이동되는 상품상세페이지에서 로그인한 회원의 나이대에 해당하는
+			 * 회원들이 찜을 많이 한 순서로 상품을 조회하는 로직으로 구현되어 있습니다.
+			 * 상품상세페이지에서 보여질 추천상품 리스트들은 현재 보고있는 상품의 정보를 제외하고 
+			 * 보여주기위해 for안에 if문을 사용하여 데이터를 반환하도록 구현하였습니다.
+			 * 여기서 주의 할 점은 if문이 참이었을 때, remove 함수를 실행하게 되면
+			 * i번째 인덱스가 삭제되면서 for문의 반복조건이 변경되어 삭제된 횟수만큼 
+			 * 반복을 수행하지 못하는 오류가 발생하게됩니다.
+			 * 해당 오류를 해결하기 위해서는 
+			 * 리스트 내에 중복상품이 여러개일 경우 while문을 사용하거나
+			 * 중복된 상품이 없을 경우엔 for문을 사용하여 if문인 참인 조건을 실행하였다면
+			 * break 예약어를 사용하여 불필요한 반복을 피하고 코드실행을 효율적으로 관리하기 위함입니다. 
+			 */
+			/*
+			 * 쿼리를 조회한 후 조건문을 사용한 이유는 현재 우리의 프로그램이 데이터의 양이 많지 않아 
+			 * 데이터베이스의 부하가 크지 않고 다양한 조건이 필요한 경우가 아니라서 구현된 로직입니다.
+			 * 만약 데이터의 양이 많아서 데이터베이스의 과부하가 우려되는 상황이나
+			 * 여러가지 조건이 유동적으로 자주 변화해야 되는 로직이라면
+			 * 조건에 맞게 쿼리를 변경하여 필요한 데이터만 가져오게하여 데이터베이스의 액세스 시간을 단축시켜
+			 * 과부하를 줄일 수 있습니다. 
 			 */
 		}
-		else if(wishListDTO.getSearchCondition().equals("연관상품LOGOUT")) {
+		else if(wishListDTO.getSearchCondition().equals("연관상품LOGOUT스텝2")) {
+			if(wishListDTO.getMemberAge()==10) {
+				wishListDTO.setMemberMinAge(10);
+				wishListDTO.setMemberMaxAge(20);
+			}
+			else if(wishListDTO.getMemberAge()==20) {
+				wishListDTO.setMemberMinAge(20);
+				wishListDTO.setMemberMaxAge(30);
+			}
+			else if(wishListDTO.getMemberAge()==30) {
+				wishListDTO.setMemberMinAge(30);
+				wishListDTO.setMemberMaxAge(40);
+			}
+			else if(wishListDTO.getMemberAge()==40) {
+				wishListDTO.setMemberMinAge(40);
+				wishListDTO.setMemberMaxAge(50);
+			}
+			else {
+				wishListDTO.setMemberMinAge(50);
+				wishListDTO.setMemberMaxAge(60);
+			}
 			conn=JDBCUtil.connect();
 			try {
-				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_PRODUCT_CATEGORY_WISH_LOGOUT);
-				System.out.println("DAO들어옴");
-				System.out.println("DTO에 카테고리 담겼니 ?ㅇㅇ"+wishListDTO.getProductCategory());
-				pstmt.setString(1, wishListDTO.getProductCategory());
+				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISH_RANKING_BY_AGE);
+				pstmt.setInt(1, wishListDTO.getMemberMinAge());
+				pstmt.setInt(2, wishListDTO.getMemberMaxAge());
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
 					WishListDTO data = new WishListDTO();
-					data.setIsWished(rs.getInt("ISWISHED"));
 					data.setProductID(rs.getInt("PRODUCT_ID"));
 					data.setProductImg(rs.getString("PRODUCT_IMG"));
 					data.setProductName(rs.getString("PRODUCT_NAME"));
@@ -563,21 +647,23 @@ public class WishListDAO {
 					datas.add(data);
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				JDBCUtil.disconnect(pstmt, conn);
 			}
+			System.out.println("로그datas.size()"+datas.size());
+			int productID=wishListDTO.getProductID();
 			for (int i = 0; i < datas.size(); i++) {
-				int productID = wishListDTO.getProductID();
+				System.out.println("위시DTO가 받아온 ProductID"+productID);
 				if(datas.get(i).getProductID()==productID) {
-					System.out.println(datas.get(i)+"번째 상품 삭제됨");
+					System.out.println("datas"+i+"번째 인덱스 삭제됨");
 					datas.remove(i);
+					break; 
 				}
+				System.out.println("몇번째"+i);
 			}
 			return datas;
 		}
-		
 		else {
 			return null;
 		}
@@ -665,6 +751,7 @@ public class WishListDAO {
 			return data;
 		}
 		else if(wishListDTO.getSearchCondition().equals("상품상세페이지LOGOUT")) {
+			System.out.println("DAO, 상품상세페이지LOGOUT 들어옴");
 			try {	
 				pstmt=conn.prepareStatement(SELECTONE_PRODUCT_DETAIL_LOGOUT);
 				pstmt.setInt(1, wishListDTO.getProductID());
@@ -718,6 +805,40 @@ public class WishListDAO {
 					}
 					System.out.println("minAge : "+data.getMemberMinAge());
 					System.out.println("maxAge : "+data.getMemberMaxAge());
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
+			}
+			return data;
+		}
+		else if(wishListDTO.getSearchCondition().equals("찜여부")) {
+			try {
+				pstmt=conn.prepareStatement(SELECTONE_CHECK_ISWISHED);
+				pstmt.setInt(1, wishListDTO.getProductID());
+				pstmt.setString(2, wishListDTO.getMemberID());
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
+					data = new WishListDTO();
+					data.setIsWished(rs.getInt("ISWISHED"));
+				}
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
+			}
+			return data;
+		}
+		else if(wishListDTO.getSearchCondition().equals("연관상품LOGOUT스텝1")) {
+			System.out.println("DAO, 연관상품LOGOUT스텝1 들어옴");
+			try {
+				pstmt=conn.prepareStatement(SELECTONE_MOST_AGE_RANGE);
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
+					data=new WishListDTO();
+					data.setMemberAge(rs.getInt("AGE_RANGE"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

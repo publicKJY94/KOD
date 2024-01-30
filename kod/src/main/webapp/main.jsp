@@ -30,9 +30,16 @@
 		<!-- Font Awesome Icon -->
 		<link rel="stylesheet" href="css/font-awesome.min.css">
 
+		<!-- 로그인 후 이용해주세요. -->
+		<link rel="stylesheet" href="css/checkLogin.css">
+
 		<!-- Custom stlylesheet -->
 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
 
+				
+				
+		
+		
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -152,6 +159,18 @@ $(document).ready(function(){
 });
 </script>
 
+<!-- 모달창을 추가합니다. -->
+<div id="memberID" memberID="${memberDTO.memberID}"></div>
+<div id="checkLoginModal" class="modal checkLoginModal">
+    <div class="modal-content checkLoginModal">
+        <span class="close checkLoginModal" onclick="closeModal()">&times;</span>
+        <p>로그인 후 이용가능합니다.</p>	
+		<p>로그인 화면으로 이동하시겠습니까?</p>
+		<button id="cancelButton">취소</button>
+		<button id="confirmButton">확인</button>
+     </div>
+</div>
+
 					<!-- Products tab & slick -->
 					<div class="col-md-12">
 						<div class="row">
@@ -172,7 +191,7 @@ $(document).ready(function(){
 															<div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
 																<span class="new" style="color: #D10024;"><strong>NEW</strong></span>
 																<div class="product-btns">
-																	<button class="add-to-wishlist">
+																	<button class="add-to-wishlist" onclick="checkLogin()">
 																		<div class="productID" hidden><%=item.getProductID()%></div>
 																		<i class="fa <%= item.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
 																	</button>
@@ -651,6 +670,7 @@ $(document).ready(function(){
 		<script src="js/nouislider.min.js"></script>
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
+	    <script src="js/checkLogin.js"></script>
 
 	</body>
 </html>

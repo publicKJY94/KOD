@@ -31,12 +31,14 @@ public class ProductDetailAction implements Action {
 		try {
 			memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("로그아웃상태 : memberID is null");
 		}
 		
 		WishListDTO productWishDetailData = null;
 		ArrayList<WishListDTO> productWishDatas = null;
 		ArrayList<WishListDTO> recommendationByAgeDatas=null;
+		ArrayList<WishListDTO> productIsWishedDatas = new ArrayList<WishListDTO>();
 		int wishListCnt=0;
 
 		if(memberID==null) {
@@ -46,10 +48,13 @@ public class ProductDetailAction implements Action {
 			wishListDTO.setProductID(Integer.parseInt(request.getParameter("productID")));
 			productWishDetailData = wishListDAO.selectOne(wishListDTO);
 			productWishDatas = new ArrayList<WishListDTO>();
-			wishListDTO.setSearchCondition("연관상품LOGOUT");
+			wishListDTO.setSearchCondition("연관상품LOGOUT스텝1");
+			wishListDTO = wishListDAO.selectOne(wishListDTO);
+			int ageRange = wishListDTO.getMemberAge();
+			System.out.println("DTO에 저장된 나이대 확인 : "+ageRange);
+			wishListDTO.setSearchCondition("연관상품LOGOUT스텝2");
+			wishListDTO.setMemberAge(ageRange);
 			wishListDTO.setProductID(Integer.parseInt(request.getParameter("productID")));
-			wishListDTO.setProductCategory((String)request.getParameter("productCategory"));
-			System.out.println("DTO에 카테고리 담겼니 ?ㅇㅇ "+wishListDTO.getProductCategory());
 			productWishDatas = wishListDAO.selectAll(wishListDTO);
 
 		}
@@ -78,6 +83,22 @@ public class ProductDetailAction implements Action {
 			wishListDTO.setMemberMaxAge(memberMinMaxAge.getMemberMaxAge());
 			productWishDatas = wishListDAO.selectAll(wishListDTO);
 			
+			for (WishListDTO data : productWishDatas) {
+				System.out.println("각 상품별 찜여부 확인로직");
+				int dataProductID=data.getProductID();
+				System.out.println("dataProductID = "+dataProductID);
+				wishListDTO.setSearchCondition("찜여부");
+				wishListDTO.setProductID(dataProductID);
+				wishListDTO.setMemberID(memberID);
+				wishListDTO = wishListDAO.selectOne(wishListDTO);
+				System.out.println(wishListDTO.getIsWished());
+				productIsWishedDatas.add(wishListDTO);
+			}
+			for (int i = 0; i < productWishDatas.size(); i++) {
+				productWishDatas.get(i).setIsWished(productIsWishedDatas.get(i).getIsWished());
+				System.out.println(productIsWishedDatas.get(i).getIsWished());
+			}
+			
 		}    
 		
 		WishListDAO wishListDAO = new WishListDAO();
@@ -97,6 +118,7 @@ public class ProductDetailAction implements Action {
 		request.setAttribute("productWishDatas", productWishDatas);
 		request.setAttribute("wishListCnt", wishListCnt);
 		request.setAttribute("wishTotalCnt", wishTotalCnt);
+		request.setAttribute("productIsWishedDatas", productIsWishedDatas);
 
 		return forward;
 	}
