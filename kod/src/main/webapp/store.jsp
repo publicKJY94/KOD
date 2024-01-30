@@ -206,7 +206,7 @@ M은 C한테 1,0 등의 값을 줘야하니까
    SELECTALL이 되는상황
   -->
 						<!-- product -->
-						<%
+<%
     ArrayList<WishListDTO> currentPageProducts = (ArrayList<WishListDTO>) request.getAttribute("currentPageProducts");
 	int startIndex = 0;
 	int endIndex = currentPageProducts.size();

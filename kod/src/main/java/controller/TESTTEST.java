@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -46,6 +47,9 @@ public class TESTTEST extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		final int won = 10000;
+		Gson gson = new Gson();
+		HttpSession session = request.getSession();
 		System.out.println("\n [김진영] 서블릿에 ajax요청 들어옴");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
@@ -53,20 +57,31 @@ public class TESTTEST extends HttpServlet {
 		ProductDTO productDTO = new ProductDTO();
 		ArrayList<ProductDTO> productFilterDatas = new ArrayList<ProductDTO>();
 		String categoryList = request.getParameter("categoryList");
+		int max = Integer.parseInt(request.getParameter("max"));
+		int min = Integer.parseInt(request.getParameter("min"));
 		System.out.println(categoryList);
 		categoryList = categoryList.replace("[", "");
 		categoryList = categoryList.replace("]", "");
 		categoryList = categoryList.replace("\"", "");
 		String[] ar = categoryList.split(",");
-		int max = Integer.parseInt(request.getParameter("max"));
-		int min = Integer.parseInt(request.getParameter("min"));
 
 		System.out.println(ar[0]);
 		productDTO.setCategoryList(ar);
-//		productDTO.setMax(max);
-//		productDTO.setMin(min);
+		productDTO.setMax(max*won);
+		productDTO.setMin(min*won);
 		// System.out.println(productDTO.getCategoryList());
+		if(session.getAttribute("memberDTO")!=null) {
+			productDTO.setSearchCondition("로그인상품필터");
+		}else {
+			productDTO.setSearchCondition("비로그인상품필터");
+		}
 		productFilterDatas = productDAO.selectCategory(productDTO);
+		//필터검색 결과 확인용 코드
+		if(productFilterDatas!=null) {
+			productFilterDatas.get(0);
+		}else {
+			System.out.println("null임....");
+		}
 //		System.out.println(productFilterDatas.get(0));
 		PrintWriter out = response.getWriter();
 //		System.out.println("===");
@@ -74,11 +89,9 @@ public class TESTTEST extends HttpServlet {
 //		System.out.println("===");
 //		out.print(productFilterDatas);
 		if (productFilterDatas != null) {
-			Gson gson = new Gson();
 			String transDatas = gson.toJson(productFilterDatas);
 			out.println(transDatas);
 		}
-
 	}
 
 }
