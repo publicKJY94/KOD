@@ -47,8 +47,6 @@ public class PayInfoAction implements Action{
 		    System.out.println("선택된 체크박스가 없습니다."); // 추후 alert창 띄우기
 		}
 		
-//		cartDTO.setMemberID(memberID);
-//		datas = cartDAO.selectAll(cartDTO);
 		request.setAttribute("cartDTO", datas);
 		System.out.println(datas);
 		
@@ -56,21 +54,11 @@ public class PayInfoAction implements Action{
 		AddressDAO aDAO = new AddressDAO();
 		
 		aDTO.setMemberID(memberID);
-//		aDTO.setSearchCondition("장바구니배송지");
-//		aDTO = aDAO.selectOne(aDTO);
+		aDTO.setSearchCondition("장바구니배송지");
+		aDTO = aDAO.selectOne(aDTO);
 		System.out.println("결제전 주소지 : "+aDTO);
 		request.setAttribute("addressDTO", aDTO);
 		
-		
-//		ProductDTO productDTO = new ProductDTO();
-//		ProductDAO productDAO = new ProductDAO();
-	//	
-	//	
-//		productDTO.setProductID(Integer.parseInt(request.getParameter("productID")));
-//		productDTO = productDAO.selectOneChoice(productDTO);
-//		productDTO.setProductCnt(Integer.parseInt(request.getParameter("purchaseCnt")));
-//		System.out.println(productDTO);
-//		request.setAttribute("pDTO", productDTO);
 		return forward;
 	}
 
