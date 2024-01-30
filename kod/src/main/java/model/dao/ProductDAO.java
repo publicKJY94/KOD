@@ -13,14 +13,14 @@ public class ProductDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 
-	private static final String SELECTALL = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_CNT, PRODUCT_IMG "
+	private static final String SELECTALL = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_STOCK, PRODUCT_IMG "
 			+ " FROM PRODUCT";
 	private static final String SELECTALL_CATEGORY = "SELECT PRODUCT_CATEGORY, COUNT(PRODUCT_CATEGORY) AS COUNT"
 			+ " FROM PRODUCT GROUP BY PRODUCT_CATEGORY";
 	private static final String SELECTALL_CHIOCE = "SELECT * FROM PRODUCT WHERE ";
-	private static final String SELECTONE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_CNT, PRODUCT_IMG "
+	private static final String SELECTONE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_STOCK, PRODUCT_IMG "
 			+ "FROM PRODUCT WHERE PRODUCT_ID=?";
-	private static final String SELECTONE_CHOICE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_CNT, PRODUCT_IMG "
+	private static final String SELECTONE_CHOICE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_STOCK, PRODUCT_IMG "
 			+ " FROM PRODUCT ";
 	private static final String INSERT_CRAWLING = 
 			  "INSERT "
@@ -31,7 +31,7 @@ public class ProductDAO {
 			+ "  PRODUCT_PRICE, "
 			+ "  PRODUCT_INFO, "
 			+ "  PRODUCT_CATEGORY,  "
-			+ "  PRODUCT_CNT,  "
+			+ "  PRODUCT_STOCK,  "
 			+ "  PRODUCT_IMG) "
 			+ "VALUES(" // 이름 가격 정보 카테고리 수량 이미지
 			+ "  (SELECT NVL(MAX(PRODUCT_ID),1000)+1 FROM PRODUCT), "
@@ -52,7 +52,7 @@ public class ProductDAO {
 				data.setProductName(rs.getString("PRODUCT_NAME"));
 				data.setProductBrand(rs.getString("PRODUCT_BRAND"));
 				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
-				data.setProductCnt(rs.getInt("PRODUCT_CNT"));
+				data.setProductCnt(rs.getInt("PRODUCT_STOCK"));
 				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 				data.setProductInfo(rs.getString("PRODUCT_INFO"));
 				data.setProductImg(rs.getString("PRODUCT_IMG"));
@@ -95,7 +95,7 @@ public class ProductDAO {
 				data.setProductName(rs.getString("PRODUCT_NAME"));
 				data.setProductBrand(rs.getString("PRODUCT_BRAND"));
 				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
-				data.setProductCnt(rs.getInt("PRODUCT_CNT"));
+				data.setProductCnt(rs.getInt("PRODUCT_STOCK"));
 				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 				data.setProductInfo(rs.getString("PRODUCT_INFO"));
 				data.setProductImg(rs.getString("PRODUCT_IMG"));
@@ -146,7 +146,7 @@ public class ProductDAO {
 				data.setProductName(rs.getString("PRODUCT_NAME"));
 				data.setProductBrand(rs.getString("PRODUCT_BRAND"));
 				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
-				data.setProductCnt(rs.getInt("PRODUCT_CNT"));
+				data.setProductCnt(rs.getInt("PRODUCT_STOCK"));
 				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 				data.setProductInfo(rs.getString("PRODUCT_INFO"));
 				data.setProductImg(rs.getString("PRODUCT_IMG"));
@@ -173,7 +173,7 @@ public class ProductDAO {
 				data.setProductName(rs.getString("PRODUCT_NAME"));
 				data.setProductBrand(rs.getString("PRODUCT_BRAND"));
 				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
-				data.setProductCnt(rs.getInt("PRODUCT_CNT"));
+				data.setProductCnt(rs.getInt("PRODUCT_STOCK"));
 				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 				data.setProductInfo(rs.getString("PRODUCT_INFO"));
 				data.setProductImg(rs.getString("PRODUCT_IMG"));

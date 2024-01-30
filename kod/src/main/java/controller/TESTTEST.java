@@ -46,9 +46,7 @@ public class TESTTEST extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("확인확인");
-		System.out.println("확인확인");
-		System.out.println("확인확인");
+		System.out.println("\n [김진영] 서블릿에 ajax요청 들어옴");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
 		ProductDAO productDAO = new ProductDAO();

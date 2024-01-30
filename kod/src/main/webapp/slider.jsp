@@ -31,19 +31,19 @@ label:hover{
 	<div id="price-slider-container">
 		<div class="aside">
 			<h3 class="aside-title">
-				PRICE: <span id="price-output">50
-					- 80</span>
+				PRICE: <span id="price-output">50 - 80</span>
 			</h3>
 			<div id="price-range"></div>
 			<form method="POST" action="" style="position: absolute; top: 0.5em; right: 1em;">
 				<input type="hidden" name="maxPrice" value="" /> 
 				<input type="hidden" name="minPrice" value="" /> 
 				<label for="searchBtn" ><img alt="search" src="img/search.png" style="position: absolute; top: 0.5em; right: 1em;" width="30px" height="30px" /></label>
-				<input type="submit" name="searchBtn" id="searchBtn" value="검색" style="display: none;" onclick="selectcheckbox()">
+				<input type="button" name="searchBtn" id="searchBtn" value="검색" style="display: none;" onclick="selectcheckbox()">
 			</form>
 		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script>
 		$(function() {
 			// jQuery UI의 slider를 초기화
