@@ -1,11 +1,10 @@
+<%@page import="model.dto.ReviewDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.dto.WishListDTO"%>
 <%@page import="model.dto.ProductDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib prefix="kim" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -13,10 +12,6 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-	<c:if test="${fn:length(datas) >= 2}">
-		[ 삭 제 ]
-	</c:if>
 
 		<title>Electro - HTML Ecommerce Template</title>
 
@@ -66,7 +61,7 @@ $(document).ready(function(){
 	    
 	    $.ajax({
 	      type: "POST",
-	      url: "IsWishedAction",
+	      url: "isWishedAction",
 	      data: {"productID": productID},
 	      success: function(data){
 	        console.log(data);
@@ -105,7 +100,7 @@ $(document).ready(function(){
 
 </script>
 
-<script>
+<!-- <script>
 $(document).ready(function(){
 	  $(".add-to-wishlist").on("click", function(e){
 	    e.preventDefault(); // 기본 클릭 이벤트를 중단하여 링크가 이동하는 것을 방지
@@ -118,7 +113,7 @@ $(document).ready(function(){
 	    
 	    $.ajax({
 	      type: "POST",
-	      url: "IsWishedAction",
+	      url: "isWishedAction",
 	      data: {"productID": productID},
 	      success: function(data){
 	        console.log(data);
@@ -136,20 +131,10 @@ $(document).ready(function(){
 	  });
 	});
 
-</script>
-	<%--
+</script> -->
+	<%
 		WishListDTO productWishDetailData = (WishListDTO)request.getAttribute("productWishDetailData");
-	--%>
-		<!-- BREADCRUMB -->
-		<div id="breadcrumb" class="section">
-			<!-- container -->
-			<div class="container">
-				<kim:menu apple="10" />
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /BREADCRUMB -->
-
+	%>
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
@@ -160,7 +145,7 @@ $(document).ready(function(){
 					<div class="col-md-5 col-md-push-2">
 						<div id="product-main-img">
 							<div class="product-preview">
-								<img src="${productWishDetailData.productImg}" alt="">
+								<img src="<%=productWishDetailData.getProductImg() %>" alt="">
 							</div>
 
 							<!-- <div class="product-preview">
@@ -182,7 +167,7 @@ $(document).ready(function(){
 					<div class="col-md-2  col-md-pull-5">
 						<div id="product-imgs">
 							<div class="product-preview">
-								<img src="${productWishDetailData.getProductImg()}" alt="">
+								<img src="<%=productWishDetailData.getProductImg() %>" alt="">
 							</div>
 
 							<!-- <div class="product-preview">
@@ -203,7 +188,7 @@ $(document).ready(function(){
 					<!-- Product details -->
 					<div class="col-md-5">
 						<div class="product-details">
-							<h2 class="product-name">${productWishDetailData.productName}</h2>
+							<h2 class="product-name"><%=productWishDetailData.getProductName()%></h2>
 							<div>
 								<div class="product-rating">
 									<i class="fa fa-star"></i>
@@ -215,10 +200,10 @@ $(document).ready(function(){
 								<a class="review-link" href="#">10 Review(s) | Add your review</a>
 							</div>
 							<div>
-								<h3 class="product-price">${productWishDetailData.productPrice}<del class="product-old-price"></del></h3>
+								<h3 class="product-price"><%=productWishDetailData.getProductPrice() %><del class="product-old-price"></del></h3>
 								<span class="product-available">In Stock</span>
 							</div>
-							<p>${productWishDetailData.productInfo}</p>
+							<p><%=productWishDetailData.getProductInfo()%></p>
 
 							<!-- <div class="product-options">
 								<label>
@@ -240,9 +225,9 @@ $(document).ready(function(){
 								<div class="qty-label">
 									수량
 									<div class="input-number">
-									<input type="hidden" name ="productID" value="${productWishDetailData.productID}">
-									<input type="hidden" name="productName" value="${productWishDetailData.productName}">
-									<input type="hidden" name="productPrice" value="${productWishDetailData.productPrice}">
+									<input type="hidden" name ="productID" value="<%=productWishDetailData.getProductID()%>">
+									<input type="hidden" name="productName" value="<%=productWishDetailData.getProductName()%>">
+									<input type="hidden" name="productPrice" value="<%=productWishDetailData.getProductPrice()%>">
 										<input name="purchaseCnt" type="number">
 										<span class="qty-up">+</span>
 										<span class="qty-down">-</span>
@@ -255,13 +240,8 @@ $(document).ready(function(){
 							<ul class="product-btns">
 								<li>
 								  <a href="#" class="add-to-wishlist2">
-								  <c:if test="${productWishDetailData.isWished == 1}">
-								    <i class="fa fa-heart" id="heartIcon"></i> add to wishList
-								  </c:if>
-								  <c:if test="${productWishDetailData.isWished != 1}">
-								    <i class="fa fa-heart-o" id="heartIcon"></i> add to wishList
-								  </c:if>
-								    <span class="productID" style="display:none;">${productWishDetailData.productID}</span>
+								    <i class="fa <%= productWishDetailData.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i> add to wishList
+								    <span class="productID" style="display:none;"><%=productWishDetailData.getProductID() %></span>
 								  </a>
 								</li>
 								<%
@@ -285,7 +265,7 @@ $(document).ready(function(){
 
 							<ul class="product-links">
 								<li>Category:</li>
-								<li><a href="#">${productWishDetailData.productCategory}</a></li>
+								<li><a href="#"><%=productWishDetailData.getProductCategory() %></a></li>
 							</ul>
 
 							<ul class="product-links">
@@ -300,6 +280,11 @@ $(document).ready(function(){
 					</div>
 					<!-- /Product details -->
 
+
+
+<% ArrayList<ReviewDTO> productReviewDatas = (ArrayList<ReviewDTO> )request.getAttribute("productReviewDatas"); %>
+
+
 					<!-- Product tab -->
 					<div class="col-md-12">
 						<div id="product-tab">
@@ -307,7 +292,7 @@ $(document).ready(function(){
 							<ul class="tab-nav">
 								<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
 								<li><a data-toggle="tab" href="#tab2">Details</a></li>
-								<li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+								<li><a data-toggle="tab" href="#tab3">Reviews (<%=productReviewDatas.size() %>)</a></li>
 							</ul>
 							<!-- /product tab nav -->
 
@@ -317,20 +302,22 @@ $(document).ready(function(){
 								<div id="tab1" class="tab-pane fade in active">
 									<div class="row">
 										<div class="col-md-12">
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<% for(int i=0;i<productReviewDatas.size();i++){ %>
+											<p><%=productReviewDatas.get(i).getReviewContent() %></p>
+											<% } %>
 										</div>
 									</div>
 								</div>
 								<!-- /tab1  -->
 
 								<!-- tab2  -->
-								<div id="tab2" class="tab-pane fade in">
+								<!-- <div id="tab2" class="tab-pane fade in">
 									<div class="row">
 										<div class="col-md-12">
 											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<!-- /tab2  -->
 
 								<!-- tab3  -->
@@ -340,7 +327,10 @@ $(document).ready(function(){
 										<div class="col-md-3">
 											<div id="rating">
 												<div class="rating-avg">
-													<span>4.5</span>
+												<span>리뷰평점 : ${reviewAvgScore}</span>
+											<%-- 	<% for(int i=0;i<productReviewDatas.size();i++){ %>
+													<span><%=productReviewDatas.get(i).getReviewScore() %></span>
+												<%} %> --%>
 													<div class="rating-stars">
 														<i class="fa fa-star"></i>
 														<i class="fa fa-star"></i>
@@ -426,22 +416,26 @@ $(document).ready(function(){
 												<ul class="reviews">
 													<li>
 														<div class="review-heading">
-															<h5 class="name">John</h5>
-															<p class="date">27 DEC 2018, 8:0 PM</p>
-															<div class="review-rating">
+														<% for(int i=0;i<productReviewDatas.size();i++){ %>
+															<h5 class="name"><%=productReviewDatas.get(i).getMemberName() %></h5>
+															<p class="date"><%=productReviewDatas.get(i).getReviewDate() %></p>
+														<%} %>
+														<!-- 	<div class="review-rating">
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star-o empty"></i>
-															</div>
+															</div> -->
 														</div>
 														<div class="review-body">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+														<% for(int i=0;i<productReviewDatas.size();i++){ %>
+															<p><%=productReviewDatas.get(i).getReviewContent() %></p>
+														<%} %>
 														</div>
 													</li>
 													<li>
-														<div class="review-heading">
+														<!-- <div class="review-heading">
 															<h5 class="name">John</h5>
 															<p class="date">27 DEC 2018, 8:0 PM</p>
 															<div class="review-rating">
@@ -451,13 +445,13 @@ $(document).ready(function(){
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star-o empty"></i>
 															</div>
-														</div>
-														<div class="review-body">
+														</div> -->
+														<!-- <div class="review-body">
 															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
 														</div>
-													</li>
+					 -->								</li>
 													<li>
-														<div class="review-heading">
+														<!-- <div class="review-heading">
 															<h5 class="name">John</h5>
 															<p class="date">27 DEC 2018, 8:0 PM</p>
 															<div class="review-rating">
@@ -467,25 +461,25 @@ $(document).ready(function(){
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star-o empty"></i>
 															</div>
-														</div>
-														<div class="review-body">
+														</div> -->
+														<!-- <div class="review-body">
 															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-														</div>
+														</div> -->
 													</li>
-												</ul>
+											<!-- 	</ul>
 												<ul class="reviews-pagination">
 													<li class="active">1</li>
 													<li><a href="#">2</a></li>
 													<li><a href="#">3</a></li>
 													<li><a href="#">4</a></li>
 													<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-												</ul>
+												</ul> -->
 											</div>
 										</div>
 										<!-- /Reviews -->
 
 										<!-- Review Form -->
-										<div class="col-md-3">
+										<!-- <div class="col-md-3">
 											<div id="review-form">
 												<form class="review-form">
 													<input class="input" type="text" placeholder="Your Name">
@@ -504,7 +498,7 @@ $(document).ready(function(){
 													<button class="primary-btn">Submit</button>
 												</form>
 											</div>
-										</div>
+										</div> -->
 										<!-- /Review Form -->
 									</div>
 								</div>
@@ -514,6 +508,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 					<!-- /product tab -->
+
 				</div>
 				<!-- /row -->
 			</div>
@@ -531,11 +526,11 @@ $(document).ready(function(){
 
 					<div class="col-md-12">
 						<div class="section-title text-center">
-							<h3 class="title">(로그인)한회원 연령에 따라 상품추천 && (비로그인)카테고리 관련 추천상품</h3>
+							<h3 class="title">(로그인)한회원 연령에 따라 상품추천 && (비로그인)KOD사이트에 가장 많이 가입한 나이대의 인기상품 추천</h3>
 						</div>
 					</div>
 
-					<%--ArrayList<WishListDTO> productWishDatas = (ArrayList<WishListDTO>)request.getAttribute("productWishDatas"); --%>
+					<%ArrayList<WishListDTO> productWishDatas = (ArrayList<WishListDTO>)request.getAttribute("productWishDatas"); %>
 					
 					<!-- Products tab & slick -->
 					<div class="col-md-12">
@@ -544,7 +539,9 @@ $(document).ready(function(){
 								<!-- tab -->
 								<div id="tab1" class="tab-pane active">
 									<div class="products-slick" data-nav="#slick-nav-1">
-										<c:forEach var="data" items="${productWishDatas}">						
+										<%
+										for(WishListDTO data : productWishDatas){
+										%>
 										<!-- product -->
 												<div class="col-md-4 col-xs-6" style="margin-top: 30px;">
 													<div class="product">
@@ -553,26 +550,21 @@ $(document).ready(function(){
 																<span class="new" style="color: #D10024;"><strong>NEW</strong></span>
 																<div class="product-btns">
 																	<button class="add-to-wishlist">
-																		<div class="productID" hidden>${data.productID}</div>
-																		<c:if test="${data.isWished == 1}">
-																			<i class="fa fa-heart" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
-																		</c:if>
-																		<c:if test="${data.isWished != 1}">
-																			<i class="fa fa-heart-o" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
-																		</c:if>
+																		<div class="productID" hidden><%=data.getProductID()%></div>
+																		<i class="fa <%= data.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
 																	</button>
 																</div>
 															</div>
 														</div>
 														<div class="product-img">
-															<img src="${data.productCategory}" alt="">
+															<img src="<%=data.getProductImg()%>" alt="">
 														</div>
 														<div class="product-body">
-															<p class="product-category">${data.productImg}</p>
+															<p class="product-category"><%=data.getProductCategory()%></p>
 															<h3 class="product-name" style="height: 31px;">
-																	<a href="productDetail.do?productID=${data.productID}">${data.productName}</a>
+																	<a href="productDetail.do?productID=<%=data.getProductID()%>"><%=data.getProductName()%></a>
 															</h3>
-															<h4 class="product-price">${data.productPrice}<del class="product-old-price"></del></h4>
+															<h4 class="product-price"><%=data.getProductPrice()%><del class="product-old-price"></del></h4>
 															<div class="product-rating">
 																<%--평점 들어가는 라인 --%>
 															</div>
@@ -584,7 +576,9 @@ $(document).ready(function(){
 														</div>
 													</div>
 												</div>
-										</c:forEach>
+										<%
+												}
+										%>
 										<!-- /product -->
 
 										
