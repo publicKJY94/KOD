@@ -35,8 +35,8 @@ label:hover{
 			</h3>
 			<div id="price-range"></div>
 			<form method="POST" action="" style="position: absolute; top: 0.5em; right: 1em;">
-				<input type="hidden" name="maxPrice" value="" /> 
-				<input type="hidden" name="minPrice" value="" /> 
+				<input type="hidden" id="maxPrice" name="maxPrice" value="" /> 
+				<input type="hidden" id="minPrice" name="minPrice" value="" /> 
 				<label for="searchBtn" ><img alt="search" src="img/search.png" style="position: absolute; top: 0.5em; right: 1em;" width="30px" height="30px" /></label>
 				<input type="button" name="searchBtn" id="searchBtn" value="검색" style="display: none;" onclick="selectcheckbox()">
 			</form>
@@ -50,8 +50,8 @@ label:hover{
 			$("#price-range").slider({
 				range : true, // 두 개의 핸들을 허용
 				min : 0,
-				max : 100,
-				values : [ 50, 80 ], // 초기값 설정
+				max : 1000,
+				values : [ 0, 1000 ], // 초기값 설정
 				slide : function(event, ui) {
 					updatePriceDisplay(ui.values[0], ui.values[1]);
 				}
@@ -69,7 +69,7 @@ label:hover{
 
 			// 화면에 표시된 PRICE을 업데이트하는 함수
 			function updatePriceDisplay(minPrice, maxPrice) {
-				$("#price-output").text(minPrice + " - " + maxPrice);
+				$("#price-output").text(minPrice + " - " + maxPrice + " 만원");
 				$("input[name=maxPrice]").attr("value", maxPrice);
 				$("input[name=minPrice]").attr("value", minPrice);
 			}

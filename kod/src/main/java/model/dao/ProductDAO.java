@@ -72,18 +72,21 @@ public class ProductDAO {
 		ArrayList<ProductDTO> datas = new ArrayList<ProductDTO>();
 		conn = JDBCUtil.connect();
 		try {
+			// [김진영] 필터검색 조건에 맞게 쿼리를 변경하기 위한 작업
 			String result = "";
-			//result += " (PRODUCT_PRICE BETWEEN " + pDTO.getMin() + " AND " + pDTO.getMax() + " ) AND ";
+			result += " (PRODUCT_PRICE BETWEEN " + pDTO.getMin() + " AND " + pDTO.getMax() + " ) AND ";
 			if(pDTO.getCategoryList().length>0) {
 				result += " ( PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
 				for (int i = 1; i < pDTO.getCategoryList().length; i++) {
 					result += " OR PRODUCT_CATEGORY = " + " '" + pDTO.getCategoryList()[i] + "' " ;
 				}
 				result += " ) ";
-				result += SELECTALL_CHIOCE+result;
+				result = SELECTALL_CHIOCE+result;
 			}else {
-				result = SELECTALL;
+				result = SELECTALL+result;
 			}
+			// [김진영] 완성된 쿼리를 확인
+			System.out.println(result);
 			pstmt = conn.prepareStatement(result);
 //			pstmt.setString(1, result);
 //			System.out.println(SELECTALL_CHIOCE);

@@ -12,7 +12,28 @@ public class ProductDTO {
 	private String productImg;
 	private String searchCondition;
 	
+	private boolean isWished;
+	private int max;
+	private int min;
 	
+	public boolean isWished() {
+		return isWished;
+	}
+	public void setWished(boolean isWished) {
+		this.isWished = isWished;
+	}
+	public int getMax() {
+		return max;
+	}
+	public void setMax(int max) {
+		this.max = max;
+	}
+	public int getMin() {
+		return min;
+	}
+	public void setMin(int min) {
+		this.min = min;
+	}
 	private String[] categoryList;
 	
 	public String[] getCategoryList() {
