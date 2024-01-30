@@ -101,7 +101,7 @@ $(document).ready(function(){
         
         $.ajax({
             type: "POST",
-            url: 'IsWishedAction',
+            url: 'isWishedAction',
             data: { 'productID': productID },
             success: function(data){
                 console.log(data);
