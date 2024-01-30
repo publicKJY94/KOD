@@ -12,7 +12,7 @@ import model.dao.WishListDAO;
 import model.dto.MemberDTO;
 import model.dto.WishListDTO;
 
-@WebServlet("/IsWishedAction")
+@WebServlet("/isWishedAction")
 public class IsWishedAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

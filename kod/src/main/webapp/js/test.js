@@ -7,13 +7,14 @@ function selectcheckbox() {
 		lists.push(checkbox.name); // 체크박스의 name 속성 값 가져오기
 		cCookie(checkbox.name);
 	});
-	var max 
+	var max = inputMax.value;
+	var min = inputMin.value;
 	var categoryList = JSON.stringify(lists);
-	selectProduct(categoryList);
+	selectProduct(categoryList, max, min);
 }
 
 var product = $('div.store > div.row');
-function selectProduct(categoryList) {
+function selectProduct(categoryList, max, min) {
 	console.log(categoryList);
 	$.ajax({
 		type: "POST",
@@ -72,7 +73,7 @@ function selectProduct(categoryList) {
 						</div>
 					</div>`;
 			});
-			product.html(elem);
+			product.innerHTML(elem);
 		},
 		error:function(err){
 			console.log(err.status);
