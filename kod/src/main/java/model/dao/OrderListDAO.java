@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import model.dto.MemberDTO;
 import model.dto.OrderListDTO;
 import model.util.JDBCUtil;
 
@@ -14,7 +13,7 @@ public class OrderListDAO {
 	private PreparedStatement pstmt;
 	
 	private static final String SELECTALL="";
-	private static final String SELECTONE="SELECT NVL(MAX(ORDERLIST_ID),1) AS MAX_ID FROM ORDERLIST";
+	private static final String SELECTONE="SELECT NVL(MAX(ORDERLIST_ID),0) AS MAX_ID FROM ORDERLIST WHERE MEMBER_ID=?";
 	private static final String INSERT="INSERT INTO ORDERLIST "
 			+ " (ORDERLIST_ID, MEMBER_ID, ORDERLIST_DATE) "
 			+ " VALUES((SELECT NVL(MAX(ORDERLIST_ID),0)+1 FROM ORDERLIST), ?, SYSDATE)";
@@ -30,6 +29,7 @@ public class OrderListDAO {
 		conn=JDBCUtil.connect();
 		try {
 			pstmt=conn.prepareStatement(SELECTONE);
+			pstmt.setString(1, oDTO.getMemberID());
 			ResultSet rs=pstmt.executeQuery();
 
 			if(rs.next()) {

@@ -25,5 +25,9 @@ public class OrderListDTO {
 	public void setOdListDate(Date odListDate) {
 		this.odListDate = odListDate;
 	}
+	@Override
+	public String toString() {
+		return "OrderListDTO [odListID=" + odListID + ", memberID=" + memberID + ", odListDate=" + odListDate + "]";
+	}
 	
 }

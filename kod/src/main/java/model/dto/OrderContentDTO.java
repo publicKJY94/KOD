@@ -6,13 +6,21 @@ public class OrderContentDTO {
 	private int odListID;
 	private int productID;
 	private int odContentCnt;
+	
 	private int productPrice;
 	private String productName;
 	private String productImg;
 	private String productCategory;
-	
+	private String memberID;
 	private String searchCondition;
 	
+	
+	public String getMemberID() {
+		return memberID;
+	}
+	public void setMemberID(String memberID) {
+		this.memberID = memberID;
+	}
 	public int getProductPrice() {
 		return productPrice;
 	}

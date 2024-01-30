@@ -13,13 +13,13 @@ public class OrderContentDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	
-	private static final String SELECTALL="";
-	private static final String SELECTTOP3="SELECT r.PRODUCT_ID , r.PRODUCT_IMG , r.PRODUCT_CATEGORY , r.PRODUCT_NAME , r.PRODUCT_PRICE, r.TOTAL "
+	private static final String SELECTALL="SELECT * FROM ORDERCONTENT OC INNER JOIN PRODUCT P ON P.PRODUCT_ID = OC.PRODUCT_ID WHERE OC.ORDERLIST_ID = ?";
+	private static final String SELECTTOP3="SELECT r.PRODUCT_ID , r.PRODUCT_IMG , r.PRODUCT_CATEGORY , r.PRODUCT_NAME , r.PRODUCT_PRICE, r.TOTAL, r.ORDERCONTENT_CNT "
 			+ " FROM "
-			+ " (SELECT p.PRODUCT_ID , p.PRODUCT_IMG , p.PRODUCT_CATEGORY , p.PRODUCT_NAME ,p.PRODUCT_PRICE, SUM(oc.ORDERCONTENT_CNT) AS TOTAL "
+			+ " (SELECT p.PRODUCT_ID , p.PRODUCT_IMG , p.PRODUCT_CATEGORY , p.PRODUCT_NAME ,p.PRODUCT_PRICE, SUM(oc.ORDERCONTENT_CNT) AS TOTAL, oc.ORDERCONTENT_CNT "
 			+ "	FROM PRODUCT p "
 			+ "	INNER JOIN ORDERCONTENT oc ON p.PRODUCT_ID = oc.PRODUCT_ID "
-			+ "	GROUP BY p.PRODUCT_ID ,p.PRODUCT_IMG , p.PRODUCT_CATEGORY , p.PRODUCT_NAME ,p.PRODUCT_PRICE "
+			+ "	GROUP BY p.PRODUCT_ID ,p.PRODUCT_IMG , p.PRODUCT_CATEGORY , p.PRODUCT_NAME ,p.PRODUCT_PRICE, oc.ORDERCONTENT_CNT "
 			+ "	ORDER BY TOTAL DESC) r"
 			+ " WHERE ROWNUM <=3";
 	private static final String SELECTONE="";
@@ -37,6 +37,10 @@ public class OrderContentDAO {
 			if(oContentDTO.getSearchCondition().equals("top3")) { // 판매량 순위 3위까지 선택
 				pstmt=conn.prepareStatement(SELECTTOP3);	
 			}
+			else if(oContentDTO.getSearchCondition().equals("결제내역")) {
+				pstmt=conn.prepareStatement(SELECTALL);
+				pstmt.setInt(1, oContentDTO.getOdListID());
+			}
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				data = new OrderContentDTO();
@@ -45,6 +49,7 @@ public class OrderContentDAO {
 				data.setProductImg(rs.getString("PRODUCT_IMG"));
 				data.setProductName(rs.getString("PRODUCT_NAME"));
 				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+				data.setOdContentCnt(rs.getInt("ORDERCONTENT_CNT"));
 				datas.add(data);
 				System.out.println(datas);
 			}
