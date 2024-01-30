@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.dao.ReviewDAO;
 import model.dao.WishListDAO;
 import model.dto.MemberDTO;
+import model.dto.ReviewDTO;
 import model.dto.WishListDTO;
 
 public class ProductDetailAction implements Action {
@@ -119,6 +121,31 @@ public class ProductDetailAction implements Action {
 		request.setAttribute("wishListCnt", wishListCnt);
 		request.setAttribute("wishTotalCnt", wishTotalCnt);
 		request.setAttribute("productIsWishedDatas", productIsWishedDatas);
+		
+		
+		ArrayList<ReviewDTO> productReviewDatas = new  ArrayList<ReviewDTO>();
+		ReviewDAO reviewDAO = new ReviewDAO();
+		ReviewDTO reviewDTO = new ReviewDTO();
+		reviewDTO.setSearchCondition("상품리뷰전체조회");
+		reviewDTO.setProductID(Integer.parseInt(request.getParameter("productID")));
+		productReviewDatas = reviewDAO.selectAll(reviewDTO);
+		int totalScore = 0;
+		double reviewAvgScore = 0;
+		int count; // 별점 수량 카운트
+		/* 리뷰 평점 로직
+		 * 이 로직이 컨트롤러에 있어도 괜찮니 ? 안될거같은데 ... MODEL에 있어야할거같아.
+		 * -> 해당 로직은 뷰에서 구현해야한다. c:for c:if 사용
+		 */
+		for (ReviewDTO data : productReviewDatas) {
+			System.out.println("프로덕트디테일액션 리뷰조회 주석");
+			System.out.println(data.getReviewTitle());
+			totalScore += data.getReviewScore();
+		}
+		System.out.println("총점"+totalScore);
+		reviewAvgScore=totalScore/productReviewDatas.size();
+		
+		request.setAttribute("productReviewDatas", productReviewDatas);
+		request.setAttribute("reviewAvgScore", reviewAvgScore);
 
 		return forward;
 	}

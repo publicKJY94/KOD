@@ -1,15 +1,21 @@
 package model.dto;
 
-import java.sql.Time;
+import java.sql.Date;
 
 public class ReviewDTO {
 	private int reviewID;
 	private int reviewScore;
-	private int reviewReply;
-	private int productID;
-	private Time reviewTime;
+	private double reviewAvgScore;
+	private String reviewImg;
+	private Date reviewDate;
 	private String reviewTitle;
+	private String reviewContent;
+	private String reviewReply;
 	private String memberID;
+	private String memberName;
+	private int productID;
+	private int productName;
+	private String searchCondition;
 	
 	public int getReviewID() {
 		return reviewID;
@@ -23,23 +29,23 @@ public class ReviewDTO {
 	public void setReviewScore(int reviewScore) {
 		this.reviewScore = reviewScore;
 	}
-	public int getReviewReply() {
-		return reviewReply;
+	public double getReviewAvgScore() {
+		return reviewAvgScore;
 	}
-	public void setReviewReply(int reviewReply) {
-		this.reviewReply = reviewReply;
+	public void setReviewAvgScore(double reviewAvgScore) {
+		this.reviewAvgScore = reviewAvgScore;
 	}
-	public int getProductID() {
-		return productID;
+	public String getReviewImg() {
+		return reviewImg;
 	}
-	public void setProductID(int productID) {
-		this.productID = productID;
+	public void setReviewImg(String reviewImg) {
+		this.reviewImg = reviewImg;
 	}
-	public Time getReviewTime() {
-		return reviewTime;
+	public Date getReviewDate() {
+		return reviewDate;
 	}
-	public void setReviewTime(Time reviewTime) {
-		this.reviewTime = reviewTime;
+	public void setReviewDate(Date reviewDate) {
+		this.reviewDate = reviewDate;
 	}
 	public String getReviewTitle() {
 		return reviewTitle;
@@ -47,14 +53,47 @@ public class ReviewDTO {
 	public void setReviewTitle(String reviewTitle) {
 		this.reviewTitle = reviewTitle;
 	}
+	public String getReviewContent() {
+		return reviewContent;
+	}
+	public void setReviewContent(String reviewContent) {
+		this.reviewContent = reviewContent;
+	}
+	public String getReviewReply() {
+		return reviewReply;
+	}
+	public void setReviewReply(String reviewReply) {
+		this.reviewReply = reviewReply;
+	}
 	public String getMemberID() {
 		return memberID;
 	}
 	public void setMemberID(String memberID) {
 		this.memberID = memberID;
 	}
-	
-	
-	
+	public String getMemberName() {
+		return memberName;
+	}
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+	public int getProductID() {
+		return productID;
+	}
+	public void setProductID(int productID) {
+		this.productID = productID;
+	}
+	public int getProductName() {
+		return productName;
+	}
+	public void setProductName(int productName) {
+		this.productName = productName;
+	}
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
 	
 }
