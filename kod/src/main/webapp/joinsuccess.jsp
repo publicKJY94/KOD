@@ -12,7 +12,7 @@
 
 <script>
 	alert('${msg}');
-	window.location.href="main.jsp";
+	window.location.href="main.do";
 </script>
 
 </body>

@@ -39,6 +39,9 @@ public class HandlerMapping {
 		this.mappings.put("/goback.do", new GobackAction());
 		this.mappings.put("/loginsuccess.do", new LoginsuccessAction());
 		this.mappings.put("/joinsuccess.do", new JoinsuccessAction());
+		this.mappings.put("/mypageMemberUpdate.do", new MypageMemberUpdateAction());
+		this.mappings.put("/memberUpdateAction.do", new MemberUpdateAction());
+		this.mappings.put("/mypageMemberUpdatePWCK.do", new MypageMemberUpdatePWCKAction());
 	}
 	
 	public Action getAction(String commed) {

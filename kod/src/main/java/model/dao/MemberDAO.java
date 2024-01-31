@@ -18,7 +18,7 @@ public class MemberDAO {
 	private static final String SELECTONE_CHECK="SELECT * FROM MEMBER WHERE MEMBER_ID=?";
 
 	private static final String INSERT="INSERT INTO MEMBER VALUES(?,?,?,?,?,'user',?,?)";
-	private static final String UPDATE="UPDATE MEMBER SET NAME=? WHERE MEMBER_ID=?";
+	private static final String UPDATE="UPDATE MEMBER SET MEMBER_NAME=?, MEMBER_PW=?, MEMBER_EMAIL=? WHERE MEMBER_ID=?"; //GENDER=?, BIRTH=?, PHNUM=?, EMAIL=?
 	private static final String DELETE="DELETE FROM MEMBER WHERE MID=?";
 	
 	
@@ -92,6 +92,7 @@ public class MemberDAO {
 		
 		return data;
 	}
+	
 	public boolean insert(MemberDTO mDTO) {
 		conn=JDBCUtil.connect();
 		
@@ -126,9 +127,33 @@ public class MemberDAO {
 		
 	
 	
-	public void update() {
+	public boolean update(MemberDTO mDTO) {
+		System.out.println(mDTO + "dao <<<");
+		conn=JDBCUtil.connect();
+		try {
+			pstmt=conn.prepareStatement(UPDATE);
+			pstmt.setString(1,mDTO.getMemberName());
+			pstmt.setString(2,mDTO.getMemberPW());
+			pstmt.setString(3,mDTO.getMemberEmail());
+			pstmt.setString(4,mDTO.getMemberID());
+			System.out.println("[로그] memberDAO update -> memberEmail"+mDTO.getMemberEmail());
+			int rs=pstmt.executeUpdate();
+			if(rs <= 0) {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}finally {
+			JDBCUtil.disconnect(pstmt, conn);
+			
+		}
+		
+		return true;
 		
 	}
+	
+	
 	public void delete() {
 		
 	}
