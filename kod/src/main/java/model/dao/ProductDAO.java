@@ -17,7 +17,11 @@ public class ProductDAO {
 			+ " FROM PRODUCT";
 	private static final String SELECTALL_CATEGORY = "SELECT PRODUCT_CATEGORY, COUNT(PRODUCT_CATEGORY) AS COUNT"
 			+ " FROM PRODUCT GROUP BY PRODUCT_CATEGORY";
-	private static final String SELECTALL_CHIOCE = "SELECT * FROM PRODUCT WHERE ";
+	private static final String SELECTALL_CHIOCE = 
+			" SELECT p.PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, "
+			+ " PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, "
+			+ " PRODUCT_STOCK, PRODUCT_IMG, NVL(w.WISHLIST_ID,0) AS ISWISHED "
+			+ " FROM PRODUCT p LEFT OUTER JOIN WISHLIST w ON p.PRODUCT_ID = w.PRODUCT_ID AND MEMBER_ID = ";
 	private static final String SELECTONE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_STOCK, PRODUCT_IMG "
 			+ "FROM PRODUCT WHERE PRODUCT_ID=?";
 	private static final String SELECTONE_CHOICE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_STOCK, PRODUCT_IMG "
@@ -74,7 +78,13 @@ public class ProductDAO {
 		try {
 			// [김진영] 필터검색 조건에 맞게 쿼리를 변경하기 위한 작업
 			String result = "";
-			result += " (PRODUCT_PRICE BETWEEN " + pDTO.getMin() + " AND " + pDTO.getMax() + " ) AND ";
+			// 로그인 유무에 따른 조건식
+			if(pDTO.getMemberID()!=null) {
+				result += " '"+pDTO.getMemberID()+ "' ";
+			}else {
+				result += " 'NULL' ";
+			}
+			result += " WHERE ( PRODUCT_PRICE BETWEEN " + pDTO.getMin() + " AND " + pDTO.getMax() + " ) AND ";
 			if(pDTO.getCategoryList().length>0) {
 				result += " ( PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
 				for (int i = 1; i < pDTO.getCategoryList().length; i++) {
@@ -98,10 +108,11 @@ public class ProductDAO {
 				data.setProductName(rs.getString("PRODUCT_NAME"));
 				data.setProductBrand(rs.getString("PRODUCT_BRAND"));
 				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
-				data.setProductCnt(rs.getInt("PRODUCT_STOCK"));
+				data.setProductStock(rs.getInt("PRODUCT_STOCK"));
 				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 				data.setProductInfo(rs.getString("PRODUCT_INFO"));
 				data.setProductImg(rs.getString("PRODUCT_IMG"));
+				data.setIsWished(rs.getInt("ISWISHED"));
 				System.out.println(data);
 				datas.add(data);
 			}
