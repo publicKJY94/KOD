@@ -78,12 +78,13 @@ public class ProductDAO {
 		try {
 			// [김진영] 필터검색 조건에 맞게 쿼리를 변경하기 위한 작업
 			String result = "";
-			// 로그인 유무에 따른 조건식
+			// [김진영]로그인 유무에 따른 조건식
 			if(pDTO.getMemberID()!=null) {
 				result += " '"+pDTO.getMemberID()+ "' ";
 			}else {
 				result += " 'NULL' ";
 			}
+			// [김진영] 요청에서 가격은 항상 받기에 if조건문 미사용 
 			result += " WHERE ( PRODUCT_PRICE BETWEEN " + pDTO.getMin() + " AND " + pDTO.getMax() + " ) AND ";
 			if(pDTO.getCategoryList().length>0) {
 				result += " ( PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
@@ -91,15 +92,11 @@ public class ProductDAO {
 					result += " OR PRODUCT_CATEGORY = " + " '" + pDTO.getCategoryList()[i] + "' " ;
 				}
 				result += " ) ";
-				result = SELECTALL_CHIOCE+result;
-			}else {
-				result = SELECTALL+result;
 			}
+			result = SELECTALL_CHIOCE+result;
 			// [김진영] 완성된 쿼리를 확인
 			System.out.println(result);
 			pstmt = conn.prepareStatement(result);
-//			pstmt.setString(1, result);
-//			System.out.println(SELECTALL_CHIOCE);
 			ResultSet rs = pstmt.executeQuery();
 			System.out.println(rs);
 			while (rs.next()) {
