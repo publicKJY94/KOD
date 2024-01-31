@@ -14,7 +14,7 @@ public class MemberUpdateAction implements Action{
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("집에좀 가자 ");
+		
 		
 		 ActionForward forward = new ActionForward();
 	      
