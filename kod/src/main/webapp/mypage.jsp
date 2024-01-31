@@ -37,10 +37,16 @@
 <body>
 	<jsp:include page="util/header.jsp"></jsp:include>
 	<jsp:include page="util/navigation.jsp"></jsp:include>
+	
+	
+	
+	
 	<div class="big-box">
 		<!-- aside Widget -->
 		<div class="aside">
-			<h3 class="aside-title">개인정보변경</h3><br>
+			 <a href="mypageMemberUpdatePWCK.do">
+        <h3 class="aside-title">개인정보변경</h3>
+    </a><br>
 		</div>
 		<hr>
 		<div class="aside">
