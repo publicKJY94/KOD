@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import model.dao.ProductDAO;
+import model.dto.MemberDTO;
 import model.dto.ProductDTO;
 
 /**
@@ -59,22 +60,25 @@ public class TESTTEST extends HttpServlet {
 		String categoryList = request.getParameter("categoryList");
 		int max = Integer.parseInt(request.getParameter("max"));
 		int min = Integer.parseInt(request.getParameter("min"));
+		String memberID = "";
+		if(session.getAttribute("memberDTO")==null) {
+			productDTO.setMemberID(null);
+		}else {
+			memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
+			productDTO.setMemberID(memberID);
+		}
 		System.out.println(categoryList);
 		categoryList = categoryList.replace("[", "");
 		categoryList = categoryList.replace("]", "");
 		categoryList = categoryList.replace("\"", "");
 		String[] ar = categoryList.split(",");
-
+		System.out.println(memberID);
 		System.out.println(ar[0]);
 		productDTO.setCategoryList(ar);
 		productDTO.setMax(max*won);
 		productDTO.setMin(min*won);
 		// System.out.println(productDTO.getCategoryList());
-		if(session.getAttribute("memberDTO")!=null) {
-			productDTO.setSearchCondition("로그인상품필터");
-		}else {
-			productDTO.setSearchCondition("비로그인상품필터");
-		}
+		productDTO.setSearchCondition("상품필터");
 		productFilterDatas = productDAO.selectCategory(productDTO);
 		//필터검색 결과 확인용 코드
 		if(productFilterDatas!=null) {

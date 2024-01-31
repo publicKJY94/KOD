@@ -12,15 +12,22 @@ public class ProductDTO {
 	private String productImg;
 	private String searchCondition;
 	
-	private boolean isWished;
+	private int isWished;
 	private int max;
 	private int min;
+	private String memberID;
 	
-	public boolean isWished() {
+	public int getIsWished() {
 		return isWished;
 	}
-	public void setWished(boolean isWished) {
+	public void setIsWished(int isWished) {
 		this.isWished = isWished;
+	}
+	public String getMemberID() {
+		return memberID;
+	}
+	public void setMemberID(String memberID) {
+		this.memberID = memberID;
 	}
 	public int getMax() {
 		return max;
