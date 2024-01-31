@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품 후기 작성</title>
     <link type="text/css" rel="stylesheet" href="css/reviewWrite.css">
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="css/style.css"/>
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	
 </head>
 <script>
 function previewImage(event) {
@@ -46,8 +51,6 @@ function cancelImageUpload() {
  모든 요청을 Action 클래스를 통해 처리
     매핑 => HM : 싱글톤
  비동기때문에 추가 서블릿이 필요한 상황일뿐!
-
- 구조 아주 중요합니다 조금이라도 헷갈리면 질문오십셔
  */
 
 </script>
@@ -64,18 +67,22 @@ function cancelImageUpload() {
                 <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required />
             </div>
             <div class="FormRow">
-                <label for="content">내용</label>
-                <textarea id="content" name="content" placeholder="내용을 입력하세요" required></textarea>
+                <label for="content" >내용</label>
+                <textarea id="content" name="content" placeholder="내용을 입력하세요" required style="height: 200px"></textarea>
             </div>
             <div class="FormRow">
                 <label for="rating">별점</label>
-                <select id="score" name="score">
-                    <option value="1">1점</option>
-                    <option value="2">2점</option>
-                    <option value="3">3점</option>
-                    <option value="4">4점</option>
-                    <option value="5">5점</option>
-                </select>
+				<div class="review-form">
+				<div class="input-rating">
+                <div class="stars" >
+					<input id="star5" name="score" value="5" type="radio"><label for="star5"></label>
+					<input id="star4" name="score" value="4" type="radio"><label for="star4"></label>
+					<input id="star3" name="score" value="3" type="radio"><label for="star3"></label>
+					<input id="star2" name="score" value="2" type="radio"><label for="star2"></label>
+					<input id="star1" name="score" value="1" type="radio"><label for="star1"></label>
+				</div>
+				</div>
+				</div>
             </div>
             <div class="FormRow">
 			    <label for="imageUpload">이미지 업로드</label>
