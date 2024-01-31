@@ -31,7 +31,7 @@ label:hover{
 	<div id="price-slider-container">
 		<div class="aside">
 			<h3 class="aside-title">
-				PRICE: <span id="price-output">50 - 80</span>
+				PRICE: <span id="price-output"></span>
 			</h3>
 			<div id="price-range"></div>
 			<form method="POST" action="" style="position: absolute; top: 0.5em; right: 1em;">
@@ -49,6 +49,7 @@ label:hover{
 			// jQuery UI의 slider를 초기화
 			$("#price-range").slider({
 				range : true, // 두 개의 핸들을 허용
+// 개선사항으로 max, min의 값을 조회해서 기준값으로 설정하는 방법 고민
 				min : 0,
 				max : 1000,
 				values : [ 0, 1000 ], // 초기값 설정

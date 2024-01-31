@@ -1,3 +1,4 @@
+// 버튼 클릭시 실행되는 함수
 function selectcheckbox() {
 	var checkboxes = document.querySelectorAll('input[type=checkbox]:checked'); // 카테고리명은 실제 카테고리의 이름으로 대체해야 합니다.
 	var inputMax = document.querySelector('#maxPrice'); // 카테고리명은 실제 카테고리의 이름으로 대체해야 합니다.
@@ -19,15 +20,17 @@ function selectcheckbox() {
 	var categoryList = JSON.stringify(lists);
 	selectProduct(categoryList, max, min);
 }
+// 통화 표기법을 바꿔주기 위한 함수
 let won = Intl.NumberFormat('ko-KR', {
 	style: 'currency',
 	currency: 'KRW',
 });
+// 버튼 클릭 시 ajax를 실행시킬 함수
 function selectProduct(categoryList, max, min) {
 	console.log(categoryList + "max:" + max + "min:" + min);
 	$.ajax({
 		type: "POST",
-		url: "test",
+		url: "filter",
 		data: {
 			"categoryList": categoryList,
 			"max": max,

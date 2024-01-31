@@ -64,7 +64,7 @@ label:hover {
 <script src="js/nouislider.min.js"></script>
 <script src="js/jquery.zoom.min.js"></script>
 <script src="js/main.js"></script>
-<script src="js/test.js"></script>
+<script src="js/filter.js"></script>
 <body>
 	<%-- 
 		[김진영] 헤더와 네비게이션은 활용되는 페이지가 많아서 
