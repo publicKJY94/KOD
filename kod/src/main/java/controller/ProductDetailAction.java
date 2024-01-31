@@ -1,7 +1,10 @@
 package controller;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -110,9 +113,9 @@ public class ProductDetailAction implements Action {
 		wishListDTO=wishListDAO.selectOne(wishListDTO);
 		int wishTotalCnt = wishListDTO.getWishTotalCnt();
 		
+		System.out.println("[정현진LOG] 찜여부확인");
 		for (WishListDTO data : productWishDatas) {
-			System.out.println("삐용삐용삐용삐용삐용삐용삐용삐용삐용삐용");
-//			System.out.println("data로그 : "+data.getProductName());
+			System.out.print("data로그 : "+data.getProductName());
 			System.out.println(data.getIsWished());
 		}
 		
@@ -123,30 +126,110 @@ public class ProductDetailAction implements Action {
 		request.setAttribute("productIsWishedDatas", productIsWishedDatas);
 		
 		
-		ArrayList<ReviewDTO> productReviewDatas = new  ArrayList<ReviewDTO>();
+		ArrayList<ReviewDTO> productReviewDatas = new ArrayList<ReviewDTO>();
 		ReviewDAO reviewDAO = new ReviewDAO();
 		ReviewDTO reviewDTO = new ReviewDTO();
 		reviewDTO.setSearchCondition("상품리뷰전체조회");
 		reviewDTO.setProductID(Integer.parseInt(request.getParameter("productID")));
 		productReviewDatas = reviewDAO.selectAll(reviewDTO);
-		int totalScore = 0;
-		double reviewAvgScore = 0;
-		int count; // 별점 수량 카운트
-		/* 리뷰 평점 로직
-		 * 이 로직이 컨트롤러에 있어도 괜찮니 ? 안될거같은데 ... MODEL에 있어야할거같아.
-		 * -> 해당 로직은 뷰에서 구현해야한다. c:for c:if 사용
-		 */
-		for (ReviewDTO data : productReviewDatas) {
-			System.out.println("프로덕트디테일액션 리뷰조회 주석");
-			System.out.println(data.getReviewTitle());
-			totalScore += data.getReviewScore();
-		}
-		System.out.println("총점"+totalScore);
-		reviewAvgScore=totalScore/productReviewDatas.size();
-		
-		request.setAttribute("productReviewDatas", productReviewDatas);
-		request.setAttribute("reviewAvgScore", reviewAvgScore);
+		double totalScore = 0.0;
+		double reviewAvgScore = 0.0;
+		int totalReviewCount = productReviewDatas.size(); // 리뷰 총개수
 
+		// 리뷰데이터 유효성 검사
+		if (productReviewDatas.isEmpty() || productReviewDatas==null) { // 리뷰데이터가 없다면
+		    System.out.println("리뷰 데이터 없음");
+		} 
+		else { // 리뷰데이터가 존재한다면
+		    for (ReviewDTO data : productReviewDatas) {
+		        totalScore += data.getReviewScore();
+		        Path path = Paths.get(data.getReviewImg());
+		        String relativePath = path.getFileName().toString();
+		        data.setReviewImg(relativePath);
+		        System.out.println("[정현진LOG] " + data.getMemberName() + "회원 " + data.getReviewScore() + "점");
+		    }
+		    for (ReviewDTO data : productReviewDatas) {
+		        System.out.println(data.getReviewImg());
+		    }
+		    reviewAvgScore = Math.round((totalScore / totalReviewCount) * 100.0) / 100.0;
+		    System.out.println("총점" + totalScore);
+		    System.out.println("평점" + reviewAvgScore);
+
+		    request.setAttribute("productReviewDatas", productReviewDatas);
+		    request.setAttribute("reviewAvgScore", reviewAvgScore);
+
+		    // 리뷰데이터가 존재할 때만 필요한 변수들이라 else문 안에 선언
+		    int oneScoreCount = 0;
+		    int twoScoreCount = 0;
+		    int threeScoreCount = 0;
+		    int fourScoreCount = 0;
+		    int fiveScoreCount = 0;
+
+		    for (ReviewDTO data : productReviewDatas) {
+		        // 각 별점 개수 카운트
+		        if (data.getReviewScore() == 1) {
+		            oneScoreCount++;
+		        } else if (data.getReviewScore() == 2) {
+		            twoScoreCount++;
+		        } else if (data.getReviewScore() == 3) {
+		            threeScoreCount++;
+		        } else if (data.getReviewScore() == 4) {
+		            fourScoreCount++;
+		        } else if (data.getReviewScore() == 5) {
+		            fiveScoreCount++;
+		        }
+		    }
+
+		    // 각 별점 비율 계산
+		    double oneScoreRatio = (double) oneScoreCount / totalReviewCount * 100;
+		    double twoScoreRatio = (double) twoScoreCount / totalReviewCount * 100;
+		    double threeScoreRatio = (double) threeScoreCount / totalReviewCount * 100;
+		    double fourScoreRatio = (double) fourScoreCount / totalReviewCount * 100;
+		    double fiveScoreRatio = (double) fiveScoreCount / totalReviewCount * 100;
+
+		    request.setAttribute("oneScoreCount", oneScoreCount);
+		    request.setAttribute("twoScoreCount", twoScoreCount);
+		    request.setAttribute("threeScoreCount", threeScoreCount);
+		    request.setAttribute("fourScoreCount", fourScoreCount);
+		    request.setAttribute("fiveScoreCount", fiveScoreCount);
+		    request.setAttribute("oneScoreRatio", oneScoreRatio);
+		    request.setAttribute("twoScoreRatio", twoScoreRatio);
+		    request.setAttribute("threeScoreRatio", threeScoreRatio);
+		    request.setAttribute("fourScoreRatio", fourScoreRatio);
+		    request.setAttribute("fiveScoreRatio", fiveScoreRatio);
+		    
+		    /*
+		     * oneScoreCount, twoScoreCount, ..., fiveScoreRatio는 
+		     * 특정 별점에 대한 카운트와 비율을 계산하는 변수들로, 이들은 리뷰 데이터가 있을 때만 계산해야 합니다. 
+		     * 반면에 totalScore, reviewAvgScore, totalReviewCount는 
+		     * 전체 리뷰 데이터에 대한 총점, 평균점수, 총 리뷰 수 등을 나타내므로, 리뷰 데이터의 존재 여부와 관계없이 계산할 수 있기때문에 변수의 선언위치가 다른것입니다.
+		     */
+		
+		}
+		
+		
+		
+		//===페이징 처리===
+		int productPerPage = 3;
+		int currentPage = (request.getParameter("page") != null && !request.getParameter("page").isEmpty())
+		                    ? Integer.parseInt(request.getParameter("page"))
+		                    : 1;
+		int totalPages = (int) Math.ceil((double) productReviewDatas.size() / productPerPage);
+
+		int startIndex = (currentPage - 1) * productPerPage;
+		int endIndex = Math.min(startIndex + productPerPage, productReviewDatas.size());
+
+		List<ReviewDTO> currentPageProducts = productReviewDatas.subList(startIndex, endIndex);
+		ArrayList<ReviewDTO> newArrayList = new ArrayList<ReviewDTO>(currentPageProducts);
+		
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("totalPages", totalPages);
+		request.setAttribute("currentPageProducts", newArrayList);
+		
+		System.out.println("[정현진LOG] currentPage : "+currentPage);
+		System.out.println("[정현진LOG] totalPages : "+totalPages);
+		
+		
 		return forward;
 	}
 }

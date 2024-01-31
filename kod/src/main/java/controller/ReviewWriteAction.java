@@ -87,7 +87,6 @@ public class ReviewWriteAction extends HttpServlet {
 	            
 	            System.out.println("savePath : "+savePath);
 	            String uploadFilePath = savePath + File.separator + "uploads";
-//	            String uploadFilePath2 = "C:/Users/Springonward/Desktop/KOIT/KODsounds"+ contextPath + "/src/main/webapp/uploads/";
 	            String uploadFilePath2 = "C:/Users/Springonward/Desktop/KOIT/KODsounds/kod/src/main/webapp/uploads/";
 	            System.out.println("uploadFilePath2 : " + uploadFilePath2);
 	            // MultipartRequest를 생성하여 파일 업로드 처리
