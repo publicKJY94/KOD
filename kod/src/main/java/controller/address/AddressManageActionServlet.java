@@ -11,9 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import com.google.gson.Gson;
 
 import model.dao.AddressDAO;
@@ -36,7 +33,7 @@ public class AddressManageActionServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		System.out.println("AddressManageActionServlet 시작");
+		System.out.println("[형련] 로그 AddressManageActionServlet 시작");
 		
 		MemberDTO mDTO=new MemberDTO();
 		MemberDAO mDAO=new MemberDAO();
@@ -46,7 +43,7 @@ public class AddressManageActionServlet extends HttpServlet {
 		mDTO.setSearchCondition("ID체크");
 		mDAO.selectOne(mDTO);
 		
-		System.out.println("로그: myPageAction"+mDTO);
+		System.out.println("[형련] 로그: myPageAction"+mDTO);
 		
 		AddressDTO aDTO=new AddressDTO();
 		AddressDAO aDAO=new AddressDAO();
@@ -54,12 +51,11 @@ public class AddressManageActionServlet extends HttpServlet {
 		aDTO.setMemberID(mDTO.getMemberID());
 		
 		ArrayList<AddressDTO> aDatas = aDAO.selectAll(aDTO);
-		// request.setAttribute("addressDTO", aDatas); 이제 필요없음 나중에 삭제
 		
 		System.out.println(aDatas);
 
 		Gson gson=new Gson();
-		String aDatasString = gson.toJson(aDatas); //바꿔주려고 쓴거
+		String aDatasString = gson.toJson(aDatas); // Gson객체 이용 데이터 변환 
 		
 		response.setCharacterEncoding("UTF-8");
 		
@@ -68,8 +64,7 @@ public class AddressManageActionServlet extends HttpServlet {
 		out.println(aDatasString);
 		
 		System.out.println(aDatasString);
-		System.out.println("AddressManageActionServlet 끝");
-		
+		System.out.println(" [형련] 로그 AddressManageActionServlet 끝");
 		
 	}
 

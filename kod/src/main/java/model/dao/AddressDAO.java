@@ -64,12 +64,11 @@ public class AddressDAO {
 			if(aDTO.getSearchCondition().equals("배송지관리")) {
 			pstmt = conn.prepareStatement(SELECTONE);
 			pstmt.setInt(1, aDTO.getAdrsID());
-
 			}
 			else if(aDTO.getSearchCondition().equals("장바구니배송지")) {
 				pstmt = conn.prepareStatement(SELECTONE_CARTINFO);
 	            pstmt.setString(1, aDTO.getMemberID());
-				
+			
 			}
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {

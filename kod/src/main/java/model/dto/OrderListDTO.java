@@ -7,6 +7,16 @@ public class OrderListDTO {
 	private String memberID;
 	private Date odListDate;
 	
+	private int cnt;
+	
+	
+	
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
 	public int getOdListID() {
 		return odListID;
 	}

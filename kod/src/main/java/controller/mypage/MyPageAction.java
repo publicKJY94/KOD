@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import controller.util.Action;
 import controller.util.ActionForward;
 
-public class MyPageAction implements Action {
+public class MypageAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)

@@ -18,9 +18,11 @@ import controller.login.LogoutAction;
 import controller.mypage.MemberUpdateAction;
 import controller.mypage.MemberUpdateLogoutAction;
 import controller.mypage.MemberUpdatePageAction;
-import controller.mypage.MyPageAction;
+import controller.mypage.MypageAction;
 import controller.mypage.MypageMemberUpdateAction;
 import controller.mypage.MypageMemberUpdatePWCKAction;
+import controller.mypage.MypageOrderListAction;
+import controller.mypage.MypageCartListAction;
 import controller.order.OrderInfoAction;
 import controller.order.OrderInfoPageAction;
 import controller.order.OrderListAction;
@@ -46,7 +48,7 @@ public class HandlerMapping {
 	public HandlerMapping() {
 		this.mappings=new HashMap<String,Action>();
 		this.mappings.put("/main.do", new MainAction());
-		this.mappings.put("/myPage.do", new MyPageAction());
+		this.mappings.put("/myPage.do", new MypageAction());
 		this.mappings.put("/login.do", new LoginAction());
 		this.mappings.put("/logout.do", new LogoutAction());
 		this.mappings.put("/loginPage.do", new LoginPageAction());
@@ -55,7 +57,6 @@ public class HandlerMapping {
 		this.mappings.put("/joinPage.do", new JoinPageAction());
 		this.mappings.put("/productDetail.do", new ProductDetailAction());
 		this.mappings.put("/mapPage.do", new MapPageAction());
-		//this.mappings.put("/addressPage.do", new AddressPageAction());
 		this.mappings.put("/addressInsert.do", new AddressInsertAction());
 		this.mappings.put("/addressUpdate.do", new AddressUpdateAction());
 		this.mappings.put("/addressDelete.do", new AddressDeleteAction());
@@ -81,6 +82,9 @@ public class HandlerMapping {
 		this.mappings.put("/mypageMemberUpdatePWCK.do", new MypageMemberUpdatePWCKAction());
 		this.mappings.put("/memberUpdatePage.do", new MemberUpdatePageAction());
 		this.mappings.put("/memberUpdateLogout.do", new MemberUpdateLogoutAction());
+		this.mappings.put("/myOrderList.do", new MypageOrderListAction());
+		this.mappings.put("/mypageCartList.do", new MypageCartListAction());
+		this.mappings.put("/reviewWritePage.do", new ReviewWritePageAction());
 	}
 	
 	public Action getAction(String commed) {

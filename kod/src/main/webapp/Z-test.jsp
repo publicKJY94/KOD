@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,22 +8,45 @@
 <title>Insert title here</title>
 </head>
 <body>
-되나??!??!!!!?!?
-됨
-이번엔 됨
-2024-01-16
-됨
-guswlsWkdWkd
-현진test
-join!!!!
-마지막테스트 현진
-본승테스스스스스스스스스스ㅡ틋
-야ㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑ
-본승 테스트 3
-11111
-박현민 test
-정현진 test
-조형련 test
-구본승 test
+
+<table border="1">
+   <tr>
+      <td rowspan="2">주문목록01</td>
+      <td>이미지</td>
+      <td>내용</td>
+      <td>가격</td>
+   </tr>
+   <tr>
+      <td>이미지</td>
+      <td>내용</td>
+      <td>가격</td>
+   </tr>
+   
+   <tr>
+      <td rowspan="3">주문목록02</td>
+      <td>이미지</td>
+      <td>내용</td>
+      <td>가격</td>
+   </tr>
+   <tr>
+      <td>이미지</td>
+      <td>내용</td>
+      <td>가격</td>
+   </tr>
+   <tr>
+      <td>이미지</td>
+      <td>내용</td>
+      <td>가격</td>
+   </tr>
+   
+   <tr>
+      <td rowspan="1">주문목록03</td>
+      <td>이미지</td>
+      <td>내용</td>
+      <td>가격</td>
+   </tr>
+
+</table>
+
 </body>
-</html> 
+</html>

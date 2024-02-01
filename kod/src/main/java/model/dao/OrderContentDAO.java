@@ -50,6 +50,7 @@ public class OrderContentDAO {
 				data.setProductName(rs.getString("PRODUCT_NAME"));
 				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
 				data.setOdContentCnt(rs.getInt("ORDERCONTENT_CNT"));
+				data.setOdListID(rs.getInt("ORDERLIST_ID"));
 				datas.add(data);
 				System.out.println(datas);
 			}
