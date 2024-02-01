@@ -42,7 +42,6 @@ public class ProductDetailAction implements Action {
 		
 		WishListDTO productWishDetailData = null;
 		ArrayList<WishListDTO> productWishDatas = null;
-		ArrayList<WishListDTO> recommendationByAgeDatas=null;
 		ArrayList<WishListDTO> productIsWishedDatas = new ArrayList<WishListDTO>();
 		int wishListCnt=0;
 
@@ -141,62 +140,69 @@ public class ProductDetailAction implements Action {
 		    System.out.println("리뷰 데이터 없음");
 		} 
 		else { // 리뷰데이터가 존재한다면
-		    for (ReviewDTO data : productReviewDatas) {
-		        totalScore += data.getReviewScore();
-		        Path path = Paths.get(data.getReviewImg());
-		        String relativePath = path.getFileName().toString();
-		        data.setReviewImg(relativePath);
-		        System.out.println("[정현진LOG] " + data.getMemberName() + "회원 " + data.getReviewScore() + "점");
-		    }
-		    for (ReviewDTO data : productReviewDatas) {
-		        System.out.println(data.getReviewImg());
-		    }
-		    reviewAvgScore = Math.round((totalScore / totalReviewCount) * 100.0) / 100.0;
-		    System.out.println("총점" + totalScore);
-		    System.out.println("평점" + reviewAvgScore);
+		    try {
+				for (ReviewDTO data : productReviewDatas) {
+				    totalScore += data.getReviewScore();
+				    Path path = Paths.get(data.getReviewImg());
+				    System.out.println(path);
+				    String relativePath = path.getFileName().toString();
+				    System.out.println("파싱된 relativePath : "+relativePath);
+				    data.setReviewImg(relativePath);
+				    System.out.println("[정현진LOG] " + data.getMemberName() + "회원 " + data.getReviewScore() + "점");
+				}
+				for (ReviewDTO data : productReviewDatas) {
+				    System.out.println(data.getReviewImg());
+				}
+				reviewAvgScore = Math.round((totalScore / totalReviewCount) * 100.0) / 100.0;
+				System.out.println("총점" + totalScore);
+				System.out.println("평점" + reviewAvgScore);
 
-		    request.setAttribute("productReviewDatas", productReviewDatas);
-		    request.setAttribute("reviewAvgScore", reviewAvgScore);
+				request.setAttribute("productReviewDatas", productReviewDatas);
+				request.setAttribute("reviewAvgScore", reviewAvgScore);
 
-		    // 리뷰데이터가 존재할 때만 필요한 변수들이라 else문 안에 선언
-		    int oneScoreCount = 0;
-		    int twoScoreCount = 0;
-		    int threeScoreCount = 0;
-		    int fourScoreCount = 0;
-		    int fiveScoreCount = 0;
+				// 리뷰데이터가 존재할 때만 필요한 변수들이라 else문 안에 선언
+				int oneScoreCount = 0;
+				int twoScoreCount = 0;
+				int threeScoreCount = 0;
+				int fourScoreCount = 0;
+				int fiveScoreCount = 0;
 
-		    for (ReviewDTO data : productReviewDatas) {
-		        // 각 별점 개수 카운트
-		        if (data.getReviewScore() == 1) {
-		            oneScoreCount++;
-		        } else if (data.getReviewScore() == 2) {
-		            twoScoreCount++;
-		        } else if (data.getReviewScore() == 3) {
-		            threeScoreCount++;
-		        } else if (data.getReviewScore() == 4) {
-		            fourScoreCount++;
-		        } else if (data.getReviewScore() == 5) {
-		            fiveScoreCount++;
-		        }
-		    }
+				for (ReviewDTO data : productReviewDatas) {
+				    // 각 별점 개수 카운트
+				    if (data.getReviewScore() == 1) {
+				        oneScoreCount++;
+				    } else if (data.getReviewScore() == 2) {
+				        twoScoreCount++;
+				    } else if (data.getReviewScore() == 3) {
+				        threeScoreCount++;
+				    } else if (data.getReviewScore() == 4) {
+				        fourScoreCount++;
+				    } else if (data.getReviewScore() == 5) {
+				        fiveScoreCount++;
+				    }
+				}
 
-		    // 각 별점 비율 계산
-		    double oneScoreRatio = (double) oneScoreCount / totalReviewCount * 100;
-		    double twoScoreRatio = (double) twoScoreCount / totalReviewCount * 100;
-		    double threeScoreRatio = (double) threeScoreCount / totalReviewCount * 100;
-		    double fourScoreRatio = (double) fourScoreCount / totalReviewCount * 100;
-		    double fiveScoreRatio = (double) fiveScoreCount / totalReviewCount * 100;
+				// 각 별점 비율 계산
+				double oneScoreRatio = (double) oneScoreCount / totalReviewCount * 100;
+				double twoScoreRatio = (double) twoScoreCount / totalReviewCount * 100;
+				double threeScoreRatio = (double) threeScoreCount / totalReviewCount * 100;
+				double fourScoreRatio = (double) fourScoreCount / totalReviewCount * 100;
+				double fiveScoreRatio = (double) fiveScoreCount / totalReviewCount * 100;
 
-		    request.setAttribute("oneScoreCount", oneScoreCount);
-		    request.setAttribute("twoScoreCount", twoScoreCount);
-		    request.setAttribute("threeScoreCount", threeScoreCount);
-		    request.setAttribute("fourScoreCount", fourScoreCount);
-		    request.setAttribute("fiveScoreCount", fiveScoreCount);
-		    request.setAttribute("oneScoreRatio", oneScoreRatio);
-		    request.setAttribute("twoScoreRatio", twoScoreRatio);
-		    request.setAttribute("threeScoreRatio", threeScoreRatio);
-		    request.setAttribute("fourScoreRatio", fourScoreRatio);
-		    request.setAttribute("fiveScoreRatio", fiveScoreRatio);
+				request.setAttribute("oneScoreCount", oneScoreCount);
+				request.setAttribute("twoScoreCount", twoScoreCount);
+				request.setAttribute("threeScoreCount", threeScoreCount);
+				request.setAttribute("fourScoreCount", fourScoreCount);
+				request.setAttribute("fiveScoreCount", fiveScoreCount);
+				request.setAttribute("oneScoreRatio", oneScoreRatio);
+				request.setAttribute("twoScoreRatio", twoScoreRatio);
+				request.setAttribute("threeScoreRatio", threeScoreRatio);
+				request.setAttribute("fourScoreRatio", fourScoreRatio);
+				request.setAttribute("fiveScoreRatio", fiveScoreRatio);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		    
 		    /*
 		     * oneScoreCount, twoScoreCount, ..., fiveScoreRatio는 
