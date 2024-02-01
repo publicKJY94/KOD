@@ -30,6 +30,7 @@
  		<!-- Custom stlylesheet -->
  		<link type="text/css" rel="stylesheet" href="css/style.css"/>
  		<link type="text/css" rel="stylesheet" href="css/payInfo.css"/>
+ 		<link type="text/css" rel="stylesheet" href="css/paySelect.css"/>
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -83,7 +84,7 @@
 				<!-- row -->
 				<div class="row">
 
-					<div class="col-md-7">
+					<div class="col-md-9" style="margin-left: 10%;">
 						<!-- Billing Details -->
 						<div class="billing-details">
 							<div class="section-title">
@@ -123,26 +124,25 @@
 					            </tr>
 					        </thead>
 					        <%for(OrderContentDTO ocdata : ocDatas){%>
-					        
 					        <tbody>
 					            <tr>
 					                <td><img src="<%=ocdata.getProductImg()%>" alt="img" style="width: 200px; height: 200px;"></td>
 					                <td><%=ocdata.getProductName()%></td>
-					                <td><%=ocdata.getOdContentCnt()%></td>
-					                <td><%=ocdata.getProductPrice()*ocdata.getOdContentCnt()%></td>
+					                <td><%=ocdata.getOdContentCnt()%>개</td>
+					                <td><%=ocdata.getProductPrice()*ocdata.getOdContentCnt()%>원</td>
 					            </tr>
 					        </tbody>
-					        
 					        <%} %>
-					        
 					    </table>
-							
-							
-							
-							
+					    <div class="cart__mainbtns" style="margin-left: 40%;">
+						    <form action="main.do" method="POST">
+						    	<button class="cart__bigorderbtn left" type="submit">메인으로</button>
+							</form>
+						</div>
+						
 						</div>
 						<!-- /Billing Details -->
-						
+							
 					</div>
 
 				</div>

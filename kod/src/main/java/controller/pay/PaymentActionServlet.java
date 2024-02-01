@@ -1,6 +1,7 @@
 package controller.pay;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,9 +36,20 @@ public class PaymentActionServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("==============paymentServlet 시작==============");
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=utf-8");
+		System.out.println("\n==============paymentServlet 시작==============");
 		System.out.println(request.getParameter("productName"));
-		System.out.println(request.getParameter("productID"));
+		String preview = (String)request.getParameter("productIDs");
+		preview = preview.replace("[", "");
+		preview = preview.replace("]", "");
+		preview = preview.replace("\"", "");
+		String[] productIDs = preview.split(",");
+		System.out.println(Arrays.toString(productIDs));
+		System.out.println(productIDs[0]);
+		
+		System.out.println(productIDs.length);
+//		System.out.println(ar[0].toString());
 		System.out.println(request.getParameter("purchaseCnt"));
 		
 		
@@ -52,29 +64,31 @@ public class PaymentActionServlet extends HttpServlet {
 		
 		oDTO.setMemberID(memberID);
 		oDAO.insert(oDTO);
-		
-		
-		oDTO = oDAO.selectOne(oDTO);
 		OrderContentDTO oContentDTO = new OrderContentDTO();
 		OrderContentDAO oContentDAO = new OrderContentDAO();
 		
-		
-		// 장바구니 결제
-		CartDTO cDTO = new CartDTO();
-		CartDAO cDAO = new CartDAO();
-		
-		cDAO.selectOne(cDTO);
-		// 선택 구매된 상품의 개수만큼 추가
-		
-		oContentDTO.setOdListID(oDTO.getOdListID());
-		System.out.println("[서블릿] 주문 상세 내역 상품 번호 : "+request.getParameter("productID"));
-		oContentDTO.setProductID(Integer.parseInt(request.getParameter("productID"))); 
-		oContentDTO.setOdContentCnt(Integer.parseInt(request.getParameter("purchaseCnt")));
-		System.out.println("[서블릿] 주문 상세 내역 주문 개수 : "+request.getParameter("purchaseCnt"));
-		System.out.println("[서블릿] 주문 상세 내역 : "+oContentDTO);
-		oContentDAO.insert(oContentDTO);
+		for(int i=0;i<productIDs.length;i++) {
+			oDTO.setMemberID(memberID);
+			oDTO = oDAO.selectOne(oDTO);
+			
+			// 장바구니 결제
+			CartDTO cDTO = new CartDTO();
+			CartDAO cDAO = new CartDAO();
+			
+			//cDTO = cDAO.selectOne(cDTO);
+			// 선택 구매된 상품의 개수만큼 추가
+			
+			oContentDTO.setOdListID(oDTO.getOdListID());
+			System.out.println("[서블릿] 주문 상세 내역 상품 번호 : "+productIDs[i]);
+			oContentDTO.setProductID(Integer.parseInt(productIDs[i])); 
+			oContentDTO.setOdContentCnt(Integer.parseInt(request.getParameter("purchaseCnt")));
+			System.out.println("[서블릿] 주문 상세 내역 주문 개수 : "+request.getParameter("purchaseCnt"));
+			System.out.println("[서블릿] 주문 상세 내역 : "+oContentDTO);
+			oContentDAO.insert(oContentDTO);
+		}
 		
 		System.out.println("paymentServlet 끝");
+		
 		
 		
 //		PrintWriter out = response.getWriter();
