@@ -44,24 +44,28 @@
 	<div class="big-box">
 		<!-- aside Widget -->
 		<div class="aside">
-			 <a href="mypageMemberUpdatePWCK.do">
-        <h3 class="aside-title">개인정보변경</h3>
-    </a><br>
+  		<h3 class="aside-title">
+   		 <a href="mypageMemberUpdatePWCK.do">개인정보변경</a>
+  		</h3>
 		</div>
 		<hr>
 		<div class="aside">
-			<h3 class="aside-title">주문내역조회</h3>
+  		<h3 class="aside-title">
+   		 <a href="">주문내역조회</a>
+  		</h3>
 		</div>
 		<hr>
 		<div class="aside">
-			<h3 class="aside-title">장바구니관리</h3>
+  		<h3 class="aside-title">
+   		 <a href="">장바구니관리</a>
+  		</h3>
 		</div>
 		<hr>
-	<a href="javascript:handleAddressManage()" id="addressManage">
-    <div class="aside">
-        <h3 class="aside-title">배송지 관리</h3>
-    </div>
-</a>
+	<div class="aside">
+  		<h3 class="aside-title">
+   		 <a href="javascript:handleAddressManage()" id="addressManage">배송지관리</a>
+  		</h3>
+		</div>
 </div>
 
 

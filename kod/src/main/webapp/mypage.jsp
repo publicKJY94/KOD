@@ -44,25 +44,31 @@
 	<div class="big-box">
 		<!-- aside Widget -->
 		<div class="aside">
-			 <a href="mypageMemberUpdatePWCK.do">
-        <h3 class="aside-title">개인정보변경</h3>
-    </a><br>
+  		<h3 class="aside-title">
+   		 <a href="mypageMemberUpdatePWCK.do">개인정보변경</a>
+  		</h3>
 		</div>
 		<hr>
 		<div class="aside">
-			<h3 class="aside-title">주문내역조회</h3>
+  		<h3 class="aside-title">
+   		 <a href="myOrderList.do">주문목록조회</a>
+  		</h3>
 		</div>
 		<hr>
 		<div class="aside">
-			<h3 class="aside-title">장바구니관리</h3>
+  		<h3 class="aside-title">
+   		 <a href="mypageCartList.do">장바구니 관리</a>
+  		</h3>
 		</div>
 		<hr>
-	<a href="javascript:handleAddressManage()" id="addressManage">
-    <div class="aside">
-        <h3 class="aside-title">배송지 관리</h3>
-    </div>
-</a>
+	<div class="aside">
+  		<h3 class="aside-title">
+   		 <a href="javascript:handleAddressManage()" id="addressManage">배송지관리</a>
+  		</h3>
+		</div>
 </div>
+
+
 
 <!-- 배송지 수정 모달창 -->
 <div class="content">
@@ -71,18 +77,18 @@
 						<div class="modal hidden">
 						  <div class="bg"></div>
 						  <div class="modalBox">
-						    	<form  action="addressUpdate.do" method="post">
+						    	<form  action="addressUpdate.do" method="post" id="form1">
 								<div class="form-group">
 									<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
 								</div>		
 								<input type="hidden" name="adrsId" value="" id="ADRSID">	
-								<input type="text" id="sample4_postcode" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%; margin-left: 26px;">
+								<input type="text" id="sample4_postcode" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%; margin-left: 26px;" readonly>
 								<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="display: inline-block; width: 20%; height:inherit; padding:1rem 1rem; "><br><br>
-								<input type="text" id="sample4_roadAddress" name="adrsStreet" placeholder="도로명주소" >
-								<input type="text" id="sample4_jibunAddress" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;">
+								<input type="text" id="sample4_roadAddress" name="adrsStreet" placeholder="도로명주소" readonly >
+								<input type="text" id="sample4_jibunAddress" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;" readonly>
 								<span id="guide" style="color:#999;display:none"></span>
 								<input type="text" id="sample4_detailAddress"  name="adrsDetail" placeholder="상세주소" style="margin-top: 5px;">
-								<input type="submit" value="변경하기">
+								<input type="button" value="변경하기" onclick="func1()">
 								</form>
 						    <button onclick="closeModal()">✖</button>
 						  </div>
@@ -91,16 +97,15 @@
 					<div id="addressContainer">
 					    </div>
 	<!-- 배송지 삭제 모달창 -->
-				<form action="addressDelete.do" method="POST">
+				<form action="addressDelete.do" method="POST" id="form2">
    			 <div style="margin-bottom: 5px;">
        		 <div class="modalDelete hidden">
             <div class="bg2"></div>
             <div class="modalBox">
             <input type="hidden" name="adrsId" value="" id="ADRSID2">	
                 <p>정말로 삭제하시겠습니까?</p>
-                <button type="submit">삭제</button>
+                <button type="submit" onclick="func2()">삭제</button>
                 <button type="button" onclick="closeModal()">취소</button>
-                <button type="button" onclick="closeModal()">✖</button>
             </div>
         </div>
     </div>
@@ -109,17 +114,17 @@
 							<div class="modalInsert hidden">
 						  <div class="bg3"></div>
 						  <div class="modalBox">
-						    	<form  action="addressInsert.do" method="post">
+						    	<form  action="addressInsert.do" method="post" id="form3">
 								<div class="form-group">
 									<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
 								</div>		
-								<input type="text" id="sample4_postcode2" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%; margin-left: 26px;">
+								<input type="text" id="sample4_postcode2" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%; margin-left: 26px;" readonly>
 								<input type="button" onclick="sample4_execDaumPostcode2()" value="우편번호 찾기" style="display: inline-block; width: 20%; height:inherit; padding:1rem 1rem; "><br><br>
-								<input type="text" id="sample4_roadAddress2" name="adrsStreet" placeholder="도로명주소" >
-								<input type="text" id="sample4_jibunAddress2" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;">
+								<input type="text" id="sample4_roadAddress2" name="adrsStreet" placeholder="도로명주소" readonly >
+								<input type="text" id="sample4_jibunAddress2" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;"  readonly>
 								<span id="guide" style="color:#999;display:none"></span>
 								<input type="text" id="sample4_detailAddress"  name="adrsDetail" placeholder="상세주소" style="margin-top: 5px;">
-								<input type="submit" value="주소지 추가하기">
+								<input type="button" value="주소지 추가하기" onclick="func3()">
 								</form>
 						    <button onclick="closeModal()">✖</button>
 						  </div>
@@ -278,9 +283,39 @@
 				    document.querySelector(".bg3").addEventListener("click", closeModal);
 				    
 				}
-				
-				</script>
-				
+				function func1(){
+					setCookie("addressManageClicked", true);
+					   document.getElementById('form1').submit();
+					}
+					function func2(){
+					setCookie("addressManageClicked", true);
+					   document.getElementById('form2').submit();
+					}
+					function func3(){
+					setCookie("addressManageClicked", true);
+					   document.getElementById('form3').submit();
+					}
+					function deleteCookie(name) {
+						
+					this.setCookie(name, "", -1);
+					}
+					function setCookie(name, value) {
+					    var expires = "";
+					    var date = new Date();
+					    date.setTime(date.getTime() + (5 * 1000)); // 5초 후의 시간을 설정합니다.
+					    expires = "; expires=" + date.toUTCString();
+					    document.cookie = name + "=" + value + expires + "; path=/";
+					}
+					window.onload = function() {
+					// 쿠키 가져오기
+					var addressManageCookie = getCookie("addressManageClicked");
+					// 쿠키가 존재하는 경우에만 해당 태그의 클릭 이벤트를 실행
+					if (addressManageCookie) {
+					handleAddressManage();
+					}
+					}
+					</script>
+			
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="js/mypageAddress.js"></script>

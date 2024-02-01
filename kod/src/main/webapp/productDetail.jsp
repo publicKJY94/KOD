@@ -459,7 +459,7 @@ $(document).ready(function(){
 												    <c:forEach var="review" items="${currentPageProducts}">
 												        <div class="image-container">
 												            <img alt=""
-												                src='<c:url value="uploads/uploads/${review.reviewImg}" />'
+												                src='<c:url value="uploads/${review.reviewImg}" />'
 												                style="height: 70px; width: 70px;"
 												                class="img-thumbnail" data-toggle="modal" data-target="#myModal">
 												            <div style="height: 30px"></div>

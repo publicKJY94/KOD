@@ -75,6 +75,13 @@ public class OrderContentDTO {
 	public void setOdContentCnt(int odContentCnt) {
 		this.odContentCnt = odContentCnt;
 	}
+	@Override
+	public String toString() {
+		return "OrderContentDTO [odContentID=" + odContentID + ", odListID=" + odListID + ", productID=" + productID
+				+ ", odContentCnt=" + odContentCnt + ", productPrice=" + productPrice + ", productName=" + productName
+				+ ", productImg=" + productImg + ", productCategory=" + productCategory + ", memberID=" + memberID
+				+ ", searchCondition=" + searchCondition + "]";
+	}
 	
 	
 }
