@@ -42,6 +42,8 @@ public class HandlerMapping {
 		this.mappings.put("/mypageMemberUpdate.do", new MypageMemberUpdateAction());
 		this.mappings.put("/memberUpdateAction.do", new MemberUpdateAction());
 		this.mappings.put("/mypageMemberUpdatePWCK.do", new MypageMemberUpdatePWCKAction());
+		this.mappings.put("/memberUpdatePage.do", new MemberUpdatePageAction());
+		this.mappings.put("/memberUpdateLogout.do", new MemberUpdateLogoutAction());
 	}
 	
 	public Action getAction(String commed) {
