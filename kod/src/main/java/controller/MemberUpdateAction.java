@@ -15,7 +15,6 @@ public class MemberUpdateAction implements Action{
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		
 		 ActionForward forward = new ActionForward();
 	      
 	      MemberDTO mDTO = new MemberDTO();
@@ -33,9 +32,9 @@ public class MemberUpdateAction implements Action{
 	      boolean flag = mDAO.update(mDTO);
 	      System.out.println(flag + "flag <<<");
 	      if(flag) {	
-	         request.setAttribute("msg", "정보변경에 성공하였습니다! 로그인후 이용해주세여");
-	         forward.setRedirect(false);
-	         forward.setPath("logout.do");
+	         //request.setAttribute("msg", "정보변경에 성공하였습니다! 로그인후 이용해주세여");
+	         forward.setRedirect(true);
+	         forward.setPath("memberUpdateLogout.do");
 	         return forward;
 	      }
 	 
