@@ -3,29 +3,19 @@
     pageEncoding="UTF-8" import="model.dto.*, java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
-	ArrayList<CartDTO> cDatas = (ArrayList<CartDTO>)request.getAttribute("cartDTO");
-	System.out.print(cDatas);
-	/* int[] productID= new int[cDatas.size()];
-	for(int i=0;i<cDatas.size();i++){
-		productID[i] = cDatas.get(i).getProductID();
-	} 
-	System.out.print("payment에 들어온 productID : " + productID);*/
-	
-	/* for(CartDTO cdata : cDatas){
-		System.out.print("payment에 들어온 productID : " + cdata.getProductID());
-		productID = cdata.getProductID();
-	} */
-	
     String name = request.getParameter("memberName");
-    String email = request.getParameter("memberEmail");
+    int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
+    String productName = request.getParameter("productName").trim();
+    int purchaseCnt = Integer.parseInt(request.getParameter("productCnt"));
+    /* String email = request.getParameter("memberEmail");
     String phone = request.getParameter("memberPhNum");
     String address = request.getParameter("adrsStreet")+request.getParameter("adrsDetail");
-    int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
     int productID = Integer.parseInt(request.getParameter("productID"));
-    int purchaseCnt = Integer.parseInt(request.getParameter("productCnt"));
-    String productName = request.getParameter("productName").trim();
-    int productPrice = Integer.parseInt(request.getParameter("productPrice"));
+    int productPrice = Integer.parseInt(request.getParameter("productPrice"));*/
+    ArrayList<CartDTO> datas = (ArrayList<CartDTO>) request.getAttribute("payDTO"); 
+    
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,12 +25,43 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
+	<%
+	for(CartDTO cart : datas){
+	%>
+	<input type="hidden" name="pid" id="pid" value="<%=cart.getProductID()%>">
+	<%
+	}
+	%>
+	
     <script>
+    //transPid = JSON.stringfy(pid);
+    
     $(function(){
+	    var pid = document.querySelectorAll('input[type=hidden]');
+	    console.log(pid);
         var IMP = window.IMP; // 생략가능
         IMP.init('imp01807501'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
         var everythings_fine=true;
+        
+        /* var list2 = [];
+        var productIDs = document.querySelectorAll("input[name=productID]");
+        productIDs.forEach(
+           function(product){
+                 list2.push(product.value);      
+           }
+        );
+        var productIDs = JSON.stringify(list2); */
+        //var product = JSON.parse(${param});
+        //var product = ${cData};
+       
+        var productID = [];
+        pid.forEach(function(cartItem){
+        	productID.push(cartItem.value);
+        });
+        var productIDs = JSON.stringify(productID);
+        console.log(productIDs);
+
         
         IMP.request_pay({
             pg : 'kakaopay',
@@ -48,14 +69,13 @@
             merchant_uid : 'merchant_' + new Date().getTime(),
             name : '<%=productName%>',
             amount : '<%=totalPrice%>',
-            productID : 'productID',
+            productIDs : 'productIDs',
             purchaseCnt : 'purchaseCnt',
             buyer_email : 'email',
             buyer_name : 'name',
             buyer_tel : 'phone',
             buyer_addr : 'address',
             buyer_postcode : '123-456',
-            //m_redirect_url : 'http://www.naver.com'
         }, function(rsp) {
             if ( rsp.success ) {
             	console.log('로그');
@@ -66,7 +86,7 @@
                     //dataType:'json', // 상품번호를 여러개 받기 위해 사용
                     data: {
                         imp_uid : rsp.imp_uid,
-                        productID : <%=productID%>,
+                        productIDs : productIDs,
                         purchaseCnt : <%=purchaseCnt%>
                     },
                 	success: function(){

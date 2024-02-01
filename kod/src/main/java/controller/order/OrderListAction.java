@@ -31,7 +31,7 @@ public class OrderListAction implements Action{
 		
 		//json 데이터 확인
 		//System.out.println(session.getAttribute("member"));
-		oDTO.setMemberID((String)session.getAttribute("member"));
+		oDTO.setMemberID((String)session.getAttribute("memberDTO"));
 		oDAO.insert(oDTO);
 		
 		
