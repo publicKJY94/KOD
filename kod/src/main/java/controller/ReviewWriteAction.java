@@ -81,9 +81,19 @@ public class ReviewWriteAction extends HttpServlet {
 		 try {
 	            // 업로드된 파일을 저장할 경로 설정/..
 	            String uploadFilePath = getServletContext().getRealPath("uploads");
-	            String copyFilePath = "C:/Users/Springonward/Desktop/KOIT/KODsounds/kod/src/main/webapp/uploads/";
+//	            String copyFilePath = "C:/Users/Springonward/Desktop/KOIT/KODsounds/kod/src/main/webapp/uploads/";
 	            System.out.println("uploadFilePath : "+uploadFilePath);
-	            System.out.println("copyFilePath : " + copyFilePath);
+//	            System.out.println("copyFilePath : " + copyFilePath);
+	            
+	            // KOD팀끼리 공유하기 위한 복사경로 만들기
+	            int num = uploadFilePath.indexOf("."); // 첫번째 만나는 .의 인덱스값
+	            String forwardUrlParts = uploadFilePath.substring(0, num);
+	            System.out.println("forwardUrlParts : "+forwardUrlParts);
+	            String middleUrlParts = request.getContextPath();
+	            System.out.println("middleUrlParts : "+middleUrlParts);
+	            String lastUrlParts = "/main/webapp/uploads";
+	            String copyFilePathForKOD = forwardUrlParts+"kod/src"+lastUrlParts+File.separator;
+	            System.out.println("copyFilePathForKOD : "+copyFilePathForKOD);
 	            
 	            request.getContextPath();
 
@@ -96,7 +106,7 @@ public class ReviewWriteAction extends HttpServlet {
 	                    new DefaultFileRenamePolicy()
 	            );
 	            
-
+	            
 	            // 업로드된 파일 정보 가져오기
 	            String fileName = multipartRequest.getFilesystemName("imageUpload");
 	            System.out.println("fileName : "+fileName);
@@ -105,8 +115,8 @@ public class ReviewWriteAction extends HttpServlet {
 	            
 	            // 파일 복사하기
 	            InputStream in = new FileInputStream(filePath); // 파일 읽기 그릇 생성
-	            OutputStream os = new FileOutputStream(copyFilePath+fileName);
-	            System.out.println("OutputStream 경로"+copyFilePath+fileName);
+	            OutputStream os = new FileOutputStream(copyFilePathForKOD+fileName);
+	            System.out.println("OutputStream 경로"+copyFilePathForKOD+fileName);
 	    		
 	    		long start = System.currentTimeMillis();
 	    		while(true){
