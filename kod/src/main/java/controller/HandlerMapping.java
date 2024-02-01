@@ -3,6 +3,43 @@ package controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import controller.address.AddressDeleteAction;
+import controller.address.AddressInsertAction;
+import controller.address.AddressUpdateAction;
+import controller.cart.CartInsertAction;
+import controller.join.JoinAddressAction;
+import controller.join.JoinMemberAction;
+import controller.join.JoinPageAction;
+import controller.join.JoinsuccessAction;
+import controller.login.LoginAction;
+import controller.login.LoginPageAction;
+import controller.login.LoginsuccessAction;
+import controller.login.LogoutAction;
+import controller.mypage.MemberUpdateAction;
+import controller.mypage.MemberUpdateLogoutAction;
+import controller.mypage.MemberUpdatePageAction;
+import controller.mypage.MyPageAction;
+import controller.mypage.MypageMemberUpdateAction;
+import controller.mypage.MypageMemberUpdatePWCKAction;
+import controller.order.OrderInfoAction;
+import controller.order.OrderInfoPageAction;
+import controller.order.OrderListAction;
+import controller.pay.PayInfoAction;
+import controller.pay.PayInfoPageAction;
+import controller.pay.PaySelectAction;
+import controller.pay.PaymentPageAction;
+import controller.productWishList.CheckWishedAction;
+import controller.productWishList.MainAction;
+import controller.productWishList.ProductAction;
+import controller.productWishList.ProductActionCategory;
+import controller.productWishList.ProductDetailAction;
+import controller.productWishList.ProductRankAction;
+import controller.productWishList.WishListAction;
+import controller.util.Action;
+import controller.util.AlertAction;
+import controller.util.GobackAction;
+import controller.util.MapPageAction;
+
 public class HandlerMapping {
 	private Map<String,Action> mappings;
 	
