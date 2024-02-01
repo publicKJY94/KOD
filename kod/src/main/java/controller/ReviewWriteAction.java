@@ -27,11 +27,9 @@ public class ReviewWriteAction extends HttpServlet {
        
     public ReviewWriteAction() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -81,29 +79,46 @@ public class ReviewWriteAction extends HttpServlet {
 		 */
 		
 		 try {
-	            // 업로드된 파일을 저장할 경로 설정
-	            String savePath = getServletContext().getRealPath("uploads");
-//	            String contextPath = getServletContext().getContextPath();
+	            // 업로드된 파일을 저장할 경로 설정/..
+	            String uploadFilePath = getServletContext().getRealPath("uploads");
+	            String copyFilePath = "C:/Users/Springonward/Desktop/KOIT/KODsounds/kod/src/main/webapp/uploads/";
+	            System.out.println("uploadFilePath : "+uploadFilePath);
+	            System.out.println("copyFilePath : " + copyFilePath);
 	            
-	            System.out.println("savePath : "+savePath);
-	            String uploadFilePath = savePath + File.separator + "uploads";
-	            String uploadFilePath2 = "C:/Users/Springonward/Desktop/KOIT/KODsounds/kod/src/main/webapp/uploads/";
-	            System.out.println("uploadFilePath2 : " + uploadFilePath2);
+	            request.getContextPath();
+
 	            // MultipartRequest를 생성하여 파일 업로드 처리
 	            MultipartRequest multipartRequest = new MultipartRequest(
 	                    request,
 	                    uploadFilePath,
-	                    5 * 1024 * 1024, // 최대 업로드 파일 크기 제한 (5MB)
+	                    50 * 1024 * 1024, // 최대 업로드 파일 크기 제한 (5MB)
 	                    "UTF-8",
 	                    new DefaultFileRenamePolicy()
 	            );
 	            
 
-
 	            // 업로드된 파일 정보 가져오기
 	            String fileName = multipartRequest.getFilesystemName("imageUpload");
+	            System.out.println("fileName : "+fileName);
 	            String filePath = uploadFilePath + File.separator + fileName;
-//	            String filePath = uploadFilePath2 + fileName;
+	            System.out.println("filePath : "+filePath);
+	            
+	            // 파일 복사하기
+	            InputStream in = new FileInputStream(filePath); // 파일 읽기 그릇 생성
+	            OutputStream os = new FileOutputStream(copyFilePath+fileName);
+	            System.out.println("OutputStream 경로"+copyFilePath+fileName);
+	    		
+	    		long start = System.currentTimeMillis();
+	    		while(true){
+	    			int inputData = in.read();
+	    			if(inputData==-1) break;
+	    			os.write(inputData);
+	    		}// end while
+	    		long end = System.currentTimeMillis();
+	    		System.out.println(end-start); // 파일복사 걸린 시간
+	    		in.close();
+	    		os.close();
+	    		System.out.println("copy success");
 
 	            // 나머지 일반 폼 데이터 가져오기
 	            String title = multipartRequest.getParameter("title");
@@ -116,7 +131,6 @@ public class ReviewWriteAction extends HttpServlet {
 	            System.out.println("filePath : "+filePath);
 	            System.out.println("productID : "+productID);
 	            
-
 	            // reviewDTO 설정
 	            ReviewDTO reviewDTO = new ReviewDTO();
 	    		ReviewDAO reviewDAO = new ReviewDAO();
@@ -135,35 +149,11 @@ public class ReviewWriteAction extends HttpServlet {
 	            }
 
 	            
-	            // 
-	            InputStream in = new FileInputStream(filePath); // 파일 읽기 그릇 생성
-	            OutputStream os = new FileOutputStream(uploadFilePath2+fileName);
-	            System.out.println("OutputStream 경로"+uploadFilePath2+fileName);
-	    		
-	    		long start = System.currentTimeMillis();
-	    		while(true){
-	    			int inputData = in.read();
-	    			if(inputData==-1) break;
-	    			os.write(inputData);
-	    		}// end while
-	    		long end = System.currentTimeMillis();
-	    		System.out.println(end-start); // 파일복사 걸린 시간
-	    		in.close();
-	    		os.close();
-	    		System.out.println("copy success");
-	            
-	            
-	            
-	            
 	        } catch (Exception ex) {
 	            ex.printStackTrace();
 	            // 예외 처리
 	        }
 		
-		
-		
-		 
-		 
 	}
 
 }
