@@ -18,10 +18,10 @@ import model.dto.MemberDTO;
 import model.dto.ProductDTO;
 
 @WebServlet("/filter")
-public class FilterServlet extends HttpServlet {
+public class FilterActionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public FilterServlet() {
+	public FilterActionServlet() {
 		super();
 	}
 
