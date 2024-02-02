@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> <!-- 원화표시 functions함수집합 가져오기 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> <!-- 원화표시 포맷 -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,18 +76,17 @@ function cancelImageUpload() {
 <body>
     <div class="container">
         <h2>상품 후기 작성</h2>
-        <form action="reviewWriteServlet" method="POST" enctype="multipart/form-data">
+        <form action="reviewWriteAction.do" method="POST" enctype="multipart/form-data">
        
-       <%
-		    String productIDParam = request.getParameter("productID");
-		    int productID = 0; // 초기값 설정
-		    if (productIDParam != null && !productIDParam.isEmpty()) {
-		        productID = Integer.parseInt(productIDParam);
-		    }
-		    out.println("상품 ID: " + productID);
-		%>
+<c:set var="productIDParam" value="${param.productID}" />
+<c:set var="productID" value="0" />
+
+<c:if test="${not empty productIDParam}">
+    <c:set var="productID" value="${productIDParam}" />
+</c:if>
+
         <!-- productID hidden field -->
-        <input type="hidden" name="productID" value="<%=productID %>" />
+        <input type="hidden" name="productID" value="${productID}" />
         
             <div class="FormRow">
                 <label for="title">제목</label>
