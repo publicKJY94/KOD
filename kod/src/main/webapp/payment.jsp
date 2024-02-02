@@ -29,6 +29,7 @@
 	for(CartDTO cart : datas){
 	%>
 	<input type="hidden" name="pid" id="pid" value="<%=cart.getProductID()%>">
+	<input type="hidden" name="cnt" id="cnt" value="<%=cart.getCartProductCnt()%>">
 	<%
 	}
 	%>
@@ -37,9 +38,14 @@
     //transPid = JSON.stringfy(pid);
     
     $(function(){
-	    var pid = document.querySelectorAll('input[type=hidden]');
+	    //var pid = document.querySelectorAll('input[type=hidden]');
+	    var pid = document.querySelectorAll('input[name=pid]');
+	    var cnt = document.querySelectorAll('input[name=cnt]');
+	    
 	    console.log(pid);
-        var IMP = window.IMP; // 생략가능
+        console.log(cnt);
+	    
+	    var IMP = window.IMP; // 생략가능
         IMP.init('imp01807501'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
         var everythings_fine=true;
@@ -55,13 +61,23 @@
         //var product = JSON.parse(${param});
         //var product = ${cData};
        
+        
+        // 결제할 상품 번호를 배열에 저장하기
         var productID = [];
         pid.forEach(function(cartItem){
         	productID.push(cartItem.value);
         });
         var productIDs = JSON.stringify(productID);
         console.log(productIDs);
-
+		
+        
+        var purchaseCnt = [];
+        cnt.forEach(function(cartItem){
+        	purchaseCnt.push(cartItem.value);
+        });
+        var purchaseCnts = JSON.stringify(purchaseCnt);
+        console.log(purchaseCnt);
+        
         
         IMP.request_pay({
             pg : 'kakaopay',
@@ -87,7 +103,7 @@
                     data: {
                         imp_uid : rsp.imp_uid,
                         productIDs : productIDs,
-                        purchaseCnt : <%=purchaseCnt%>
+                        purchaseCnts : purchaseCnts
                     },
                 	success: function(){
                 		console.log('결제 성공');

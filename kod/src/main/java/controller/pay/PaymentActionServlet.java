@@ -47,11 +47,16 @@ public class PaymentActionServlet extends HttpServlet {
 		String[] productIDs = preview.split(",");
 		System.out.println(Arrays.toString(productIDs));
 		System.out.println(productIDs[0]);
-		
 		System.out.println(productIDs.length);
-//		System.out.println(ar[0].toString());
-		System.out.println(request.getParameter("purchaseCnt"));
-		
+
+		String cnt = (String)request.getParameter("purchaseCnts");
+		cnt = cnt.replace("[", "");
+		cnt = cnt.replace("]", "");
+		cnt = cnt.replace("\"", "");
+		String[] cnts = cnt.split(",");
+		System.out.println(Arrays.toString(cnts));
+		System.out.println(cnts[0]);
+		System.out.println(cnts.length);
 		
 		OrderListDTO oDTO = new OrderListDTO();
 		OrderListDAO oDAO = new OrderListDAO();
@@ -81,8 +86,8 @@ public class PaymentActionServlet extends HttpServlet {
 			oContentDTO.setOdListID(oDTO.getOdListID());
 			System.out.println("[서블릿] 주문 상세 내역 상품 번호 : "+productIDs[i]);
 			oContentDTO.setProductID(Integer.parseInt(productIDs[i])); 
-			oContentDTO.setOdContentCnt(Integer.parseInt(request.getParameter("purchaseCnt")));
-			System.out.println("[서블릿] 주문 상세 내역 주문 개수 : "+request.getParameter("purchaseCnt"));
+			oContentDTO.setOdContentCnt(Integer.parseInt(cnts[i]));
+			System.out.println("[서블릿] 주문 상세 내역 주문 개수 : "+cnts[i]);
 			System.out.println("[서블릿] 주문 상세 내역 : "+oContentDTO);
 			oContentDAO.insert(oContentDTO);
 		}
