@@ -92,8 +92,8 @@ public class MypageOrderListAction implements Action {
 				//System.out.println("주문번호 하나 당 순환하는 횟수 1 : [ " +cnt+ "]" );
 				System.out.println(" 형련 [로그] oContentDatas Reivew 상태체크 : " );
 			}
-			oDTO.setCnt(cnt);
-			System.out.println("주문번호 하나 당 순환하는 횟수 2 : [ " +oDTO.getCnt()+ "]" );
+			oData.setCnt(cnt);
+			System.out.println("주문번호 하나 당 순환하는 횟수 2 : [ " +oData.getCnt()+ "]" );
 		}
 		System.out.println("[형련] datasTotal 로그 :"  +datasTotal);
 		request.setAttribute("oContentData", oContentDatas);
