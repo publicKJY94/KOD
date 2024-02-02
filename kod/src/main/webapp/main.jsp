@@ -38,6 +38,9 @@
 
 		<!-- Custom stlylesheet -->
 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
+
+				
+				
 		
 		
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -477,18 +480,13 @@ $(document).ready(function(){
 		<!-- /SECTION -->
 		
 		
-		<%
-		ArrayList<WishListDTO> teenagerRanking = (ArrayList<WishListDTO>)request.getAttribute("teenagerRanking");
-		ArrayList<WishListDTO> twentyRanking = (ArrayList<WishListDTO>)request.getAttribute("twentyRanking");
-		ArrayList<WishListDTO> thirtyRanking = (ArrayList<WishListDTO>)request.getAttribute("thirtyRanking");
-		%>
-
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
 			<div class="container">
 				<!-- row -->
 				<div class="row">
+				<c:if test="${not empty teenagerRanking and teenagerRanking.size() > 5}">
 					<div class="col-md-4 col-xs-6">
 						<div class="section-title">
 							<h4 class="title">10대 추천 PICK</h4>
@@ -496,51 +494,53 @@ $(document).ready(function(){
 								<div id="slick-nav-3" class="products-slick-nav"></div>
 							</div>
 						</div>
-						<c:if test="${not empty teenagerRanking}">
-    <div class="products-widget-slick" data-nav="#slick-nav-3">
-        <div>
-            <!-- product widget -->
-            <c:forEach var="product" begin="0" items="${teenagerRanking}" varStatus="status">
-                <c:choose>
-                    <c:when test="${status.index <= 2}">
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="${product.productImg}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">${product.productCategory}</p>
-                                <h3 class="product-name"><a href="#">${product.productName}</a></h3>
-                                <h4 class="product-price">
-                                    <fmt:setLocale value="ko_KR" />
-                                    <fmt:formatNumber value="${product.productPrice}" type="currency" />
-                                </h4>
-                            </div>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="${product.productImg}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">${product.productCategory}</p>
-                                <h3 class="product-name"><a href="#">${product.productName}</a></h3>
-                                <h4 class="product-price">
-                                    <fmt:setLocale value="ko_KR" />
-                                    <fmt:formatNumber value="${product.productPrice}" type="currency" />
-                                    <del class="product-old-price">$990.00</del>
-                                </h4>
-                            </div>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-            <!-- /product widget -->
-        </div>
-    </div>
-</c:if>
-					</div>
+						<div class="products-widget-slick" data-nav="#slick-nav-3">
+							<div>
+								<!-- product widget -->
+								<c:forEach var="product" begin="0" end="${teenagerRanking.size()-4}" items="${teenagerRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
+								<!-- /product widget -->
 
+							</div>
+
+							<div>
+								<!-- product widget -->
+								<c:forEach var="product" begin="3" items="${teenagerRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								                <del class="product-old-price">$990.00</del>
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
+								<!-- /product widget -->
+							</div>
+						</div>
+					</div>
+					</c:if>
+					
+					<c:if test="${not empty teenagerRanking and teenagerRanking.size() > 5}">
 					<div class="col-md-4 col-xs-6">
 						<div class="section-title">
 							<h4 class="title">20대 추천 PICK</h4>
@@ -549,53 +549,56 @@ $(document).ready(function(){
 							</div>
 						</div>
 
-						<c:if test="${not empty twentyRanking}">
-    <div class="products-widget-slick" data-nav="#slick-nav-4">
-        <div>
-            <!-- product widget -->
-            <c:forEach var="product" begin="0" items="${twentyRanking}" varStatus="status">
-                <c:choose>
-                    <c:when test="${status.index <= 2}">
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="${product.productImg}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">${product.productCategory}</p>
-                                <h3 class="product-name"><a href="#">${product.productName}</a></h3>
-                                <h4 class="product-price">
-                                    <fmt:setLocale value="ko_KR" />
-                                    <fmt:formatNumber value="${product.productPrice}" type="currency" />
-                                </h4>
-                            </div>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="${product.productImg}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">${product.productCategory}</p>
-                                <h3 class="product-name"><a href="#">${product.productName}</a></h3>
-                                <h4 class="product-price">
-                                    <fmt:setLocale value="ko_KR" />
-                                    <fmt:formatNumber value="${product.productPrice}" type="currency" />
-                                    <del class="product-old-price">$990.00</del>
-                                </h4>
-                            </div>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-            <!-- /product widget -->
-        </div>
-    </div>
-</c:if>
+						<div class="products-widget-slick" data-nav="#slick-nav-4">
+							<div>
+								<!-- product widget -->
+								<c:forEach var="product" begin="0" end="${twentyRanking.size()-4}" items="${twentyRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								                <del class="product-old-price">$990.00</del>
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
+								<!-- /product widget -->
+
+							</div>
+
+							<div>
+								<!-- product widget -->
+								<c:forEach var="product" begin="3" items="${twentyRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								                <del class="product-old-price">$990.00</del>
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
+								<!-- /product widget -->
+							</div>
+						</div>
 					</div>
+					</c:if>
 
 					<div class="clearfix visible-sm visible-xs"></div>
 
+					<c:if test="${not empty teenagerRanking and teenagerRanking.size() > 5}">
 					<div class="col-md-4 col-xs-6">
 						<div class="section-title">
 							<h4 class="title">30대 추천 PICK</h4>
@@ -603,51 +606,52 @@ $(document).ready(function(){
 								<div id="slick-nav-5" class="products-slick-nav"></div>
 							</div>
 						</div>
-<c:if test="${not empty thirtyRanking}">
-    <div class="products-widget-slick" data-nav="#slick-nav-5">
-        <div>
-            <!-- product widget -->
-            <c:forEach var="product" begin="0" items="${thirtyRanking}" varStatus="status">
-                <c:choose>
-                    <c:when test="${status.index <= 2}">
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="${product.productImg}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">${product.productCategory}</p>
-                                <h3 class="product-name"><a href="#">${product.productName}</a></h3>
-                                <h4 class="product-price">
-                                    <fmt:setLocale value="ko_KR" />
-                                    <fmt:formatNumber value="${product.productPrice}" type="currency" />
-                                </h4>
-                            </div>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="${product.productImg}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">${product.productCategory}</p>
-                                <h3 class="product-name"><a href="#">${product.productName}</a></h3>
-                                <h4 class="product-price">
-                                    <fmt:setLocale value="ko_KR" />
-                                    <fmt:formatNumber value="${product.productPrice}" type="currency" />
-                                    <del class="product-old-price">$990.00</del>
-                                </h4>
-                            </div>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-            <!-- /product widget -->
-        </div>
-    </div>
-</c:if>
-						
+
+						<div class="products-widget-slick" data-nav="#slick-nav-5">
+							<div>
+								<!-- product widget -->
+								<c:forEach var="product" begin="0" end="${thirtyRanking.size()-4}" items="${thirtyRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								                <del class="product-old-price">$990.00</del>
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
+								<!-- /product widget -->
+							</div>
+
+							<div>
+								<!-- product widget -->
+								<c:forEach var="product" begin="3" items="${thirtyRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								                <del class="product-old-price">$990.00</del>
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
+								<!-- /product widget -->
+							</div>
+						</div>
 					</div>
+					</c:if>
 
 				</div>
 				<!-- /row -->
