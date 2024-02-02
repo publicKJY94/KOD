@@ -18,7 +18,7 @@ import controller.login.LogoutAction;
 import controller.mypage.MemberUpdateAction;
 import controller.mypage.MemberUpdateLogoutAction;
 import controller.mypage.MemberUpdatePageAction;
-import controller.mypage.MypageAction;
+import controller.mypage.MyPageAction;
 import controller.mypage.MypageMemberUpdateAction;
 import controller.mypage.MypageMemberUpdatePWCKAction;
 import controller.mypage.MypageOrderListAction;
@@ -37,6 +37,7 @@ import controller.productWishList.ProductActionCategory;
 import controller.productWishList.ProductDetailAction;
 import controller.productWishList.ProductRankAction;
 import controller.productWishList.WishListAction;
+import controller.review.ReviewWriteAction;
 import controller.util.Action;
 import controller.util.AlertAction;
 import controller.util.GobackAction;
@@ -48,7 +49,7 @@ public class HandlerMapping {
 	public HandlerMapping() {
 		this.mappings=new HashMap<String,Action>();
 		this.mappings.put("/main.do", new MainAction());
-		this.mappings.put("/myPage.do", new MypageAction());
+		this.mappings.put("/myPage.do", new MyPageAction());
 		this.mappings.put("/login.do", new LoginAction());
 		this.mappings.put("/logout.do", new LogoutAction());
 		this.mappings.put("/loginPage.do", new LoginPageAction());
@@ -85,6 +86,7 @@ public class HandlerMapping {
 		this.mappings.put("/myOrderList.do", new MypageOrderListAction());
 		this.mappings.put("/mypageCartList.do", new MypageCartListAction());
 		this.mappings.put("/reviewWritePage.do", new ReviewWritePageAction());
+		this.mappings.put("/reviewWriteAction.do", new ReviewWriteAction());
 	}
 	
 	public Action getAction(String commed) {
