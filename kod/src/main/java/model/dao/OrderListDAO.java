@@ -14,7 +14,7 @@ public class OrderListDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	
-	private static final String SELECTALL="SELECT * FROM ORDERLIST WHERE MEMBER_ID=?";
+	private static final String SELECTALL="SELECT * FROM ORDERLIST WHERE MEMBER_ID=? ORDER BY ORDERLIST_ID DESC";
 	private static final String SELECTONE="SELECT NVL(MAX(ORDERLIST_ID),0) AS MAX_ID FROM ORDERLIST WHERE MEMBER_ID=?";
 	private static final String INSERT="INSERT INTO ORDERLIST "
 			+ " (ORDERLIST_ID, MEMBER_ID, ORDERLIST_DATE) "

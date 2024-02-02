@@ -9,8 +9,6 @@ public class OrderListDTO {
 	
 	private int cnt;
 	
-	
-	
 	public int getCnt() {
 		return cnt;
 	}

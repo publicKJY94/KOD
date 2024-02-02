@@ -63,10 +63,12 @@ public class ReviewDAO {
 			+ "    R.REVIEW_DATE, "
 			+ "    R.REVIEW_SCORE, "
 			+ "    R.REVIEW_IMG, "
+			+ "	   R.REVIEW_ID, "
 			+ "    R.MEMBER_ID, "
 			+ "    M.MEMBER_NAME, "
 			+ "    R.PRODUCT_ID, "
-			+ "    P.PRODUCT_NAME "
+			+ "    P.PRODUCT_NAME, "
+			+ "    R.REVIEW_REPLY "
 			+ "FROM  "
 			+ "    REVIEW R "
 			+ "JOIN  "
@@ -75,6 +77,8 @@ public class ReviewDAO {
 			+ "    PRODUCT P ON R.PRODUCT_ID = P.PRODUCT_ID "
 			+ "WHERE  "
 			+ "    R.REVIEW_ID = ? ";
+	
+	private static final String SELECTONE_REVIEW_CHECK= "SELECT * FROM ORDERCONTENT O LEFT OUTER JOIN REVIEW R ON O.PRODUCT_ID = R.PRODUCT_ID WHERE R.MEMBER_ID = ? AND O.ORDERCONTENT_ID = ?"; 
 	
 	
 	private static final String INSERT=
@@ -168,6 +172,15 @@ public class ReviewDAO {
 					pstmt = conn.prepareStatement(SELECTONE_DELTAIL_REVIEW);
 					pstmt.setInt(1, reviewDTO.getReviewID());
 			}
+			else if(reviewDTO.getSearchCondition().equals("리뷰체크")) {
+					pstmt= conn.prepareStatement(SELECTONE_REVIEW_CHECK);
+					pstmt.setString(1 , reviewDTO.getMemberID());
+					System.out.println("형련 [ 로그 ] reviewDAO1"+reviewDTO.getMemberID());
+					System.out.println("형련 [ 로그 ] reviewDAO2"+reviewDTO.getOdContentID());
+					pstmt.setInt(2, reviewDTO.getOdContentID());
+					
+			}
+			
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				data=new ReviewDTO();
