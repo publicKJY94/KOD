@@ -18,7 +18,7 @@ import controller.login.LogoutAction;
 import controller.mypage.MemberUpdateAction;
 import controller.mypage.MemberUpdateLogoutAction;
 import controller.mypage.MemberUpdatePageAction;
-import controller.mypage.MyPageAction;
+import controller.mypage.MypageAction;
 import controller.mypage.MypageMemberUpdateAction;
 import controller.mypage.MypageMemberUpdatePWCKAction;
 import controller.mypage.MypageOrderListAction;
@@ -49,7 +49,7 @@ public class HandlerMapping {
 	public HandlerMapping() {
 		this.mappings=new HashMap<String,Action>();
 		this.mappings.put("/main.do", new MainAction());
-		this.mappings.put("/myPage.do", new MyPageAction());
+		this.mappings.put("/myPage.do", new MypageAction());
 		this.mappings.put("/login.do", new LoginAction());
 		this.mappings.put("/logout.do", new LogoutAction());
 		this.mappings.put("/loginPage.do", new LoginPageAction());
