@@ -81,9 +81,12 @@
 	                            <p><%=cData.getProductName()%></p>
 	                            <span class="price"><%=cData.getProductPrice()%>원</span>
 	                        </td>
-	                        <td class="cart__list__option">
+	                        <td class="bseq_ea">
 	                            <p><%=cData.getProductName()%> / <%=cData.getCartProductCnt()%>개</p>
-	                            <button class="cart__list__optionbtn">주문조건 추가/변경</button>
+	                             	<button type ="button" onclick="fnCalCount('p',this);">+</button>
+							        <input type="text" name="pop_out" value="<%=cData.getCartProductCnt()%>" readonly="readonly" style="text-align:center;"/>
+							        <button type="button" onclick="fnCalCount('m', this);">-</button>
+	                            <!-- <button class="cart__list__optionbtn">주문조건 추가/변경</button> -->
 	                        </td>
 	                        <td><span class="price"><%=cData.getProductPrice()*cData.getCartProductCnt()%>원</span><br>
 	                            <button class="cart__list__orderbtn">주문하기</button>
@@ -94,7 +97,8 @@
 	                 <% } %>
 	                <tfoot>
 	                    <tr>
-	                        <td colspan="3"><input type="checkbox"> <button class="cart__list__optionbtn">선택상품 삭제</button>
+	                        <td colspan="3">
+	                        	<button class="cart__list__optionbtn">선택상품 삭제</button>
 	                            <button class="cart__list__optionbtn">선택상품 찜</button>
 	                        </td>
 	                        <td></td>
@@ -233,6 +237,19 @@
 				});
 			}
 		</script>
-		
+		<script>
+		function fnCalCount(type, ths){
+	    var $input = $(ths).parents("td").find("input[name='pop_out']");
+	    var tCount = Number($input.val());
+	    var tEqCount = Number($(ths).parents("tr").find("td.bseq_ea").html());
+	    
+	    if(type=='p'){
+	        if(tCount < tEqCount) $input.val(Number(tCount)+1);
+	        
+	    }else{
+	        if(tCount >0) $input.val(Number(tCount)-1);    
+	        }
+	}
+	</script>
 	</body>
 </html>
