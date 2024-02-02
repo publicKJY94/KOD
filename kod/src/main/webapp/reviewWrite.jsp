@@ -12,37 +12,50 @@
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	
 </head>
+
 <script>
 function previewImage(event) {
     var reader = new FileReader();
     reader.onload = function() {
         var output = document.getElementById('imagePreview');
         output.src = reader.result;
-        
+
         var cancelButton = document.getElementById('cancelImageButton');
         cancelButton.style.display = "inline-block";
     }
-    if (event.target.files.length === 0) {
+
+    var input = event.target;
+    if (input.files.length === 0) {
         var output = document.getElementById('imagePreview');
         output.src = "";
         var cancelButton = document.getElementById('cancelImageButton');
         cancelButton.style.display = "none";
     } else {
-        reader.readAsDataURL(event.target.files[0]);
+        // 추가: 파일 크기 체크
+        var fileSize = input.files[0].size; // 파일 크기 (바이트)
+        var maxFileSize = 5 * 1024 * 1024; // 5MB
+
+        if (fileSize > maxFileSize) {
+            alert('파일 크기가 5MB를 초과합니다. 더 작은 파일을 선택해주세요.');
+            // 선택한 파일 초기화
+            input.value = '';
+            return;
+        }
+
+        reader.readAsDataURL(input.files[0]);
     }
 }
 
 function cancelImageUpload() {
     var imageUpload = document.getElementById('imageUpload');
     var imagePreview = document.getElementById('imagePreview');
-    
+
     imageUpload.value = "";
     imagePreview.src = "";
-    
+
     var cancelButton = document.getElementById('cancelImageButton');
     cancelButton.style.display = "none";
 }
-
 
 /*
  MVC2 패턴
@@ -53,11 +66,13 @@ function cancelImageUpload() {
  비동기때문에 추가 서블릿이 필요한 상황일뿐!
  */
 
-</script>
+ </script>
+
+
 <body>
     <div class="container">
         <h2>상품 후기 작성</h2>
-        <form action="reviewWriteAction" method="POST" enctype="multipart/form-data">
+        <form action="reviewWriteServlet" method="POST" enctype="multipart/form-data">
        
         <!-- productID hidden field -->
         <input type="hidden" name="productID" value="1001" />
@@ -86,7 +101,7 @@ function cancelImageUpload() {
             </div>
             <div class="FormRow">
 			    <label for="imageUpload">이미지 업로드</label>
-			    <input type="file" id="imageUpload" name="imageUpload" accept="image/*" required onchange="previewImage(event)" />
+			    <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(event)" />
 			    <img id="imagePreview" src="#" alt="미리 보기 이미지" style="width: 100%" height="100%">
 			    <button type="button" id="cancelImageButton" style="display: none;" onclick="cancelImageUpload()">이미지 취소</button>
 			</div>
