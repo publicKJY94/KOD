@@ -6,10 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,29 +16,23 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import controller.util.Action;
 import controller.util.ActionForward;
 import model.dao.ReviewDAO;
 import model.dto.MemberDTO;
 import model.dto.ReviewDTO;
 
-@WebServlet("/reviewWriteAction")
-public class ReviewWriteAction extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public ReviewWriteAction() {
-        super();
-    }
+public class ReviewWriteAction implements Action {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		
-		System.out.println("reviewWriteAction 들어옴");
+		System.out.println("[로그:정현진] reviewWriteAction 들어옴");
 		ActionForward forward = new ActionForward();
 		forward.setPath("myPage.do");
 		forward.setRedirect(false);
+		
 		
 		HttpSession session = request.getSession();
 		String memberID = null;
@@ -47,12 +40,11 @@ public class ReviewWriteAction extends HttpServlet {
 			memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		} catch (Exception e) {
 //			e.printStackTrace();
-			System.out.println("로그아웃상태 : memberID is null");
+			System.out.println("[로그:정현진] 로그아웃상태 : memberID is null");
 		}
 		
 		
-		
-		/* 리뷰 작성로직
+		/* 리뷰 작성로직 
 		 * 
 		 * 리뷰를 작성하려면 아래와 같이 접근가능
 		 * teemo회원 주문목록 조회 -> 주문내역(1001,1002,1003)존재 -> 1001번 리뷰작성
@@ -81,7 +73,7 @@ public class ReviewWriteAction extends HttpServlet {
 		
 		 try {
 	            // 업로드된 파일을 저장할 경로 설정/..
-	            String uploadFilePath = getServletContext().getRealPath("uploads");
+	            String uploadFilePath = request.getServletContext().getRealPath("uploads");
 //	            String copyFilePath = "C:/Users/Springonward/Desktop/KOIT/KODsounds/kod/src/main/webapp/uploads/";
 	            System.out.println("uploadFilePath : "+uploadFilePath);
 //	            System.out.println("copyFilePath : " + copyFilePath);
@@ -110,45 +102,69 @@ public class ReviewWriteAction extends HttpServlet {
 	            
 	            // 업로드된 파일 정보 가져오기
 	            String fileName = multipartRequest.getFilesystemName("imageUpload");
-	            System.out.println("fileName : "+fileName);
-	            String filePath = uploadFilePath + File.separator + fileName;
-	            System.out.println("filePath : "+filePath);
-	            
-	            // 파일 복사하기
-	            InputStream in = new FileInputStream(filePath); // 파일 읽기 그릇 생성
-	            OutputStream os = new FileOutputStream(copyFilePathForKOD+fileName);
-	            System.out.println("OutputStream 경로"+copyFilePathForKOD+fileName);
-	    		
-	    		long start = System.currentTimeMillis();
-	    		while(true){
-	    			int inputData = in.read();
-	    			if(inputData==-1) break;
-	    			os.write(inputData);
-	    		}// end while
-	    		long end = System.currentTimeMillis();
-	    		System.out.println(end-start); // 파일복사 걸린 시간
-	    		in.close();
-	    		os.close();
-	    		System.out.println("copy success");
+
+	            ReviewDTO reviewDTO = new ReviewDTO();
+				if (fileName != null) {
+	                // 파일이 업로드되었을 경우에만 파일 복사 및 경로 설정
+	                String filePath = uploadFilePath + File.separator + fileName;
+	                System.out.println("filePath: " + filePath);
+
+	                // 파일이 존재하는지 확인
+	                boolean isFileExists = new File(filePath).exists();
+	                
+	                // 파일 복사
+	                InputStream in = new FileInputStream(filePath);
+	                OutputStream os = new FileOutputStream(copyFilePathForKOD + fileName);
+
+	                long start = System.currentTimeMillis();
+	                while (true) {
+	                    int inputData = in.read();
+	                    if (inputData == -1) break;
+	                    os.write(inputData);
+	                }
+	                long end = System.currentTimeMillis();
+	                System.out.println(end - start); // 파일 복사 걸린 시간
+	                in.close();
+	                os.close();
+	                System.out.println("copy success");
+
+	                reviewDTO.setReviewImg(isFileExists ? filePath : null);
+	                
+	                response.setContentType("application/json");
+	                response.setCharacterEncoding("UTF-8");
+
+	                try (PrintWriter out = response.getWriter()) {
+	                    out.print("{\"isFileExists\": " + isFileExists + "}");
+	                    out.flush();
+	                }
+	                
+	                // 리뷰 작성 시 이미지 파일 경로 설정
+	                reviewDTO.setReviewImg(filePath);
+	            } else {
+	                // 파일이 없는 경우에는 리뷰 작성 시 이미지 파일 경로를 null 또는 빈 문자열로 설정
+	                reviewDTO.setReviewImg(""); // 또는 reviewDTO.setReviewImg(null);
+	            }
 
 	            // 나머지 일반 폼 데이터 가져오기
 	            String title = multipartRequest.getParameter("title");
+	            System.out.println("[로그:정현진 title : "+multipartRequest.getParameter("title"));
 	            String content = multipartRequest.getParameter("content");
+	            System.out.println("[로그:정현진 content : "+multipartRequest.getParameter("content"));
 	            int reviewScore = Integer.parseInt(multipartRequest.getParameter("score"));
+	            System.out.println("[로그:정현진] productID : "+multipartRequest.getParameter("productID"));
 	            int productID = Integer.parseInt(multipartRequest.getParameter("productID"));
-	            System.out.println("title : "+title);
-	            System.out.println("content : "+content);
-	            System.out.println("reviewScore : "+reviewScore);
-	            System.out.println("filePath : "+filePath);
-	            System.out.println("productID : "+productID);
-	            
+
+	            System.out.println("title: " + title);
+	            System.out.println("content: " + content);
+	            System.out.println("reviewScore: " + reviewScore);
+	            System.out.println("productID: " + productID);
+
 	            // reviewDTO 설정
-	            ReviewDTO reviewDTO = new ReviewDTO();
-	    		ReviewDAO reviewDAO = new ReviewDAO();
+	            ReviewDAO reviewDAO = new ReviewDAO();
+	            reviewDTO = new ReviewDTO();
 	            reviewDTO.setReviewTitle(title);
 	            reviewDTO.setReviewContent(content);
 	            reviewDTO.setReviewScore(reviewScore);
-	            reviewDTO.setReviewImg(filePath);
 	            reviewDTO.setMemberID(memberID);
 	            reviewDTO.setProductID(productID);
 	            boolean flag = reviewDAO.insert(reviewDTO);
@@ -158,58 +174,11 @@ public class ReviewWriteAction extends HttpServlet {
 	            else {
 	            	System.out.println("리뷰작성 성공");
 	            }
-
-	            
-	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	            // 예외 처리
-	        }
-		
+		}	// try
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		 
+		return forward;
 	}
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//File src = new File(uploadFilePath);//절대경로 - 복사원본
-//File dist = new File("C:/Users/Springonward/Desktop/KOIT/KODsounds/src/main/webapp/uploads");//절대경로 - 복제될 위치
-//int count;
-//FileInputStream fis = null;
-//FileOutputStream fos = null;
-//BufferedInputStream bis = null;
-//BufferedOutputStream bos = null;
-//
-//try {
-//	fis = new FileInputStream(src); // 파일 입력 바이트 스트림 연결
-//	fos = new FileOutputStream(dist);// 파일 출력 바이트 스트림 연결
-//	bis = new BufferedInputStream(fis);//버퍼 입력스트림 연결
-//	bos = new BufferedOutputStream(fos); // 버퍼출력스트림 연결
-//	
-//	while((count = bis.read())!=1){
-//		bos.write((char)count);
-//	}//end while
-//	
-//	System.out.println("파일 복사 성공");
-//	bis.close(); 
-//	bos.close();
-//	fis.close();
-//	fos.close();
-//} catch (Exception e) {
-//	System.out.println("파일 복사 오류 발생");
-//}
