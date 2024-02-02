@@ -3,6 +3,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> <!-- 원화표시 functions함수집합 가져오기 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> <!-- 원화표시 포맷 -->
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -120,7 +123,8 @@
 								<ul class="section-tab-nav tab-nav">
 									<li class="active"><a data-toggle="tab" href="#tab1">실시간 랭킹</a></li>
 									<li><a data-toggle="tab" href="#tab1">스피커</a></li>
-									<li><a data-toggle="tab" href="#tab1">헤드폰 및 이어폰</a></li>
+									<li><a data-toggle="tab" href="#tab1">헤드폰</a></li>
+									<li><a data-toggle="tab" href="#tab1">이어폰</a></li>
 								</ul>
 							</div>
 						</div>
@@ -178,50 +182,50 @@ $(document).ready(function(){
 								<!-- tab -->
 								<div id="tab1" class="tab-pane active">
 									<div class="products-slick" data-nav="#slick-nav-1">
-										<%
-										ArrayList<WishListDTO> popularAllItems = (ArrayList<WishListDTO>)request.getAttribute("popularAllItems");
-										ArrayList<WishListDTO> isWishedDatas = (ArrayList<WishListDTO>)request.getAttribute("isWishedDatas");
-										
-										for(WishListDTO item : popularAllItems){
-										%>
-										<!-- product -->
-												<div class="col-md-4 col-xs-6" style="margin-top: 30px;">
-													<div class="product">
-														<div class="product-body">
-															<div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
-																<span class="new" style="color: #D10024;"><strong>NEW</strong></span>
-																<div class="product-btns">
-																	<button class="add-to-wishlist" onclick="checkLogin()">
-																		<div class="productID" hidden><%=item.getProductID()%></div>
-																		<i class="fa <%= item.getIsWished() == 1 ? "fa-heart" : "fa-heart-o" %>" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
-																	</button>
-																</div>
-															</div>
-														</div>
-														<div class="product-img">
-															<img src="<%=item.getProductImg()%>" alt="">
-														</div>
-														<div class="product-body">
-															<p class="product-category"><%=item.getProductCategory()%></p>
-															<h3 class="product-name" style="height: 31px;">
-																	<a href="productDetail.do?productID=<%=item.getProductID()%>"><%=item.getProductName()%></a>
-															</h3>
-															<h4 class="product-price"><%=item.getProductPrice()%><del class="product-old-price"></del></h4>
-															<div class="product-rating">
-																<%--평점 들어가는 라인 --%>
-															</div>
-														</div>
-														<div class="add-to-cart">
-															<button class="add-to-cart-btn">
-																<i class="fa fa-shopping-cart"></i> add to cart
-															</button>
-														</div>
-													</div>
-												</div>
-										<%
-												}
-										%>
-										<!-- /product -->
+									
+									    <!-- product -->
+										<c:forEach var="item" items="${popularAllItems}">
+										    <div class="col-md-4 col-xs-6" style="margin-top: 30px;">
+										        <div class="product">
+										            <div class="product-body">
+										                <div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
+										                    <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
+										                    <div class="product-btns">
+										                        <button class="add-to-wishlist" onclick="checkLogin()">
+										                            <div class="productID" hidden>${item.productID}</div>
+										                            <i class="fa ${item.isWished == 1 ? 'fa-heart' : 'fa-heart-o'}" id="heartIcon"></i><span class="tooltipp">위시리스트에 추가</span>
+										                        </button>
+										                    </div>
+										                </div>
+										            </div>
+										            <a href="productDetail.do?productCategory=${item.productCategory}&productID=${item.productID}">
+											            <div class="product-img">
+											                <img src="${item.productImg}" alt="">
+											            </div>
+													</a>
+										            <div class="product-body">
+										                <p class="product-category">${item.productCategory}</p>
+										                <h3 class="product-name" style="height: 31px;">
+										                    <a href="productDetail.do?productID=${item.productID}">${item.productName}</a>
+										                </h3>
+										                <h4 class="product-price">
+										                    <fmt:setLocale value="ko_KR" />
+										                    <fmt:formatNumber value="${item.productPrice}" type="currency" />
+										                    <del class="product-old-price"></del>
+										                </h4>
+										                <div class="product-rating">
+										                    <%--평점 들어가는 라인 --%>
+										                </div>
+										            </div>
+										            <div class="add-to-cart">
+										                <button class="add-to-cart-btn">
+										                    <i class="fa fa-shopping-cart"></i> add to cart
+										                </button>
+										            </div>
+										        </div>
+										    </div>
+										</c:forEach>
+									    <!-- /product -->
 
 										
 									</div>
@@ -498,46 +502,43 @@ $(document).ready(function(){
 						<div class="products-widget-slick" data-nav="#slick-nav-3">
 							<div>
 								<!-- product widget -->
-								<%
-									for(int i=0;i<teenagerRanking.size()-3;i++){
-										
-								%>
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="<%=teenagerRanking.get(i).getProductImg() %>" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category"><%=teenagerRanking.get(i).getProductCategory() %></p>
-										<h3 class="product-name"><a href="#"><%=teenagerRanking.get(i).getProductName() %></a></h3>
-										<h4 class="product-price"><%=teenagerRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<%
-									}
-								%>
+								<c:forEach var="product" begin="0" end="${teenagerRanking.size()-4}" items="${teenagerRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
 								<!-- /product widget -->
 
 							</div>
 
 							<div>
 								<!-- product widget -->
-								<%
-									for(int i=3;i<teenagerRanking.size();i++){
-										
-								%>
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="<%=teenagerRanking.get(i).getProductImg() %>" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category"><%=teenagerRanking.get(i).getProductCategory() %></p>
-										<h3 class="product-name"><a href="#"><%=teenagerRanking.get(i).getProductName() %></a></h3>
-										<h4 class="product-price"><%=teenagerRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<%
-									}
-								%>
+								<c:forEach var="product" begin="3" items="${teenagerRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								                <del class="product-old-price">$990.00</del>
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
 								<!-- /product widget -->
 							</div>
 						</div>
@@ -554,44 +555,44 @@ $(document).ready(function(){
 						<div class="products-widget-slick" data-nav="#slick-nav-4">
 							<div>
 								<!-- product widget -->
-								<%
-									for(int i=0;i<twentyRanking.size()-3;i++){
-								%>
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="<%=twentyRanking.get(i).getProductImg() %>" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category"><%=twentyRanking.get(i).getProductCategory() %></p>
-										<h3 class="product-name"><a href="#"><%=twentyRanking.get(i).getProductName() %></a></h3>
-										<h4 class="product-price"><%=twentyRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<%
-									}
-								%>
+								<c:forEach var="product" begin="0" end="${twentyRanking.size()-4}" items="${twentyRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								                <del class="product-old-price">$990.00</del>
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
 								<!-- /product widget -->
 
 							</div>
 
 							<div>
 								<!-- product widget -->
-								<%
-									for(int i=3;i<twentyRanking.size();i++){
-								%>
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="<%=twentyRanking.get(i).getProductImg() %>" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category"><%=twentyRanking.get(i).getProductCategory() %></p>
-										<h3 class="product-name"><a href="#"><%=twentyRanking.get(i).getProductName() %></a></h3>
-										<h4 class="product-price"><%=twentyRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<%
-									}
-								%>
+								<c:forEach var="product" begin="3" items="${twentyRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								                <del class="product-old-price">$990.00</del>
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
 								<!-- /product widget -->
 							</div>
 						</div>
@@ -610,43 +611,43 @@ $(document).ready(function(){
 						<div class="products-widget-slick" data-nav="#slick-nav-5">
 							<div>
 								<!-- product widget -->
-								<%
-									for(int i=0;i<thirtyRanking.size()-3;i++){
-								%>
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="<%=thirtyRanking.get(i).getProductImg() %>" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category"><%=thirtyRanking.get(i).getProductCategory() %></p>
-										<h3 class="product-name"><a href="#"><%=thirtyRanking.get(i).getProductName() %></a></h3>
-										<h4 class="product-price"><%=thirtyRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<%
-									}
-								%>
+								<c:forEach var="product" begin="0" end="${thirtyRanking.size()-4}" items="${thirtyRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								                <del class="product-old-price">$990.00</del>
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
 								<!-- /product widget -->
 							</div>
 
 							<div>
 								<!-- product widget -->
-								<%
-									for(int i=3;i<thirtyRanking.size();i++){
-								%>
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="<%=thirtyRanking.get(i).getProductImg() %>" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category"><%=thirtyRanking.get(i).getProductCategory() %></p>
-										<h3 class="product-name"><a href="#"><%=thirtyRanking.get(i).getProductName() %></a></h3>
-										<h4 class="product-price"><%=thirtyRanking.get(i).getProductPrice() %> <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<%
-									}
-								%>
+								<c:forEach var="product" begin="3" items="${thirtyRanking}" varStatus="status">
+								    <div class="product-widget">
+								        <div class="product-img">
+								            <img src="${product.productImg}" alt="">
+								        </div>
+								        <div class="product-body">
+								            <p class="product-category">${product.productCategory}</p>
+								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h4 class="product-price">
+								                <fmt:setLocale value="ko_KR" />
+								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
+								                <del class="product-old-price">$990.00</del>
+								            </h4>
+								        </div>
+								    </div>
+								</c:forEach>
 								<!-- /product widget -->
 							</div>
 						</div>

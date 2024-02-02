@@ -71,10 +71,6 @@ public class ProductDetailAction implements Action {
 			wishListDTO.setProductID(Integer.parseInt(request.getParameter("productID")));
 			wishListDTO.setMemberID(memberID);
 			productWishDetailData = wishListDAO.selectOne(wishListDTO);
-//			wishListDTO.setSearchCondition("연관상품LOGIN");
-//			wishListDTO.setProductCategory((String)request.getParameter("productCategory"));
-//			wishListDTO.setMemberID(memberID);
-//			productWishDatas = wishListDAO.selectAll(wishListDTO);
 			wishListDTO.setSearchCondition("찜수량");
 			wishListDTO.setMemberID(memberID);
 			wishListDTO = wishListDAO.selectOne(wishListDTO);
@@ -142,18 +138,33 @@ public class ProductDetailAction implements Action {
 		    System.out.println("리뷰 데이터 없음");
 		} 
 		else { // 리뷰데이터가 존재한다면
-		    try {
 				for (ReviewDTO data : productReviewDatas) {
-				    totalScore += data.getReviewScore();
-				    Path path = Paths.get(data.getReviewImg());
-				    System.out.println(path);
-				    String relativePath = path.getFileName().toString();
-				    System.out.println("파싱된 relativePath : "+relativePath);
-				    data.setReviewImg(relativePath);
-				    System.out.println("[정현진LOG] " + data.getMemberName() + "회원 " + data.getReviewScore() + "점");
+				    // 리뷰 이미지가 존재하는지 확인
+				    if (data.getReviewImg() != null && !data.getReviewImg().isEmpty()) {
+				        // 이미지가 있는 경우의 처리
+				        totalScore += data.getReviewScore();
+				        Path path = Paths.get(data.getReviewImg());
+				        System.out.println("[로그:정현진] 리뷰 이미지 경로: " + path);
+	
+				        // 상대 경로에서 파일명만 추출
+				        String relativePath = path.getFileName().toString();
+				        System.out.println("[로그:정현진] 파싱된 relativePath: " + relativePath);
+	
+				        // 추출한 파일명을 리뷰 데이터의 이미지 경로로 설정
+				        data.setReviewImg(relativePath);
+	
+				        System.out.println("[로그:정현진] " + data.getMemberName() + "회원 " + data.getReviewScore() + "점");
+				    } else {
+				        // 이미지가 없는 경우의 처리
+//				        // 기본 이미지로 설정하거나 다른 처리를 수행
+				    	System.out.println("리뷰작성 시 이미지 업로드하지않음");
+//				        data.setReviewImg("defaultImage.jpg"); // 기본 이미지 파일명으로 설정 (프로젝트에 실제로 존재하는 파일명으로 변경)
+				        System.out.println("[로그:정현진] " + data.getMemberName() + "회원 " + data.getReviewScore() + "점 (이미지 없음)");
+				    }
 				}
 				for (ReviewDTO data : productReviewDatas) {
-				    System.out.println(data.getReviewImg());
+				    System.out.println("[로그:정현진] 리뷰이미지"+data.getReviewImg());
+				    System.out.println("[로그:정현진] 리뷰작성회원명"+data.getMemberName());
 				}
 				reviewAvgScore = Math.round((totalScore / totalReviewCount) * 100.0) / 100.0;
 				System.out.println("총점" + totalScore);
@@ -201,10 +212,6 @@ public class ProductDetailAction implements Action {
 				request.setAttribute("threeScoreRatio", threeScoreRatio);
 				request.setAttribute("fourScoreRatio", fourScoreRatio);
 				request.setAttribute("fiveScoreRatio", fiveScoreRatio);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		    
 		    /*
 		     * oneScoreCount, twoScoreCount, ..., fiveScoreRatio는 

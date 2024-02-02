@@ -5,6 +5,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> <!-- 원화표시 functions함수집합 가져오기 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> <!-- 원화표시 포맷 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +37,7 @@
 
 <!-- Custom stlylesheet -->
 <link type="text/css" rel="stylesheet" href="css/style.css" />
+<link type="text/css" rel="stylesheet" href="css/checkLogin.css" />
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -49,10 +52,13 @@
 	<jsp:include page="util/navigation.jsp"></jsp:include>
 
 
-	<script src="https://code.jquery.com/jquery-3.7.1.js"
-		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-		crossorigin="anonymous"></script>
-	<script>
+<script 
+	src="https://code.jquery.com/jquery-3.7.1.js"
+	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+	crossorigin="anonymous">
+</script>
+
+<script>
 $(document).ready(function(){
 	  $(".add-to-wishlist2").on("click", function(e){
 	    e.preventDefault(); // 기본 클릭 이벤트를 중단하여 링크가 이동하는 것을 방지
@@ -103,7 +109,7 @@ $(document).ready(function(){
 
 </script>
 
-	<!-- <script>
+<script>
 $(document).ready(function(){
 	  $(".add-to-wishlist").on("click", function(e){
 	    e.preventDefault(); // 기본 클릭 이벤트를 중단하여 링크가 이동하는 것을 방지
@@ -134,7 +140,21 @@ $(document).ready(function(){
 	  });
 	});
 
-</script> -->
+</script>
+<!-- 모달창을 추가합니다. -->
+<div id="memberID" memberID="${memberDTO.memberID}"></div>
+<div id="checkLoginModal" class="modal checkLoginModal">
+    <div class="modal-content checkLoginModal">
+        <span class="close checkLoginModal" onclick="closeModal()">&times;</span>
+        <p>로그인 후 이용가능합니다.</p>	
+		<p>로그인 화면으로 이동하시겠습니까?</p>
+		<button id="cancelButton">취소</button>
+		<button id="confirmButton">확인</button>
+     </div>
+</div>
+
+
+
 	<%
 	WishListDTO productWishDetailData = (WishListDTO) request.getAttribute("productWishDetailData");
 	%>
@@ -202,9 +222,10 @@ $(document).ready(function(){
 								review</a>
 						</div>
 						<div>
-							<h3 class="product-price"><%=productWishDetailData.getProductPrice()%><del
-									class="product-old-price"></del>
-							</h3>
+										<h3 class="product-price">
+											<fmt:setLocale value="ko_KR" />
+											<fmt:formatNumber value="${productWishDetailData.productPrice}" type="currency" />
+										</h3>
 							<span class="product-available">In Stock</span>
 						</div>
 						<p><%=productWishDetailData.getProductInfo()%></p>
@@ -222,8 +243,9 @@ $(document).ready(function(){
 											value="<%=productWishDetailData.getProductName()%>">
 										<input type="hidden" name="productPrice"
 											value="<%=productWishDetailData.getProductPrice()%>">
-										<input name="purchaseCnt" type="number"> <span
-											class="qty-up">+</span> <span class="qty-down">-</span>
+										<input id="purchaseCnt" name="purchaseCnt" type="number" value="1" min="1" />
+									    <span class="qty-up" onclick="increaseQuantity()">+</span>
+									    <span class="qty-down" onclick="decreaseQuantity()">-</span>
 									</div>
 								</div>
 								<button class="add-to-cart-btn" type="submit">
@@ -235,7 +257,7 @@ $(document).ready(function(){
 							</div>
 						</form>
 						<ul class="product-btns">
-							<li><a href="#" class="add-to-wishlist2"> <i
+							<li><a href="#" class="add-to-wishlist2" onclick="checkLogin()" > <i
 									class="fa <%=productWishDetailData.getIsWished() == 1 ? "fa-heart" : "fa-heart-o"%>"
 									id="heartIcon"></i> add to wishList <span class="productID"
 									style="display: none;"><%=productWishDetailData.getProductID()%></span>
@@ -349,7 +371,7 @@ $(document).ready(function(){
 																		class="fa fa-star-o"></i>
 																</div>
 																<div class="rating-progress">
-																	<div style="width: ${fourScoreRatio}%;%;"></div>
+																	<div style="width: ${fourScoreRatio}%;"></div>
 																</div> <span class="sum">${fourScoreCount }</span>
 															</li>
 															<li>
@@ -359,7 +381,7 @@ $(document).ready(function(){
 																		class="fa fa-star-o"></i>
 																</div>
 																<div class="rating-progress">
-																	<div style="width: ${threeScoreRatio}%;%;"></div>
+																	<div style="width: ${threeScoreRatio}%;"></div>
 																</div> <span class="sum">${threeScoreCount }</span>
 															</li>
 															<li>
@@ -369,7 +391,7 @@ $(document).ready(function(){
 																	<i class="fa fa-star-o"></i>
 																</div>
 																<div class="rating-progress">
-																	<div style="width: ${twoScoreRatio}%;%;"></div>
+																	<div style="width: ${twoScoreRatio}%;"></div>
 																</div> <span class="sum">${twoScoreCount }</span>
 															</li>
 															<li>
@@ -379,7 +401,7 @@ $(document).ready(function(){
 																	<i class="fa fa-star-o"></i>
 																</div>
 																<div class="rating-progress">
-																	<div style="width: ${oneScoreRatio}%;%;"></div>
+																	<div style="width: ${oneScoreRatio}%;"></div>
 																</div> <span class="sum">${oneScoreCount }</span>
 															</li>
 														</ul>
@@ -389,58 +411,70 @@ $(document).ready(function(){
 
 												<!-- Reviews -->
 												<div class="col-md-6">
-													<div id="reviews">
-														<ul class="reviews">
-															<c:forEach var="review" items="${currentPageProducts}">
-																<li>
-																	<div class="review-heading">
-																		<h5 class="name">${review.memberName}</h5>
-																		<p class="date">${review.reviewDate}</p>
-																		<div class="review-rating"
-																			id="ratingContainer_${review.reviewID}">
-																			<!-- Default: 5 empty stars -->
-																			<i class="fa fa-star-o empty"></i> <i
-																				class="fa fa-star-o empty"></i> <i
-																				class="fa fa-star-o empty"></i> <i
-																				class="fa fa-star-o empty"></i> <i
-																				class="fa fa-star-o empty"></i>
-																		</div>
-
-<script>
-    // 리뷰 레이팅 값 (1부터 5까지의 정수)
-    var reviewRating_${review.reviewID} = ${review.reviewScore};
-
-    // 별 아이콘의 상태를 업데이트하는 함수
-    function updateRating_${review.reviewID}(rating) {
-        var ratingContainer = document.getElementById("ratingContainer_${review.reviewID}");
-        var stars = ratingContainer.children;
-
-        for (var i = 0; i < stars.length; i++) {
-            if (i < rating) {
-                stars[i].classList.remove("fa-star-o", "empty");
-                stars[i].classList.add("fa-star");
-            } else {
-                stars[i].classList.remove("fa-star");
-                stars[i].classList.add("fa-star-o", "empty");
-            }
-        }
-    }
-
-    // 리뷰 레이팅 값으로 별 아이콘 업데이트
-    updateRating_${review.reviewID}(reviewRating_${review.reviewID});
-</script>
-																	</div>
-																	<div class="review-body">
-																		<h5>${review.reviewTitle}</h5>
-																		<p>${review.reviewContent}</p>
-																	</div>
-																</li>
-															</c:forEach>
-														</ul>
-
-
-													</div>
-												</div>
+											    <div id="reviews">
+											        <ul class="reviews">
+											            <c:forEach var="review" items="${currentPageProducts}">
+											                <li style="display: flex; justify-content: space-between;">
+											                    <div class="review-heading">
+											                        <h5 class="name">${review.memberName}</h5>
+											                        <p class="date">${review.reviewDate}</p>
+											                        <div class="review-rating" id="ratingContainer_${review.reviewID}">
+											                            <!-- Default: 5 empty stars -->
+											                            <i class="fa fa-star-o empty"></i> <i class="fa fa-star-o empty"></i>
+											                            <i class="fa fa-star-o empty"></i> <i class="fa fa-star-o empty"></i>
+											                            <i class="fa fa-star-o empty"></i>
+											                        </div>
+											
+											                        <script>
+											                            // 리뷰 레이팅 값 (1부터 5까지의 정수)
+											                            var reviewRating_${review.reviewID} = ${review.reviewScore};
+											
+											                            // 별 아이콘의 상태를 업데이트하는 함수
+											                            function updateRating_${review.reviewID}(rating) {
+											                                var ratingContainer = document.getElementById("ratingContainer_${review.reviewID}");
+											                                var stars = ratingContainer.children;
+											
+											                                for (var i = 0; i < stars.length; i++) {
+											                                    if (i < rating) {
+											                                        stars[i].classList.remove("fa-star-o", "empty");
+											                                        stars[i].classList.add("fa-star");
+											                                    } else {
+											                                        stars[i].classList.remove("fa-star");
+											                                        stars[i].classList.add("fa-star-o", "empty");
+											                                    }
+											                                }
+											                            }
+											
+											                            // 리뷰 레이팅 값으로 별 아이콘 업데이트
+											                            updateRating_${review.reviewID}(reviewRating_${review.reviewID});
+											                        </script>
+											                    </div>
+											
+											                    <div class="review-body">
+											                        <h5>${review.reviewTitle}</h5>
+											                        <p>${review.reviewContent}</p>
+											                    </div>
+											
+											                    <div>
+											                        <div class="image-container">
+											                            <c:if test="${not empty review.reviewImg}">
+											                                <!-- 이미지 경로가 존재하는 경우에만 이미지 표시 -->
+											                               <img alt="${review.memberName}님의 이미지"
+																			    src='<c:url value="uploads/${review.reviewImg}" />'
+																			    style="height: 70px; width: 70px;"
+																			    class="img-thumbnail"
+																			    data-toggle="modal"
+																			    data-target="#myModal"
+																			    title="${review.memberName}님의 이미지" />
+											                                <div style="height: 30px"></div>
+											                            </c:if>
+											                        </div>
+											                    </div>
+											                </li>
+											            </c:forEach>
+											        </ul>
+											    </div>
+											</div>
 												<!-- /Reviews -->
 												
 												
@@ -455,17 +489,20 @@ $(document).ready(function(){
 												
 												
 												<!-- Review Form -->
-												<div class="col-md-3">
+												<%-- <div class="col-md-3">
 												    <c:forEach var="review" items="${currentPageProducts}">
 												        <div class="image-container">
 												            <img alt=""
 												                src='<c:url value="uploads/${review.reviewImg}" />'
 												                style="height: 70px; width: 70px;"
-												                class="img-thumbnail" data-toggle="modal" data-target="#myModal">
+												                class="img-thumbnail"
+												                data-toggle="modal" data-target="#myModal"
+												                onerror="this.style.display='none';" /> <!-- 이미지 로딩 실패 시 숨기기 -->
+												            
 												            <div style="height: 30px"></div>
 												        </div>
 												    </c:forEach>
-												</div>
+												</div> --%>
 												
 												<!-- 모달 창 -->
 												<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -557,7 +594,7 @@ $(document).ready(function(){
 																style="display: flex; justify-content: space-between; align-items: center;">
 																<span class="new" style="color: #D10024;"><strong>NEW</strong></span>
 																<div class="product-btns">
-																	<button class="add-to-wishlist">
+																	<button class="add-to-wishlist" onclick="checkLogin()">
 																		<div class="productID" hidden><%=data.getProductID()%></div>
 																		<i
 																			class="fa <%=data.getIsWished() == 1 ? "fa-heart" : "fa-heart-o"%>"
@@ -576,8 +613,9 @@ $(document).ready(function(){
 																<a
 																	href="productDetail.do?productID=<%=data.getProductID()%>"><%=data.getProductName()%></a>
 															</h3>
-															<h4 class="product-price"><%=data.getProductPrice()%><del
-																	class="product-old-price"></del>
+															<h4 class="product-price">
+															<%=data.getProductPrice()%>
+															<del class="product-old-price"></del>
 															</h4>
 															<div class="product-rating">
 																<%--평점 들어가는 라인 --%>
@@ -655,5 +693,6 @@ $(document).ready(function(){
 				<script src="js/nouislider.min.js"></script>
 				<script src="js/jquery.zoom.min.js"></script>
 				<script src="js/main.js"></script>
+				<script src="js/checkLogin.js"></script>
 </body>
 </html>
