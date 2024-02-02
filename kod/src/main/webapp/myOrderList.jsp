@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="model.dto.*" import = "java.util.ArrayList"%>
+	pageEncoding="UTF-8" import="model.dto.*" import="java.util.ArrayList"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +32,7 @@
 <!-- Custom stlylesheet -->
 <link type="text/css" rel="stylesheet" href="css/style.css" />
 
-<link type="text/css" rel="stylesheet" href="css/paySelect.css"/>
+<link type="text/css" rel="stylesheet" href="css/paySelect.css" />
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,7 +48,7 @@
 	<jsp:include page="util/header.jsp"></jsp:include>
 	<jsp:include page="util/navigation.jsp"></jsp:include>
 	<div class="section">
-		<!-- container -->  
+		<!-- container -->
 		<div class="container">
 			<!-- row -->
     <div class="row">
@@ -82,6 +82,8 @@
                 <td>
                 	<span class="price">${data.productPrice * data.odContentCnt}원</span><br>
                     <form action="reviewWritePage.do" method="POST" id="form1">
+                      <input type="hidden" name="productID"
+														value="${data.productID}">
                         <c:choose>
                             <c:when test="${data.reviewButtonStatus eq 'enabled'}">
                                 <%-- 리뷰 작성 완료된 경우 버튼 비활성화 --%>
@@ -115,8 +117,10 @@
     </div>
     <!-- /row -->
 </div>
+
 		</div>
-		<!-- /container -->
+	</div>
+	<!-- /container -->
 	<!-- /SECTION -->
 	<!-- FOOTER -->
 	<footer id="footer">
@@ -208,8 +212,7 @@
 								function openReviewWrite() {
 									document.getElementById('form1').submit();
 								}
-							</script>
-							All rights reserved | This template is made with <i
+							</script> All rights reserved | This template is made with <i
 							class="fa fa-heart-o" aria-hidden="true"></i> by <a
 							href="https://colorlib.com" target="_blank">Colorlib</a> <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						</span>

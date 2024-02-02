@@ -74,8 +74,16 @@ function cancelImageUpload() {
         <h2>상품 후기 작성</h2>
         <form action="reviewWriteServlet" method="POST" enctype="multipart/form-data">
        
+       <%
+		    String productIDParam = request.getParameter("productID");
+		    int productID = 0; // 초기값 설정
+		    if (productIDParam != null && !productIDParam.isEmpty()) {
+		        productID = Integer.parseInt(productIDParam);
+		    }
+		    out.println("상품 ID: " + productID);
+		%>
         <!-- productID hidden field -->
-        <input type="hidden" name="productID" value="1001" />
+        <input type="hidden" name="productID" value="<%=productID %>" />
         
             <div class="FormRow">
                 <label for="title">제목</label>
