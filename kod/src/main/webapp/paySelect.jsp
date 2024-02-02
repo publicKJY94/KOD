@@ -45,14 +45,8 @@
 	
 		<jsp:include page="util/header.jsp"></jsp:include>
 		<jsp:include page="util/navigation.jsp"></jsp:include>
-	<%
-	
-		System.out.println("[paySelect]");
-		ArrayList<CartDTO> cDatas =(ArrayList<CartDTO>)request.getAttribute("cartDTO");
-		System.out.println("paySelect 정보 : "+cDatas);
-		MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("memberDTO");
-		System.out.println(memberDTO);
-	%>
+	<c:set var="cDatas" value="${cartDTO}" />
+<c:set var="memberDTO" value="${sessionScope.memberDTO}" />
     <section class="cart">
         <div class="cart__information">
             <ul>
@@ -64,42 +58,42 @@
         <form action="payInfo.do" method="POST" >
 	        <table class="cart__list">
 	                <thead>
-	                    <tr>
-	                        <td><input type="checkbox"></td>
+	                    <tr> 
+	                        <td><input type="checkbox" onclick='selectAll(this)'/ name = "" value=""> <b></b></td>
 	                        <td colspan="2">상품정보</td>
 	                        <td>옵션</td>
 	                        <td>상품금액</td>
 	                        <td>배송비</td>
 	                    </tr>
 	                </thead>
-	                 <%for(CartDTO cData:cDatas){ %>
+	                  <c:forEach var="cData" items="${cDatas}">
 	                <tbody>
 	                    <tr class="cart__list__detail">
-	                        <td><input type="checkbox" name="selectedProducts" value="<%=cData.getProductID()%>"></td>
-	                        <td><img src="<%=cData.getProductImg()%>" alt="product"></td>
+	                        <td><input type="checkbox" name="selectedProducts" value="${cData.productID}"></td>
+	                        <td><img src="${cData.productImg}" alt="product"></td>
 	                        <td><a href="main.do">KOD스토어</a>
-	                            <p><%=cData.getProductName()%></p>
-	                            <span class="price"><%=cData.getProductPrice()%>원</span>
+	                            <p>${cData.productName}</p>
+	                            <span class="price">${cData.productPrice}원</span>
 	                        </td>
 	                        <td class="bseq_ea">
-	                            <p><%=cData.getProductName()%> / <%=cData.getCartProductCnt()%>개</p>
-	                             	<button type ="button" onclick="fnCalCount('p',this);">+</button>
-							        <input type="text" name="pop_out" value="<%=cData.getCartProductCnt()%>" readonly="readonly" style="text-align:center;"/>
-							        <button type="button" onclick="fnCalCount('m', this);">-</button>
+	                            <p>${cData.productName} / ${cData.cartProductCnt}개</p>
+	                             	<button type ="button" onclick="fnCalCount('m',this);">-</button>
+							        <input type="text" name="pop_out" value="${cData.cartProductCnt}" readonly="readonly" style="text-align:center;"/>
+							        <button type="button" onclick="fnCalCount('p', this);">+</button>
 	                            <!-- <button class="cart__list__optionbtn">주문조건 추가/변경</button> -->
 	                        </td>
-	                        <td><span class="price"><%=cData.getProductPrice()*cData.getCartProductCnt()%>원</span><br>
+	                        <td><span class="price">${cData.productPrice*cData.cartProductCnt}원</span><br>
 	                            <button class="cart__list__orderbtn">주문하기</button>
 	                        </td>
 	                        <td>무료</td>
 	                    </tr>
 	                </tbody>
-	                 <% } %>
+	                </c:forEach>
 	                <tfoot>
 	                    <tr>
 	                        <td colspan="3">
-	                        	<button class="cart__list__optionbtn">선택상품 삭제</button>
-	                            <button class="cart__list__optionbtn">선택상품 찜</button>
+	                        	<button type="button" class="cart__list__optionbtn" onclick ="">선택상품 삭제</button>
+	                       <!--      <button type="button" class="cart__list__optionbtn">선택상품 찜</button> --> 
 	                        </td>
 	                        <td></td>
 	                        <td></td>
@@ -244,12 +238,21 @@
 	    var tEqCount = Number($(ths).parents("tr").find("td.bseq_ea").html());
 	    
 	    if(type=='p'){
-	        if(tCount < tEqCount) $input.val(Number(tCount)+1);
+	        $input.val(Number(tCount)+1);
 	        
 	    }else{
-	        if(tCount >0) $input.val(Number(tCount)-1);    
+	        if(tCount > 1) $input.val(Number(tCount)-1);    
 	        }
-	}
+		}
+		
+		function selectAll(selectAll)  {
+			  const checkboxes 
+			     = document.querySelectorAll('input[type="checkbox"]');
+			  
+			  checkboxes.forEach((checkbox) => {
+			    checkbox.checked = selectAll.checked
+			  })
+			}
 	</script>
 	</body>
 </html>
