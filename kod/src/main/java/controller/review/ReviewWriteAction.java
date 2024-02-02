@@ -182,3 +182,39 @@ public class ReviewWriteAction implements Action {
 		return forward;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+//File src = new File(uploadFilePath);//절대경로 - 복사원본
+//File dist = new File("C:/Users/Springonward/Desktop/KOIT/KODsounds/src/main/webapp/uploads");//절대경로 - 복제될 위치
+//int count;
+//FileInputStream fis = null;
+//FileOutputStream fos = null;
+//BufferedInputStream bis = null;
+//BufferedOutputStream bos = null;
+//
+//try {
+//	fis = new FileInputStream(src); // 파일 입력 바이트 스트림 연결
+//	fos = new FileOutputStream(dist);// 파일 출력 바이트 스트림 연결
+//	bis = new BufferedInputStream(fis);//버퍼 입력스트림 연결
+//	bos = new BufferedOutputStream(fos); // 버퍼출력스트림 연결
+//	
+//	while((count = bis.read())!=1){
+//		bos.write((char)count);
+//	}//end while
+//	
+//	System.out.println("파일 복사 성공");
+//	bis.close(); 
+//	bos.close();
+//	fis.close();
+//	fos.close();
+//} catch (Exception e) {
+//	System.out.println("파일 복사 오류 발생");
+//}
