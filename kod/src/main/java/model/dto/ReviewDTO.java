@@ -17,6 +17,17 @@ public class ReviewDTO {
 	private int productName;
 	private String searchCondition;
 	
+	
+	private int odContentID;
+	
+	
+	public int getOdContentID() {
+		return odContentID;
+	}
+	public void setOdContentID(int odContentID) {
+		this.odContentID = odContentID;
+	}
+	
 	public int getReviewID() {
 		return reviewID;
 	}
@@ -94,6 +105,14 @@ public class ReviewDTO {
 	}
 	public void setSearchCondition(String searchCondition) {
 		this.searchCondition = searchCondition;
+	}
+	@Override
+	public String toString() {
+		return "ReviewDTO [reviewID=" + reviewID + ", reviewScore=" + reviewScore + ", reviewAvgScore=" + reviewAvgScore
+				+ ", reviewImg=" + reviewImg + ", reviewDate=" + reviewDate + ", reviewTitle=" + reviewTitle
+				+ ", reviewContent=" + reviewContent + ", reviewReply=" + reviewReply + ", memberID=" + memberID
+				+ ", memberName=" + memberName + ", productID=" + productID + ", productName=" + productName
+				+ ", searchCondition=" + searchCondition + "]";
 	}
 	
 }

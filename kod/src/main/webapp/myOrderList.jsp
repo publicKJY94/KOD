@@ -56,39 +56,44 @@
             <!-- Billing Details -->
 						<table class="cart__list">
 							<tbody>
-        <c:forEach var="oData" items="${oDatas}">
-            <tr class="cart__list__detail">
-               
-                <td colspan="${oData.cnt}">
-                    <h5 style="text-align:center">
-                        주문번호 :
-                        ${oData.odListID}
-                    </h5>
-                    <h5 style="text-align:center">
-                        주문 날짜 :
-                        ${oData.odListDate}
-                    </h5>
+       <c:forEach var="oData" items="${oDatas}">
+    <tr class="cart__list__detail">
+        <td colspan="${oData.cnt}">
+            <h5 style="text-align:center">
+                주문번호 : ${oData.odListID}
+            </h5>
+            <h5 style="text-align:center">
+                주문 날짜 : ${oData.odListDate}
+            </h5>
+        </td>
+    </tr>
+    <c:forEach var="data" items="${datasTotal}">
+        <c:if test="${oData.odListID == data.odListID}">
+            <tr>
+                <td></td>
+                <td><img src="${data.productImg}" alt="product"></td>
+                <td>
+                    <p>${data.productName} ${data.productID}번 / 수량 : ${data.odContentCnt} 개</p>
+                    <p>${data.productCategory}</p>
                 </td>
-                <c:forEach var="data" items="${datasTotal}">
-                    <c:if test="${oData.odListID == data.odListID}">
-                    <tr>
- 	                   <td>
- 	                   </td>
-                        <td><img src="${data.productImg}" alt="product"></td>
-                        <td>
-                            <p>${data.productName} ${data.productID}번 / 수량 : ${data.odContentCnt} 개</p>
-                            <p>${data.productCategory}</p>
-                        </td>
-                        <td><span class="price">${data.productPrice * data.odContentCnt}원</span><br>
-                         <form action="reviewWritePage.do" method="POST" id="form1">
-                            <button class="cart__list__orderbtn" onclick="openReviewWrite()" >리뷰작성하기</button>
-                            </form>
-                        </td>
-                    </tr>
-                     
-                    </c:if>
-                    </c:forEach>
-        </c:forEach>
+                <td><span class="price">${data.productPrice * data.odContentCnt}원</span><br>
+                    <form action="reviewWritePage.do" method="POST" id="form1">
+                        <c:choose>
+                            <c:when test="${data.reviewButtonStatus eq 'enabled'}">
+                                <%-- 리뷰 작성 완료된 경우 버튼 비활성화 --%>
+                                <button class="cart__list__orderbtn" disabled>리뷰작성완료</button>
+                            </c:when>
+                            <c:otherwise>
+                                <%-- 리뷰 작성 미완료된 경우 버튼 활성화 --%>
+                                <button class="cart__list__orderbtn" onclick="openReviewWrite()">리뷰작성하기</button>
+                            </c:otherwise>
+                        </c:choose>
+                    </form>
+                </td>
+            </tr>
+        </c:if>
+    </c:forEach>
+</c:forEach>
 							</tbody>
 						</table>
 						<!-- /Billing Details -->

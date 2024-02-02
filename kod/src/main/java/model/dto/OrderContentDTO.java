@@ -14,7 +14,15 @@ public class OrderContentDTO {
 	private String memberID;
 	private String searchCondition;
 	
+	private String reviewButtonStatus;
 	
+	
+	public String getReviewButtonStatus() {
+		return reviewButtonStatus;
+	}
+	public void setReviewButtonStatus(String reviewButtonStatus) {
+		this.reviewButtonStatus = reviewButtonStatus;
+	}
 	public String getMemberID() {
 		return memberID;
 	}
