@@ -60,13 +60,14 @@
 
 					<!-- SEARCH BAR -->
 					<div class="col-md-6">
-						<div class="header-search">
-							<form>
-								<select class="input-select">
+						<div class="header-search" >
+							<form style="padding-left: 10%;">
+								<!-- <select class="input-select" style="">
 									<option value="0">All Categories</option>
 									<option value="1">Category 01</option>
 									<option value="1">Category 02</option>
-								</select> <input class="input" placeholder="Search here">
+								</select> -->  
+								<input class="input" placeholder="Search here" style="border-bottom-left-radius: 40px; border-top-left-radius: 40px; padding-left: 4%; width: 80%;">
 								<button class="search-btn">Search</button>
 							</form>
 						</div>
