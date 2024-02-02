@@ -57,7 +57,7 @@
 		<hr>
 		<div class="aside">
   		<h3 class="aside-title">
-   		 <a href="mypageCartList.do">장바구니 관리</a>
+   		 <a href="paySelect.do">장바구니 관리</a>
   		</h3>
 		</div>
 		<hr>
