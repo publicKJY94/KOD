@@ -27,10 +27,16 @@
     }
     
   .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
     /* 바디 공간의 스타일을 설정하세요 */
     margin-top: 0px; /* 예시: 네비게이션 바의 아래쪽과의 간격 설정 */
     margin-left: 150px;
     padding: 10px; /* 예시: 바디 내용과의 간격 설정 */
+  	
+  
   }
   
 .box {
@@ -75,10 +81,17 @@
           background-color: rgba(0, 0, 0, 0.6);
         }
         .modalBox {
+			display:flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap:20px;
+			background-color: #fff;
+			border-radius: 5px;
+			border:3px solid #d4d4d4;
           position: absolute;
-          background-color: #fff;
-          width: 600px;
-          height: 400px;
+          width:300px;
+          height: 200px;
           padding: 15px;
         }
         

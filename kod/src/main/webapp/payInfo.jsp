@@ -131,7 +131,7 @@
 					                <td><img src="<%=cData.getProductImg()%>" alt="img" style="width: 200px; height: 200px;"></td>
 					                <td><%=cData.getProductName()%></td>
 					                <td><%=cData.getCartProductCnt()%></td>
-					                <td><%=cData.getProductPrice()*cData.getCartProductCnt()%></td>
+					                <td><%=cData.getProductPrice()%></td>
 					            </tr>
 					        </tbody>
 					        
@@ -153,7 +153,7 @@
 								<%for(int i=0; i<cDatas.size(); i++){ %>
 									<div class="order-col">
 										<div><%=cDatas.get(i).getProductName()%></div>
-										<div style="text-align: right;"><%=cDatas.get(i).getProductPrice()*cDatas.get(i).getCartProductCnt()%>원</div>
+										<div style="text-align: right;"><%=cDatas.get(i).getProductPrice()%>원</div>
 										<input type="hidden" name="productID" value="<%=cDatas.get(i).getProductID()%>">
 										<input type="hidden" name="productName" value="<%=cDatas.get(i).getProductName()%>">
 										<input type="hidden" name="productCnt" value="<%=cDatas.get(i).getCartProductCnt()%>">
@@ -175,10 +175,11 @@
 									int total=0;
 									for(CartDTO cData : cDatas){
 										total += cData.getProductPrice()*cData.getCartProductCnt(); 
-									}
+									
 									%>
-									<div style="text-align: right;"><strong class="order-total" ><%=total%>원</strong></div>
+									<div style="text-align: right;"><strong class="order-total" ><%=cData.getProductPrice()%>원</strong></div>
 									<input type="hidden" name="totalPrice" value="<%=total%>">
+									<%} %>
 								</div>
 							</div>
 							<div class="payment-method" style="align-items: center; display: flex;">

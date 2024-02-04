@@ -104,8 +104,10 @@
             <div class="modalBox">
             <input type="hidden" name="adrsId" value="" id="ADRSID2">	
                 <p>정말로 삭제하시겠습니까?</p>
+                <div>
                 <button type="submit" onclick="func2()">삭제</button>
                 <button type="button" onclick="closeModal()">취소</button>
+                </div>
             </div>
         </div>
     </div>

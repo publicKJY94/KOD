@@ -10,32 +10,32 @@ function handleAddressManage() {
 			$.each(data, function(index, addressDTO) {
 				contentHtml += '<div class="content box" style="display: flex; flex-direction: column;">' +
 					'<input type="hidden" name="adrsID" value="' + addressDTO.adrsID + '">' +
-					'<div style="margin-bottom: 5px;">' +
-					'<th style="text-align: center;"> 주소지 이름 :</th>' +
-					'<td>' + addressDTO.adrsName + '</td>' +
+					'<div style="margin-bottom: 5px; width:100%;">' +
+					'<span> 주소지 이름 : </span>' +
+					'<span>' + addressDTO.adrsName + '</span>' +
 					'</div>' +
-					'<div style="margin-bottom: 5px;">' +
-					'<th style="text-align: center;"> 우편 번호 :</th>' +
-					'<td>' + addressDTO.adrsZipcode + '</td>' +
+					'<div style="margin-bottom: 5px; width:100%;">' +
+					'<span> 우편번호 : </span>' +
+					'<span>' + addressDTO.adrsZipcode + '</span>' +
 					'</div>' +
-					'<div style="margin-bottom: 5px;">' +
-					'<th style="text-align: center;"> 도로명 주소 :</th>' +
-					'<td>' + addressDTO.adrsStreet + '</td>' +
+					'<div style="margin-bottom: 5px; width:100%;">' +
+					'<span> 도로명 주소 :</span>' +
+					'<span>' + addressDTO.adrsStreet + '</span>' +
 					'</div>' +
-					'<div style="margin-bottom: 5px;">' +
-					'<th style="text-align: center;"> 상세 주소 :</th>' +
-					'<td>' + addressDTO.adrsDetail + '</td>' +
+					'<div style="margin-bottom: 5px; width:100%;">' +
+					'<span> 상세 주소 :</span>' +
+					'<span>' + addressDTO.adrsDetail + '</span>' +
 					'</div>' +
-					'<div style="margin-bottom:5px;">' +
-					'<button id="modifyButton_" onclick="openModifyModal(' + addressDTO.adrsID + ')" style="margin-left: 85%; background-color: skyblue; color: white; border: outset;">수정</button>' +
-					'<button id="deleteButton_" onclick="openDeleteModal(' + addressDTO.adrsID + ')" style="background-color: lawngreen; color: white; border: outset;">삭제</button>' +
+						'<div style="width:100%; margin-bottom:5px; display:flex; justify-content:end;">' +
+					'<button id="modifyButton_" onclick="openModifyModal(' + addressDTO.adrsID + ')" style="background-color: #0fbcf9; color: white; border: none; margin-right:10px;">수정</button>' +
+					'<button id="deleteButton_" onclick="openDeleteModal(' + addressDTO.adrsID + ')" style="background-color: #00d8d6; color: white; border: none;">삭제</button>' +
 					'</div>' +
 					'</div>'
 
 			});
 			$('#addressContainer').html(contentHtml);
 			if (data.length < 5) {
-				$('#addressContainer').append('<button id="insertButton_" onclick="openInsertModal()" style="margin-left:33%; background-color: deepskyblue; color: white; border: outset; padding: 20px 0px; font-size : large">배송지 추가하기</button>');    
+				$('#addressContainer').append('<button id="insertButton_" onclick="openInsertModal()" style="margin-left:150px; width : 800px; background-color: #d10024; color: white; margin-top:10px; border:none; padding: 20px 0px; font-size : large">배송지 추가하기</button>');    
 			}
 					
 		},

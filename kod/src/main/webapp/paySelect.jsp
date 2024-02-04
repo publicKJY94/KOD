@@ -52,58 +52,52 @@
             <ul>
                 <li>장바구니 상품은 최대 30일간 저장됩니다.</li>
                 <li>가격, 옵션 등 정보가 변경된 경우 주문이 불가할 수 있습니다.</li>
-                <li>오늘출발 상품은 판매자 설정 시점에 따라 오늘출발 여부가 변경될 수 있으니 주문 시 꼭 다시 확인해 주시기 바랍니다.</li>
             </ul>
         </div>
         <form action="payInfo.do" method="POST" >
 	        <table class="cart__list">
 	                <thead>
 	                    <tr> 
-	                        <td><input type="checkbox" onclick='selectAll(this)'/ name = "" value=""> <b></b></td>
+	                        <td><input type="checkbox" onclick='selectAll(this)'/> <b></b></td>
 	                        <td colspan="2">상품정보</td>
 	                        <td>옵션</td>
 	                        <td>상품금액</td>
 	                        <td>배송비</td>
+	                        <td></td>
 	                    </tr>
 	                </thead>
-	                  <c:forEach var="cData" items="${cDatas}">
-	                <tbody>
-	                    <tr class="cart__list__detail">
-	                        <td><input type="checkbox" name="selectedProducts" value="${cData.productID}"></td>
-	                        <td><img src="${cData.productImg}" alt="product"></td>
-	                        <td><a href="main.do">KOD스토어</a>
-	                            <p>${cData.productName}</p>
-	                            <span class="price">${cData.productPrice}원</span>
-	                        </td>
-	                        <td class="bseq_ea">
-	                            <p>${cData.productName} / ${cData.cartProductCnt}개</p>
-	                             	<button type ="button" onclick="fnCalCount('m',this);">-</button>
-							        <input type="text" name="pop_out" value="${cData.cartProductCnt}" readonly="readonly" style="text-align:center;"/>
-							        <button type="button" onclick="fnCalCount('p', this);">+</button>
-	                            <!-- <button class="cart__list__optionbtn">주문조건 추가/변경</button> -->
-	                        </td>
-	                        <td><span class="price">${cData.productPrice*cData.cartProductCnt}원</span><br>
-	                            <button class="cart__list__orderbtn">주문하기</button>
-	                        </td>
-	                        <td>무료</td>
-	                    </tr>
-	                </tbody>
-	                </c:forEach>
-	                <tfoot>
-	                    <tr>
-	                        <td colspan="3">
-	                        	<button type="button" class="cart__list__optionbtn" onclick ="">선택상품 삭제</button>
-	                       <!--      <button type="button" class="cart__list__optionbtn">선택상품 찜</button> --> 
-	                        </td>
-	                        <td></td>
-	                        <td></td>
-	                        <td></td>
-	                    </tr>
-	                </tfoot>
+	                 <c:forEach var="cData" items="${cDatas}" varStatus="status">
+    				<tbody>
+        <tr class="cart__list__detail">
+            <td><input type="checkbox" name="selectedProducts" value="${cData.productID}" id="selectedCheckBox"></td>
+            <td><img src="${cData.productImg}" alt="product"></td>
+            <td>
+                <a href="main.do">KOD스토어</a>
+                <p>${cData.productName}</p>
+                <span class="price">${cData.productPrice}원</span>
+            </td>
+            <td class="bseq_ea">
+                <p>${cData.productName}</p>
+                <button type="button" onclick="fnCalCount('m', this, ${status.index});">-</button>
+                <input type="text" id="changedCnt_${status.index}" name="pop_out" value="${cData.cartProductCnt}" readonly="readonly" style="text-align:center;"/>
+                <button type="button" onclick="fnCalCount('p', this, ${status.index});">+</button>
+                <!-- <button class="cart__list__optionbtn">주문조건 추가/변경</button> -->
+            </td>
+            <td>
+                <span class="price" id="totalPrice_${status.index}">${cData.sumProductPrice}원</span><br>
+                <button class="cart__list__orderbtn">주문하기</button>
+            </td>
+            <td>무료</td>
+            <td>
+                <button type="button" class="cart__list__optionbtn" onclick="deleteCart(${cData.productID});">상품 삭제</button>
+            </td>
+        </tr>
+    </tbody>
+</c:forEach>
 	            
 	        </table>
 	        <div class="cart__mainbtns">
-	            <button class="cart__bigorderbtn left">쇼핑 계속하기</button>
+	            <button class="cart__bigorderbtn left" onclick="checkWished.do">쇼핑 계속하기</button>
 	            <button class="cart__bigorderbtn right" onclick="payInfo.do">주문하기</button>
 	        </div>
         </form>
@@ -232,18 +226,89 @@
 			}
 		</script>
 		<script>
-		function fnCalCount(type, ths){
-	    var $input = $(ths).parents("td").find("input[name='pop_out']");
-	    var tCount = Number($input.val());
-	    var tEqCount = Number($(ths).parents("tr").find("td.bseq_ea").html());
-	    
-	    if(type=='p'){
-	        $input.val(Number(tCount)+1);
-	        
-	    }else{
-	        if(tCount > 1) $input.val(Number(tCount)-1);    
-	        }
+		function updatePrice(index, newProductCnt, productPrice) {
+		    var totalPrice = newProductCnt * productPrice;
+		    $('#totalPrice_' + index).text(totalPrice + '원');
 		}
+		
+	    function updateCart(productId, productCnt ,index ) {
+	        $.ajax({
+	            type: 'POST',
+	            url: 'cartUpdateActionServlet', // 장바구니 업데이트를 처리할 서블릿 URL
+	            dataType: 'json',
+	            data: {
+	                productId: productId,
+	                productCnt: productCnt
+	             
+	            },
+	            success: function(response) {
+
+	                 var changedCnt = response;
+	                 var changedPrice = response;
+	                console.log('장바구니 업데이트 성공');
+	                console.log(response);
+	                console.log('cart 변경수량 :  '+ changedCnt);
+	                
+	                $('#changedCnt_'+index).val(changedCnt);
+	                
+	                var productPrice = parseFloat($(ths).closest('.cart__list__detail').find('.price').text().replace('원', ''));
+	                updatePrice(index, changedCnt, changedPrice);
+	            },
+	            error: function(xhr, status, error) {
+	                // 오류 발생 시 추가 로직 작성
+	                console.error('장바구니 업데이트 오류:', status, error);
+	            }
+	        });
+	    }
+	    
+	    
+		function fnCalCount(type, ths , index) {
+			console.log('수량변경 진입');
+		    // 해당 상품의 ID 가져오기
+		    var productId = $(ths).closest('.cart__list__detail').find('input[name="selectedProducts"]').val();
+		    
+		    // 해당 상품의 수량 가져오기
+		    var $input = $(ths).parents("td").find("input[name='pop_out']");
+		    var productCnt = $input.val();
+		    
+		    // 변경된 수량 계산
+		    var newProductCnt;
+		    if (type == 'p') {
+		        newProductCnt = Number(productCnt) + 1;
+		    } else {
+		        if (productCnt > 1) {
+		            newProductCnt = Number(productCnt) - 1;
+		        } else {
+		            newProductCnt = 1; // 최소 수량은 1로 설정
+		        }
+		    }
+		    // 비동기처리 함수
+		    updateCart(productId, newProductCnt , index);
+		    
+		  
+		}
+		
+		function deleteCart(productId) {
+			console.log('장바구니삭제');
+		    $.ajax({
+		        type: 'POST',
+		        url: 'cartDeleteActionServlet', // 삭제를 처리할 서블릿 URL
+		        dataType: 'json',
+		        data: {
+		            productId: productId
+		        },
+		        success: function(response) {
+		            // 삭제 성공 시 처리
+		            alert('상품이 장바구니에서 삭제되었습니다.');
+		            // 화면에서 삭제된 상품을 제거하거나 업데이트
+		        },
+		        error: function(xhr, status, error) {
+		            // 삭제 실패 시 처리
+		            console.error('장바구니 상품 삭제 오류:', status, error);
+		        }
+		    });
+		}
+
 		
 		function selectAll(selectAll)  {
 			  const checkboxes 
@@ -254,5 +319,7 @@
 			  })
 			}
 	</script>
+	
+	
 	</body>
 </html>
