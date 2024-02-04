@@ -1,5 +1,7 @@
 package model.dto;
 
+import java.util.Arrays;
+
 public class ProductDTO {
 	private int productID;
 	private int productCnt;
@@ -16,6 +18,7 @@ public class ProductDTO {
 	private int max;
 	private int min;
 	private String memberID;
+	private String[] categoryList;
 	
 	public int getIsWished() {
 		return isWished;
@@ -41,8 +44,6 @@ public class ProductDTO {
 	public void setMin(int min) {
 		this.min = min;
 	}
-	private String[] categoryList;
-	
 	public String[] getCategoryList() {
 		return categoryList;
 	}
@@ -111,10 +112,13 @@ public class ProductDTO {
 	}
 	@Override
 	public String toString() {
-		return "ProductDTO [productID=" + productID + ", productStock=" + productStock + ", productPrice=" + productPrice
-				+ ", productName=" + productName + ", productBrand=" + productBrand + ", productCategory="
-				+ productCategory + ", productInfo=" + productInfo + ", productImg=" + productImg + "]";
+		return "ProductDTO [productID=" + productID + ", productCnt=" + productCnt + ", productStock=" + productStock
+				+ ", productPrice=" + productPrice + ", productName=" + productName + ", productBrand=" + productBrand
+				+ ", productCategory=" + productCategory + ", productInfo=" + productInfo + ", productImg=" + productImg
+				+ ", searchCondition=" + searchCondition + ", isWished=" + isWished + ", max=" + max + ", min=" + min
+				+ ", memberID=" + memberID + ", categoryList=" + Arrays.toString(categoryList) + "]";
 	}
+	
 	
 	
 	

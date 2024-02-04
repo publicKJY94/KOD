@@ -85,9 +85,11 @@ public class ProductDAO {
 				result += " 'NULL' ";
 			}
 			// [김진영] 요청에서 가격은 항상 받기에 if조건문 미사용 
-			result += " WHERE ( PRODUCT_PRICE BETWEEN " + pDTO.getMin() + " AND " + pDTO.getMax() + " ) AND ";
-			if(pDTO.getCategoryList().length>0) {
-				result += " ( PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
+			System.out.println("리스트 길이 : "+pDTO.getCategoryList().length);
+			System.out.println("배열 내용 : " + pDTO.getCategoryList().toString());
+			result += " WHERE ( PRODUCT_PRICE BETWEEN " + pDTO.getMin() + " AND " + pDTO.getMax() + " ) ";
+			if(!pDTO.getCategoryList()[0].equals("")) {
+				result += " AND ( PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
 				for (int i = 1; i < pDTO.getCategoryList().length; i++) {
 					result += " OR PRODUCT_CATEGORY = " + " '" + pDTO.getCategoryList()[i] + "' " ;
 				}
