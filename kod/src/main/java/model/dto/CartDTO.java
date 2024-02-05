@@ -64,8 +64,9 @@ public class CartDTO {
 	public String toString() {
 		return "CartDTO [cartID=" + cartID + ", cartProductCnt=" + cartProductCnt + ", memberID=" + memberID
 				+ ", productID=" + productID + ", productName=" + productName + ", productPrice=" + productPrice
-				+ ", productImg=" + productImg + "]";
+				+ ", productImg=" + productImg + ", sumProductPrice=" + sumProductPrice + "]";
 	}
+	
 	
 	
 }
