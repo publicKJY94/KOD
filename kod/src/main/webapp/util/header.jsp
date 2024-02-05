@@ -52,7 +52,7 @@
 					<!-- LOGO -->
 					<div class="col-md-3">
 						<div class="header-logo">
-							<a href="main.do" class="logo"> <img src="./img/logo.gif" style="width: 250px" height="65px" alt="">
+							<a href="main.do" class="logo"> <img src="./img/logo.gif" style="width: 250px; height=65px;" alt="logo image">
 							</a>
 						</div>
 					</div>
@@ -61,14 +61,14 @@
 					<!-- SEARCH BAR -->
 					<div class="col-md-6">
 						<div class="header-search" >
-							<form style="padding-left: 10%;">
+							<form method="POST" action="checkWished.do" style="padding-left: 10%;">
 								<!-- <select class="input-select" style="">
 									<option value="0">All Categories</option>
 									<option value="1">Category 01</option>
 									<option value="1">Category 02</option>
 								</select> -->  
-								<input class="input" placeholder="Search here" style="border-bottom-left-radius: 40px; border-top-left-radius: 40px; padding-left: 4%; width: 80%;">
-								<button class="search-btn">Search</button>
+								<input name="searchKeyword" id="searchKeyword" class="input" placeholder="Search here" style="border-bottom-left-radius: 40px; border-top-left-radius: 40px; padding-left: 4%; width: 80%;">
+								<button class="search-btn" >Search</button>
 							</form>
 						</div>
 					</div>
