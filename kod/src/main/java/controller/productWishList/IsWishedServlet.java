@@ -13,24 +13,28 @@ import model.dao.WishListDAO;
 import model.dto.MemberDTO;
 import model.dto.WishListDTO;
 
-@WebServlet("/isWishedAction")
-public class IsWishedAction extends HttpServlet {
+@WebServlet("/isWishedServlet")
+public class IsWishedServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public IsWishedAction() {
+    public IsWishedServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("[로그 : 정현진] IsWishedServlet들어옴");
+		
 		HttpSession session = request.getSession();
 		String memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
+		/*
+		 * memberID에 대해 try~catch걸면 안됨
+		 * 왜냐하면 하트 토글이 반응을 하기 때문
+		 */
 		
 		int productID = Integer.parseInt(request.getParameter("productID"));
 		
@@ -44,7 +48,7 @@ public class IsWishedAction extends HttpServlet {
 		
 		System.out.println(memberID);
 		System.out.println(productID);
-		System.out.println("isWishedAction들어옴");
+		System.out.println("isWishedServlet들어옴");
 		
 		boolean flag = false;
 		if(wishListDTO!=null) {
