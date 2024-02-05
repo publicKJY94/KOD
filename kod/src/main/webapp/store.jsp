@@ -215,7 +215,7 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						                    <div class="product-btns">
 						                        <button class="add-to-wishlist">
 						                            <div class="productID" hidden>${isWishedData.productID}</div>
-						                            <i class="fa ${isWishedData.isWished == 1 ? 'fa-heart' : 'fa-heart-o'}" id="heartIcon"></i>
+						                            <i class="fa ${isWishedData.isWished != 0 ? 'fa-heart' : 'fa-heart-o'}" id="heartIcon"></i>
 						                            <span class="tooltipp">위시리스트에 추가</span>
 						                        </button>
 						                    </div>
