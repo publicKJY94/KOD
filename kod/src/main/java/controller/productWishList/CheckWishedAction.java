@@ -37,7 +37,14 @@ public class CheckWishedAction implements Action {
 		WishListDAO wishListDAO = new WishListDAO();
 		WishListDTO wishListDTO = new WishListDTO();
 		wishListDTO.setMemberID(memberID);
-		wishListDTO.setSearchCondition("찜");
+		if(request.getParameter("searchKeyword")!=null) {
+			System.out.println("[로그] 검색 값 들어옴");
+			wishListDTO.setSearchCondition("search");
+			wishListDTO.setSearchKeyword(request.getParameter("searchKeyword"));
+		}else {
+			System.out.println("[로그] 검색 null 들어옴");
+			wishListDTO.setSearchCondition("찜");
+		}
 		ArrayList<WishListDTO> isWishedDatas = wishListDAO.selectAll(wishListDTO);
 		
 		request.setAttribute("isWishedDatas", isWishedDatas);

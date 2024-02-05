@@ -23,7 +23,14 @@ public class WishListDTO {
 	private int productCnt;
 	private int productStock;
 	private String searchCondition;
+	private String SearchKeyword;
 	
+	public String getSearchKeyword() {
+		return SearchKeyword;
+	}
+	public void setSearchKeyword(String searchKeyword) {
+		SearchKeyword = searchKeyword;
+	}
 	public int getWishListID() {
 		return wishListID;
 	}
