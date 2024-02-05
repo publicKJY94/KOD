@@ -536,14 +536,48 @@ $(document).ready(function(){
 										</div>
 										<!-- /tab3  -->
 										<!-- 정적인 페이징 -->
-										<ul class="reviews-pagination">
+										<%-- <ul class="reviews-pagination">
 											<c:forEach begin="1" end="${totalPages}" varStatus="loop">
 												<li
 													<c:if test="${loop.index == currentPage}">class="active"</c:if>>
 													<a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${loop.index}">${loop.index}</a>
 												</li>
 											</c:forEach>
-										</ul>
+										</ul> --%>
+										
+
+<ul class="reviews-pagination">
+    <!-- 첫 번째 페이지로 이동 -->
+    <li <c:if test="${startPageOfGroup > 1}">style="color: black;"</c:if> <c:if test="${startPageOfGroup == 1}">style="display: none;"</c:if>>
+        <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=1"><<</a>
+    </li>
+    <!-- 이전 페이지 그룹 버튼 -->
+    <li <c:if test="${startPageOfGroup > 1}">style="color: black;"</c:if> <c:if test="${startPageOfGroup == 1}">style="display: none;"</c:if>>
+        <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${startPageOfGroup - 1}">&lt;</a>
+    </li>
+
+    <!-- 페이지 그룹 표시 -->
+    <c:forEach var="pageNumber" begin="${startPageOfGroup}" end="${endPageOfGroup}" varStatus="loop">
+        <li <c:if test="${loop.index == currentPage}">class="active"</c:if>>
+            <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${loop.index}">${loop.index}</a>
+        </li>
+    </c:forEach>
+
+
+    <!-- 다음 페이지 그룹 버튼 -->
+    <li <c:if test="${endPageOfGroup < totalPages}">style="color: black;"</c:if> <c:if test="${endPageOfGroup == totalPages}">style="display: none;"</c:if>>
+        <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${endPageOfGroup + 1}">&gt;</a>
+    </li>
+
+    <!-- 마지막 페이지로 이동 -->
+    <li <c:if test="${endPageOfGroup < totalPages}">style="color: black;"</c:if> <c:if test="${endPageOfGroup == totalPages}">style="display: none;"</c:if>>
+        <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${totalPages}">>></a>
+    </li>
+</ul>
+										
+										
+										
+										
 									</div>
 									<!-- /product tab content  -->
 								</div>
