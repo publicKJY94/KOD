@@ -25,6 +25,7 @@ public class CartDAO {
 			+ " GROUP BY C.PRODUCT_ID ,P.PRODUCT_NAME , P.PRODUCT_IMG, C.MEMBER_ID ,P.PRODUCT_PRICE, C.CART_PRODUCT_CNT";
 	private static final String INSERT="INSERT INTO CART VALUES ((SELECT NVL(MAX(CART_ID),0)+1 FROM CART), ?, ?, ?)";
 	private static final String UPDATE="UPDATE CART SET CART_PRODUCT_CNT = ? WHERE PRODUCT_ID = ? AND MEMBER_ID = ?";
+	private static final String UPDATE_SAME_PRODUCT="UPDATE CART SET CART_PRODUCT_CNT = CART_PRODUCT_CNT + ? WHERE PRODUCT_ID = ? AND MEMBER_ID = ?";
 	private static final String DELETE="DELETE FROM CART WHERE CART_ID = ?";
 	private static final String DELETE_ALL="DELETE FROM CART WHERE MEMBER_ID = ?";
 	
@@ -111,10 +112,18 @@ public class CartDAO {
 	public boolean update(CartDTO cDTO) {
 		conn = JDBCUtil.connect();
 		try {
-			pstmt = conn.prepareStatement(UPDATE);
-			pstmt.setInt(1, cDTO.getCartProductCnt());
-			pstmt.setInt(2, cDTO.getProductID());
-			pstmt.setString(3, cDTO.getMemberID());
+			if(cDTO.getSearchCondition().equals("장바구니같은상품")) {
+				pstmt = conn.prepareStatement(UPDATE_SAME_PRODUCT);
+				pstmt.setInt(1, cDTO.getCartProductCnt());
+				pstmt.setInt(2, cDTO.getProductID());
+				pstmt.setString(3, cDTO.getMemberID());
+			}
+			else if(cDTO.getSearchCondition().equals("장바구니수량변경")){
+				pstmt = conn.prepareStatement(UPDATE);
+				pstmt.setInt(1, cDTO.getCartProductCnt());
+				pstmt.setInt(2, cDTO.getProductID());
+				pstmt.setString(3, cDTO.getMemberID());
+			}
 			
 			int rs = pstmt.executeUpdate();
 

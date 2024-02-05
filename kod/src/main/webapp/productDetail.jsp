@@ -248,7 +248,7 @@ $(document).ready(function(){
 									    <span class="qty-down" onclick="decreaseQuantity()">-</span>
 									</div>
 								</div>
-								<button class="add-to-cart-btn" type="submit">
+								<button class="add-to-cart-btn" type="button">
 									<i class="fa fa-shopping-cart"></i>장바구니 담기
 								</button>
 								<button class="buy-now add-to-cart-btn" type="submit">
