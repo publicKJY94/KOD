@@ -58,9 +58,9 @@ public class WishListAction implements Action{
 			wishListDTO.setSearchCondition("회원별찜목록");
 			wishListDTO.setMemberID(memberID);
 			ArrayList<WishListDTO> wishListDatas = wishListDAO.selectAll(wishListDTO);
-//			for (WishListDTO data : wishListDatas) {
-//				System.out.println("wlAction pid : "+data.getProductID());
-//			}
+			for (WishListDTO data : wishListDatas) {
+				System.out.println("[로그 : 정현진] 상품ID : "+data.getProductID() + "상품재고 : "+data.getProductStock());
+			}
 			
 			wishListDTO = new WishListDTO();
 			wishListDAO = new WishListDAO();

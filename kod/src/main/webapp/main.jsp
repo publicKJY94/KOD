@@ -132,37 +132,6 @@
 					<!-- /section title -->
 					
 					
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script>
-$(document).ready(function(){
-    $('.add-to-wishlist').on('click', function(){
-        console.log('위시리스트 버튼 클릭됨');
-        
-        var productID = $(this).find('.productID').text();
-        var heartIcon = $(this).find('#heartIcon');
-        console.log('productID:', productID);
-        
-        $.ajax({
-            type: "POST",
-            url: 'isWishedAction',
-            data: { 'productID': productID },
-            success: function(data){
-                console.log(data);
-                // 클릭 시 하트 아이콘 토글
-                heartIcon.toggleClass('fa-heart-o fa-heart');
-                
-                var updatedWishListCnt = parseInt(data); // data가 업데이트된 카운트를 받아와야합니다.
-                $('.wishListCnt').text(updatedWishListCnt); // 위시리스트의 개수를 업데이트해줌
-                console.log("updatedWishListCnt >> "+updatedWishListCnt)
-            },
-            error: function(error){
-                console.log("에러: " + error);
-            }
-        });
-    });
-});
-</script>
-
 <!-- 모달창을 추가합니다. -->
 <div id="memberID" memberID="${memberDTO.memberID}"></div>
 <div id="checkLoginModal" class="modal checkLoginModal">
@@ -659,7 +628,6 @@ $(document).ready(function(){
 			<!-- /container -->
 		</div>
 		<!-- /SECTION -->
-
 		
 
 		<jsp:include page="util/footer.jsp"></jsp:include>
@@ -672,6 +640,7 @@ $(document).ready(function(){
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
 	    <script src="js/checkLogin.js"></script>
-
+		<script src="js/wishList/isWished.js"></script>
+		
 	</body>
 </html>
