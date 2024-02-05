@@ -19,6 +19,8 @@ public class PaySelectAction implements Action{
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		System.out.println("형련[로그] payselectAction 진입 ");
 		ActionForward forward = new ActionForward();
 		forward.setPath("paySelect.jsp");
 		forward.setRedirect(false);
@@ -31,8 +33,12 @@ public class PaySelectAction implements Action{
 		String memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		cartDTO.setMemberID(memberID);
 		datas = cartDAO.selectAll(cartDTO);
+		
 		request.setAttribute("cartDTO", datas);
-		System.out.println(datas);
+		
+		System.out.println("형련 [로그] 장바구니데이터: "+datas);
+		
+		System.out.println("형련[로그] payselectAction 끝 ");
 		
 		
 		return forward;

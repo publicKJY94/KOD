@@ -15,17 +15,18 @@ public class CartDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	
-	private static final String SELECTALL="SELECT C.PRODUCT_ID, P.PRODUCT_IMG, P.PRODUCT_NAME, P.PRODUCT_PRICE ,SUM(P.PRODUCT_PRICE*CART_PRODUCT_CNT) AS SUM_PRODUCT_PRICE, C.MEMBER_ID , SUM(C.CART_PRODUCT_CNT) AS CART_PRODUCT_CNT FROM CART C "
+	private static final String SELECTALL="SELECT C.CART_ID, C.PRODUCT_ID, P.PRODUCT_IMG, P.PRODUCT_NAME, P.PRODUCT_PRICE ,SUM(P.PRODUCT_PRICE*CART_PRODUCT_CNT) AS SUM_PRODUCT_PRICE, C.MEMBER_ID , SUM(C.CART_PRODUCT_CNT) AS CART_PRODUCT_CNT FROM CART C "
 			+ "	INNER JOIN PRODUCT P ON P.PRODUCT_ID = C.PRODUCT_ID "
 			+ "	WHERE C.MEMBER_ID = ? "
-			+ "	GROUP BY C.PRODUCT_ID,P.PRODUCT_IMG, P.PRODUCT_NAME, P.PRODUCT_PRICE, C.MEMBER_ID";
+			+ "	GROUP BY C.CART_ID,C.PRODUCT_ID,P.PRODUCT_IMG, P.PRODUCT_NAME, P.PRODUCT_PRICE, C.MEMBER_ID";
 	private static final String SELECTONE="SELECT C.PRODUCT_ID , P.PRODUCT_NAME , P.PRODUCT_IMG, C.MEMBER_ID ,SUM(C.CART_PRODUCT_CNT) AS CART_PRODUCT_CNT  ,SUM(P.PRODUCT_PRICE*CART_PRODUCT_CNT) AS PRODUCT_PRICE  FROM CART C "
 			+ "	INNER JOIN PRODUCT P ON P.PRODUCT_ID = C.PRODUCT_ID "
 			+ "	WHERE C.MEMBER_ID = ? AND C.PRODUCT_ID = ? "
 			+ " GROUP BY C.PRODUCT_ID ,P.PRODUCT_NAME , P.PRODUCT_IMG, C.MEMBER_ID ,P.PRODUCT_PRICE, C.CART_PRODUCT_CNT";
 	private static final String INSERT="INSERT INTO CART VALUES ((SELECT NVL(MAX(CART_ID),0)+1 FROM CART), ?, ?, ?)";
 	private static final String UPDATE="UPDATE CART SET CART_PRODUCT_CNT = ? WHERE PRODUCT_ID = ? AND MEMBER_ID = ?";
-	private static final String DELETE="DELETE FROM CART WHERE PRODUCT_ID = ?";
+	private static final String DELETE="DELETE FROM CART WHERE CART_ID = ?";
+	private static final String DELETE_ALL="DELETE FROM CART WHERE MEMBER_ID = ?";
 	
 	public ArrayList<CartDTO> selectAll(CartDTO cDTO) {
 		ArrayList<CartDTO> datas=new ArrayList<CartDTO>();
@@ -38,7 +39,7 @@ public class CartDAO {
 
 			while(rs.next()) {
 				CartDTO data=new CartDTO();
-				//data.setCartID(rs.getInt("CART_ID"));
+				data.setCartID(rs.getInt("CART_ID"));
 				data.setCartProductCnt(rs.getInt("CART_PRODUCT_CNT"));
 				data.setMemberID(rs.getString("MEMBER_ID"));
 				data.setProductID(rs.getInt("PRODUCT_ID"));
@@ -132,8 +133,15 @@ public class CartDAO {
 	public boolean delete(CartDTO cDTO) {
 		conn = JDBCUtil.connect();
 		try {
-			pstmt = conn.prepareStatement(DELETE);
-			pstmt.setInt(1, cDTO.getProductID());
+			if(cDTO.getSearchCondition().equals("장바구니비우기")) {
+			pstmt = conn.prepareStatement(DELETE_ALL);
+			pstmt.setString(1, cDTO.getMemberID());
+			}
+			else if(cDTO.getSearchCondition().equals("개별상품삭제")) {
+				pstmt=conn.prepareStatement(DELETE);
+				pstmt.setInt(1, cDTO.getCartID());
+				
+			}
 			int rs = pstmt.executeUpdate();
 			if (rs <= 0) {
 				return false;

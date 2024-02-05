@@ -74,7 +74,7 @@
             <td>
                 <a href="main.do">KOD스토어</a>
                 <p>${cData.productName}</p>
-                <span class="price">${cData.productPrice}원</span>
+                <span class="price" id="eachPrice">${cData.productPrice}원</span>
             </td>
             <td class="bseq_ea">
                 <p>${cData.productName}</p>
@@ -89,20 +89,31 @@
             </td>
             <td>무료</td>
             <td>
-                <button type="button" class="cart__list__optionbtn" onclick="deleteCart(${cData.productID});">상품 삭제</button>
+            	<a href="cartDeleteEach.do?cartId=${cData.cartID}" class="cart__list__optionbtn" >상품 삭제 </a>
             </td>
         </tr>
     </tbody>
-</c:forEach>
-	            
+</c:forEach>   
 	        </table>
-	        <div class="cart__mainbtns">
-	            <button class="cart__bigorderbtn left" onclick="checkWished.do">쇼핑 계속하기</button>
-	            <button class="cart__bigorderbtn right" onclick="payInfo.do">주문하기</button>
-	        </div>
-        </form>
-    </section>
-
+	        
+	         <div class="cart__mainbtns">
+	         <button class="cart__bigorderbtn right">주문하기</button>
+	          </div>
+	        </form>
+	        
+	       <form action="checkWished.do" method="POST">
+	            <button class="cart__bigorderbtn left">쇼핑 계속하기</button>
+	           </form>
+	           
+	   <form action="cartDeleteAll.do" method="POST">
+    <c:forEach var="cData" items="${cDatas}" varStatus="status">
+        <input type="hidden" name="cartId" value="${cData.cartID}">
+    </c:forEach>
+    <div class="cart__mainbtns">
+        <button class="cart__bigorderbtn right">전체삭제</button>
+    </div>
+</form>   
+    </section> 
 		<!-- FOOTER -->
 		<footer id="footer">
 			<!-- top footer -->
@@ -226,11 +237,6 @@
 			}
 		</script>
 		<script>
-		function updatePrice(index, newProductCnt, productPrice) {
-		    var totalPrice = newProductCnt * productPrice;
-		    $('#totalPrice_' + index).text(totalPrice + '원');
-		}
-		
 	    function updateCart(productId, productCnt ,index ) {
 	        $.ajax({
 	            type: 'POST',
@@ -244,15 +250,15 @@
 	            success: function(response) {
 
 	                 var changedCnt = response;
-	                 var changedPrice = response;
 	                console.log('장바구니 업데이트 성공');
 	                console.log(response);
 	                console.log('cart 변경수량 :  '+ changedCnt);
 	                
 	                $('#changedCnt_'+index).val(changedCnt);
 	                
-	                var productPrice = parseFloat($(ths).closest('.cart__list__detail').find('.price').text().replace('원', ''));
-	                updatePrice(index, changedCnt, changedPrice);
+	                var totalPrice = changedCnt * parseInt($('#eachPrice').text().replace('원', ''));
+	                $('#totalPrice_' + index).text(totalPrice + '원');
+	                
 	            },
 	            error: function(xhr, status, error) {
 	                // 오류 발생 시 추가 로직 작성
@@ -287,28 +293,6 @@
 		    
 		  
 		}
-		
-		function deleteCart(productId) {
-			console.log('장바구니삭제');
-		    $.ajax({
-		        type: 'POST',
-		        url: 'cartDeleteActionServlet', // 삭제를 처리할 서블릿 URL
-		        dataType: 'json',
-		        data: {
-		            productId: productId
-		        },
-		        success: function(response) {
-		            // 삭제 성공 시 처리
-		            alert('상품이 장바구니에서 삭제되었습니다.');
-		            // 화면에서 삭제된 상품을 제거하거나 업데이트
-		        },
-		        error: function(xhr, status, error) {
-		            // 삭제 실패 시 처리
-		            console.error('장바구니 상품 삭제 오류:', status, error);
-		        }
-		    });
-		}
-
 		
 		function selectAll(selectAll)  {
 			  const checkboxes 

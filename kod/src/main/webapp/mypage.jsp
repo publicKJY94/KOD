@@ -271,7 +271,7 @@
 				    // adrsID 값을 ADRSID 필드에 설정
 				    document.getElementById('ADRSID2').value=adrsID;
 				}
-				function openInsertModal (){
+				function openInsertModal(){
 					document.querySelector(".modalInsert").classList.remove("hidden");
 					console.log('[배송지 추가 들어옴]');
 				}
@@ -298,9 +298,9 @@
 					   document.getElementById('form3').submit();
 					}
 					function deleteCookie(name) {
-						
+					}	
 					this.setCookie(name, "", -1);
-					}
+					
 					function setCookie(name, value) {
 					    var expires = "";
 					    var date = new Date();
@@ -308,6 +308,7 @@
 					    expires = "; expires=" + date.toUTCString();
 					    document.cookie = name + "=" + value + expires + "; path=/";
 					}
+					
 					window.onload = function() {
 					// 쿠키 가져오기
 					var addressManageCookie = getCookie("addressManageClicked");
