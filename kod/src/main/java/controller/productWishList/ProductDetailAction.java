@@ -225,24 +225,55 @@ public class ProductDetailAction implements Action {
 		
 		
 		//===페이징 처리===
+//		int productPerPage = 3;
+//		int currentPage = (request.getParameter("page") != null && !request.getParameter("page").isEmpty())
+//		                    ? Integer.parseInt(request.getParameter("page"))
+//		                    : 1;
+//		int totalPages = (int) Math.ceil((double) productReviewDatas.size() / productPerPage);
+//
+//		int startIndex = (currentPage - 1) * productPerPage;
+//		int endIndex = Math.min(startIndex + productPerPage, productReviewDatas.size());
+//
+//		List<ReviewDTO> currentPageProducts = productReviewDatas.subList(startIndex, endIndex);
+//		ArrayList<ReviewDTO> newArrayList = new ArrayList<ReviewDTO>(currentPageProducts);
+//		
+//		request.setAttribute("currentPage", currentPage);
+//		request.setAttribute("totalPages", totalPages);
+//		request.setAttribute("currentPageProducts", newArrayList);
+//		
+//		System.out.println("[정현진LOG] currentPage : "+currentPage);
+//		System.out.println("[정현진LOG] totalPages : "+totalPages);
+		
+		
 		int productPerPage = 3;
 		int currentPage = (request.getParameter("page") != null && !request.getParameter("page").isEmpty())
 		                    ? Integer.parseInt(request.getParameter("page"))
 		                    : 1;
 		int totalPages = (int) Math.ceil((double) productReviewDatas.size() / productPerPage);
 
+		// 페이지 그룹 크기 설정
+		int pagesPerGroup = 5;
+		int currentGroup = (int) Math.ceil((double) currentPage / pagesPerGroup);
+		int startPageOfGroup = (currentGroup - 1) * pagesPerGroup + 1;
+		int endPageOfGroup = Math.min(startPageOfGroup + pagesPerGroup - 1, totalPages);
+
 		int startIndex = (currentPage - 1) * productPerPage;
 		int endIndex = Math.min(startIndex + productPerPage, productReviewDatas.size());
 
 		List<ReviewDTO> currentPageProducts = productReviewDatas.subList(startIndex, endIndex);
-		ArrayList<ReviewDTO> newArrayList = new ArrayList<ReviewDTO>(currentPageProducts);
-		
+		ArrayList<ReviewDTO> newArrayList = new ArrayList<>(currentPageProducts);
+
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("totalPages", totalPages);
 		request.setAttribute("currentPageProducts", newArrayList);
+		request.setAttribute("startPageOfGroup", startPageOfGroup);
+		request.setAttribute("endPageOfGroup", endPageOfGroup);
 		
-		System.out.println("[정현진LOG] currentPage : "+currentPage);
-		System.out.println("[정현진LOG] totalPages : "+totalPages);
+		
+		
+		
+		
+		
 		
 		
 		return forward;
