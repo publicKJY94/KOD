@@ -25,9 +25,10 @@ public class ProductActionCategory implements Action {
 
 		ProductDTO pDTO = new ProductDTO();
 		ProductDAO pDAO = new ProductDAO();
-
+		pDTO.setSearchCondition("category");
 		ArrayList<ProductDTO> productCategoryDatas = new ArrayList<ProductDTO>();
-		productCategoryDatas = pDAO.selectAllCategory(pDTO);
+		productCategoryDatas = pDAO.selectAll(pDTO);
+//		productCategoryDatas = pDAO.selectAllCategory(pDTO);
 		request.setAttribute("productCategoryDatas", productCategoryDatas);
 
 		return forward;

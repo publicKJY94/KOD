@@ -13,11 +13,13 @@ public class ProductDTO {
 	private String productInfo;
 	private String productImg;
 	private String searchCondition;
-	
+	// 위시리스트 여부를 확인하고자 하는 멤버 변수
+	private String memberID;
+	// 위시리스트 여부를 저장할 멤버 변수
 	private int isWished;
+	// 필터검색을 위한 가격 및 카테고리 배열
 	private int max;
 	private int min;
-	private String memberID;
 	private String[] categoryList;
 	
 	public int getIsWished() {
