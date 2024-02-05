@@ -72,8 +72,9 @@ public class FilterActionServlet extends HttpServlet {
 		productDTO.setMax(max*won);
 		productDTO.setMin(min*won);
 		// System.out.println(productDTO.getCategoryList());
-		productDTO.setSearchCondition("상품필터");
-		productFilterDatas = productDAO.selectCategory(productDTO);
+		productDTO.setSearchCondition("filter");
+		productFilterDatas = productDAO.selectAll(productDTO);
+//		productFilterDatas = productDAO.selectCategory(productDTO);
 		/* 필터검색 결과 확인용 코드 */
 		if(productFilterDatas!=null) {
 			System.out.println("필터검색결과 : " + productFilterDatas.get(0));

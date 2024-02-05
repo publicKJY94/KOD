@@ -25,7 +25,7 @@ public class ProductAction implements Action {
 
 		ProductDTO pDTO = new ProductDTO();
 		ProductDAO pDAO = new ProductDAO();
-
+		pDTO.setSearchCondition("searchAll");
 		ArrayList<ProductDTO> productDatas = new ArrayList<ProductDTO>();
 		productDatas = pDAO.selectAll(pDTO);
 		request.setAttribute("productDatas", productDatas);

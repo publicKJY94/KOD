@@ -17,7 +17,8 @@ public class ProductDAO {
 			+ " FROM PRODUCT";
 	private static final String SELECTALL_CATEGORY = "SELECT PRODUCT_CATEGORY, COUNT(PRODUCT_CATEGORY) AS COUNT"
 			+ " FROM PRODUCT GROUP BY PRODUCT_CATEGORY";
-	private static final String SELECTALL_CHIOCE = 
+	// 필터검색용 쿼리
+	private static final String SELECTALL_FILTER = 
 			" SELECT p.PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, "
 			+ " PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, "
 			+ " PRODUCT_STOCK, PRODUCT_IMG, NVL(w.WISHLIST_ID,0) AS ISWISHED "
@@ -48,19 +49,72 @@ public class ProductDAO {
 		ArrayList<ProductDTO> datas = new ArrayList<ProductDTO>();
 		conn = JDBCUtil.connect();
 		try {
-			pstmt = conn.prepareStatement(SELECTALL);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				ProductDTO data = new ProductDTO();
-				data.setProductID(rs.getInt("PRODUCT_ID"));
-				data.setProductName(rs.getString("PRODUCT_NAME"));
-				data.setProductBrand(rs.getString("PRODUCT_BRAND"));
-				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
-				data.setProductCnt(rs.getInt("PRODUCT_STOCK"));
-				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
-				data.setProductInfo(rs.getString("PRODUCT_INFO"));
-				data.setProductImg(rs.getString("PRODUCT_IMG"));
-				datas.add(data);
+			String search = pDTO.getSearchCondition();
+			ResultSet rs = null;
+			if(search.equals("searchAll")) {
+				pstmt = conn.prepareStatement(SELECTALL);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					ProductDTO data = new ProductDTO();
+					data.setProductID(rs.getInt("PRODUCT_ID"));
+					data.setProductName(rs.getString("PRODUCT_NAME"));
+					data.setProductBrand(rs.getString("PRODUCT_BRAND"));
+					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+					data.setProductCnt(rs.getInt("PRODUCT_STOCK"));
+					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
+					data.setProductInfo(rs.getString("PRODUCT_INFO"));
+					data.setProductImg(rs.getString("PRODUCT_IMG"));
+					datas.add(data);
+				}
+			}else if(search.equals("filter")) {
+				// [김진영] 필터검색 조건에 맞게 쿼리를 변경하기 위한 작업
+				String result = "";
+				// [김진영]로그인 유무에 따른 조건식
+				if(pDTO.getMemberID()!=null) {
+					result += " '"+pDTO.getMemberID()+ "' ";
+				}else {
+					result += " 'NULL' ";
+				}
+				// [김진영] 요청에서 가격은 항상 받기에 if조건문 미사용 
+				System.out.println("리스트 길이 : "+pDTO.getCategoryList().length);
+				System.out.println("배열 내용 : " + pDTO.getCategoryList().toString());
+				result += " WHERE ( PRODUCT_PRICE BETWEEN " + pDTO.getMin() + " AND " + pDTO.getMax() + " ) ";
+				if(!pDTO.getCategoryList()[0].equals("")) {
+					result += " AND ( PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
+					for (int i = 1; i < pDTO.getCategoryList().length; i++) {
+						result += " OR PRODUCT_CATEGORY = " + " '" + pDTO.getCategoryList()[i] + "' " ;
+					}
+					result += " ) ";
+				}
+				result = SELECTALL_FILTER+result;
+				// [김진영] 완성된 쿼리를 확인
+				System.out.println(result);
+				pstmt = conn.prepareStatement(result);
+				rs = pstmt.executeQuery();
+				System.out.println(rs);
+				while (rs.next()) {
+					ProductDTO data = new ProductDTO();
+					data.setProductID(rs.getInt("PRODUCT_ID"));
+					data.setProductName(rs.getString("PRODUCT_NAME"));
+					data.setProductBrand(rs.getString("PRODUCT_BRAND"));
+					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+					data.setProductStock(rs.getInt("PRODUCT_STOCK"));
+					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
+					data.setProductInfo(rs.getString("PRODUCT_INFO"));
+					data.setProductImg(rs.getString("PRODUCT_IMG"));
+					data.setIsWished(rs.getInt("ISWISHED"));
+					System.out.println(data);
+					datas.add(data);
+				}
+			}else if(search.equals("category")){
+				pstmt = conn.prepareStatement(SELECTALL_CATEGORY);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					ProductDTO data = new ProductDTO();
+					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
+					data.setProductCnt(rs.getInt("COUNT"));
+					datas.add(data);
+				}
 			}
 			rs.close();
 		} catch (SQLException e) {
@@ -72,79 +126,6 @@ public class ProductDAO {
 
 	}
 	
-	public ArrayList<ProductDTO> selectCategory(ProductDTO pDTO) {
-		ArrayList<ProductDTO> datas = new ArrayList<ProductDTO>();
-		conn = JDBCUtil.connect();
-		try {
-			// [김진영] 필터검색 조건에 맞게 쿼리를 변경하기 위한 작업
-			String result = "";
-			// [김진영]로그인 유무에 따른 조건식
-			if(pDTO.getMemberID()!=null) {
-				result += " '"+pDTO.getMemberID()+ "' ";
-			}else {
-				result += " 'NULL' ";
-			}
-			// [김진영] 요청에서 가격은 항상 받기에 if조건문 미사용 
-			System.out.println("리스트 길이 : "+pDTO.getCategoryList().length);
-			System.out.println("배열 내용 : " + pDTO.getCategoryList().toString());
-			result += " WHERE ( PRODUCT_PRICE BETWEEN " + pDTO.getMin() + " AND " + pDTO.getMax() + " ) ";
-			if(!pDTO.getCategoryList()[0].equals("")) {
-				result += " AND ( PRODUCT_CATEGORY = " + " '"+ pDTO.getCategoryList()[0] + "' ";
-				for (int i = 1; i < pDTO.getCategoryList().length; i++) {
-					result += " OR PRODUCT_CATEGORY = " + " '" + pDTO.getCategoryList()[i] + "' " ;
-				}
-				result += " ) ";
-			}
-			result = SELECTALL_CHIOCE+result;
-			// [김진영] 완성된 쿼리를 확인
-			System.out.println(result);
-			pstmt = conn.prepareStatement(result);
-			ResultSet rs = pstmt.executeQuery();
-			System.out.println(rs);
-			while (rs.next()) {
-				ProductDTO data = new ProductDTO();
-				data.setProductID(rs.getInt("PRODUCT_ID"));
-				data.setProductName(rs.getString("PRODUCT_NAME"));
-				data.setProductBrand(rs.getString("PRODUCT_BRAND"));
-				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
-				data.setProductStock(rs.getInt("PRODUCT_STOCK"));
-				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
-				data.setProductInfo(rs.getString("PRODUCT_INFO"));
-				data.setProductImg(rs.getString("PRODUCT_IMG"));
-				data.setIsWished(rs.getInt("ISWISHED"));
-				System.out.println(data);
-				datas.add(data);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCUtil.disconnect(pstmt, conn);
-		}
-		return datas;
-	}
-
-	public ArrayList<ProductDTO> selectAllCategory(ProductDTO pDTO) {
-		ArrayList<ProductDTO> datas = new ArrayList<ProductDTO>();
-		conn = JDBCUtil.connect();
-		try {
-			pstmt = conn.prepareStatement(SELECTALL_CATEGORY);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				ProductDTO data = new ProductDTO();
-				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
-				data.setProductCnt(rs.getInt("COUNT"));
-				datas.add(data);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCUtil.disconnect(pstmt, conn);
-		}
-		return datas;
-	}
-
 	public ProductDTO selectOne(ProductDTO pDTO) {
 		ProductDTO data = null;
 		conn = JDBCUtil.connect();
