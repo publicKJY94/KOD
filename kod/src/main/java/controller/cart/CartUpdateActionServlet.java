@@ -55,7 +55,7 @@ public class CartUpdateActionServlet extends HttpServlet {
 		cartDTO.setMemberID(mDTO.getMemberID());
 		
 		response.setCharacterEncoding("UTF-8");
-		
+		cartDTO.setSearchCondition("장바구니수량변경");
 		cartDAO.update(cartDTO);
 		
 		int changedCnt=cartDTO.getCartProductCnt();
