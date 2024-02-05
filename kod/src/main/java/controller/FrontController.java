@@ -21,7 +21,6 @@ public class FrontController extends HttpServlet {
 	public FrontController() {
 		super();
 		handler = new HandlerMapping();
-	
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -45,12 +44,12 @@ public class FrontController extends HttpServlet {
 		Action action = handler.getAction(commend);
 		if(action==null) {
 		    // 404 에러 페이지로 리다이렉트 처리 해줘
-			response.sendError(HttpServletResponse.SC_NOT_FOUND, "액션객체가 null입니다.");
+			System.out.println("[로그 : 정현진] 프론트컨트롤러 들어옴");
+			response.sendError(HttpServletResponse.SC_NOT_FOUND, "[로그 : 정현진] 액션객체 is null");
 			return;
 		}
 		
 		ActionForward forward = action.execute(request, response);
-//		ActionForward forward = main.do.execute(request, response);
 		
 		
 		if (forward.isRedirect()) {

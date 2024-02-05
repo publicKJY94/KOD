@@ -9,7 +9,7 @@ $(document).ready(function(){
         
         $.ajax({
             type: "POST",
-            url: 'isWishedAction',
+            url: 'isWishedServlet',
             data: { 'productID': productID },
             success: function(data){
                 console.log(data);

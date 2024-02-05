@@ -24,7 +24,7 @@ public class CrawlingListener implements ServletContextListener {
 //    	sc.setAttribute("teemo", "작은 티모");
     	// sc == application
     
-    	System.out.println("[로그] 리스너 서블릿 클래스 들어옴");
+    	System.out.println("[로그 : 정현진] 리스너 서블릿 클래스 들어옴");
     	
 //    	HeadPhoneCrawling headPhoneCrawling = new HeadPhoneCrawling();
 //    	ArrayList<ProductDTO> headPhoneDatas = headPhoneCrawling.crawl();

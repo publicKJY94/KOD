@@ -25,6 +25,7 @@
 		<link rel="stylesheet" href="css/font-awesome.min.css">
 		<!-- Custom stlylesheet -->
 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
+		<link type="text/css" rel="stylesheet" href="css/soldOut.css"/>
 
 <title>위시리스트</title>
 </head>
@@ -63,14 +64,15 @@
                 <li class="active">
                     <div class="r-cont">
                         <button class="btn-underline" id="soldOutDelBtn" data-di-id="#soldOutDelBtn">
-                            <span>품절상품 삭제</span>
-                        </button>
+						    <span>품절상품 삭제</span>
+						</button>
                     </div>
                 </li>
             </ul>
         </div>
     </div>
 </div>
+					
 					
 					
 					<!-- Products tab & slick -->
@@ -89,7 +91,7 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="wishList" items="${wishListDatas}">
-                                <div class="product" style="flex: 0 0 calc(33.33% - 20px); margin: 10px;">
+                                    <div class="product ${wishList.productStock == 0 ? 'sold-out' : ''}" style="flex: 0 0 calc(33.33% - 20px); margin: 10px;">
                                     <div class="product-body">
                                         <div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
                                             <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
@@ -140,6 +142,7 @@
 <!-- 찜기능 비동기 js  -->
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="js/wishList/isWished.js"></script>
+<script src="js/wishList/RemoveSoldOutProducts.js"></script>
 
 
 </body>
