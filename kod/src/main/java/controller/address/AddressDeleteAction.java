@@ -49,7 +49,7 @@ public class AddressDeleteAction implements Action {
 			forward.setRedirect(true);
 		}
 		else {
-			request.setAttribute("msg", "ㄴㄴㄴㄴ안됨");
+			request.setAttribute("msg", "삭제에 실패했습니다.");
 			forward.setPath("goback.do");
 			forward.setRedirect(false);
 		}

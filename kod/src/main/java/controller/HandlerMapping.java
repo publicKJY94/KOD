@@ -6,6 +6,8 @@ import java.util.Map;
 import controller.address.AddressDeleteAction;
 import controller.address.AddressInsertAction;
 import controller.address.AddressUpdateAction;
+import controller.cart.CartDeleteAllAction;
+import controller.cart.CartDeleteEachAction;
 import controller.cart.CartInsertAction;
 import controller.join.JoinAddressAction;
 import controller.join.JoinMemberAction;
@@ -19,10 +21,10 @@ import controller.mypage.MemberUpdateAction;
 import controller.mypage.MemberUpdateLogoutAction;
 import controller.mypage.MemberUpdatePageAction;
 import controller.mypage.MypageAction;
+import controller.mypage.MypageCartListAction;
 import controller.mypage.MypageMemberUpdateAction;
 import controller.mypage.MypageMemberUpdatePWCKAction;
 import controller.mypage.MypageOrderListAction;
-import controller.mypage.MypageCartListAction;
 import controller.order.OrderInfoAction;
 import controller.order.OrderInfoPageAction;
 import controller.order.OrderListAction;
@@ -87,6 +89,9 @@ public class HandlerMapping {
 		this.mappings.put("/mypageCartList.do", new MypageCartListAction());
 		this.mappings.put("/reviewWritePage.do", new ReviewWritePageAction());
 		this.mappings.put("/reviewWriteAction.do", new ReviewWriteAction());
+		this.mappings.put("/cartDeleteAll.do", new CartDeleteAllAction());
+	    this.mappings.put("/cartDeleteEach.do", new CartDeleteEachAction());
+		
 	}
 	
 	public Action getAction(String commed) {

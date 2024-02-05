@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
+
 
 import model.dao.CartDAO;
 import model.dao.MemberDAO;
@@ -59,19 +59,14 @@ public class CartUpdateActionServlet extends HttpServlet {
 		cartDAO.update(cartDTO);
 		
 		int changedCnt=cartDTO.getCartProductCnt();
-		//int changedPrice=cartDTO.getCartProductCnt()*cartDTO.getProductPrice();
 		
-		//Gson gson=new Gson();
-		
+
 		PrintWriter out=response.getWriter();
 		out.println(changedCnt);
 		
 		System.out.println("[형련] 로그 actionServlet cartDTO 결과 값 : " +changedCnt);
 		
-		//System.out.println("[형련] 로그 actionServlet 가격 : " +cartDTO.getProductPrice());
-		//System.out.println("[형련] 로그 actionServlet cartDTO changedPrice 가격 : " + changedPrice);
-		
-		
+
 		System.out.println("[형련] 로그 CartUpdateActionServlet 끝");
 		
 	}

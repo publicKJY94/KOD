@@ -10,6 +10,7 @@ public class CartDTO {
 	private int productPrice;
 	private String productImg;
 	private int sumProductPrice;
+	private String searchCondition;
 	
 	
 	public int getSumProductPrice() {
@@ -59,6 +60,13 @@ public class CartDTO {
 	}
 	public void setProductID(int productID) {
 		this.productID = productID;
+	}
+	
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
 	}
 	@Override
 	public String toString() {
