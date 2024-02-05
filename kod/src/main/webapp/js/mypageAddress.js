@@ -27,9 +27,11 @@ function handleAddressManage() {
 					'<span>' + addressDTO.adrsDetail + '</span>' +
 					'</div>' +
 						'<div style="width:100%; margin-bottom:5px; display:flex; justify-content:end;">' +
-					'<button id="modifyButton_" onclick="openModifyModal(' + addressDTO.adrsID + ')" style="background-color: #0fbcf9; color: white; border: none; margin-right:10px;">수정</button>' +
-					'<button id="deleteButton_" onclick="openDeleteModal(' + addressDTO.adrsID + ')" style="background-color: #00d8d6; color: white; border: none;">삭제</button>' +
-					'</div>' +
+					'<button id="modifyButton_" onclick="openModifyModal(' + addressDTO.adrsID + ')" style="background-color: #0fbcf9; color: white; border: none; margin-right:10px;">수정</button>'
+				if(data.length>1){
+					contentHtml +='<button id="deleteButton_" onclick="openDeleteModal(' + addressDTO.adrsID + ')" style="background-color: #00d8d6; color: white; border: none;">삭제</button>'
+				}
+				contentHtml +='</div>' +
 					'</div>'
 
 			});
