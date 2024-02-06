@@ -53,9 +53,13 @@ public class FrontController extends HttpServlet {
 		
 		
 		if (forward.isRedirect()) {
+			System.out.println("[로그 : 정현진] forward.isRedirect() : "+forward.isRedirect());
+			System.out.println("[로그 : 정현진] forward.getPath() : "+forward.getPath());
 			response.sendRedirect(forward.getPath());
 		} 
 		else {
+			System.out.println("[로그 : 정현진] forward.isRedirect() : "+forward.isRedirect());
+			System.out.println("[로그 : 정현진] forward.getPath() : "+forward.getPath());
 			RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
 			dispatcher.forward(request, response);
 		}
