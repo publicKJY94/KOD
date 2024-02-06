@@ -26,7 +26,7 @@
 							<a href="loginPage.do"><i class="fa fa-user-o"></i>로그인</a>
 						</li>
 						<li>
-							<a href="joinPage.do"><i class="fa fa-user-o"></i>회원가입</a>
+							<a href="joinTermsOfUse.do"><i class="fa fa-user-o"></i>회원가입</a>
 						</li>
 					</ul>
 				
