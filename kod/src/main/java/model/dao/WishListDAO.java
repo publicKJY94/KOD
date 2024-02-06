@@ -50,7 +50,7 @@ public class WishListDAO {
 			+ "    FROM WISHLIST "
 			+ "    WHERE MEMBER_ID = ? "
 			+ ") WL ON RANKED_PRODUCTS.PRODUCT_ID = WL.PRODUCT_ID "
-			+ "WHERE RANK <= 7 ";
+			+ "WHERE RANK <= 10 ";
 
 	private static final String SELECTALL_WISH_RANKING_BY_PRODUCTS_LOGOUT = // 인기순 정렬 - 로그아웃상태
 			  "SELECT "
@@ -82,7 +82,7 @@ public class WishListDAO {
 			  + "        P.PRODUCT_IMG "
 			  + "    ORDER BY WISHLIST_RANK DESC NULLS LAST "
 			  + ") RANKED_PRODUCTS "
-			  + "WHERE RANKED_PRODUCTS.WISHLIST_RANK <= 7 "
+			  + "WHERE RANKED_PRODUCTS.WISHLIST_RANK <= 10 "
 			  + "ORDER BY RANKED_PRODUCTS.WISHLIST_RANK ASC ";
 	
 	
