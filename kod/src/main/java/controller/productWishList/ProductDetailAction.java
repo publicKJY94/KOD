@@ -29,9 +29,9 @@ public class ProductDetailAction implements Action {
 		forward.setPath("productDetail.jsp");
 		forward.setRedirect(false);
 
-		System.out.println("프로덕트디테일액션 들어옴");
-		System.out.println("상품ID"+Integer.parseInt(request.getParameter("productID")));
-		System.out.println("상품카테고리"+(String)request.getParameter("productCategory"));
+		System.out.println("[로그 : 정현진] 프로덕트디테일액션 들어옴");
+		System.out.println("[로그 : 정현진] 상품ID"+Integer.parseInt(request.getParameter("productID")));
+		System.out.println("[로그 : 정현진] 상품카테고리"+(String)request.getParameter("productCategory"));
 		
 		HttpSession session = request.getSession();
 		String memberID = null;
@@ -115,7 +115,6 @@ public class ProductDetailAction implements Action {
 			System.out.print("data로그 : "+data.getProductName());
 			System.out.println(data.getIsWished());
 		}
-		
 		request.setAttribute("productWishDetailData", productWishDetailData);
 		request.setAttribute("productWishDatas", productWishDatas);
 		request.setAttribute("wishListCnt", wishListCnt);
