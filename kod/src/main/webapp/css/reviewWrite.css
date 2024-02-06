@@ -77,16 +77,6 @@ input[type="file"] {
     background-color: #45a049;
 }
 
-.UploadPreview {
-    margin-top: 10px;
-}
-
-.UploadPreview img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.imageUploadBtn:hover {
+    cursor: pointer; /* 마우스를 손가락 모양으로 변경 */
 }
