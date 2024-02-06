@@ -42,7 +42,7 @@ public class ProductDAO {
 			+ "  (SELECT NVL(MAX(PRODUCT_ID),1000)+1 FROM PRODUCT), "
 			+ "?,'Bang&Olufsen',?,?,?,5,?)"; // 상품 크롤링
 			
-	private static final String UPDATE = "";
+	private static final String UPDATE = "UPDATE PRODUCT SET PRODUCT_STOCK = PRODUCT_STOCK - ? WHERE PRODUCT_ID = ?";
 	private static final String DELETE = "";
 
 	public ArrayList<ProductDTO> selectAll(ProductDTO pDTO) {
@@ -207,8 +207,25 @@ public class ProductDAO {
 		return true;
 	}
 
-	public void update() {
+	public boolean update(ProductDTO pDTO) {
+		conn = JDBCUtil.connect();
+		try {
+			pstmt = conn.prepareStatement(UPDATE);
+			pstmt.setInt(1, pDTO.getProductStock());
+			pstmt.setInt(2, pDTO.getProductID());
+			
+			int rs = pstmt.executeUpdate();
 
+			if (rs <= 0) {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			JDBCUtil.disconnect(pstmt, conn);
+		}
+		return true; 
 	}
 
 	public void delete() {
