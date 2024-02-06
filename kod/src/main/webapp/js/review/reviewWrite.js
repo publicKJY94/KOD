@@ -50,7 +50,7 @@ function cancelImageUpload() {
 */ 
  
 function validateForm() {
-    // Check if any star is selected
+    // 1. 별점이 선택되었는지 확인
     var ratingInputs = document.getElementsByName('score');
     var isRatingSelected = false;
 
@@ -60,12 +60,23 @@ function validateForm() {
             break;
         }
     }
+
     if (!isRatingSelected) {
         alert('별점을 선택해주세요.');
-        return false; // Prevent form submission
+        return false; // 폼 제출 방지
     }
 
-    return true; // Proceed with form submission
+    // 2. 제목과 내용이 최소 5자 이상인지 확인
+    var titleInput = document.getElementById('title');
+    var contentInput = document.getElementById('content');
+
+    if (titleInput.value.length < 5 || contentInput.value.length < 5) {
+        alert('제목과 내용은 최소 5자 이상 입력해주세요.');
+        return false; // 폼 제출 방지
+    }
+
+    // 모든 조건을 통과하면 폼 제출 허용
+    return true;
 }
  
 // 글자 수 세기 함수
