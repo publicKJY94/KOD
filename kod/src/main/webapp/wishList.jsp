@@ -104,9 +104,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <a href="productDetail.do?productCategory=${wishList.productCategory}&productID=${wishList.productID}">
                                     <div class="product-img">
                                         <img src="${wishList.productImg}" alt="Product Image" />
                                     </div>
+                                    </a>
                                     <div class="product-body">
                                         <p class="product-category">${wishList.productCategory}</p>
                                         <h3 class="product-name"><a href="#" tabindex="-1">${wishList.productName}</a></h3>

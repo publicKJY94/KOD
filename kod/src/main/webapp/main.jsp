@@ -468,12 +468,14 @@
 								<!-- product widget -->
 								<c:forEach var="product" begin="0" end="${teenagerRanking.size()-4}" items="${teenagerRanking}" varStatus="status">
 								    <div class="product-widget">
+								    <a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">
 								        <div class="product-img">
 								            <img src="${product.productImg}" alt="">
 								        </div>
+								    </a>
 								        <div class="product-body">
 								            <p class="product-category">${product.productCategory}</p>
-								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h3 class="product-name"><a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">${product.productName}</a></h3>
 								            <h4 class="product-price">
 								                <fmt:setLocale value="ko_KR" />
 								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
@@ -489,12 +491,14 @@
 								<!-- product widget -->
 								<c:forEach var="product" begin="3" items="${teenagerRanking}" varStatus="status">
 								    <div class="product-widget">
+								    <a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">
 								        <div class="product-img">
 								            <img src="${product.productImg}" alt="">
 								        </div>
+								    </a>
 								        <div class="product-body">
 								            <p class="product-category">${product.productCategory}</p>
-								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h3 class="product-name"><a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">${product.productName}</a></h3>
 								            <h4 class="product-price">
 								                <fmt:setLocale value="ko_KR" />
 								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
@@ -523,12 +527,14 @@
 								<!-- product widget -->
 								<c:forEach var="product" begin="0" end="${twentyRanking.size()-4}" items="${twentyRanking}" varStatus="status">
 								    <div class="product-widget">
+								    <a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">
 								        <div class="product-img">
 								            <img src="${product.productImg}" alt="">
 								        </div>
+								    </a>
 								        <div class="product-body">
 								            <p class="product-category">${product.productCategory}</p>
-								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h3 class="product-name"><a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">${product.productName}</a></h3>
 								            <h4 class="product-price">
 								                <fmt:setLocale value="ko_KR" />
 								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
@@ -545,12 +551,14 @@
 								<!-- product widget -->
 								<c:forEach var="product" begin="3" items="${twentyRanking}" varStatus="status">
 								    <div class="product-widget">
+								    <a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">
 								        <div class="product-img">
 								            <img src="${product.productImg}" alt="">
 								        </div>
+								    </a>
 								        <div class="product-body">
 								            <p class="product-category">${product.productCategory}</p>
-								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h3 class="product-name"><a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">${product.productName}</a></h3>
 								            <h4 class="product-price">
 								                <fmt:setLocale value="ko_KR" />
 								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
@@ -581,12 +589,15 @@
 								<!-- product widget -->
 								<c:forEach var="product" begin="0" end="${thirtyRanking.size()-4}" items="${thirtyRanking}" varStatus="status">
 								    <div class="product-widget">
+								     <div class="productID" hidden>${wishList.productID}</div>
+								    <a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">
 								        <div class="product-img">
 								            <img src="${product.productImg}" alt="">
 								        </div>
+								    </a>
 								        <div class="product-body">
 								            <p class="product-category">${product.productCategory}</p>
-								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h3 class="product-name"><a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">${product.productName}</a></h3>
 								            <h4 class="product-price">
 								                <fmt:setLocale value="ko_KR" />
 								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
@@ -602,12 +613,14 @@
 								<!-- product widget -->
 								<c:forEach var="product" begin="3" items="${thirtyRanking}" varStatus="status">
 								    <div class="product-widget">
+								    <a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">
 								        <div class="product-img">
 								            <img src="${product.productImg}" alt="">
 								        </div>
+								    </a>
 								        <div class="product-body">
 								            <p class="product-category">${product.productCategory}</p>
-								            <h3 class="product-name"><a href="#">${product.productName}</a></h3>
+								            <h3 class="product-name"><a href="productDetail.do?productCategory=${product.productCategory}&productID=${product.productID}">${product.productName}</a></h3>
 								            <h4 class="product-price">
 								                <fmt:setLocale value="ko_KR" />
 								                <fmt:formatNumber value="${product.productPrice}" type="currency" />
