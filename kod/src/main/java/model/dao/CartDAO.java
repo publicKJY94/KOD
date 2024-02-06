@@ -26,7 +26,7 @@ public class CartDAO {
 	private static final String INSERT="INSERT INTO CART VALUES ((SELECT NVL(MAX(CART_ID),0)+1 FROM CART), ?, ?, ?)";
 	private static final String UPDATE="UPDATE CART SET CART_PRODUCT_CNT = ? WHERE PRODUCT_ID = ? AND MEMBER_ID = ?";
 	private static final String UPDATE_SAME_PRODUCT="UPDATE CART SET CART_PRODUCT_CNT = CART_PRODUCT_CNT + ? WHERE PRODUCT_ID = ? AND MEMBER_ID = ?";
-	private static final String DELETE="DELETE FROM CART WHERE CART_ID = ?";
+	private static final String DELETE="DELETE FROM CART WHERE MEMBER_ID = ? AND PRODUCT_ID = ?";
 	private static final String DELETE_ALL="DELETE FROM CART WHERE MEMBER_ID = ?";
 	
 	public ArrayList<CartDTO> selectAll(CartDTO cDTO) {
@@ -148,8 +148,8 @@ public class CartDAO {
 			}
 			else if(cDTO.getSearchCondition().equals("개별상품삭제")) {
 				pstmt=conn.prepareStatement(DELETE);
-				pstmt.setInt(1, cDTO.getCartID());
-				
+				pstmt.setString(1, cDTO.getMemberID());
+				pstmt.setInt(2, cDTO.getProductID());
 			}
 			int rs = pstmt.executeUpdate();
 			if (rs <= 0) {

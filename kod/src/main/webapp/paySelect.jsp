@@ -89,7 +89,7 @@
             </td>
             <td>무료</td>
             <td>
-            	<a href="cartDeleteEach.do?cartId=${cData.cartID}" class="cart__list__optionbtn" >상품 삭제 </a>
+            	<a href="cartDeleteEach.do?productID=${cData.productID}" class="cart__list__optionbtn" >상품 삭제 </a>
             </td>
         </tr>
     </tbody>

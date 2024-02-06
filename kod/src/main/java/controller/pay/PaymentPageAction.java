@@ -35,21 +35,31 @@ public class PaymentPageAction implements Action{
 		System.out.println("주문자명 : "+memberID);
 		
 		
-		String[] payInfoProducts = request.getParameterValues("productID");
+		String[] payInfoProducts = request.getParameterValues("productID"); 		// 결제할 상품 번호들 받아오기
+		String[] payInfoProductNames = request.getParameterValues("productName");	// 결제할 상품명들 받아오기
+		System.out.println(payInfoProductNames);
+		String productName = null;
+		if(payInfoProductNames.length >1 ) {	
+			productName = payInfoProductNames[0] + "외 " + (payInfoProductNames.length-1) + "개"; // 결제할 상품이 1개 이상이면 '첫번째 상품이름+그 외 개수' 로 저장
+		}else {
+			productName = payInfoProductNames[0];	// 결제할 상품이 1개이면 해당 상품 이름으로 저장
+		}
+		System.out.println(productName);
 		System.out.println(payInfoProducts);
 		
-		if (payInfoProducts != null) {
+		if (payInfoProducts != null) {	// 결제할 상품이 있다면 해당 상품들의 정보 cartDTO에 저장
 		    for (String product : payInfoProducts) {
 		        System.out.println("결제할 상품번호 : " + product);
 		        cartDTO = new CartDTO();
 		        cartDTO.setMemberID(memberID);
 		        cartDTO.setProductID(Integer.parseInt(product));
 		        cartDTO = cartDAO.selectOne(cartDTO);
+		        cartDTO.setPg(request.getParameter("pg")); // 추후 pg로 다양한 결제방법 선택(ex : kakaopay, tosspay)
 		        System.out.println(cartDTO);
 		        datas.add(cartDTO);
 		        System.out.println("선택된 결제 정보 : "+ datas);
 		    }
-		} else {
+		} else {	// 결제할 상품이 없다면 문구 출력
 		    System.out.println("선택된 상품이 없습니다."); // 추후 alert창 띄우기
 		}
 		
@@ -60,13 +70,13 @@ public class PaymentPageAction implements Action{
 //		request.setAttribute("cData", datas);
 		
 		
-		Gson cartData = new Gson();
-		String cData = cartData.toJson(datas);
-		System.out.println("결제전 정보 들어오는거 확인 : " + cData);
-		
-		PrintWriter out = response.getWriter();
-		out.print(cData);
-		System.out.println("printout : " + cData);
+//		Gson cartData = new Gson();
+//		String cData = cartData.toJson(datas);
+//		System.out.println("결제전 정보 들어오는거 확인 : " + cData);
+//		
+//		PrintWriter out = response.getWriter();
+//		out.print(cData);
+//		System.out.println("printout : " + cData);
 		
 		return forward;
 	}
