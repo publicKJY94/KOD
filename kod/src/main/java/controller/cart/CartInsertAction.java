@@ -58,22 +58,30 @@ public class CartInsertAction implements Action{
 		System.out.println("장바구니 전체 데이터 : " + datas);
 		
 		boolean flag = false;
-		for(CartDTO data : datas) {
-			if(data.getProductID()==productID) {
-				flag = true;
-				System.out.println(flag);
-				if(flag) {
-					cartDTO.setSearchCondition("장바구니같은상품");
-					System.out.println("이미 장바구니에 같은 상품이 있을 때 : "+cartDTO);
-					cartDAO.update(cartDTO);
-					System.out.println("장바구니 업데이트 완료");
+		if(!datas.isEmpty()) {
+			for(CartDTO data : datas) {
+				if(data.getProductID()==productID) {
+					flag = true;
+					System.out.println(flag);
+					if(flag) {
+						cartDTO.setSearchCondition("장바구니같은상품");
+						System.out.println("이미 장바구니에 같은 상품이 있을 때 : "+cartDTO);
+						cartDAO.update(cartDTO);
+						System.out.println("장바구니 업데이트 완료");
+					}
+				}else {
+					System.out.println("장바구니 새상품 추가 flag" + flag);
+					cartDAO.insert(cartDTO);
+					System.out.println("장바구니 새상품 추가 완료");
 				}
-			}else {
-				System.out.println("장바구니 새상품 추가 flag" + flag);
-				cartDAO.insert(cartDTO);
-				System.out.println("장바구니 새상품 추가 완료");
 			}
+		}else {
+			System.out.println("장바구니가 비어있는 상태 : " + flag);
+			cartDAO.insert(cartDTO);
+			System.out.println("장바구니 새상품 추가 완료");
 		}
+		
+		
 		
 		
 //		boolean flag=false;
