@@ -368,7 +368,7 @@ function closeModal1() {
 															</div>
 														</div>
 
-														<script>
+<script>
     // 리뷰 평균 점수
     var avgScore = ${reviewAvgScore};
 
@@ -684,8 +684,6 @@ function cartInsert() {
 					<div class="container">
 						<!-- row -->
 						<div class="row">
-
-
 							<div class="col-md-12">
 								<div class="section-title text-center">
 									<c:if test="${not empty memberDTO.memberID}">
@@ -700,6 +698,7 @@ function cartInsert() {
 								value="${requestScope.productWishDatas}" />
 							<!-- Products tab & slick -->
 							<div class="col-md-12">
+
 								<div class="row">
 									<div class="products-tabs">
 										<!-- tab -->
@@ -732,7 +731,10 @@ function cartInsert() {
 																<h3 class="product-name" style="height: 31px;">
 																	<a href="productDetail.do?productID=${data.productID}">${data.productName}</a>
 																</h3>
-																<h4 class="product-price">${data.productPrice}</h4>
+																<h4 class="product-price">
+                                  <fmt:setLocale value="ko_KR" />
+                                  <fmt:formatNumber value="${data.productPrice}" type="currency" />
+                                </h4>
 																<div class="product-rating">
 																	<%-- 평점 들어가는 라인 --%>
 																</div>

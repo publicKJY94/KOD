@@ -18,7 +18,6 @@
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <!-- Custom CSS -->
 <link type="text/css" rel="stylesheet" href="css/reviewWrite.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -67,11 +66,10 @@
 				</div>
 			</div>
 			<div class="FormRow">
-				<label for="imageUpload" class="imageUploadBtn">이미지 업로드</label> <input
-					type="file" id="imageUpload" name="imageUpload" accept="image/*"
-					onchange="previewImage(event)" />
-				<button type="button" id="cancelImageButton" style="display: none;"
-					onclick="cancelImageUpload()">이미지 취소</button>
+				<label for="imageUpload" class="imageUploadBtn">이미지 업로드</label> 
+				<input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(event)" />
+				<img id="imagePreview" src="#" alt="미리 보기 이미지" style="width: 100%" height="100%">
+				<button type="button" id="cancelImageButton" style="display: none;" onclick="cancelImageUpload()">이미지 취소</button>
 			</div>
 			<div class="FormRow">
 				<button type="submit" class="SubmitBtn">작성하기</button>
