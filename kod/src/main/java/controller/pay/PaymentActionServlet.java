@@ -76,13 +76,6 @@ public class PaymentActionServlet extends HttpServlet {
 			oDTO.setMemberID(memberID);
 			oDTO = oDAO.selectOne(oDTO);
 			
-			// 장바구니 결제
-			CartDTO cDTO = new CartDTO();
-			CartDAO cDAO = new CartDAO();
-			
-			//cDTO = cDAO.selectOne(cDTO);
-			// 선택 구매된 상품의 개수만큼 추가
-			
 			oContentDTO.setOdListID(oDTO.getOdListID());
 			System.out.println("[서블릿] 주문 상세 내역 상품 번호 : "+productIDs[i]);
 			oContentDTO.setProductID(Integer.parseInt(productIDs[i])); 
@@ -90,14 +83,24 @@ public class PaymentActionServlet extends HttpServlet {
 			System.out.println("[서블릿] 주문 상세 내역 주문 개수 : "+cnts[i]);
 			System.out.println("[서블릿] 주문 상세 내역 : "+oContentDTO);
 			oContentDAO.insert(oContentDTO);
+			
+			
+			// 구매한 상품 재고 감소
+			
+			// 구매한 상품 장바구니에서 비우기
+			CartDTO cDTO = new CartDTO();
+			CartDAO cDAO = new CartDAO();
+			cDTO.setProductID(oContentDTO.getProductID());
+			cDTO.setMemberID(memberID);
+			cDTO.setSearchCondition("개별상품삭제");
+			cDAO.delete(cDTO);
+			System.out.println("장바구니 삭제 완료");
 		}
 		
+		
+		
+		
 		System.out.println("paymentServlet 끝");
-		
-		
-		
-//		PrintWriter out = response.getWriter();
-//		out.print("사과");
 	}
 	
 }

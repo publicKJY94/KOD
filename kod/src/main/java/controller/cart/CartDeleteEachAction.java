@@ -32,14 +32,16 @@ public class CartDeleteEachAction implements Action{
 		mDTO.setSearchCondition("ID체크");
 		mDAO.selectOne(mDTO);
 	
-		String cartId=request.getParameter("cartId");
-		System.out.println("형련 [" + cartId + "]");
+		int productID=Integer.parseInt(request.getParameter("productID"));
+		System.out.println("형련 [" + productID + "]");
 		
 		CartDTO cDTO= new CartDTO();
 		CartDAO cDAO= new CartDAO();
 		
 		
-		cDTO.setCartID(Integer.parseInt(cartId));
+		//cDTO.setCartID(Integer.parseInt(cartId));
+		cDTO.setProductID(productID);
+		cDTO.setMemberID(mDTO.getMemberID());
 		cDTO.setSearchCondition("개별상품삭제");
 		
 		cDAO.delete(cDTO);

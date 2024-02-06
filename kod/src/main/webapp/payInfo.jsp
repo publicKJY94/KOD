@@ -50,7 +50,7 @@
 	
 		System.out.println("[payInfo]");
 		ArrayList<CartDTO> cDatas =(ArrayList<CartDTO>)request.getAttribute("cartDTO");
-		//CartDTO cartDTO = cDatas.get(1);
+		System.out.println(cDatas);
 		MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("memberDTO");
 		System.out.println(memberDTO);
 		AddressDTO addressDTO = (AddressDTO)request.getAttribute("addressDTO");
@@ -174,12 +174,11 @@
 									<%
 									int total=0;
 									for(CartDTO cData : cDatas){
-										total += cData.getProductPrice()*cData.getCartProductCnt(); 
-									
+										total += cData.getProductPrice(); 
+									}
 									%>
-									<div style="text-align: right;"><strong class="order-total" ><%=cData.getProductPrice()%>원</strong></div>
+									<div style="text-align: right;"><strong class="order-total" ><%=total%>원</strong></div>
 									<input type="hidden" name="totalPrice" value="<%=total%>">
-									<%} %>
 								</div>
 							</div>
 							<div class="payment-method" style="align-items: center; display: flex;">
