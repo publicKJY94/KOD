@@ -49,7 +49,6 @@ public class CartUpdateActionServlet extends HttpServlet {
 		String productId = request.getParameter("productId");
 	    String productCnt = request.getParameter("productCnt");
 	 
-	    
 	    cartDTO.setProductID(Integer.parseInt(productId));
 	    cartDTO.setCartProductCnt(Integer.parseInt(productCnt));
 		cartDTO.setMemberID(mDTO.getMemberID());

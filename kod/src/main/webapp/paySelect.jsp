@@ -76,7 +76,7 @@
                 <p>${cData.productName}</p>
                 <span class="price" id="eachPrice">${cData.productPrice}원</span>
             </td>
-            <td class="bseq_ea">
+            <td class="bseq_ea" style="text-align: center;">
                 <p>${cData.productName}</p>
                 <button type="button" onclick="fnCalCount('m', this, ${status.index});">-</button>
                 <input type="text" id="changedCnt_${status.index}" name="pop_out" value="${cData.cartProductCnt}" readonly="readonly" style="text-align:center;"/>

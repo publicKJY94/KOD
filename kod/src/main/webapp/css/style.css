@@ -2188,3 +2188,26 @@ textarea.input {
     margin-top: 10px;
   }
 }
+
+.modalBox{
+		display:flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap:20px;
+			background-color: #fff;
+			border-radius: 10px;
+			border:3px solid #ef233c;
+          position: absolute;
+          width:300px;
+          height: 200px;
+          padding: 15px;
+	
+}
+
+.modalBox {
+    position: fixed; 
+    left: 50%; 
+    top: 50%;
+    transform: translate(-50%, -50%); 
+}
