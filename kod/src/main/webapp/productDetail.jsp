@@ -39,6 +39,7 @@
 <link type="text/css" rel="stylesheet" href="css/style.css" />
 <link type="text/css" rel="stylesheet" href="css/checkLogin.css" />
 
+
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -142,6 +143,7 @@ $(document).ready(function(){
 
 </script>
 <!-- 모달창을 추가합니다. -->
+   
 <div id="memberID" memberID="${memberDTO.memberID}"></div>
 <div id="checkLoginModal" class="modal checkLoginModal">
     <div class="modal-content checkLoginModal">
@@ -155,6 +157,7 @@ $(document).ready(function(){
 
 
 
+	
 	<!-- SECTION -->
 	<div class="section">
 		<!-- container -->
@@ -224,13 +227,13 @@ $(document).ready(function(){
 				            <span class="product-available">In Stock</span>
 				        </div>
 				        <p>${productWishDetailData.productInfo}</p>
-				
-				        <form method="POST" action="cartInsert.do">
+
+				        <form method="POST" action="cartInsert.do" id="form1">
 				            <div class="add-to-cart">
 				                <div class="qty-label">
 				                    수량
 				                    <div class="input-number">
-				                        <input type="hidden" name="productID" value="${productWishDetailData.productID}" />
+				                        <input type="hidden" name="productID" value="${productWishDetailData.productID}" ID="productID" />
 				                        <input type="hidden" name="productName" value="${productWishDetailData.productName}" />
 				                        <input type="hidden" name="productPrice" value="${productWishDetailData.productPrice}" />
 				                        <input id="purchaseCnt" name="purchaseCnt" type="number" value="1" min="1" />
@@ -238,15 +241,15 @@ $(document).ready(function(){
 				                        <span class="qty-down" onclick="decreaseQuantity()">-</span>
 				                    </div>
 				                </div>
-				                <button class="add-to-cart-btn" type="button">
-				                    <i class="fa fa-shopping-cart"></i>장바구니 담기
-				                </button>
+				                <button class="add-to-cart-btn" type="button" onclick="cartInsert()">
+   								 <i class="fa fa-shopping-cart"></i>장바구니 담기
+								</button>
 				                <button class="buy-now add-to-cart-btn" type="submit">
 				                    <i class="fa fa-shopping-cart"></i>구매하기
 				                </button>
 				            </div>
 				        </form>
-				
+
 				        <ul class="product-btns">
 				            <li>
 				                <a href="#" class="add-to-wishlist2" onclick="checkLogin()">
@@ -257,12 +260,12 @@ $(document).ready(function(){
 				            <c:set var="wishTotalCnt" value="${empty wishTotalCnt ? 0 : wishTotalCnt}" />
 				            <Strong><span class="wishTotalCnt" style="padding-left: 10px">${wishTotalCnt}</span></Strong>
 				        </ul>
-				
+
 				        <ul class="product-links">
 				            <li>Category:</li>
 				            <li><a href="#">${productWishDetailData.productCategory}</a></li>
 				        </ul>
-				
+
 				        <ul class="product-links">
 				            <li>Share:</li>
 				            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -273,11 +276,56 @@ $(document).ready(function(){
 				    </div>
 				</div>
 				<!-- /Product details -->
+<!--  /open modal -->
+ 
+				<form action="paySelect.do" method="POST" id="form2">
+   			 <div style="margin-bottom: 5px;">
+       		 <div class="modalCart hidden">
+            <div class="bg2"></div>
+            <div class="modalBox">
+                <p>장바구니에 상품이 추가되었습니다</p>
+   				<div>
+   				 <button type="button" onclick="func2()" style="color: #FFF; background-color: #ef233c; , border-radius : 40px; , border : 2px solid;">장바구니로 이동하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--  /open modal -->
+<script>
+
+function modalCart() {
+    var modal = document.querySelector(".modalCart");
+    modal.classList.remove("hidden");
+
+    // 3초 후에 모달을 천천히 사라지게 함
+    setTimeout(function() {
+        var opacity = 1;
+        var timerFadeOut = setTimeout(function changeOpacity() {
+            if (opacity <= 0) {
+                modal.classList.add("hidden");
+                // 모달이 사라지면 투명도를 초기화하여 다음에 모달이 나타날 때 사용할 수 있도록 함
+                modal.style.opacity = 1;
+            } else {
+                modal.style.opacity = opacity;
+                opacity -= 0.1; // 0.1씩 감소시켜 부드럽게 페이드아웃
+                setTimeout(changeOpacity, 50); // 50ms 후에 다시 호출하여 투명도를 변경함
+            }
+        }, 50); // 50ms 후에 실행
+    }, 2000); // 3초 후에 실행
+}
+
+function func2(){
+	   document.getElementById('form2').submit();
+	}
+function closeModal1() {
+    document.querySelector(".modalCart").classList.add("hidden");
+	document.querySelector(".bg2").addEventListener("click", closeModal1);
+}
 
 
-
-
-
+</script>
 				<!-- Product tab -->
 				<div class="col-md-12">
 					<div id="product-tab">
@@ -327,6 +375,36 @@ $(document).ready(function(){
 
     // 생성된 별의 HTML을 평점을 표시할 div에 삽입
     document.getElementById('averageRatingStars').innerHTML = starHtml;
+</script>
+
+<script>
+function cartInsert() {
+    console.log('비동기진입');
+
+    var productID = document.getElementById("productID").value;
+    var purchaseCnt = document.getElementById("purchaseCnt").value;
+
+    $.ajax({
+        type: 'POST',
+        url: 'cartInsertActionServlet', // 장바구니 업데이트를 처리할 서블릿 URL
+        dataType: 'json',
+        data: {
+            productID: productID,
+            purchaseCnt: purchaseCnt,
+        },
+        success: function(response) {
+            console.log('성공화면1');
+            if (response == 1) {
+                modalCart();
+            }else{
+            	
+            }
+        },
+        error: function(error) {
+            console.log("에러: " + error);
+        }
+    });
+}
 </script>
 														<ul class="rating">
 															<li>
@@ -549,10 +627,7 @@ $(document).ready(function(){
         <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${totalPages}">>></a>
     </li>
 </ul>
-										
-										
-										
-										
+							
 									</div>
 									<!-- /product tab content  -->
 								</div>
@@ -584,12 +659,10 @@ $(document).ready(function(){
 									</c:if>
 								</div>
 							</div>
-
-							<c:set var="productWishDatas" value="${requestScope.productWishDatas}" />
-
+						<c:set var="productWishDatas" value="${requestScope.productWishDatas}" />
 							<!-- Products tab & slick -->
 							<div class="col-md-12">
-							    <div class="row">
+								  <div class="row">
 							        <div class="products-tabs">
 							            <!-- tab -->
 							            <div id="tab1" class="tab-pane active">

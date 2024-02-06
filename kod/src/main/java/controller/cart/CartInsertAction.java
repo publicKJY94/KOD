@@ -46,7 +46,7 @@ public class CartInsertAction implements Action{
 		CartDAO cartDAO = new CartDAO();
 		
 		cartDTO.setProductID(Integer.parseInt(request.getParameter("productID")));
-		int productID = Integer.parseInt(request.getParameter("productID"));
+//		int productID = Integer.parseInt(request.getParameter("productID"));
 		cartDTO.setCartProductCnt(Integer.parseInt(request.getParameter("purchaseCnt")));
 		
 		HttpSession session = request.getSession();
