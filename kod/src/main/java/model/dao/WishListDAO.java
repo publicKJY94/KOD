@@ -535,6 +535,7 @@ public class WishListDAO {
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
 					WishListDTO data = new WishListDTO();
+					data.setProductID(rs.getInt("PRODUCT_ID"));
 					data.setProductImg(rs.getString("PRODUCT_IMG"));
 					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 					data.setProductName(rs.getString("PRODUCT_NAME"));
