@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <!-- Custom stlylesheet -->
 <link type="text/css" rel="stylesheet" href="css/style.css" />
+<link type="text/css" rel="stylesheet" href="css/checkLogin.css" />
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style>
@@ -161,7 +162,7 @@ label:hover {
 					<!-- store products -->
 					<div class="row">
 
-						<script>
+<!-- 	<script>
 $(document).ready(function(){
     $('.add-to-wishlist').on('click', function(){
         console.log('[로그:정현진] 위시리스트 버튼 클릭됨');
@@ -189,7 +190,7 @@ $(document).ready(function(){
         });
     });
 });
-</script>
+</script> -->
 
 						<!--
 V는 C한테
@@ -205,6 +206,19 @@ M은 C한테 1,0 등의 값을 줘야하니까
    SQL문을 수정해야됨
    SELECTALL이 되는상황
   -->
+  
+<!-- 모달창을 추가합니다. -->
+<div id="memberID" memberID="${memberDTO.memberID}"></div>
+<div id="checkLoginModal" class="modal checkLoginModal">
+    <div class="modal-content checkLoginModal">
+        <span class="close checkLoginModal" onclick="closeModal()">&times;</span>
+        <p>로그인 후 이용가능합니다.</p>	
+		<p>로그인 화면으로 이동하시겠습니까?</p>
+		<button id="cancelButton">취소</button>
+		<button id="confirmButton">확인</button>
+     </div>
+</div>  
+  
 						<!-- product -->
 						<c:forEach var="isWishedData" items="${currentPageProducts}">
 						    <div class="col-md-4 col-xs-6" style="margin-top: 30px;">
@@ -213,7 +227,7 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						                <div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
 						                    <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
 						                    <div class="product-btns">
-						                        <button class="add-to-wishlist">
+						                        <button class="add-to-wishlist" onclick="checkLogin()">
 						                            <div class="productID" hidden>${isWishedData.productID}</div>
 						                            <i class="fa ${isWishedData.isWished != 0 ? 'fa-heart' : 'fa-heart-o'}" id="heartIcon"></i>
 						                            <span class="tooltipp">위시리스트에 추가</span>
@@ -283,6 +297,9 @@ M은 C한테 1,0 등의 값을 줘야하니까
 	</div>
 
 	<jsp:include page="util/footer.jsp"></jsp:include>
+	<script src="js/wishList/isWished.js"></script>
+	<script src="js/wishList/checkLogin.js"></script>
+	
 
 
 </body>
