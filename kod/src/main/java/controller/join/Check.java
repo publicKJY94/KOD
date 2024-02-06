@@ -1,4 +1,4 @@
-package controller.login;
+package controller.join;
 
 import java.io.IOException;
 import java.io.PrintWriter;

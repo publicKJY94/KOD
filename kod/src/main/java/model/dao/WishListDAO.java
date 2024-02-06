@@ -199,7 +199,27 @@ public class WishListDAO {
 					+ "    WHERE MEMBER_ID=? "
 					+ ") WL "
 					+ "ON P.PRODUCT_ID = WL.PRODUCT_ID ";
-	
+	// 상품 검색에 따른 페이지
+	private static final String SELECTALL_WISH_SEARCH = 
+			"SELECT "
+			+ " p.PRODUCT_ID, "
+			+ " PRODUCT_NAME, "
+			+ " PRODUCT_BRAND, "
+			+ " PRODUCT_PRICE, "
+			+ " PRODUCT_INFO, "
+			+ " PRODUCT_CATEGORY, "
+			+ " PRODUCT_IMG, "
+			+ " PRODUCT_STOCK, "
+			+ " w.MEMBER_ID, "
+			+ " w.WISHLIST_ID "
+			+ " FROM PRODUCT p "
+			+ " LEFT OUTER JOIN WISHLIST w "
+			+ "	ON P.PRODUCT_ID = W.PRODUCT_ID "
+			+ "	AND W.MEMBER_ID = ? "
+			+ " WHERE UPPER(p.PRODUCT_CATEGORY)"
+			+ " LIKE UPPER('%'||?||'%') "
+			+ " OR UPPER(p.PRODUCT_NAME) "
+			+ " LIKE UPPER('%'||?||'%') ";
 	// 카테고리별 상품추천 - 로그아웃상태
 //	private static final String SELECTALL_PRODUCT_CATEGORY_WISH_LOGOUT =
 //			"SELECT "
@@ -682,7 +702,54 @@ public class WishListDAO {
 			}
 			return datas;
 		}
-		else {
+		else if(wishListDTO.getSearchCondition().equals("search")) { // 김진영
+			System.out.println("검색 DAO들어옴");
+			conn=JDBCUtil.connect();
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISH_SEARCH);
+				pstmt.setString(1, wishListDTO.getMemberID());
+				pstmt.setString(2, wishListDTO.getSearchKeyword());
+				pstmt.setString(3, wishListDTO.getSearchKeyword());
+				System.out.println(wishListDTO.getSearchKeyword());
+				ResultSet rs = pstmt.executeQuery();
+				while(rs.next()) {
+					WishListDTO data = new WishListDTO();
+					data.setIsWished(rs.getInt("WISHLIST_ID"));
+					data.setProductID(rs.getInt("PRODUCT_ID"));
+					data.setProductImg(rs.getString("PRODUCT_IMG"));
+					data.setProductName(rs.getString("PRODUCT_NAME"));
+					data.setProductBrand(rs.getString("PRODUCT_BRAND"));
+					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
+					datas.add(data);
+				}
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.disconnect(pstmt, conn);
+			}
+			System.out.println("로그datas.size()"+datas.size());
+			int productID=wishListDTO.getProductID();
+			for (int i = 0; i < datas.size(); i++) {
+				System.out.println("위시DTO가 받아온 ProductID"+productID);
+				if(datas.get(i).getProductID()==productID) {
+					System.out.println("datas"+i+"번째 인덱스 삭제됨");
+					datas.remove(i);
+					break; 
+				}
+				System.out.println("몇번째"+i);
+			}
+//			int i=0;
+//			while(true) {
+//				if(datas.get(i).getProductID()==productID) {
+//					datas.remove(i);
+//					break;
+//				}
+//				i++;
+//			}
+			return datas;
+		}else {
 			return null;
 		}
 	}

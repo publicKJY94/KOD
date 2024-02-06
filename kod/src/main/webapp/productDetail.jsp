@@ -5,8 +5,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> <!-- 원화표시 functions함수집합 가져오기 -->
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> <!-- 원화표시 포맷 -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<!-- 원화표시 functions함수집합 가져오기 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!-- 원화표시 포맷 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +41,7 @@
 <link type="text/css" rel="stylesheet" href="css/style.css" />
 <link type="text/css" rel="stylesheet" href="css/checkLogin.css" />
 
+
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -52,13 +55,12 @@
 	<jsp:include page="util/navigation.jsp"></jsp:include>
 
 
-<script 
-	src="https://code.jquery.com/jquery-3.7.1.js"
-	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-	crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"
+		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+		crossorigin="anonymous">
 </script>
 
-<script>
+	<script>
 $(document).ready(function(){
 	  $(".add-to-wishlist2").on("click", function(e){
 	    e.preventDefault(); // 기본 클릭 이벤트를 중단하여 링크가 이동하는 것을 방지
@@ -109,7 +111,7 @@ $(document).ready(function(){
 
 </script>
 
-<script>
+	<script>
 $(document).ready(function(){
 	  $(".add-to-wishlist").on("click", function(e){
 	    e.preventDefault(); // 기본 클릭 이벤트를 중단하여 링크가 이동하는 것을 방지
@@ -141,17 +143,19 @@ $(document).ready(function(){
 	});
 
 </script>
-<!-- 모달창을 추가합니다. -->
-<div id="memberID" memberID="${memberDTO.memberID}"></div>
-<div id="checkLoginModal" class="modal checkLoginModal">
-    <div class="modal-content checkLoginModal">
-        <span class="close checkLoginModal" onclick="closeModal()">&times;</span>
-        <p>로그인 후 이용가능합니다.</p>	
-		<p>로그인 화면으로 이동하시겠습니까?</p>
-		<button id="cancelButton">취소</button>
-		<button id="confirmButton">확인</button>
-     </div>
-</div>
+	<!-- 모달창을 추가합니다. -->
+
+	<div id="memberID" memberID="${memberDTO.memberID}"></div>
+	<div id="checkLoginModal" class="modal checkLoginModal">
+		<div class="modal-content checkLoginModal">
+			<span class="close checkLoginModal" onclick="closeModal()">&times;</span>
+			<p>로그인 후 이용가능합니다.</p>
+			<p>로그인 화면으로 이동하시겠습니까?</p>
+			<button id="cancelButton">취소</button>
+			<button id="confirmButton">확인</button>
+		</div>
+	</div>
+
 
 
 
@@ -207,77 +211,133 @@ $(document).ready(function(){
 
 				<!-- Product details -->
 				<div class="col-md-5">
-				    <div class="product-details">
-				        <h2 class="product-name">${productWishDetailData.productName}</h2>
-				        <div>
-				            <div class="product-rating">
-				                <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-				                <i class="fa fa-star"></i> <i class="fa fa-star-o"></i>
-				            </div>
-				            <a class="review-link" href="#">${productReviewDatas.size()} Review(s) | Add your review</a>
-				        </div>
-				        <div>
-				            <h3 class="product-price">
-				                <fmt:setLocale value="ko_KR" />
-				                <fmt:formatNumber value="${productWishDetailData.productPrice}" type="currency" />
-				            </h3>
-				            <span class="product-available">In Stock</span>
-				        </div>
-				        <p>${productWishDetailData.productInfo}</p>
-				
-				        <form method="POST" action="cartInsert.do">
-				            <div class="add-to-cart">
-				                <div class="qty-label">
-				                    수량
-				                    <div class="input-number">
-				                        <input type="hidden" name="productID" value="${productWishDetailData.productID}" />
-				                        <input type="hidden" name="productName" value="${productWishDetailData.productName}" />
-				                        <input type="hidden" name="productPrice" value="${productWishDetailData.productPrice}" />
-				                        <input id="purchaseCnt" name="purchaseCnt" type="number" value="1" min="1" />
-				                        <span class="qty-up" onclick="increaseQuantity()">+</span>
-				                        <span class="qty-down" onclick="decreaseQuantity()">-</span>
-				                    </div>
-				                </div>
-				                <button class="add-to-cart-btn" type="button">
-				                    <i class="fa fa-shopping-cart"></i>장바구니 담기
-				                </button>
-				                <button class="buy-now add-to-cart-btn" type="submit">
-				                    <i class="fa fa-shopping-cart"></i>구매하기
-				                </button>
-				            </div>
-				        </form>
-				
-				        <ul class="product-btns">
-				            <li>
-				                <a href="#" class="add-to-wishlist2" onclick="checkLogin()">
-				                    <i class="fa ${productWishDetailData.isWished == 1 ? 'fa-heart' : 'fa-heart-o'}" id="heartIcon"></i> add to wishList
-				                    <span class="productID" style="display: none;">${productWishDetailData.productID}</span>
-				                </a>
-				            </li>
-				            <c:set var="wishTotalCnt" value="${empty wishTotalCnt ? 0 : wishTotalCnt}" />
-				            <Strong><span class="wishTotalCnt" style="padding-left: 10px">${wishTotalCnt}</span></Strong>
-				        </ul>
-				
-				        <ul class="product-links">
-				            <li>Category:</li>
-				            <li><a href="#">${productWishDetailData.productCategory}</a></li>
-				        </ul>
-				
-				        <ul class="product-links">
-				            <li>Share:</li>
-				            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-				            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-				            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-				            <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-				        </ul>
-				    </div>
+					<div class="product-details">
+						<h2 class="product-name">${productWishDetailData.productName}</h2>
+						<div>
+							<div class="product-rating">
+								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+									class="fa fa-star-o"></i>
+							</div>
+							<a class="review-link" href="#">${productReviewDatas.size()}
+								Review(s) | Add your review</a>
+						</div>
+						<div>
+							<h3 class="product-price">
+								<fmt:setLocale value="ko_KR" />
+								<fmt:formatNumber value="${productWishDetailData.productPrice}"
+									type="currency" />
+							</h3>
+							<span class="product-available">In Stock</span>
+						</div>
+						<p>${productWishDetailData.productInfo}</p>
+
+						<form method="POST" action="cartInsert.do" id="form1">
+							<div class="add-to-cart">
+								<div class="qty-label">
+									수량
+									<div class="input-number">
+										<input type="hidden" name="productID"
+											value="${productWishDetailData.productID}" ID="productID" />
+										<input type="hidden" name="productName"
+											value="${productWishDetailData.productName}" /> <input
+											type="hidden" name="productPrice"
+											value="${productWishDetailData.productPrice}" /> <input
+											id="purchaseCnt" name="purchaseCnt" type="number" value="1"
+											min="1" /> <span class="qty-up" onclick="increaseQuantity()">+</span>
+										<span class="qty-down" onclick="decreaseQuantity()">-</span>
+									</div>
+								</div>
+								<button class="add-to-cart-btn" type="button"
+									onclick="cartInsert()">
+									<i class="fa fa-shopping-cart"></i>장바구니 담기
+								</button>
+								<button class="buy-now add-to-cart-btn" type="submit">
+									<i class="fa fa-shopping-cart"></i>구매하기
+								</button>
+							</div>
+						</form>
+
+						<ul class="product-btns">
+							<li><a href="#" class="add-to-wishlist2"
+								onclick="checkLogin()"> <i
+									class="fa ${productWishDetailData.isWished == 1 ? 'fa-heart' : 'fa-heart-o'}"
+									id="heartIcon"></i> add to wishList <span class="productID"
+									style="display: none;">${productWishDetailData.productID}</span>
+							</a></li>
+							<c:set var="wishTotalCnt"
+								value="${empty wishTotalCnt ? 0 : wishTotalCnt}" />
+							<Strong><span class="wishTotalCnt"
+								style="padding-left: 10px">${wishTotalCnt}</span></Strong>
+						</ul>
+
+						<ul class="product-links">
+							<li>Category:</li>
+							<li><a href="#">${productWishDetailData.productCategory}</a></li>
+						</ul>
+
+						<ul class="product-links">
+							<li>Share:</li>
+							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+							<li><a href="#"><i class="fa fa-envelope"></i></a></li>
+						</ul>
+					</div>
 				</div>
 				<!-- /Product details -->
+				<!--  /open modal -->
+
+				<form action="paySelect.do" method="POST" id="form2">
+					<div style="margin-bottom: 5px;">
+						<div class="modalCart hidden">
+							<div class="bg2"></div>
+							<div class="modalBox">
+								<p>장바구니에 상품이 추가되었습니다</p>
+								<div>
+									<button type="button" onclick="func2()"
+										style="color: #FFF; background-color: #ef233c; , border-radius: 40px; , border: 2px solid;">장바구니로
+										이동하기</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<!--  /open modal -->
+				<script>
+
+function modalCart() {
+    var modal = document.querySelector(".modalCart");
+    modal.classList.remove("hidden");
+
+    // 3초 후에 모달을 천천히 사라지게 함
+    setTimeout(function() {
+        var opacity = 1;
+        var timerFadeOut = setTimeout(function changeOpacity() {
+            if (opacity <= 0) {
+                modal.classList.add("hidden");
+                // 모달이 사라지면 투명도를 초기화하여 다음에 모달이 나타날 때 사용할 수 있도록 함
+                modal.style.opacity = 1;
+            } else {
+                modal.style.opacity = opacity;
+                opacity -= 0.1; // 0.1씩 감소시켜 부드럽게 페이드아웃
+                setTimeout(changeOpacity, 50); // 50ms 후에 다시 호출하여 투명도를 변경함
+            }
+        }, 50); // 50ms 후에 실행
+    }, 2000); // 3초 후에 실행
+}
+
+function func2(){
+	   document.getElementById('form2').submit();
+	}
+function closeModal1() {
+    document.querySelector(".modalCart").classList.add("hidden");
+	document.querySelector(".bg2").addEventListener("click", closeModal1);
+}
 
 
-
-
-
+</script>
 				<!-- Product tab -->
 				<div class="col-md-12">
 					<div id="product-tab">
@@ -327,6 +387,36 @@ $(document).ready(function(){
 
     // 생성된 별의 HTML을 평점을 표시할 div에 삽입
     document.getElementById('averageRatingStars').innerHTML = starHtml;
+</script>
+
+														<script>
+function cartInsert() {
+    console.log('비동기진입');
+
+    var productID = document.getElementById("productID").value;
+    var purchaseCnt = document.getElementById("purchaseCnt").value;
+
+    $.ajax({
+        type: 'POST',
+        url: 'cartInsertActionServlet', // 장바구니 업데이트를 처리할 서블릿 URL
+        dataType: 'json',
+        data: {
+            productID: productID,
+            purchaseCnt: purchaseCnt,
+        },
+        success: function(response) {
+            console.log('성공화면1');
+            if (response == 1) {
+                modalCart();
+            }else{
+            	
+            }
+        },
+        error: function(error) {
+            console.log("에러: " + error);
+        }
+    });
+}
 </script>
 														<ul class="rating">
 															<li>
@@ -386,21 +476,25 @@ $(document).ready(function(){
 
 												<!-- Reviews -->
 												<div class="col-md-6">
-											    <div id="reviews">
-											        <ul class="reviews">
-											            <c:forEach var="review" items="${currentPageProducts}">
-											                <li style="display: flex; justify-content: space-between;">
-											                    <div class="review-heading">
-											                        <h5 class="name">${review.memberName}</h5>
-											                        <p class="date">${review.reviewDate}</p>
-											                        <div class="review-rating" id="ratingContainer_${review.reviewID}">
-											                            <!-- Default: 5 empty stars -->
-											                            <i class="fa fa-star-o empty"></i> <i class="fa fa-star-o empty"></i>
-											                            <i class="fa fa-star-o empty"></i> <i class="fa fa-star-o empty"></i>
-											                            <i class="fa fa-star-o empty"></i>
-											                        </div>
-											
-											                        <script>
+													<div id="reviews">
+														<ul class="reviews">
+															<c:forEach var="review" items="${currentPageProducts}">
+																<li
+																	style="display: flex; justify-content: space-between;">
+																	<div class="review-heading">
+																		<h5 class="name">${review.memberName}</h5>
+																		<p class="date">${review.reviewDate}</p>
+																		<div class="review-rating"
+																			id="ratingContainer_${review.reviewID}">
+																			<!-- Default: 5 empty stars -->
+																			<i class="fa fa-star-o empty"></i> <i
+																				class="fa fa-star-o empty"></i> <i
+																				class="fa fa-star-o empty"></i> <i
+																				class="fa fa-star-o empty"></i> <i
+																				class="fa fa-star-o empty"></i>
+																		</div>
+
+																		<script>
 											                            // 리뷰 레이팅 값 (1부터 5까지의 정수)
 											                            var reviewRating_${review.reviewID} = ${review.reviewScore};
 											
@@ -423,46 +517,48 @@ $(document).ready(function(){
 											                            // 리뷰 레이팅 값으로 별 아이콘 업데이트
 											                            updateRating_${review.reviewID}(reviewRating_${review.reviewID});
 											                        </script>
-											                    </div>
-											
-											                    <div class="review-body">
-											                        <h5>${review.reviewTitle}</h5>
-											                        <p>${review.reviewContent}</p>
-											                    </div>
-											
-											                    <div>
-											                        <div class="image-container">
-											                            <c:if test="${not empty review.reviewImg}">
-											                                <!-- 이미지 경로가 존재하는 경우에만 이미지 표시 -->
-											                               <img alt="${review.memberName}님의 이미지"
-																			    src='<c:url value="uploads/${review.reviewImg}" />'
-																			    style="height: 70px; width: 70px;"
-																			    class="img-thumbnail"
-																			    data-toggle="modal"
-																			    data-target="#myModal"
-																			    title="${review.memberName}님의 이미지" />
-											                                <div style="height: 30px"></div>
-											                            </c:if>
-											                        </div>
-											                    </div>
-											                </li>
-											            </c:forEach>
-											        </ul>
-											    </div>
-											</div>
+																	</div>
+
+																	<div class="review-body">
+																		<h5>${review.reviewTitle}</h5>
+																		<p>${review.reviewContent}</p>
+																	</div>
+
+																	<div>
+																		<div class="image-container">
+																			<c:if test="${not empty review.reviewImg}">
+																				<!-- 이미지 경로가 존재하는 경우에만 이미지 표시 -->
+																				<img alt="${review.memberName}님의 이미지"
+																					src='<c:url value="uploads/${review.reviewImg}" />'
+																					style="height: 70px; width: 70px;"
+																					class="img-thumbnail" data-toggle="modal"
+																					data-target="#myModal"
+																					title="${review.memberName}님의 이미지" />
+																				<div style="height: 30px"></div>
+																			</c:if>
+																		</div>
+																	</div>
+																</li>
+															</c:forEach>
+														</ul>
+													</div>
+												</div>
 												<!-- /Reviews -->
-												
-												
-<!-- 부트스트랩 CSS 파일 -->
 
-<!-- jQuery 파일 -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 
-<!-- 부트스트랩 JavaScript 파일 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-												
-												
+												<!-- 부트스트랩 CSS 파일 -->
+
+												<!-- jQuery 파일 -->
+												<script
+													src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+												<!-- 부트스트랩 JavaScript 파일 -->
+												<script
+													src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+												<script
+													src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
 												<!-- Review Form -->
 												<%-- <div class="col-md-3">
 												    <c:forEach var="review" items="${currentPageProducts}">
@@ -478,25 +574,29 @@ $(document).ready(function(){
 												        </div>
 												    </c:forEach>
 												</div> --%>
-												
+
 												<!-- 모달 창 -->
-												<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-												    <div class="modal-dialog" role="document">
-												        <div class="modal-content">
-												            <div class="modal-header">
-												                <h5 class="modal-title" id="exampleModalLabel">이미지 미리보기</h5>
-												                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												                    <span aria-hidden="true">&times;</span>
-												                </button>
-												            </div>
-												            <div class="modal-body">
-												                <img id="previewImage" alt="" style="width: 100%;">
-												            </div>
-												        </div>
-												    </div>
+												<div class="modal fade" id="myModal" tabindex="-1"
+													role="dialog" aria-labelledby="exampleModalLabel"
+													aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">이미지
+																	미리보기</h5>
+																<button type="button" class="close" data-dismiss="modal"
+																	aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<div class="modal-body">
+																<img id="previewImage" alt="" style="width: 100%;">
+															</div>
+														</div>
+													</div>
 												</div>
-												
-<script>
+
+												<script>
     $(document).ready(function () {
         // 이미지를 클릭했을 때 모달에 이미지 로드
         $('.img-thumbnail').click(function () {
@@ -519,40 +619,52 @@ $(document).ready(function(){
 												</li>
 											</c:forEach>
 										</ul> --%>
-										
-
-<ul class="reviews-pagination">
-    <!-- 첫 번째 페이지로 이동 -->
-    <li <c:if test="${startPageOfGroup > 1}">style="color: black;"</c:if> <c:if test="${startPageOfGroup == 1}">style="display: none;"</c:if>>
-        <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=1"><<</a>
-    </li>
-    <!-- 이전 페이지 그룹 버튼 -->
-    <li <c:if test="${startPageOfGroup > 1}">style="color: black;"</c:if> <c:if test="${startPageOfGroup == 1}">style="display: none;"</c:if>>
-        <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${startPageOfGroup - 1}">&lt;</a>
-    </li>
-
-    <!-- 페이지 그룹 표시 -->
-    <c:forEach var="pageNumber" begin="${startPageOfGroup}" end="${endPageOfGroup}" varStatus="loop">
-        <li <c:if test="${loop.index == currentPage}">class="active"</c:if>>
-            <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${loop.index}">${loop.index}</a>
-        </li>
-    </c:forEach>
 
 
-    <!-- 다음 페이지 그룹 버튼 -->
-    <li <c:if test="${endPageOfGroup < totalPages}">style="color: black;"</c:if> <c:if test="${endPageOfGroup == totalPages}">style="display: none;"</c:if>>
-        <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${endPageOfGroup + 1}">&gt;</a>
-    </li>
+										<ul class="reviews-pagination">
+											<!-- 첫 번째 페이지로 이동 -->
+											<li
+												<c:if test="${startPageOfGroup > 1}">style="color: black;"</c:if>
+												<c:if test="${startPageOfGroup == 1}">style="display: none;"</c:if>>
+												<a
+												href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=1"><<</a>
+											</li>
+											<!-- 이전 페이지 그룹 버튼 -->
+											<li
+												<c:if test="${startPageOfGroup > 1}">style="color: black;"</c:if>
+												<c:if test="${startPageOfGroup == 1}">style="display: none;"</c:if>>
+												<a
+												href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${startPageOfGroup - 1}">&lt;</a>
+											</li>
 
-    <!-- 마지막 페이지로 이동 -->
-    <li <c:if test="${endPageOfGroup < totalPages}">style="color: black;"</c:if> <c:if test="${endPageOfGroup == totalPages}">style="display: none;"</c:if>>
-        <a href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${totalPages}">>></a>
-    </li>
-</ul>
-										
-										
-										
-										
+											<!-- 페이지 그룹 표시 -->
+											<c:forEach var="pageNumber" begin="${startPageOfGroup}"
+												end="${endPageOfGroup}" varStatus="loop">
+												<li
+													<c:if test="${loop.index == currentPage}">class="active"</c:if>>
+													<a
+													href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${loop.index}">${loop.index}</a>
+												</li>
+											</c:forEach>
+
+
+											<!-- 다음 페이지 그룹 버튼 -->
+											<li
+												<c:if test="${endPageOfGroup < totalPages}">style="color: black;"</c:if>
+												<c:if test="${endPageOfGroup == totalPages}">style="display: none;"</c:if>>
+												<a
+												href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${endPageOfGroup + 1}">&gt;</a>
+											</li>
+
+											<!-- 마지막 페이지로 이동 -->
+											<li
+												<c:if test="${endPageOfGroup < totalPages}">style="color: black;"</c:if>
+												<c:if test="${endPageOfGroup == totalPages}">style="display: none;"</c:if>>
+												<a
+												href="productDetail.do?productID=${param.productID}&productCategory=${param.productCategory}&page=${totalPages}">>></a>
+											</li>
+										</ul>
+
 									</div>
 									<!-- /product tab content  -->
 								</div>
@@ -572,76 +684,76 @@ $(document).ready(function(){
 					<div class="container">
 						<!-- row -->
 						<div class="row">
-
-
 							<div class="col-md-12">
 								<div class="section-title text-center">
 									<c:if test="${not empty memberDTO.memberID}">
-									    <h3 class="title">${memberDTO.memberID}님을 위한 추천상품</h3>
+										<h3 class="title">${memberDTO.memberID}님을위한 추천상품</h3>
 									</c:if>
 									<c:if test="${empty memberDTO.memberID}">
-									    <h3 class="title">KOD쇼핑몰 추천상품</h3>
+										<h3 class="title">KOD쇼핑몰 추천상품</h3>
 									</c:if>
 								</div>
 							</div>
-
-							<c:set var="productWishDatas" value="${requestScope.productWishDatas}" />
-
+							<c:set var="productWishDatas"
+								value="${requestScope.productWishDatas}" />
 							<!-- Products tab & slick -->
 							<div class="col-md-12">
-							    <div class="row">
-							        <div class="products-tabs">
-							            <!-- tab -->
-							            <div id="tab1" class="tab-pane active">
-							                <div class="products-slick" data-nav="#slick-nav-1">
-							                    <c:forEach var="data" items="${productWishDatas}">
-							                        <!-- product -->
-							                        <div class="col-md-4 col-xs-6" style="margin-top: 30px;">
-							                            <div class="product">
-							                                <div class="product-body">
-							                                    <div class="product-label"
-							                                        style="display: flex; justify-content: space-between; align-items: center;">
-							                                        <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
-							                                        <div class="product-btns">
-							                                            <button class="add-to-wishlist" onclick="checkLogin()">
-							                                                <div class="productID" hidden>${data.productID}</div>
-							                                                <i class="fa ${data.isWished == 1 ? 'fa-heart' : 'fa-heart-o'}" id="heartIcon"></i>
-							                                                <span class="tooltipp">위시리스트에 추가</span>
-							                                            </button>
-							                                        </div>
-							                                    </div>
-							                                </div>
-							                                <div class="product-img">
-							                                    <img src="${data.productImg}" alt="">
-							                                </div>
-							                                <div class="product-body">
-							                                    <p class="product-category">${data.productCategory}</p>
-							                                    <h3 class="product-name" style="height: 31px;">
-							                                        <a href="productDetail.do?productID=${data.productID}">${data.productName}</a>
-							                                    </h3>
-							                                    <h4 class="product-price">
-							                                    <fmt:setLocale value="ko_KR" />
-				                								<fmt:formatNumber value="${data.productPrice}" type="currency" />
-							                                    </h4>
-							                                    <div class="product-rating">
-							                                        <%-- 평점 들어가는 라인 --%>
-							                                    </div>
-							                                </div>
-							                                <div class="add-to-cart">
-							                                    <button class="add-to-cart-btn">
-							                                        <i class="fa fa-shopping-cart"></i> add to cart
-							                                    </button>
-							                                </div>
-							                            </div>
-							                        </div>
-							                        <!-- /product -->
-							                    </c:forEach>
-							                </div>
-							                <div id="slick-nav-1" class="products-slick-nav"></div>
-							            </div>
-							            <!-- /tab -->
-							        </div>
-							    </div>
+
+								<div class="row">
+									<div class="products-tabs">
+										<!-- tab -->
+										<div id="tab1" class="tab-pane active">
+											<div class="products-slick" data-nav="#slick-nav-1">
+												<c:forEach var="data" items="${productWishDatas}">
+													<!-- product -->
+													<div class="col-md-4 col-xs-6" style="margin-top: 30px;">
+														<div class="product">
+															<div class="product-body">
+																<div class="product-label"
+																	style="display: flex; justify-content: space-between; align-items: center;">
+																	<span class="new" style="color: #D10024;"><strong>NEW</strong></span>
+																	<div class="product-btns">
+																		<button class="add-to-wishlist" onclick="checkLogin()">
+																			<div class="productID" hidden>${data.productID}</div>
+																			<i
+																				class="fa ${data.isWished == 1 ? 'fa-heart' : 'fa-heart-o'}"
+																				id="heartIcon"></i> <span class="tooltipp">위시리스트에
+																				추가</span>
+																		</button>
+																	</div>
+																</div>
+															</div>
+															<div class="product-img">
+																<img src="${data.productImg}" alt="">
+															</div>
+															<div class="product-body">
+																<p class="product-category">${data.productCategory}</p>
+																<h3 class="product-name" style="height: 31px;">
+																	<a href="productDetail.do?productID=${data.productID}">${data.productName}</a>
+																</h3>
+																<h4 class="product-price">
+                                  <fmt:setLocale value="ko_KR" />
+                                  <fmt:formatNumber value="${data.productPrice}" type="currency" />
+                                </h4>
+																<div class="product-rating">
+																	<%-- 평점 들어가는 라인 --%>
+																</div>
+															</div>
+															<div class="add-to-cart">
+																<button class="add-to-cart-btn">
+																	<i class="fa fa-shopping-cart"></i> add to cart
+																</button>
+															</div>
+														</div>
+													</div>
+													<!-- /product -->
+												</c:forEach>
+											</div>
+											<div id="slick-nav-1" class="products-slick-nav"></div>
+										</div>
+										<!-- /tab -->
+									</div>
+								</div>
 							</div>
 							<!-- Products tab & slick -->
 

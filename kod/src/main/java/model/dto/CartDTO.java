@@ -11,8 +11,16 @@ public class CartDTO {
 	private String productImg;
 	private int sumProductPrice;
 	private String searchCondition;
+	private String pg;
 	
 	
+	
+	public String getPg() {
+		return pg;
+	}
+	public void setPg(String pg) {
+		this.pg = pg;
+	}
 	public int getSumProductPrice() {
 		return sumProductPrice;
 	}
@@ -72,8 +80,10 @@ public class CartDTO {
 	public String toString() {
 		return "CartDTO [cartID=" + cartID + ", cartProductCnt=" + cartProductCnt + ", memberID=" + memberID
 				+ ", productID=" + productID + ", productName=" + productName + ", productPrice=" + productPrice
-				+ ", productImg=" + productImg + ", sumProductPrice=" + sumProductPrice + "]";
+				+ ", productImg=" + productImg + ", sumProductPrice=" + sumProductPrice + ", searchCondition="
+				+ searchCondition + ", pg=" + pg + "]";
 	}
+	
 	
 	
 	

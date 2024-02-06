@@ -5,15 +5,22 @@
 <%
     String name = request.getParameter("memberName");
     int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
-    String productName = request.getParameter("productName").trim();
     int purchaseCnt = Integer.parseInt(request.getParameter("productCnt"));
-    /* String email = request.getParameter("memberEmail");
-    String phone = request.getParameter("memberPhNum");
-    String address = request.getParameter("adrsStreet")+request.getParameter("adrsDetail");
-    int productID = Integer.parseInt(request.getParameter("productID"));
-    int productPrice = Integer.parseInt(request.getParameter("productPrice"));*/
     ArrayList<CartDTO> datas = (ArrayList<CartDTO>) request.getAttribute("payDTO"); 
+    String selectPg = request.getParameter("pg");
     
+    String[] payInfoProductNames = request.getParameterValues("productName");
+	System.out.println(payInfoProductNames);
+	String productName = null;
+	String encodingName = null;
+	if(payInfoProductNames.length >1 ) {
+		productName = payInfoProductNames[0] + "외 " + (payInfoProductNames.length-1) + "개";
+		//encodingName = new String(productName.getBytes("UTF-8"));
+	}else {
+		productName = payInfoProductNames[0];
+	}
+	System.out.println(productName);
+	
 %>
 
 <!DOCTYPE html>
@@ -35,32 +42,18 @@
 	%>
 	
     <script>
-    //transPid = JSON.stringfy(pid);
-    
     $(function(){
-	    //var pid = document.querySelectorAll('input[type=hidden]');
 	    var pid = document.querySelectorAll('input[name=pid]');
 	    var cnt = document.querySelectorAll('input[name=cnt]');
 	    
 	    console.log(pid);
         console.log(cnt);
-	    
+        
 	    var IMP = window.IMP; // 생략가능
         IMP.init('imp01807501'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
         var everythings_fine=true;
         
-        /* var list2 = [];
-        var productIDs = document.querySelectorAll("input[name=productID]");
-        productIDs.forEach(
-           function(product){
-                 list2.push(product.value);      
-           }
-        );
-        var productIDs = JSON.stringify(list2); */
-        //var product = JSON.parse(${param});
-        //var product = ${cData};
-       
         
         // 결제할 상품 번호를 배열에 저장하기
         var productID = [];
@@ -70,19 +63,23 @@
         var productIDs = JSON.stringify(productID);
         console.log(productIDs);
 		
-        
+        // 결제할 상품의 개수를 배열에 저장하기
         var purchaseCnt = [];
         cnt.forEach(function(cartItem){
         	purchaseCnt.push(cartItem.value);
         });
         var purchaseCnts = JSON.stringify(purchaseCnt);
-        console.log(purchaseCnt);
+        console.log(purchaseCnts);
         
+        /* 
+        	결제가 승인되었을 때 웹훅이 호출됨
+        	
+        */
         
         IMP.request_pay({
-            pg : 'kakaopay',
+            pg : '<%=selectPg%>',
             pay_method : 'card',
-            merchant_uid : 'merchant_' + new Date().getTime(),
+            merchant_uid : 'merchant_' + new Date().getTime(), 
             name : '<%=productName%>',
             amount : '<%=totalPrice%>',
             productIDs : 'productIDs',
@@ -113,30 +110,8 @@
                 	error : function(error){
                 		console.log('에러' , error);
                 	}
-                    
-                }).done(function(data) {
-                	//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-                    if ( everythings_fine ) {
-                        msg = '결제가 완료되었습니다.';
-                        msg += '\n고유ID : ' + rsp.imp_uid;
-                        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-                        msg += '\결제 금액 : ' + rsp.paid_amount;
-                        msg += '카드 승인번호 : ' + rsp.apply_num;
-                        
-                        alert(msg);
-                    } else {
-                        //[3] 아직 제대로 결제가 되지 않았습니다.
-                        //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-                    } 
-                });
-                //location.href='orderInfoPage.do';
-            } else {
-                msg = '결제에 실패하였습니다.';
-                msg += '에러내용 : ' + rsp.error_msg;
-                //실패시 이동할 페이지
-                location.href="fail.do";
-                alert(msg);
-            }
+                })
+            } 
         }); 
        /* function (rsp) {
         	console.log(rsp);
