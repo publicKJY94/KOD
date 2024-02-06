@@ -50,16 +50,21 @@
 		</div>
 		<hr>
 		<div class="aside">
-			<h3 class="aside-title">주문내역조회</h3>
+  		<h3 class="aside-title">
+   		 <a href="myOrderList.do">주문목록조회</a>
+  		</h3>
 		</div>
 		<hr>
 		<div class="aside">
-			<h3 class="aside-title">장바구니관리</h3>
+  		<h3 class="aside-title">
+   		 <a href="paySelect.do">장바구니 관리</a>
+  		</h3>
 		</div>
 		<hr>
-	<a href="javascript:handleAddressManage()" id="addressManage">
-    <div class="aside">
-        <h3 class="aside-title">배송지 관리</h3>
+	<div class="aside">
+  		<h3 class="aside-title">
+   		 <a href="javascript:handleAddressManage()" id="addressManage">배송지관리</a>
+  		</h3>
     </div>
 </a>
 </div>

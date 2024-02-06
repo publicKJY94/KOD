@@ -46,7 +46,7 @@
     </button>
   </form>
   
-  	<button class="join__btn" onclick="location.href='joinPage.do'">
+  	<button class="join__btn" onclick="location.href='joinTermsOfUse.do'">
       회원가입
     </button>
  
