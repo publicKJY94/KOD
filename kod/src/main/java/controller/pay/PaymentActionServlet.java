@@ -13,10 +13,12 @@ import javax.servlet.http.HttpSession;
 import model.dao.CartDAO;
 import model.dao.OrderContentDAO;
 import model.dao.OrderListDAO;
+import model.dao.ProductDAO;
 import model.dto.CartDTO;
 import model.dto.MemberDTO;
 import model.dto.OrderContentDTO;
 import model.dto.OrderListDTO;
+import model.dto.ProductDTO;
 
 /**
  * Servlet implementation class PaymentActionServlet
@@ -39,7 +41,6 @@ public class PaymentActionServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
 		System.out.println("\n==============paymentServlet 시작==============");
-		System.out.println(request.getParameter("productName"));
 		String preview = (String)request.getParameter("productIDs");
 		preview = preview.replace("[", "");
 		preview = preview.replace("]", "");
@@ -84,8 +85,14 @@ public class PaymentActionServlet extends HttpServlet {
 			System.out.println("[서블릿] 주문 상세 내역 : "+oContentDTO);
 			oContentDAO.insert(oContentDTO);
 			
-			
 			// 구매한 상품 재고 감소
+			ProductDTO pDTO = new ProductDTO();
+			ProductDAO pDAO = new ProductDAO();
+			
+			pDTO.setProductStock(oContentDTO.getOdContentCnt()); // 구매개수 담기
+			pDTO.setProductID(oContentDTO.getProductID()); // 상품번호 담기
+			System.out.println("구매 후 재고 감소를 위한 pDTO : " + pDTO);
+			pDAO.update(pDTO);
 			
 			// 구매한 상품 장바구니에서 비우기
 			CartDTO cDTO = new CartDTO();
@@ -96,9 +103,6 @@ public class PaymentActionServlet extends HttpServlet {
 			cDAO.delete(cDTO);
 			System.out.println("장바구니 삭제 완료");
 		}
-		
-		
-		
 		
 		System.out.println("paymentServlet 끝");
 	}
