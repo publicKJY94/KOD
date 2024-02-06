@@ -12,6 +12,7 @@ import controller.cart.CartInsertAction;
 import controller.join.JoinAddressAction;
 import controller.join.JoinMemberAction;
 import controller.join.JoinPageAction;
+import controller.join.JoinTermsOfUseAction;
 import controller.join.JoinsuccessAction;
 import controller.login.LoginAction;
 import controller.login.LoginPageAction;
@@ -91,7 +92,8 @@ public class HandlerMapping {
 		this.mappings.put("/reviewWriteAction.do", new ReviewWriteAction());
 		this.mappings.put("/cartDeleteAll.do", new CartDeleteAllAction());
 	    this.mappings.put("/cartDeleteEach.do", new CartDeleteEachAction());
-		
+	    this.mappings.put("/joinTermsOfUse.do", new JoinTermsOfUseAction());
+	    
 	}
 	
 	public Action getAction(String commed) {
