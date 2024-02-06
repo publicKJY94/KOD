@@ -68,4 +68,23 @@ function validateForm() {
     return true; // Proceed with form submission
 }
  
+// 글자 수 세기 함수
+function countCharacters(inputId, counterId, maxLength) {
+    const input = document.getElementById(inputId);
+    const counter = document.getElementById(counterId);
 
+    input.addEventListener('input', function () {
+        const currentLength = input.value.length;
+        counter.textContent = currentLength + '/' + maxLength;
+
+        // 글자 수가 최대 길이를 초과할 경우 제한
+        if (currentLength > maxLength) {
+            input.value = input.value.substring(0, maxLength);
+            counter.textContent = maxLength + '/' + maxLength;
+        }
+    });
+}
+
+// 제목과 내용에 글자 수 제한 적용
+countCharacters('title', 'titleCounter', 50);
+countCharacters('content', 'contentCounter', 500);
