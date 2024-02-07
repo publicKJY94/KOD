@@ -10,6 +10,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
+<link type="text/css" rel="stylesheet" href="css/login.css"/>
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
 <title>마이 페이지</title>
 
 <!-- Google font -->
@@ -35,12 +38,10 @@
 <link type="text/css" rel="stylesheet" href="css/mypage.css" />
 </head>
 <body>
-	<jsp:include page="util/header.jsp"></jsp:include>
-	<jsp:include page="util/navigation.jsp"></jsp:include>
-	
-	
-	
-	
+
+		
+
+
 	<div class="big-box">
 		<!-- aside Widget -->
 		<div class="aside">
@@ -78,25 +79,42 @@
 		<!-- Heading -->
 		<h1>회원정보변경</h1>
 
-		<form onsubmit="return formCheck(this);" action="memberUpdateAction.do" method="POST">
+		<form name="updateform" onsubmit="formCheck(this);" action="memberUpdateAction.do" method="POST">
          
         <div class="input__block" style="padding-left: 27px; ">
-            <label for="inputName" >아이디</label>
-            <input type="text" class="input" id="memberID"  name="memberID" value="<%=memberDTO.getMemberID()%>" readonly>
+            <label>아이디</label>                                            
+            <input type="text" class="input" id="memberID"  name="memberID" value="${member20DTO.memberID}" oninput="removeWhitespace(this)" readonly>
         </div>
         <div class="input__block" style="padding-left: 27px; ">
-            <label for="inputDescription">이름</label>
-            <input type="text" id="memberName" class="input" name="memberName" value="<%=memberDTO.getMemberName()%>">
+            <label>이름</label>
+            <input type="text" id="memberName" class="input" name="memberName" value="<%=memberDTO.getMemberName()%>" oninput="removeWhitespace(this)">
         </div>
         <div class="input__block" style="padding-left: 27px; ">
-            <label for="inputDescription">비밀번호</label>
-            <input type="password" id="memberPW" class="input" name="memberPW" value="">
+            <label>비밀번호</label>
+            <input type="password" id="memberPW" class="input" name="memberPW" value="" oninput="removeWhitespace(this)">
         </div>
         <div class="input__block" style="padding-left: 27px; ">
-            <label for="inputDescription">비밀번호 확인</label>
-            <input type="password" id="memberPWCK" class="input" name="memberPWCK" value="">
+            <label>비밀번호 확인</label>
+            <input type="password" id="memberPWCK" class="input" name="memberPWCK" value="" oninput="removeWhitespace(this)">
             <span id="passwordMismatch" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</span>
         </div>
+        <div class="input__block" style="padding-left: 27px; ">
+            <label>핸드폰</label>
+            <input type="number" id="memberPhNum" class="input" name="memberPhNum"  value="<%=memberDTO.getMemberPhNum() %>" maxlength="11" oninput="removeWhitespace(this)">
+        </div>
+        <div class="input__block" style="padding-left: 27px; ">
+            <label for="inputDescription">이메일</label>
+            <input type="email" id="memberEmail" class="input" name="memberEmail" value="<%=memberDTO.getMemberEmail()%>" oninput="removeWhitespace(this)">
+        </div><br>
+
+			<script>
+				// 이 함수는 사용자가 입력란에 공백을 입력할 때 호출됩니다.
+				    function removeWhitespace(input) {
+				    	 // 입력된 값에서 모든 공백을 제거합니다.
+				        input.value = input.value.replace(/\s/g, '');
+				    }
+				</script>
+
 
         <script>
             // 'memberPWCK' 요소의 input 이벤트에 대한 리스너를 등록
@@ -117,12 +135,8 @@
             });
         </script>
 
-        <div class="input__block" style="padding-left: 27px; ">
-            <label for="inputDescription">이메일</label>
-            <input type="email" id="memberEmail" class="input" name="memberEmail" value="<%=memberDTO.getMemberEmail()%>">
-        </div><br>
 
-        <button   onclick="return formCheck(this.form)">회원정보 변경</button> 
+        <button  class="signin__btn" onclick="return formCheck(this.form)">회원정보 변경</button> 
     </form>
 
 <script>
@@ -133,11 +147,13 @@
         var memberName = document.getElementById("memberName");
         var memberPWCK = document.getElementById("memberPWCK");
         var memberEmail = document.getElementById("memberEmail");
+        var memberEmail = document.getElementById("memberPhNum");
 
         // 정규식
         var regName = /^[가-힣]{2,}$/;  // 한글만 입력 가능, 2글자 이상 입력
         var regId = /^[0-9a-z]{6,13}$/;  // 숫자, 소문자만 입력 가능, 6글자 이상 13글자 이하
-        var regPw = /^(?=.*[!@#$%^&*])[0-9a-zA-Z!@#$%^&*]{6,13}$/; // 숫자, 대소문자, 특수문자 입력 가능(특수문자 1개 이상 반드시 포함), 6글자 이상 13글자 이하
+		// 숫자, 대소문자, 특수문자 입력가능(숫자, 소문자, 특수문자 1개이상 반드시 포함시켜야함) 6글자이상 13글자 이하
+		var regPw = /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[a-z\d!@#$%^&*]{6,13}$/;
 
         // 만약 이름 입력란에 값이 없다면 알람창 출력 후 이름 입력란에 마우스 커서 포커스 후 false 반환하여 form 제출을 막음    
         if (memberName.value == '') {
@@ -160,7 +176,7 @@
         }
         // 만약 비밀번호 입력값이 위에서 정의한 정규식 값이 아니라면 알람창 출력 후 비밀번호 입력창에 마우스 포커스 후 false 반환하여 form 제출을 막음
         else if (!regPw.test(memberPW.value)) {
-            alert("비밀번호 6~13자 영문 대소문자, 숫자로 입력해주세요.\n특수문자 1개 이상 입력해주세요.");
+            alert("비밀번호는 6~13자의 영문 소문자, 숫자, 특수문자가 각각 최소 \n1개 이상 포함되어야 합니다.");
             memberPW.focus();
             return false;
         }
@@ -178,9 +194,25 @@
             memberPWCK.focus();
             return false;
         }
+    	if(memberPhNum.value==''){
+			console.log("휴대폰번호 입력");
+			alert('휴대폰 번호를 입력해주세요.');
+			memberPhNum.focus();
+			return false;		
+		}
+    	
+     	var phoneCK = /^(010|011|016|017|018|019)[0-9]{4}[0-9]{4}$/;
+    	
+    	if(!phoneCK.test(document.getElementById("memberPhNum").value)){
+    		alert("올바른 전화번호가 아닙니다. 다시입력해주세요.\n전화번호 앞번호는[ 010, 011, 016, 017, 018, 019 ]만 입력가능합니다.\nex)01012345678")
+    		memberPhNum.focus();
+    		return false;
+    	}
+    	 
+        
 
         // 이메일 형식 검사 정규식
-        var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        var emailRule = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net)$/i;
 
         if (memberEmail.value == '') {
             alert('이메일을 입력해주세요.');
@@ -189,13 +221,13 @@
         }
         // 이메일 형식이 맞지 않으면 알림을 띄우고 이메일 입력란으로 포커스 이동 후 false 반환
         if (!emailRule.test(document.getElementById("memberEmail").value)) {
-            alert("이메일을 형식에 맞게 입력해주세요.\n올바른 이메일 형식 [ email@domain.com ]");
+            alert("이메일을 형식에 맞게 입력해주세요.\n올바른 이메일 형식 [ email@domain.com ]\n[ .com , .net ]을 도메인(domain)뒤에 입력해주세요.");
             document.getElementById("memberEmail").focus();
             return false;
         }
+        
 
-        form.submit();
-        return false;
+        updateform.submit();
     }
 </script>
 

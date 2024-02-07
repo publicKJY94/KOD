@@ -18,7 +18,7 @@ public class MemberDAO {
 	private static final String SELECTONE_CHECK="SELECT * FROM MEMBER WHERE MEMBER_ID=?";
 
 	private static final String INSERT="INSERT INTO MEMBER VALUES(?,?,?,?,?,'user',?,?)";
-	private static final String UPDATE="UPDATE MEMBER SET MEMBER_NAME=?, MEMBER_PW=?, MEMBER_EMAIL=? WHERE MEMBER_ID=?"; //GENDER=?, BIRTH=?, PHNUM=?, EMAIL=?
+	private static final String UPDATE="UPDATE MEMBER SET MEMBER_NAME=?, MEMBER_PW=?, MEMBER_EMAIL=?, MEMBER_PHONE=? WHERE MEMBER_ID=?"; //GENDER=?, BIRTH=?, PHNUM=?, EMAIL=?
 	private static final String DELETE="DELETE FROM MEMBER WHERE MID=?";
 	
 	
@@ -135,12 +135,16 @@ public class MemberDAO {
 			pstmt.setString(1,mDTO.getMemberName());
 			pstmt.setString(2,mDTO.getMemberPW());
 			pstmt.setString(3,mDTO.getMemberEmail());
-			pstmt.setString(4,mDTO.getMemberID());
+			pstmt.setString(4,mDTO.getMemberPhNum());			
+			pstmt.setString(5,mDTO.getMemberID());
 			System.out.println("[로그] memberDAO update -> memberEmail"+mDTO.getMemberEmail());
+			System.out.println("[로그] memberDAO update -> memberPhNum"+mDTO.getMemberPhNum());
 			int rs=pstmt.executeUpdate();
+			System.out.println("[로그] memberDAO update -> memberPhNum"+mDTO.getMemberPhNum());
 			if(rs <= 0) {
 				return false;
 			}
+			System.out.println(rs+" rs ");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;

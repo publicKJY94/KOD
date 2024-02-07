@@ -26,22 +26,26 @@ public class MemberUpdateAction implements Action{
 	      System.out.println(request.getParameter("memberName") + "test1111") ;
 	      System.out.println(request.getParameter("memberPW") + "test2222");
 	      System.out.println(request.getParameter("memberID") + " <<멤버아이디 <<<");
+	      System.out.println(request.getParameter("memberPhNum") + " <<멤버핸드폰번호 <<<");
 	      mDTO.setMemberName(request.getParameter("memberName"));
 	      mDTO.setMemberPW(request.getParameter("memberPW"));
 	      mDTO.setMemberID(request.getParameter("memberID"));
+	      mDTO.setMemberPhNum(request.getParameter("memberPhNum"));
 	      mDTO.setMemberEmail(request.getParameter("memberEmail"));
 	      System.out.println("[로그 memberUpdateAction -> memberEmail]"+mDTO.getMemberEmail());
+	      System.out.println("[로그 memberUpdateAction -> memberPhNum]"+mDTO.getMemberPhNum());
 	      boolean flag = mDAO.update(mDTO);
 	      System.out.println(flag + "flag <<<");
 	      if(flag) {	
 	         //request.setAttribute("msg", "정보변경에 성공하였습니다! 로그인후 이용해주세여");
-	         forward.setRedirect(true);
+	         forward.setRedirect(false);
 	         forward.setPath("memberUpdateLogout.do");
-	         return forward;
+	         
+	      }else {
+	    	  forward.setRedirect(false);
+		      forward.setPath("goback.do");
 	      }
-	 
-	      forward.setRedirect(false);
-	      forward.setPath("goback.do");
+	     
 	     // request.setAttribute("status", "success");
 	      //request.setAttribute("msg", "수정되었습니다");
 	    //  request.setAttribute("redirect", "adminTitleManagementPage.do");
