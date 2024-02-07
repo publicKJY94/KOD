@@ -247,7 +247,10 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						                        ${isWishedData.productName}
 						                    </a>
 						                </h3>
-						                <h4 class="product-price">${isWishedData.productPrice}<del class="product-old-price"></del></h4>
+						                <h4 class="product-price">
+     										<fmt:setLocale value="ko_KR" />
+											<fmt:formatNumber value="${isWishedData.productPrice}" type="currency" />
+						                </h4>
 						                <div class="product-rating">
 						                    <%-- 평점 들어가는 라인 --%>
 						                </div>
