@@ -43,7 +43,7 @@ public class MypageMemberUpdateAction implements Action{
 				session.setAttribute("memberDTO",mDTO);
 				
 				
-				request.setAttribute("msg", "비밀번호 일치. 정보수정페이지로 이동합니다... ");
+				request.setAttribute("msg", "비밀번호 일치. 정보수정페이지로 이동합니다. ");
 				forward.setPath("memberUpdatePWCKSuccess.jsp");
 				forward.setRedirect(false);
 				

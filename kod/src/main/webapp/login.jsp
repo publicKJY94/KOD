@@ -27,24 +27,39 @@
   </ul>
   
   <!-- Form -->
-  <form  action="login.do" method="post">
+  <form name="loginform" action="login.do" method="post">
     <!-- email input -->
     <div class="first-input input__block first-input__block">
-       <input type="text" placeholder="ID를 입력하세요." class="input" id="memberID" name="memberID"   />
+       <input type="text" placeholder="ID를 입력하세요." class="input" id="memberID" name="memberID" oninput="removeWhitespace(this)" />
     </div>
     <!-- password input -->
     <div class="input__block">
-       <input type="password" placeholder="비밀번호를 입력하세요." class="input" id="memberPW" name="memberPW"  />
+       <input type="password" placeholder="비밀번호를 입력하세요." class="input" id="memberPW" name="memberPW" oninput="removeWhitespace(this)" />
     </div>
-    <!-- repeat password input -->
-   <!--  <div class="input__block">
-       <input type="password" placeholder="Repeat password" class="input repeat__password" id="repeat__password"    />
-    </div> -->
-    <!-- sign in button -->
-    <button class="signin__btn" type="submit">
+ 
+    
+  
+    
+    <button class="signin__btn" loginform.submit>
       로그인
     </button>
+    
+    
   </form>
+
+
+
+
+			 <script>
+				// 이 함수는 사용자가 입력란에 공백을 입력할 때 호출됩니다.
+				    function removeWhitespace(input) {
+				    	 // 입력된 값에서 모든 공백을 제거합니다.
+				        input.value = input.value.replace(/\s/g, '');
+				    }
+			</script>
+  
+
+  
   
   	<button class="join__btn" onclick="location.href='joinTermsOfUse.do'">
       회원가입
