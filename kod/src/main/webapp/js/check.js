@@ -1,6 +1,7 @@
 var idCheckStatus = 0;
 var regId = /^[0-9a-z]{6,13}$/;
 
+
 function check(){
 	var memberID=$('#memberID').val();
 	
