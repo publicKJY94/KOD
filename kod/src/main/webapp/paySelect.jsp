@@ -278,7 +278,7 @@
 		    var productCnt = $input.val();
 		    
 		    // 변경된 수량 계산
-		    var newProductCnt;
+		        var newProductCnt;
 		    if (type == 'p') {
 		        newProductCnt = Number(productCnt) + 1;
 		    } else {

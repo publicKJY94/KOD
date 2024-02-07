@@ -167,6 +167,8 @@ public class ReviewWriteAction implements Action {
 	            System.out.println("[로그:정현진] productID : "+multipartRequest.getParameter("productID"));
 	            int productID = Integer.parseInt(multipartRequest.getParameter("productID"));
 	            System.out.println("[로그:정현진] ");
+	            int orderContentID=Integer.parseInt(multipartRequest.getParameter("orderContentID"));
+	           
 
 	            
 	            System.out.println("title: " + title);
@@ -182,6 +184,7 @@ public class ReviewWriteAction implements Action {
 	            reviewDTO.setReviewScore(reviewScore);
 	            reviewDTO.setMemberID(memberID);
 	            reviewDTO.setProductID(productID);
+	            reviewDTO.setOdContentID(orderContentID);
 	            boolean flag = reviewDAO.insert(reviewDTO);
 	            if(!flag) {
 	            	System.out.println("리뷰작성 실패");

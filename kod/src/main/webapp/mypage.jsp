@@ -76,7 +76,7 @@
 						
 						<div class="modal hidden">
 						  <div class="bg"></div>
-						  <div class="modalBox">
+						  <div class="modalBox1">
 						    	<form  action="addressUpdate.do" method="post" id="form1">
 								<div class="form-group">
 									<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
@@ -115,7 +115,7 @@
 
 							<div class="modalInsert hidden">
 						  <div class="bg3"></div>
-						  <div class="modalBox">
+						  <div class="modalBox1">
 						    	<form  action="addressInsert.do" method="post" id="form3">
 								<div class="form-group">
 									<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
