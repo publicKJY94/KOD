@@ -1,7 +1,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="model.dto.*"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>    
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -49,8 +50,8 @@
 	<%
 	
 		System.out.println("[payInfo]");
-		ArrayList<CartDTO> cDatas =(ArrayList<CartDTO>)request.getAttribute("cartDTO");
-		System.out.println(cDatas);
+		//ArrayList<CartDTO> cDatas =(ArrayList<CartDTO>)request.getAttribute("cartDTO");
+		//System.out.println(cDatas);
 		MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("memberDTO");
 		System.out.println(memberDTO);
 		AddressDTO addressDTO = (AddressDTO)request.getAttribute("addressDTO");
@@ -124,7 +125,32 @@
 					                <th style="text-align: center;">가격</th>
 					            </tr>
 					        </thead>
-					        <%for(CartDTO cData:cDatas){ %>
+					        <c:set var="cDatasSize" value="${fn:length(cartDTO)}" />
+					        <c:if test="${cDatasSize >= 1}">
+						        <c:forEach var="cData" items="${cartDTO}">
+						        	<tbody>
+							            <tr>
+							                <td><img src="${cData.productImg}" alt="img" style="width: 200px; height: 200px;"></td>
+							                <td>${cData.getProductName()}</td>
+							                <td>${cData.cartProductCnt}</td>
+							                <td>${cData.productPrice}</td>
+							            </tr>
+						        	</tbody>
+						        </c:forEach>
+					        </c:if>
+					        
+					        <c:if test="${cDatasSize < 1}">
+					        	<tbody>
+						            <tr>
+						                <td><img src="${param.productImg}" alt="img" style="width: 200px; height: 200px;"></td>
+						                <td>${param.productName}</td>
+						                <td>${param.purchaseCnt}</td>
+						                <td>${param.productPrice*param.purchaseCnt}</td>
+						            </tr>
+						        </tbody>
+					        </c:if>
+					        
+					        <%-- <%for(CartDTO cData:cDatas){ %>
 					        
 					        <tbody>
 					            <tr>
@@ -135,7 +161,7 @@
 					            </tr>
 					        </tbody>
 					        
-					        <%} %>
+					        <%} %> --%>
 					        
 					    </table>
 					    </div>
@@ -150,20 +176,45 @@
 									<div><strong>TOTAL</strong></div>
 								</div>
 								<div class="order-products">
-								<%for(int i=0; i<cDatas.size(); i++){ %>
-									<div class="order-col">
-										<div><%=cDatas.get(i).getProductName()%></div>
-										<div style="text-align: right;"><%=cDatas.get(i).getProductPrice()%>원</div>
-										<input type="hidden" name="productID" value="<%=cDatas.get(i).getProductID()%>">
-										<input type="hidden" name="productName" value="<%=cDatas.get(i).getProductName()%>">
-										<input type="hidden" name="productCnt" value="<%=cDatas.get(i).getCartProductCnt()%>">
-										<input type="hidden" name="productPrice" value="<%=cDatas.get(i).getProductPrice()%>">
-									</div>
-									<%} %>
-									<!-- <div class="order-col">
-										<div>2x Product Name Goes Here</div>
-										<div>$980.00</div>
-									</div> -->
+								
+								
+								
+									<%-- <%for(int i=0; i<cDatas.size(); i++){ %>
+										<div class="order-col">
+											<div><%=cDatas.get(i).getProductName()%></div>
+											<div style="text-align: right;"><%=cDatas.get(i).getProductPrice()%>원</div>
+											<input type="hidden" name="productID" value="<%=cDatas.get(i).getProductID()%>">
+											<input type="hidden" name="productName" value="<%=cDatas.get(i).getProductName()%>">
+											<input type="hidden" name="productCnt" value="<%=cDatas.get(i).getCartProductCnt()%>">
+											<input type="hidden" name="productPrice" value="<%=cDatas.get(i).getProductPrice()%>">
+										</div>
+									<%} %> --%>
+									
+									<c:if test="${cDatasSize >= 1}">
+										<c:forEach var="cData" items="${cartDTO}">
+		                                    <div class="order-col">
+		                                        <div>${cData.productName}</div>
+		                                        <div style="text-align: right;">${cData.productPrice}원</div>
+		                                        <input type="hidden" name="productID" value="${cData.productID}">
+		                                        <input type="hidden" name="productName" value="${cData.productName}">
+		                                        <input type="hidden" name="productCnt" value="${cData.cartProductCnt}">
+		                                        <input type="hidden" name="productPrice" value="${cData.productPrice}">
+		                                    </div>
+	                                	</c:forEach>
+									</c:if>
+									
+									<c:if test="${cDatasSize < 1}">
+	                                    <div class="order-col">
+	                                        <div>${cData.productName}</div>
+	                                        <div style="text-align: right;">${param.productPrice}원</div>
+	                                        <input type="hidden" name="productID" value="${param.productID}">
+	                                        <input type="hidden" name="productName" value="${param.productName}">
+	                                        <input type="hidden" name="productCnt" value="${param.purchaseCnt}">
+	                                        <input type="hidden" name="productPrice" value="${param.productPrice}">
+	                                    </div>
+									</c:if>
+									
+									
 								</div>
 								<div class="order-col">
 									<div>배송비</div>
@@ -171,14 +222,36 @@
 								</div>
 								<div class="order-col">
 									<div><strong>TOTAL</strong></div>
-									<%
+									
+									<%-- <%
 									int total=0;
 									for(CartDTO cData : cDatas){
 										total += cData.getProductPrice(); 
 									}
-									%>
-									<div style="text-align: right;"><strong class="order-total" ><%=total%>원</strong></div>
-									<input type="hidden" name="totalPrice" value="<%=total%>">
+									%> --%>
+									
+									<c:if test="${cDatasSize >= 1}">
+										<c:set var="total" value="0"></c:set>
+										<c:forEach var="cData" items="${cartDTO}">
+											<c:set var="total" value="${total + cData.getProductPrice()}"></c:set>
+										</c:forEach>
+									</c:if>
+									
+									<c:if test="${cDatasSize < 1}">
+										<c:set var="nowTotal" value="${param.productPrice*param.purchaseCnt}"></c:set>
+									</c:if>
+									
+									
+									<c:if test="${cDatasSize >= 1}">
+										<div style="text-align: right;"><strong class="order-total" >${total}원</strong></div>
+										<input type="hidden" name="totalPrice" value="${total}">
+									</c:if>
+									
+									<c:if test="${cDatasSize < 1}">
+										<div style="text-align: right;"><strong class="order-total" >${nowTotal}원</strong></div>
+										<input type="hidden" name="totalPrice" value="${nowTotal}">
+									</c:if>
+									
 								</div>
 							</div>
 							<div class="payment-method" style="align-items: center; display: flex;">
@@ -189,7 +262,6 @@
 								 	<option value="html5_inicis">이니시스</option>
 								</select>
 							</div>
-							
 							
 							<button type="submit" class="primary-btn order-submit" style="width: 50%; margin-left: 25%">결제하기</button>
 						</div>
