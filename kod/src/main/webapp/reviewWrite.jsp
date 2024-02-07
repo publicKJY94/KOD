@@ -25,16 +25,24 @@
 		<h2>상품 후기 작성</h2>
 		<form action="reviewWriteAction.do" method="POST"
 			enctype="multipart/form-data" onsubmit="return validateForm();">
-
+			
 			<c:set var="productIDParam" value="${param.productID}" />
 			<c:set var="productID" value="0" />
 
 			<c:if test="${not empty productIDParam}">
 				<c:set var="productID" value="${productIDParam}" />
 			</c:if>
+			
+			<c:set var="orderContentIDParam" value="${param.orderContentID}" />
+			<c:set var="orderContentID" value="0" />
+
+			<c:if test="${not empty orderContentIDParam}">
+				<c:set var="orderContentID" value="${orderContentIDParam}" />
+			</c:if>
 
 			<!-- productID hidden field -->
 			<input type="hidden" name="productID" value="${productID}" />
+			<input type="hidden" name="orderContentID" value="${orderContentID}"/>
 
 			<div class="FormRow">
         <label for="title">제목 (최대 50자)</label>

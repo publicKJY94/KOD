@@ -78,8 +78,19 @@ public class ReviewDAO {
 			+ "WHERE  "
 			+ "    R.REVIEW_ID = ? ";
 	
-	private static final String SELECTONE_REVIEW_CHECK= "SELECT * FROM ORDERCONTENT O LEFT OUTER JOIN REVIEW R ON O.PRODUCT_ID = R.PRODUCT_ID WHERE R.MEMBER_ID = ? AND O.ORDERCONTENT_ID = ?"; 
-	
+	private static final String SELECTONE_REVIEW_CHECK= "SELECT O.*, "
+			+ "NVL(R.REVIEW_ID,0) AS "
+			+ "REVIEW_ID, "
+			+ "R.MEMBER_ID, "
+			+ "R.REVIEW_TITLE,"
+			+ "R.REVIEW_CONTENT,"
+			+ " R.REVIEW_DATE, "
+			+ "R.REVIEW_SCORE, "
+			+ "R.REVIEW_IMG, "
+			+ "R.REVIEW_REPLY "
+			+ "FROM ORDERCONTENT O LEFT OUTER JOIN "
+			+ "REVIEW R ON O.ORDERCONTENT_ID  = R.ORDERCONTENT_ID "
+			+ "WHERE O.ORDERCONTENT_ID = ?"; 
 	
 	private static final String INSERT=
 			"INSERT INTO REVIEW ( "
@@ -89,7 +100,8 @@ public class ReviewDAO {
 			+ "    REVIEW_SCORE, "
 			+ "    REVIEW_IMG, "
 			+ "    MEMBER_ID, "
-			+ "    PRODUCT_ID "
+			+ "    PRODUCT_ID, "
+			+ "    ORDERCONTENT_ID "
 			+ ") VALUES ( "
 			+ "    (SELECT NVL(MAX(REVIEW_ID),0)+1 FROM REVIEW), "
 			+ "    ?, "
@@ -97,7 +109,8 @@ public class ReviewDAO {
 			+ "    ?, "
 			+ "    ?, "
 			+ "    ?, "
-			+ "    ?"
+			+ "    ?, "
+			+ "    ? "
 			+ ") ";
 	
 	private static final String UPDATE=
@@ -174,10 +187,7 @@ public class ReviewDAO {
 			}
 			else if(reviewDTO.getSearchCondition().equals("리뷰체크")) {
 					pstmt= conn.prepareStatement(SELECTONE_REVIEW_CHECK);
-					pstmt.setString(1 , reviewDTO.getMemberID());
-					System.out.println("형련 [ 로그 ] reviewDAO1"+reviewDTO.getMemberID());
-					System.out.println("형련 [ 로그 ] reviewDAO2"+reviewDTO.getOdContentID());
-					pstmt.setInt(2, reviewDTO.getOdContentID());
+					pstmt.setInt(1, reviewDTO.getOdContentID());
 					
 			}
 			
@@ -193,6 +203,8 @@ public class ReviewDAO {
 				data.setReviewDate(rs.getDate("REVIEW_DATE"));
 				data.setReviewImg(rs.getString("REVIEW_IMG"));
 				data.setReviewReply(rs.getString("REVIEW_REPLY"));
+				data.setOdContentID(rs.getInt("ORDERCONTENT_ID"));
+				System.out.println(data);
 			}
 		} catch (SQLException e) {
 				e.printStackTrace();
@@ -212,6 +224,7 @@ public class ReviewDAO {
 			pstmt.setString(4, reviewDTO.getReviewImg());
 			pstmt.setString(5, reviewDTO.getMemberID());
 			pstmt.setInt(6, reviewDTO.getProductID());
+			pstmt.setInt(7, reviewDTO.getOdContentID());
 			System.out.println("title : "+reviewDTO.getReviewTitle());
             System.out.println("content : "+reviewDTO.getReviewContent());
             System.out.println("reviewScore : "+reviewDTO.getReviewScore());

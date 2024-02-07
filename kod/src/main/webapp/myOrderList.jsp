@@ -82,8 +82,8 @@
                 <td>
                 	<span class="price">${data.productPrice * data.odContentCnt}원</span><br>
                     <form action="reviewWritePage.do" method="POST" id="form1">
-                      <input type="hidden" name="productID"
-														value="${data.productID}">
+                   	<input type="hidden" name="orderContentID" value="${data.getOdContentID()}">
+                      <input type="hidden" name="productID" value="${data.productID}">
                         <c:choose>
                             <c:when test="${data.reviewButtonStatus eq 'enabled'}">
                                 <%-- 리뷰 작성 완료된 경우 버튼 비활성화 --%>
@@ -210,6 +210,7 @@
 								document.write(new Date().getFullYear());
 								
 								function openReviewWrite() {
+									
 									document.getElementById('form1').submit();
 								}
 							</script> All rights reserved | This template is made with <i
