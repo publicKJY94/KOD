@@ -38,13 +38,13 @@ public class PaymentPageAction implements Action{
 		String[] payInfoProducts = request.getParameterValues("productID"); 		// 결제할 상품 번호들 받아오기
 		String[] payInfoProductNames = request.getParameterValues("productName");	// 결제할 상품명들 받아오기
 		System.out.println(payInfoProductNames);
-		String productName = null;
-		if(payInfoProductNames.length >1 ) {	
-			productName = payInfoProductNames[0] + "외 " + (payInfoProductNames.length-1) + "개"; // 결제할 상품이 1개 이상이면 '첫번째 상품이름+그 외 개수' 로 저장
-		}else {
-			productName = payInfoProductNames[0];	// 결제할 상품이 1개이면 해당 상품 이름으로 저장
-		}
-		System.out.println(productName);
+//		String productName = null;
+//		if(payInfoProductNames.length >1 ) {	
+//			productName = payInfoProductNames[0] + "외 " + (payInfoProductNames.length-1) + "개"; // 결제할 상품이 1개 이상이면 '첫번째 상품이름+그 외 개수' 로 저장
+//		}else {
+//			productName = payInfoProductNames[0];	// 결제할 상품이 1개이면 해당 상품 이름으로 저장
+//		}
+//		System.out.println(productName);
 		System.out.println(payInfoProducts);
 		
 		if (payInfoProducts != null) {	// 결제할 상품이 있다면 해당 상품들의 정보 cartDTO에 저장
@@ -54,10 +54,19 @@ public class PaymentPageAction implements Action{
 		        cartDTO.setMemberID(memberID);
 		        cartDTO.setProductID(Integer.parseInt(product));
 		        cartDTO = cartDAO.selectOne(cartDTO);
-		        cartDTO.setPg(request.getParameter("pg")); // 추후 pg로 다양한 결제방법 선택(ex : kakaopay, tosspay)
+		        //cartDTO.setPg(request.getParameter("pg")); // 추후 pg로 다양한 결제방법 선택(ex : kakaopay, tosspay)
 		        System.out.println(cartDTO);
-		        datas.add(cartDTO);
-		        System.out.println("선택된 결제 정보 : "+ datas);
+		        if(cartDTO != null) {
+		        	datas.add(cartDTO);
+			        System.out.println("선택된 결제 정보 : "+ datas);
+		        }else {
+		        	//바로 구매
+		        	cartDTO = new CartDTO();
+		        	cartDTO.setProductID(Integer.parseInt(product));
+		        	cartDTO.setProductName(request.getParameter("productName"));
+		        	cartDTO.setCartProductCnt(Integer.parseInt(request.getParameter("productCnt")));
+		        	request.setAttribute("payNow", cartDTO);
+		        }
 		    }
 		} else {	// 결제할 상품이 없다면 문구 출력
 		    System.out.println("선택된 상품이 없습니다."); // 추후 alert창 띄우기

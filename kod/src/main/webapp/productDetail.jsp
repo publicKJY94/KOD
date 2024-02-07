@@ -232,13 +232,14 @@ $(document).ready(function(){
 						</div>
 						<p>${productWishDetailData.productInfo}</p>
 
-						<form method="POST" action="cartInsert.do" id="form1">
+						<form method="POST" action="payInfo.do" id="form1">
 							<div class="add-to-cart">
 								<div class="qty-label">
 									수량
 									<div class="input-number">
+									<input type="hidden" name="productImg" value="${productWishDetailData.productImg}">
 										<input type="hidden" name="productID"
-											value="${productWishDetailData.productID}" ID="productID" />
+											value="${productWishDetailData.productID}" id="productID" />
 										<input type="hidden" name="productName"
 											value="${productWishDetailData.productName}" /> <input
 											type="hidden" name="productPrice"

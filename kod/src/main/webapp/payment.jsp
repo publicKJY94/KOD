@@ -2,12 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="model.dto.*, java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%
     String name = request.getParameter("memberName");
     int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
     int purchaseCnt = Integer.parseInt(request.getParameter("productCnt"));
     ArrayList<CartDTO> datas = (ArrayList<CartDTO>) request.getAttribute("payDTO"); 
-    String selectPg = request.getParameter("pg");
+    //String selectPg = request.getParameter("pg");
     
     String[] payInfoProductNames = request.getParameterValues("productName");
 	System.out.println(payInfoProductNames);
@@ -32,14 +33,27 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
-	<%
+	<%-- <%
 	for(CartDTO cart : datas){
-	%>
-	<input type="hidden" name="pid" id="pid" value="<%=cart.getProductID()%>">
-	<input type="hidden" name="cnt" id="cnt" value="<%=cart.getCartProductCnt()%>">
-	<%
+	%> --%>
+	<c:set var="cDatasSize" value="${fn:length(payDTO)}" />
+	<c:if test="${cDatasSize >= 1}">
+		<c:forEach var="cart" items="${payDTO}">
+			<input type="hidden" name="pid" id="pid" value="${cart.productID }">
+			<input type="hidden" name="cnt" id="cnt" value="${cart.cartProductCnt}">
+		</c:forEach>
+	</c:if>
+	
+	<c:if test="${cDatasSize < 1 }">
+		<input type="hidden" name="pid" id="pid" value="${payNow.productID }">
+		<input type="hidden" name="cnt" id="cnt" value="${payNow.cartProductCnt}">
+	</c:if>
+	
+	<%-- <input type="hidden" name="pid" id="pid" value="<%=cart.getProductID()%>">
+	<input type="hidden" name="cnt" id="cnt" value="<%=cart.getCartProductCnt()%>"> --%>
+	<%-- <%
 	}
-	%>
+	%> --%>
 	
     <script>
     $(function(){
@@ -77,7 +91,7 @@
         */
         
         IMP.request_pay({
-            pg : '<%=selectPg%>',
+            pg : 'kakaopay',
             pay_method : 'card',
             merchant_uid : 'merchant_' + new Date().getTime(), 
             name : '<%=productName%>',
