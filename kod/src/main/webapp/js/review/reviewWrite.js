@@ -52,14 +52,7 @@ function cancelImageUpload() {
 function validateForm() {
     // 1. 별점이 선택되었는지 확인
     var ratingInputs = document.getElementsByName('score');
-    var isRatingSelected = false;
-
-    for (var i = 0; i < ratingInputs.length; i++) {
-        if (ratingInputs[i].checked) {
-            isRatingSelected = true;
-            break;
-        }
-    }
+    var isRatingSelected = Array.from(ratingInputs).some(input => input.checked);
 
     if (!isRatingSelected) {
         alert('별점을 선택해주세요.');
@@ -70,15 +63,20 @@ function validateForm() {
     var titleInput = document.getElementById('title');
     var contentInput = document.getElementById('content');
 
-    if (titleInput.value.length < 5 || contentInput.value.length < 5) {
-        alert('제목과 내용은 최소 5자 이상 입력해주세요.');
+    if (titleInput.value.length < 5) {
+        alert('제목은 최소 5자 이상 입력해주세요.');
+        return false; // 폼 제출 방지
+    }
+
+    if (contentInput.value.replace(/\s+/g, '').length < 5) {
+        alert('내용은 최소 5자 이상 입력해주세요.');
         return false; // 폼 제출 방지
     }
 
     // 모든 조건을 통과하면 폼 제출 허용
     return true;
 }
- 
+
 // 글자 수 세기 함수
 function countCharacters(inputId, counterId, maxLength) {
     const input = document.getElementById(inputId);
@@ -101,6 +99,7 @@ function countCharacters(inputId, counterId, maxLength) {
             const updatedLength = updatedText.length;
             counter.textContent = updatedLength + '/' + maxLength;
         }
+
     });
 }
 
