@@ -9,8 +9,15 @@ import java.util.ArrayList;
 import model.util.JDBCUtil;
 import model.dto.WishListDTO;
 
-//관점지향적으로 횡단관리 하였음
-public class WishListDAO {
+
+/*
+[정현진] wishlist , product , review 기능을 구현함
+관점지향적으로 횡단관리 하였기에
+위시리스트DAO에 회원정보와 상품정보가 포함되어있음
+회원정보는 연령별 상품추천 로직에서
+회원의 나이를 구하기 위해 사용됨
+ */
+public class WishListDAO { // [담당 : 정현진]
 	private Connection conn; // DB와의 연결을 담당
 	private PreparedStatement pstmt; // CRUD 수행을 담당
 

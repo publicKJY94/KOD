@@ -17,7 +17,7 @@
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
 						<li><a href="main.do">Home</a></li>
-						<li><a href="checkWished.do">상품목록</a></li>
+						<li><a href="store.do">상품목록</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>

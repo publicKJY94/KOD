@@ -35,17 +35,20 @@ public class FrontController extends HttpServlet {
 
 	public void doAction(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("[로그:정현진] 프론트컨트롤러 들어옴");
 
 		String uri = request.getRequestURI();
 		String cp = request.getContextPath();
 		String commend = uri.substring(cp.length());
-		System.out.println("FC : "+commend);
+//		System.out.println("[로그:정현진] uri : "+uri); // => /kod/main.do
+//		System.out.println("[로그:정현진] cp : "+cp); // => /kod
+//		System.out.println("[로그:정현진] commend : "+commend); // => /main.do
 		
 		Action action = handler.getAction(commend);
 		if(action==null) {
 		    // 404 에러 페이지로 리다이렉트 처리 해줘
-			System.out.println("[로그 : 정현진] 프론트컨트롤러 들어옴");
-			response.sendError(HttpServletResponse.SC_NOT_FOUND, "[로그 : 정현진] 액션객체 is null");
+			System.out.println("액션객체 is null"); // 개발환경 콘솔에 출력됨
+			response.sendError(HttpServletResponse.SC_NOT_FOUND, "[로그 : 정현진] 액션객체 is null"); // 뷰페이지에 출력됨
 			return;
 		}
 		

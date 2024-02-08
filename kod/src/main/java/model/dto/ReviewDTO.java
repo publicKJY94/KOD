@@ -3,23 +3,20 @@ package model.dto;
 import java.sql.Date;
 
 public class ReviewDTO {
-	private int reviewID;
-	private int reviewScore;
-	private double reviewAvgScore;
-	private String reviewImg;
-	private Date reviewDate;
-	private String reviewTitle;
-	private String reviewContent;
-	private String reviewReply;
-	private String memberID;
-	private String memberName;
-	private int productID;
-	private int productName;
-	private String searchCondition;
-	
-	
-	private int odContentID;
-	
+	private int reviewID; // PK
+	private int reviewScore; // 상품 리뷰점수
+	private double reviewAvgScore; // 상품 리뷰평점
+	private String reviewImg; // 상품 리뷰이미지
+	private Date reviewDate; // 리뷰 작성일
+	private String reviewTitle; // 리뷰 제목
+	private String reviewContent; // 리뷰 내용
+	private String reviewReply; // 리뷰 답글(관리자) ex)구매해주셔서 감사합니다.
+	private String memberID; // 작성자ID
+	private String memberName; // 작성자 이름
+	private int productID; // 상품ID
+	private int productName; // 상품명
+	private String searchCondition; // DAO실행조건
+	private int odContentID; // 주문내역ID - 주문내역별로 리뷰를 남기기 위함 - 상품 재구매 시 리뷰작성 가능하게 함
 	
 	public int getOdContentID() {
 		return odContentID;
@@ -105,14 +102,6 @@ public class ReviewDTO {
 	}
 	public void setSearchCondition(String searchCondition) {
 		this.searchCondition = searchCondition;
-	}
-	@Override
-	public String toString() {
-		return "ReviewDTO [reviewID=" + reviewID + ", reviewScore=" + reviewScore + ", reviewAvgScore=" + reviewAvgScore
-				+ ", reviewImg=" + reviewImg + ", reviewDate=" + reviewDate + ", reviewTitle=" + reviewTitle
-				+ ", reviewContent=" + reviewContent + ", reviewReply=" + reviewReply + ", memberID=" + memberID
-				+ ", memberName=" + memberName + ", productID=" + productID + ", productName=" + productName
-				+ ", searchCondition=" + searchCondition + "]";
 	}
 	
 }

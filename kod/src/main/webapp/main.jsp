@@ -66,14 +66,14 @@
         <div class="row">
             <!-- shop 1 -->
             <div class="col-md-4 col-xs-6">
-                <a href="checkWished.do" class="cta-btn">
+                <a href="store.do" class="cta-btn">
                     <div class="shop">
                         <div class="shop-img">
                             <img src="//images.ctfassets.net/8cd2csgvqd3m/5ffQPWX2hMWg1Lcvv4Ndmh/715d29139574b6992a7db3b00ff04053/A9_Gold_1_Resized.png?q=85&fm=png&w=375&h=375&fit=fill" alt="스피커사진">
                         </div>
                         <div class="shop-body">
                             <h3>스피커<br>Collection</h3>
-                            <a href="checkWished.do" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="store.do" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </a>
@@ -82,14 +82,14 @@
 
             <!-- shop 2 -->
             <div class="col-md-4 col-xs-6">
-                <a href="checkWished.do" class="cta-btn">
+                <a href="store.do" class="cta-btn">
                     <div class="shop">
                         <div class="shop-img">
                             <img src="//images.ctfassets.net/8cd2csgvqd3m/26XtRwxmomi69pWKqcuyS8/3a5285a2e0b4a5cb29484bcbe0763258/Packshot-Beoplay-H95-Gold-Tone-0006-Perspective-1200x1200px.png?q=85&fm=png&w=375&h=375&fit=fill" alt="헤드폰사진" />
                         </div>
                         <div class="shop-body">
                             <h3>헤드폰 및 이어폰<br>Collection</h3>
-                            <a href="checkWished.do" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="store.do" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </a>
@@ -98,14 +98,14 @@
 
             <!-- shop 3 -->
             <div class="col-md-4 col-xs-6">
-                <a href="checkWished.do" class="cta-btn">
+                <a href="store.do" class="cta-btn">
                     <div class="shop">
                         <div class="shop-img">
                             <img src="//images.ctfassets.net/8cd2csgvqd3m/2sbVDgqKMaiDxmrYMHzA71/95fd4c1e43850920a7fbe23bf55560de/Packshot-Beosound-A1-2nd-Gen-Black-Anthracite-0027-Perspective-1200x1200px.png?q=85&fm=png&w=375&h=375&fit=fill" alt="악세사리사진" />
                         </div>
                         <div class="shop-body">
                             <h3>Accessories<br>Collection</h3>
-                            <a href="checkWished.do" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="store.do" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </a>
