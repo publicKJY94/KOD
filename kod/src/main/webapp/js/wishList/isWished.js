@@ -36,7 +36,6 @@ $('.add-to-wishlist').on('click', function(){
     });
 });
 
-
 /*  
 	[정현진]
 	.productID요소에.text() 했을 때는 요소의 String타입 텍스트값을 가져옵니다. => [로그:정현진] data : 5 , [로그:정현진] data타입 : string 
@@ -44,3 +43,8 @@ $('.add-to-wishlist').on('click', function(){
 	[로그:정현진] productID : n.fn.init {0: div.productID, length: 1, prevObject: n.fn.init, context: button.add-to-wishlist, selector: '.productID'}
 	배열을 가져오게 되면 배열의 어떤 값을 사용할건지 추가적으로 알려주어야합니다.	
 */
+
+
+
+
+
