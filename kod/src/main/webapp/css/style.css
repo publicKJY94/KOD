@@ -2211,3 +2211,9 @@ textarea.input {
     top: 50%;
     transform: translate(-50%, -50%); 
 }
+/* [김진영] 이미지 크기가 달라서 정렬이 깨지는 부분 수정을 위한 미디어 쿼리 */
+@media only screen and (min-width : 991px) {
+	.product .product-img>img{
+		max-height: 24rem;
+	}
+}

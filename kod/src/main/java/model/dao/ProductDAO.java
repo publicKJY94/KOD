@@ -86,6 +86,7 @@ public class ProductDAO {
 					}
 					result += " ) ";
 				}
+				result += " ORDER BY p.PRODUCT_ID ";
 				result = SELECTALL_FILTER+result;
 				// [김진영] 완성된 쿼리를 확인
 				System.out.println(result);
