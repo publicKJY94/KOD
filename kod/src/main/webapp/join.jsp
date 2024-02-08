@@ -49,16 +49,19 @@
 		<!-- Links -->
 
 		<!-- Form -->
-		<form name="joinform" onsubmit="formCheck(this);" action="join.do"
-			method="post">
+		<form name="joinform" onsubmit="formCheck(this);" action="join.do" method="post">
+			
 
 
 			<!-- 아이디 입력란 -->
+			<!-- oninput이벤트를 사용해 사용자가 입력할때마다 공백을 제거하는 함수 호출 -->
 			<div class="input__block" style="padding-left: 27px;">
 				<input type="text" placeholder="아이디를 입력해주세요." class="input"
 					id="memberID" name="memberID"
 					style="display: inline-block; width: 58%;" minlength="6"
-					maxlength="13" oninput="removeWhitespace(this)" required/> <!-- oninput이벤트를 사용해 사용자가 입력할때마다 공백을 제거하는 함수 호출 -->
+					maxlength="13" oninput="removeWhitespace(this)" required/> 
+					
+			<!-- ID중복검사 버튼생성 클릭시 check()함수호출 -->
 					<input type="button" id="but"
 					value="ID중복검사" onclick="check()"
 					style="display: inline-block; width: 25%;"><br>
@@ -207,23 +210,8 @@
 				
 			</div>
 
-<!-- 			<script>
-            
-   // 이메일 도메인 선택 박스의 값이 변경될 때 호출되는 함수
-  function updateDomainTxt() {
-    var domainList = document.getElementById('domain-list');
-    var domainTxt = document.getElementById('domain-txt');
 
-    // 선택한 값이 'type'이 아닌 경우에만 값을 업데이트
-    if (domainList.value !== 'type') {
-      domainTxt.value = domainList.value;
-    } else {
-      domainTxt.value = ''; // '직접 입력'을 선택한 경우에는 입력란을 비웁니다.
-    }
-  }
- 
-
-  </script>  -->
+  </script>  
 
 	<div class="input__block">
    		<input class="input" type="text" id="adrsName" name="adrsName" placeholder="집 / 회사 / 친구" oninput="removeWhitespace(this)">
@@ -255,7 +243,6 @@
     	// var form = document.getElementById(" 폼 아이디 ");
     	  
 		var memberID = document.getElementById("memberID"); // 회원아이디를 입력하는 입력란(input text) 의 값을 memberID 저장 
-		/* var checkButton = document.getElementById("but");//중복검사버튼 id */
 		var memberPW = document.getElementById("memberPW");
 		var memberPWCK = document.getElementById("memberPWCK");
 		var memberName = document.getElementById("memberName");
@@ -266,13 +253,13 @@
 		var PhNum1 = document.getElementById("PhNum1");
 		var PhNum2 = document.getElementById("PhNum2");
 		var PhNum3 = document.getElementById("PhNum3");
-		   var emailField = document.getElementById("memberEmail1");
-		    var emailType = document.getElementById("domain-list").value;
-		    var emailTxt = document.getElementById("domain-txt").value;
+		var emailField = document.getElementById("memberEmail1");
+		var emailType = document.getElementById("domain-list").value;
+		var emailTxt = document.getElementById("domain-txt").value;
 		    
-		    var email1 = emailField.value;
-		    var email2 = (emailType === "type") ? emailTxt : document.getElementById("domain-list").value;
-		    var fullEmail = email1 + "@" + email2;
+		var email1 = emailField.value;
+	    var email2 = (emailType === "type") ? emailTxt : document.getElementById("domain-list").value;
+		var fullEmail = email1 + "@" + email2;
 		    
 		    
 		var adrsName = document.getElementById("adrsName");
@@ -288,16 +275,21 @@
  		var regId = /^[0-9a-z]{6,13}$/;    // 숫자 , 소문자만 입력가능 6글자이상 13글자 이하
 		// 숫자, 대소문자, 특수문자 입력가능(숫자, 소문자, 특수문자 1개이상 반드시 포함시켜야함) 6글자이상 13글자 이하
 		var regPw = /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[a-z\d!@#$%^&*]{6,13}$/;
-		 var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;//이메일
-		 // memberID 값이 없으면 알림창 출력후 memberID 입력란에 마우스포커스 후 false를 반환해 form제출을 못하게 막는코드 
-		if(memberID.value==''){
+		var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;//이메일
+		
+		
+		 
+		 
+		
+		 // memberID 값이 없으면 알림창 출력후 memberID 입력란에 포커스  false를 반환해 form제출을 못하게 막는코드 
+		 if(memberID.value==''){
 			console.log("아이디 입력");
 			alert("아이디를 입력해주세요.");
 			memberID.focus();
 			return false;
 		}
 		
-		// 만약 memberID의 값이 위에서 정의한 정규식패턴과 맞지않는다면 알람창출력후 memberID 입력란에 포커스후 false를 반환해 form제출을 못하게 막음
+		// 만약 memberID의 값이 위에서 정의한 정규식패턴과 맞지않는다면 알람창출력 memberID 입력란에 포커스후 false를 반환해 form제출을 못하게 막음
  		else if(!regId.test(memberID.value)){
  			console.log("아이디 형식");
 	            alert("아이디는 6~13자의 영문 소문자, 숫자로 입력해주세요.");
@@ -305,11 +297,7 @@
 	            return false;
        }
 		 
-	/*     if (!checkButton.clicked) {
-	        alert("ID 중복검사를 먼저 진행해주세요.");
-	        return false;
-	    }
- */
+		// 만약 idCheckStatus값이 0 이라면 안내문출력후 아이디 입력란에 포커스 false반환 form제출을 막음
 		 if (idCheckStatus==0){
 		    	alert("ID중복검사를 확인해주세요\n아이디를 확인해주세요.");
 		    	memberID.focus();
@@ -319,7 +307,7 @@
 	    
 	    
 	    
-		//만약 memberPW값이 없다면 알람창 출력후 비밀번호 입력간에 마우스포커스후 false반환 form제출을 막음
+		//만약 memberPW값이 없다면 알람창 출력후 비밀번호 입력란에 포커스 false반환 form제출을 막음
 		 	if(memberPW.value==''){
 		 		console.log("비밀번호 입력");
 			alert('비밀번호를 입력해주세요.');
@@ -328,7 +316,7 @@
 		}
 		
 		
-		// 만약 비밀번호입력값이 위에정의해둔 정규식값이 아니라면 알람창 출력후 비밀번호입력창에 마우스 포커스후 false반환 form제출을 막음
+		// 만약 비밀번호입력값이 위에정의해둔 정규식값이 아니라면 알람창 출력후 비밀번호입력창에 포커스후 false반환 form제출을 막음
  	 	else if(!regPw.test(memberPW.value)){
  	 		console.log("비밀번호 형식");
 			alert("비밀번호는 6~13자의 영문 소문자, 숫자, 특수문자가 각각 최소 \n1개 이상 포함되어야 합니다.");
@@ -336,21 +324,9 @@
 			return false;
 		}   
 		
-		
-		   
-		   /* 
-		   		비밀번호와 아이디가 같으면 안내문구출력후 폼제출을 막는 유효성검사 코드
-		   else if(memberPW.value == memberID.value){
 
-	            alert("아이디와 동일한 비밀번호를 사용할 수 없습니다. 다시 입력해주세요. ")
-	               setTimeout(function() {
-	            	  memberPW.focus();
-	            }, 0);	           
-	            return false;
-	        }
-		    */
-		
-		// 만약 비밀번호확인 값이 없다면 알람창실행후 비밀번호확인 입력창에 마우스포커스후 false반환 form제출막음    
+
+		// 만약 비밀번호확인 값이 없다면 알람창실행후 비밀번호확인 입력창에 포커스후 false반환 form제출막음    
 		if(memberPWCK.value==''){
 			console.log("비밀번호 확인입력");
 			alert('비밀번호 확인을 입력해주세요.');
@@ -358,7 +334,7 @@
 			return false;
 		}
 		   
-		// 만약 비밀번호값과 , 비밀번호확인값이 같지않다면 알람창출력후 비밀번호확인 입력란에 마우스포커스후 false반환 form제출을 막음    
+		// 만약 비밀번호값과 , 비밀번호확인값이 같지않다면 알람창출력후 비밀번호확인 입력란에 포커스후 false반환 form제출을 막음    
 		else if(memberPW.value != form.memberPWCK.value){
 			console.log("비번1 비번2 비교");
 			alert('비밀번호, 비밀번호 확인이 동일하지 않습니다. \n다시입력해주세요.');
@@ -368,7 +344,7 @@
 			return false;
 		}
 		 
-		// 만약 이름입력란에 값이 없다면 알람창 출력후 이름입력란에 마우스커서포커스후 false반환후 form제출을 막음    
+		// 만약 이름입력란에 값이 없다면 알람창 출력후 이름입력란에 포커스후 false반환후 form제출을 막음    
 		if(memberName.value==''){
 			console.log("이름 입력");
 			alert('이름을 입력해주세요.');
@@ -376,7 +352,7 @@
 			return false;
 		}
 	    
-		// 만약 이름입력값이 위에서정의한 정규식코드와 같지않다면 알람창출력후 이름입력란에 마우스포커스후 false반환 form제출을 막음
+		// 만약 이름입력값이 위에서정의한 정규식코드와 같지않다면 알람창출력후 이름입력란에 포커스후 false반환 form제출을 막음
 		else if(!regName.test(memberName.value)){
 			console.log("이름 형식");
 			alert("2글자 이상 한글만 입력 가능 합니다. ");
@@ -408,14 +384,14 @@
     
 
 	   // 생년월일 year 유효성검사
-	   // 생년월일(year)입력란에 값이 없다면 안내문출력후 생년월일 입력란(year)에 마우스포커스 후 false반환 form에 제출을 못하게 막음
+	   // 생년월일(year)입력란에 값이 없다면 안내문출력후 생년월일 입력란(year)에 포커스 false반환 form에 제출을 못하게 막음
 	   	if(year.value==''){
 	   		console.log("생년월일 년도입력");
 			alert('생년월일을 입력해주세요.');
 			year.focus();
 			return false;		
 		}
-	   // 만약 숫자가 아니거나 , 1900보다작거나 , 2024보다크면 안내문 출력후 생년월일(year)입력란에 마우스커서 이동후 false반환 form 제출 막음
+	   // 만약 숫자가 아니거나 , 1900보다작거나 , 2024보다크면 안내문 출력후 생년월일(year)입력란에 포커스 false반환 form 제출 막음
 	   	else if (isNaN(year.value) || year.value < 1900 || year.value > 2024 ) {
 	   		console.log("올바른 년도입력");
 	   	    alert("올바른 연도를 입력해주세요.");
@@ -426,14 +402,14 @@
 
 		
 		// 생년월일 day 유효성검사
-		// 생년월일(day)입력란에 값이 없다면 안내문출력후 생년월일 입력란(day)에 마우스포커스 후 false반환 form에 제출을 못하게 막음
+		// 생년월일(day)입력란에 값이 없다면 안내문출력후 생년월일 입력란(day)에 포커스 후 false반환 form에 제출을 못하게 막음
 		if(day.value==''){
 			console.log("생년월일 일입력");
 			alert('생년월일을 입력해주세요.');
 			day.focus();
 			return false;		
 		}  
-		// 만약 숫자가 아니거나 , 1보다작거나 , 31보다크면 안내문 출력후 생년월일(day)입력란에 마우스커서 이동후 false반환 form 제출 막음
+		// 만약 숫자가 아니거나 , 1보다작거나 , 31보다크면 안내문 출력후 생년월일(day)입력란에 포커스 이동후 false반환 form 제출 막음
 	 	else if (isNaN(day.value) || day.value < 1 || day.value > 31 || (day.value.length === 1 && day.value < 10)) { 
 	 		console.log("생년월일 올바른입력이 아닙니다");
 	 		alert("올바른 일을 입력해주세요.");
@@ -442,18 +418,17 @@
 	   	    return false;
 	   	}
 	
-	
-        
+     
 	      
 		// 휴대폰 PhNum1 유효성검사
-		// 휴대폰 (PhNum1)입력란에 값이 없다면 안내문출력후 휴대폰 입력란(PhNum1)에 마우스포커스 후 false반환 form에 제출을 못하게 막음
+		// 휴대폰 (PhNum1)입력란에 값이 없다면 안내문출력후 휴대폰 입력란(PhNum1)에 포커스 후 false반환 form에 제출을 못하게 막음
 		if(PhNum1.value==''){
 			console.log("휴대폰번호 입력");
 			alert('휴대폰 번호를 입력해주세요.');
 			PhNum1.focus();
 			return false;		
 		}
-		// 만약 휴대폰입력(PhNum1)값이 /^01[016789]$/(정규식)값이 아니라면 안내문구 출력후 휴대폰 입력란(PhNum1)에 마우스포커스 후 false반환 form에 제출을 못하게 막음
+		// 만약 휴대폰입력(PhNum1)값이 /^01[016789]$/(정규식)조건이 아니라면 안내문구 출력후 휴대폰 입력란(PhNum1)에 포커스 후 false반환 form에 제출을 못하게 막음
 	 	// /^01[016789]$/ 다음 정규식은 3자리중 0,1로 2자리고정후 마지막자리에 0,1,6,7,8,9 만입력가능하다는 정규식이다
 		else if(!/^01[016789]$/.test(PhNum1.value)){
 			console.log("휴대폰 앞번호 검사");
@@ -464,14 +439,14 @@
 		 
 		   
 		// 휴대폰 PhNum2 유효성검사
-		// 휴대폰 (PhNum2)입력란에 값이 없다면 안내문출력후 휴대폰 입력란(PhNum2)에 마우스포커스 후 false반환 form에 제출을 못하게 막음
+		// 휴대폰 (PhNum2)입력란에 값이 없다면 안내문출력후 휴대폰 입력란(PhNum2)에 포커스 후 false반환 form에 제출을 못하게 막음
 		if(PhNum2.value==''){
 			console.log("휴대폰번호 중간 입력");
 			alert('휴대폰 번호를 입력해주세요.');
 			PhNum2.focus();
 			return false;		
 		}
-		// 만약 휴대폰입력(PhNum2)값이 /^([0-9]{4})$/(정규식)값이아니라면 안내문구 출력후 휴대폰 입력란(PhNum2)에 마우스포커스 후 false반환 form에 제출을 못하게 막음
+		// 만약 휴대폰입력(PhNum2)값이 /^([0-9]{4})$/(정규식)조건이 아니라면 안내문구 출력후 휴대폰 입력란(PhNum2)에 포커스 후 false반환 form에 제출을 못하게 막음
 	 	// /^([0-9]{4})$/ 다음 정규식은 0~9까지숫자만사용가능하고 4자리까지입력가능하다는 정규식이다
 		else if(!/^([0-9]{4})$/.test(PhNum2.value)){
 			console.log("휴대폰 번호 중간자리 숫자만 입력");
@@ -482,7 +457,7 @@
 		 
 		   
 		// 휴대폰 PhNum3 유효성검사
-		// 휴대폰 (PhNum3)입력란에 값이 없다면 안내문출력후 휴대폰 입력란(PhNum3)에 마우스포커스 후 false반환 form에 제출을 못하게 막음
+		// 휴대폰 (PhNum3)입력란에 값이 없다면 안내문출력후 휴대폰 입력란(PhNum3)에 포커스 후 false반환 form에 제출을 못하게 막음
 		if(PhNum3.value==''){
 			console.log("휴대폰 번호 끝자리 입력");
 			alert('휴대폰 번호를 입력해주세요.');
@@ -490,7 +465,7 @@
 			return false;		
 		}
 		
-		// 만약 휴대폰입력(PhNum3)값이 /^([0-9]{4})$/(정규식)값이아니라면 안내문구 출력후 휴대폰 입력란(PhNum3)에 마우스포커스 후 false반환 form에 제출을 못하게 막음
+		// 만약 휴대폰입력(PhNum3)값이 /^([0-9]{4})$/(정규식)값이아니라면 안내문구 출력후 휴대폰 입력란(PhNum3)에 포커스 후 false반환 form에 제출을 못하게 막음
 	 	// /^([0-9]{4})$/ 다음 정규식은 0~9까지숫자만사용가능하고 4자리까지입력가능하다는 정규식이다
 	 	else if(!/^([0-9]{4})$/.test(PhNum3.value)){
 	 		console.log("휴대폰 번호 끝자리 숫자만 입력");
@@ -499,18 +474,25 @@
 			return false;
 		}    
 
+		// 만약 이메일1과 이메일2 가 입력되어있지 않다면 안내문출력후 이메일 이메일 필드에 포커스
 		if (!email1 || !email2) {
 	        console.log("이메일 1 , 2 입력");
 	        alert("이메일을 입력해주세요");
 	        emailField.focus();
+	        // 만약 이메일 1이 입력되지않았다면 이메일1에 포커스
 	        if (!email1) {
 	            emailField.focus();
-	        } else {
-	            document.getElementById("domain-txt").focus();
+	        } 
+	        // 아니라면 도메인 텍스트에 포커스
+	        else {
+	        	emailTxt.focus();
 	        }
+	        // false반환후 폼제출 막음
+	       
 	        return false;
 	    }
 
+		// 만약 fullEmail의 값이 위에서 정의한 정규식패턴과 맞지않는다면 알람창출력후 emailField 입력란에 포커스후 false를 반환해 form제출을 못하게 막음
 	    if (!emailRule.test(fullEmail)) {
 	        console.log("이메일 형식에 맞게 입력");
 	        alert("이메일을 형식에 맞게 입력해주세요.");
@@ -518,141 +500,53 @@
 	        return false;
 	    }
 
+		// 사용자가 입력한값이 .com 이나 .net가 아니라면 알림창 출력후 emailTxt에 포커스후 false반환해 form제출을 못하게 막음
+		// 메서드 문자열에 특정문자, 숫자를 찾고 해당 위치를 반환함 만약 찾는 문자열이 없다면 -1반환
 	    if (emailTxt.indexOf('.com') === -1 && emailTxt.indexOf('.net') === -1) {
 	        console.log("도메인에 반드시 .com입력,net 입력");
 	        alert("도메인은 반드시 .com 또는 .net을 포함해야 합니다.");
 	        document.getElementById("domain-txt").focus();
+	        //emailTxt.focus();
 	        return false;
 	    }
 	   
-
-	    // 나머지 유효성 검사 및 폼 제출 처리...
-
-
-		 
-	/*  // 이메일 유효성검사 함수
-	 function validateEmail() {
-		    // email1 변수에 현재 문서에있는 memberEmail1값 저장 
-		 	var email1 = document.getElementById("memberEmail1").value;
-		   // email2 변수선언후 초기화
-		    var email2 = "";
-		    
-		   //도메인 선택 상태에 따라 값을 설정
-		       // 직접 입력일 경우
-		   if (document.getElementById("domain-list").value === "type") {
-		       // 도메인 텍스트입력
-		        email2 = document.getElementById("domain-txt").value;
-		    } else {
-		        // 선택된 도메인 사용
-		        email2 = document.getElementById("domain-list").value;
-		    }
-	
-		   // 전체 이메일 주소를 조합
-		    var fullEmail = email1 + "@" + email2;
-
-
-		    // 이메일 주소 또는 도메인이 빈 값인 경우 알림을 띄우고 해당 입력란으로 포커스 이동 후 false 반환
-		    if (!email1 || !email2) {
-		    	console.log("이메일 1 , 2 입력");
-		        alert("이메일을 입력해주세요");
-		        if (!email1) {
-		            document.getElementById("memberEmail1").focus(); // 이메일 텍스트 칸으로 포커스 이동
-		        } else {
-		            // email2에 값이 없는 경우, domain-txt 입력란으로 포커스 이동
-		            document.getElementById("domain-txt").focus();
-		        }
-		        return false;
-		    }
-
-		    // 이메일 형식 검사 정규식
-		    var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-		  
-		    
-		    // 이메일 형식이 맞지 않으면 알림을 띄우고 이메일 입력란으로 포커스 이동 후 false 반환
-		    if (!emailRule.test(fullEmail)) {
-		    	console.log("이메일 형식에 맞게 입력");
-		        alert("이메일을 형식에 맞게 입력해주세요.");
-		        document.getElementById("memberEmail1").focus();
-		        return false;
-		    }
-
-		    // 도메인이 .com을 포함하지 않으면 알림을 띄우고 도메인 입력란으로 포커스 이동 후 false 반환
-		    if (document.getElementById("domain-txt").value.indexOf('.com') === -1) {
-		    	console.log("도메인에 반드시 .com입력");
-		    	alert("도메인은 반드시 .com을 포함해야 합니다.");
-		        document.getElementById("domain-txt").focus();
-		        return false;
-		    }
-		    
-		    return true; // 유효성 검사 통과
-	 }
-	 
-	   // 이메일 유효성 검사 함수 호출 및 결과에 따른 처리
-	   if (!validateEmail()) {
-	         return false; // 이메일 유효성 검사 실패 시 폼 제출 막음
-	     }  */
-	 
+		// adrsName(배송지 이름)입력되지 않았거나 배송지가 [ 집 , 회사 , 친구 ]가 아니라면 알림창 출력후 배송지(adrsName.focus)에 포커스 false반환해 form제출을 못하게 막음
 	 	if(adrsName.value=='' || !['집','회사','친구'].includes(adrsName.value)){
 	 		console.log("배송지를 입력해주세요.\n[ 집, 회사, 친구 ] 중 입력해주세요.");
 		alert('배송지를 입력해주세요.\n[ 집, 회사, 친구 ] 중 입력해주세요.');
 		adrsName.focus();
 		return false;
 	}
+		// 만약 우편번호가 입력되지않았다면 알림창출력후 우편번호 입력란에 포커스 false반환해 form제출을 못하게 막음
 	 	if(sample4_postcode.value==''){
 	 		console.log("우편번호를 입력해주세요.");
 		alert('우편번호를 입력해주세요.');
 		sample4_postcode.focus();
 		return false;
 	}
-		else if(!/^\d+$/.test(sample4_postcode.value)){
-	 		console.log("우편번호는 숫자만 입력해주세요. ");
-			alert("우편번호는 숫자만 입력해주세요. ");
-			sample4_postcode.focus();
-			return false;
-		}    
-		 
+	    // 만약 도로명주소가 입력되지않았다면 알림창출력후 도로명주소 입력란에 포커스 false반환해 form제출을 못하게 막음
 	 	if(sample4_roadAddress.value==''){
 	 		console.log('도로명주소를 입력해주세요.');
 		alert('도로명주소를 입력해주세요.');
 		sample4_roadAddress.focus();
 		return false;
 	}
-/* 	 // 도로명주소 형식 확인 (예시: 서울특별시 강남구 테헤란로 123)
-	 	var addressFormatRegex = /^[가-힣]+\s[가-힣]+\s[가-힣0-9\s]+$/;
-
-	 else if (!addressFormatRegex.test(sample4_roadAddress.value)) {
-	 	    alert('도로명주소 형식이 올바르지 않습니다.');
-	 	    sample4_roadAddress.focus();
-	 	    return false;
-	 	} */
+	 	// 만약 지번주소가 입력되지않았다면 알림창출력후 지번주소 입력란에 포커스 false반환해 form제출을 못하게 막음
 	 	if(sample4_jibunAddress.value==''){
 		alert('지번주소를 입력해주세요.');
 		sample4_jibunAddress.focus();
 		return false;
 	}
-/* 	 // 지번주소 형식 확인 (예시: 서울특별시 강남구 123-45)
-	 	var jibunAddressFormatRegex = /^[가-힣]+\s[가-힣]+\s[0-9-]+$/;
-
-	 else if (!jibunAddressFormatRegex.test(sample4_jibunAddress.value)) {
-	 	    alert('지번주소 형식이 올바르지 않습니다.');
-	 	    sample4_jibunAddress.focus();
-	 	    return false;
-	 	} */
+	 	// 만약 상세주소가 입력되지않았다면 알림창출력후 상세주소 입력란에 포커스 false반환해 form제출을 못하게 막음
 	 	if(sample4_detailAddress.value==''){
 		alert('상세주소를 입력해주세요.');
 		sample4_detailAddress.focus();
 		return false;
 	}
 	 
- 
-    
-
+	 	 // 모든 조건이 충족되면 폼을 제출
 		  joinform.submit();
 		
-    //return true; // 유효성 검사 통과
-		    
-           // window.location.href='join.do';
-           // return false;
        
 	}
 	

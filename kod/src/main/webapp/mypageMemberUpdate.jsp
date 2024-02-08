@@ -70,9 +70,6 @@
 </a>
 </div>
 
-<%
-    MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("memberDTO");
-%>  
 
 
 	<div class="container">
@@ -83,11 +80,11 @@
          
         <div class="input__block" style="padding-left: 27px; ">
             <label>아이디</label>                                            
-            <input type="text" class="input" id="memberID"  name="memberID" value="${member20DTO.memberID}" oninput="removeWhitespace(this)" readonly>
+            <input type="text" class="input" id="memberID"  name="memberID" value="${memberDTO.memberID}" oninput="removeWhitespace(this)" readonly>
         </div>
         <div class="input__block" style="padding-left: 27px; ">
             <label>이름</label>
-            <input type="text" id="memberName" class="input" name="memberName" value="<%=memberDTO.getMemberName()%>" oninput="removeWhitespace(this)">
+            <input type="text" id="memberName" class="input" name="memberName" value="${memberDTO.memberName}" oninput="removeWhitespace(this)">
         </div>
         <div class="input__block" style="padding-left: 27px; ">
             <label>비밀번호</label>
@@ -100,11 +97,11 @@
         </div>
         <div class="input__block" style="padding-left: 27px; ">
             <label>핸드폰</label>
-            <input type="number" id="memberPhNum" class="input" name="memberPhNum"  value="<%=memberDTO.getMemberPhNum() %>" maxlength="11" oninput="removeWhitespace(this)">
+            <input type="number" id="memberPhNum" class="input" name="memberPhNum"  value="${memberDTO.memberPhNum}" maxlength="11" oninput="removeWhitespace(this)">
         </div>
         <div class="input__block" style="padding-left: 27px; ">
             <label for="inputDescription">이메일</label>
-            <input type="email" id="memberEmail" class="input" name="memberEmail" value="<%=memberDTO.getMemberEmail()%>" oninput="removeWhitespace(this)">
+            <input type="email" id="memberEmail" class="input" name="memberEmail" value="${memberDTO.memberEmail}" oninput="removeWhitespace(this)">
         </div><br>
 
 			<script>
