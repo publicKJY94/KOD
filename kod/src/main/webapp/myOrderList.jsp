@@ -42,6 +42,7 @@
 		<![endif]-->
 </head>
 <body>
+	<!--[조형련] 액션에서 전달받은 request.setAttribute를 가져옴 -->
 	<c:set var="oDatas" value="${requestScope.oDTO}" />
 	<c:set var="datasTotal" value="${requestScope.datasTotal}" />
 	<!-- SECTION -->
@@ -51,80 +52,76 @@
 		<!-- container -->
 		<div class="container">
 			<!-- row -->
-    <div class="row">
-        <div class="col-md-9" style="margin-left: 10%;">
-            <!-- Billing Details -->
-               <c:if test="${empty oDatas}">
-               <div style="height : 400px; padding-top : 20%;" >
-            <h3 style="text-align:center;">주문목록이 없습니다</h3>
-            </div>
-    	    </c:if>
-    	    	<c:if test="${not empty oDatas}">
+			<div class="row">
+				<div class="col-md-9" style="margin-left: 10%;">
+					<!-- Billing Details -->
+					<!--[조형련] 주문번호 정보가 존재하지 않는 경우 -->
+					<c:if test="${empty oDatas}">
+						<div style="height: 400px; padding-top: 20%;">
+							<h3 style="text-align: center;">주문목록이 없습니다</h3>
+						</div>
+					</c:if>
+					<!--[조형련] 주문번호 정보가 존재하는 경우 -->
+					<c:if test="${not empty oDatas}">
 						<table class="cart__list">
 							<tbody>
-       <c:forEach var="oData" items="${oDatas}" >
-		    <tr class="cart__list__detail">
-		        <td colspan="4">
-		            
-		            <h5 style="text-align:center">
-		                주문 날짜 : ${oData.odListDate}
-		            </h5>
-		        </td>
-		    </tr>
-            <tr>
-                <td rowspan="${oData.cnt + 1}">
-	                <h5 style="text-align:center">
-	                	주문번호 : ${oData.odListID}
-	            	</h5>
-                </td>
-                <tr>
-    			<c:forEach var="data" items="${datasTotal}">
-	        	<c:if test="${oData.odListID == data.odListID}">
-                <td><img src="${data.productImg}" alt="product"></td>
-                <td>
-                    <p>${data.productName} ${data.productID}번 / 수량 : ${data.odContentCnt} 개</p>
-                    <p>${data.productCategory}</p>
-                </td>
-                <td>
-                	<span class="price">${data.productPrice * data.odContentCnt}원</span><br>
-                    <form action="reviewWritePage.do" method="POST" id="form1">
-                   	<input type="hidden" name="orderContentID" value="${data.getOdContentID()}">
-                      <input type="hidden" name="productID" value="${data.productID}">
-                        <c:choose>
-                            <c:when test="${data.reviewButtonStatus eq 'enabled'}">
-                                <%-- 리뷰 작성 완료된 경우 버튼 비활성화 --%>
-                                <button class="cart__list__orderbtn" disabled>리뷰작성완료</button>
-                            </c:when>
-                            <c:otherwise>
-                                <%-- 리뷰 작성 미완료된 경우 버튼 활성화 --%>
-                                <label for="${data.productID}">
-                                	<img alt="" src="img/writeReview.png" style="width: 30px; height: 30px;">
-                                </label>
-                                <button id="${data.productID}" class="cart__list__orderbtn" onclick="openReviewWrite()" style="display: none;">리뷰작성하기</button>
-                            </c:otherwise>
-                        </c:choose>
-                    </form>
-                </td>
-                <tr>
-			  </c:if>
-   			</c:forEach>
-            </tr>
-</c:forEach>
+								<c:forEach var="oData" items="${oDatas}">
+									<tr class="cart__list__detail">
+										<td colspan="4">
+
+											<h5 style="text-align: center">주문 날짜 : ${oData.odListDate}</h5>
+										</td>
+									</tr>
+									<tr>
+										<!--[조형련] 각 주문번호에 주문내역이 몇개 담겨있는지 확인하여 줄간격을 조정 -->
+										<td rowspan="${oData.cnt + 1}">
+											<h5 style="text-align: center">주문번호 : ${oData.odListID}</h5>
+										</td>
+									<tr>
+										<!--[조형련] 주문번호가 같은 상품별로 해당 상품의 정보를 표시 -->
+										<c:forEach var="data" items="${datasTotal}">
+											<c:if test="${oData.odListID == data.odListID}">
+												<td><img src="${data.productImg}" alt="product"></td>
+												<td>
+													<p>${data.productName}${data.productID}번/수량 : ${data.odContentCnt} 개</p>
+													<p>${data.productCategory}</p>
+												</td>
+												<td>
+													<!--[조형련] 구매한 상품의 가격과 수량을 곱하여 계산 --> <span class="price">${data.productPrice * data.odContentCnt}원</span><br>
+													<form action="reviewWritePage.do" method="POST" id="form1">
+														<input type="hidden" name="orderContentID" value="${data.getOdContentID()}">
+														<input type="hidden" name="productID" value="${data.productID}">
+														<c:choose>
+															<c:when test="${data.reviewButtonStatus eq 'enabled'}">
+																<%--[조형련] 리뷰 작성이 완료된 경우 --%>
+																<button class="cart__list__orderbtn" disabled>리뷰 작성 완료</button>
+															</c:when>
+															<c:otherwise>
+																<%--[조형련] 리뷰 작성이 완료되지 않은 경우 --%>
+																<label for="${data.productID}"> <img alt="" src="img/writeReview.png" style="width: 30px; height: 30px;">
+																	<button id="${data.productID}" class="cart__list__orderbtn" onclick="openReviewWrite()" style="display: none;">리뷰 작성하기</button>
+																</label>
+															</c:otherwise>
+														</c:choose>
+													</form>
+												</td>
+												<tr>
+											</c:if>
+										</c:forEach>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
-						</c:if>
-						<!-- /Billing Details -->
-            <!-- Billing Details -->
-            <br>
-            <br>
-            <!-- /Billing Details -->
-        </div>
-        <!-- Order Details -->
-        <!-- /Order Details -->
-    </div>
-    <!-- /row -->
-</div>
-
+					</c:if>
+					<!-- /Billing Details -->
+					<!-- Billing Details -->
+					<br> <br>
+					<!-- /Billing Details -->
+				</div>
+				<!-- Order Details -->
+				<!-- /Order Details -->
+			</div>
+			<!-- /row -->
 		</div>
 	</div>
 	<!-- /container -->
@@ -140,13 +137,17 @@
 					<div class="col-md-3 col-xs-6">
 						<div class="footer">
 							<h3 class="footer-title">About Us</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-								sed do eiusmod tempor incididunt ut.</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
 							<ul class="footer-links">
-								<li><a href="#"><i class="fa fa-map-marker"></i>1734
-										Stonecoal Road</a></li>
-								<li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-								<li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+								<li><a href="#">
+										<i class="fa fa-map-marker"></i>1734 Stonecoal Road
+									</a></li>
+								<li><a href="#">
+										<i class="fa fa-phone"></i>+021-95-51-84
+									</a></li>
+								<li><a href="#">
+										<i class="fa fa-envelope-o"></i>email@email.com
+									</a></li>
 							</ul>
 						</div>
 					</div>
@@ -205,24 +206,34 @@
 				<div class="row">
 					<div class="col-md-12 text-center">
 						<ul class="footer-payments">
-							<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-							<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-							<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-							<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-							<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-							<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
+							<li><a href="#">
+									<i class="fa fa-cc-visa"></i>
+								</a></li>
+							<li><a href="#">
+									<i class="fa fa-credit-card"></i>
+								</a></li>
+							<li><a href="#">
+									<i class="fa fa-cc-paypal"></i>
+								</a></li>
+							<li><a href="#">
+									<i class="fa fa-cc-mastercard"></i>
+								</a></li>
+							<li><a href="#">
+									<i class="fa fa-cc-discover"></i>
+								</a></li>
+							<li><a href="#">
+									<i class="fa fa-cc-amex"></i>
+								</a></li>
 						</ul>
-						<span class="copyright"> <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							Copyright &copy;<script>
-								document.write(new Date().getFullYear());
-								
-								function openReviewWrite() {
-									
-									document.getElementById('form1').submit();
-								}
-							</script> All rights reserved | This template is made with <i
-							class="fa fa-heart-o" aria-hidden="true"></i> by <a
-							href="https://colorlib.com" target="_blank">Colorlib</a> <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						<span class="copyright"> <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> Copyright &copy;
+						<script>
+						function openReviewWrite() {
+
+							document.getElementById('form1').submit();
+						}
+						
+							document.write(new Date().getFullYear());
+						</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						</span>
 					</div>
 				</div>

@@ -245,10 +245,12 @@ $(document).ready(function(){
 										<input type="hidden" name="productName"
 											value="${productWishDetailData.productName}" /> <input
 											type="hidden" name="productPrice"
-											value="${productWishDetailData.productPrice}" /> <input
-											id="purchaseCnt" name="purchaseCnt" type="number" value="1"
-											min="1" /> <span class="qty-up" onclick="increaseQuantity()">+</span>
-										<span class="qty-down" onclick="decreaseQuantity()">-</span>
+											value="${productWishDetailData.productPrice}" /> 
+											<div>
+											<input id="purchaseCnt" name="purchaseCnt" type="number" value="1" min="1" max="10" readonly>
+											<span class="qty-up" >+</span>
+											<span class="qty-down" >-</span>
+											</div>
 									</div>
 								</div>
 								<button class="add-to-cart-btn" type="button"
@@ -290,7 +292,7 @@ $(document).ready(function(){
 				</div>
 				<!-- /Product details -->
 				<!--  /open modal -->
-
+				<!--[조형련] 상품추가 안내와 함께 장바구니로 이동할 수 있는 모달창 -->
 				<form action="paySelect.do" method="POST" id="form2">
 					<div style="margin-bottom: 5px;">
 						<div class="modalCart hidden">
@@ -298,47 +300,41 @@ $(document).ready(function(){
 							<div class="modalBox">
 								<p>장바구니에 상품이 추가되었습니다</p>
 								<div>
-									<button type="button" onclick="func2()"
-										style="color: #FFF; background-color: #ef233c; , border-radius: 40px; , border: 2px solid;">장바구니로
-										이동하기</button>
+									<button type="button" onclick="addToCart()" style="color: #FFF; background-color: #ef233c; , border-radius: 40px; , border: 2px solid;">장바구니로 이동하기</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</form>
-
+				<!--[조형련] /모달창 -->
 				<!--  /open modal -->
 				<script>
 
-function modalCart() {
+function modalCart() { 
     var modal = document.querySelector(".modalCart");
     modal.classList.remove("hidden");
-
-    // 3초 후에 모달을 천천히 사라지게 함
+    
     setTimeout(function() {
-        var opacity = 1;
+        var opacity = 1; 
         var timerFadeOut = setTimeout(function changeOpacity() {
             if (opacity <= 0) {
-                modal.classList.add("hidden");
-                // 모달이 사라지면 투명도를 초기화하여 다음에 모달이 나타날 때 사용할 수 있도록 함
-                modal.style.opacity = 1;
+                // 투명도가 0 이하인 경우에는 모달을 숨김(hidden 클래스 추가)과 동시에 투명도 초기화
+                modal.classList.add("hidden"); // 모달이 사라지면 hidden 클래스 추가
+                modal.style.opacity = 1; // 투명도를 초기화하여 다음에 모달이 나타날 때 사용할 수 있도록 함
             } else {
-                modal.style.opacity = opacity;
+                // 투명도가 0보다 큰 경우에는 투명도를 감소시킴
+                modal.style.opacity = opacity; // 현재 투명도 설정
                 opacity -= 0.1; // 0.1씩 감소시켜 부드럽게 페이드아웃
                 setTimeout(changeOpacity, 50); // 50ms 후에 다시 호출하여 투명도를 변경함
             }
-        }, 50); // 50ms 후에 실행
-    }, 2000); // 3초 후에 실행
+        }, 50); // 50ms마다 투명도를 변경하는 타이머
+    }, 2000); // 2초 후에 실행될 setTimeout 함수
 }
 
-function func2(){
+function addToCart(){ //안내멘트와 함께 장바구니로 이동하는 함수
 	   document.getElementById('form2').submit();
 	}
-function closeModal1() {
-    document.querySelector(".modalCart").classList.add("hidden");
-	document.querySelector(".bg2").addEventListener("click", closeModal1);
-}
-
+	
 
 </script>
 				<!-- Product tab -->
@@ -392,31 +388,31 @@ function closeModal1() {
     document.getElementById('averageRatingStars').innerHTML = starHtml;
 </script>
 
-														<script>
-function cartInsert() {
+<script>
+function cartInsert() { // [조형련] 장바구니에 상품 추가하는 비동기 처리
     console.log('비동기진입');
-
-    var productID = document.getElementById("productID").value;
+	
+    var productID = document.getElementById("productID").value; 
     var purchaseCnt = document.getElementById("purchaseCnt").value;
 
     $.ajax({
-        type: 'POST',
+        type: 'POST', //POST방식으로 전달
         url: 'cartInsertActionServlet', // 장바구니 업데이트를 처리할 서블릿 URL
-        dataType: 'json',
-        data: {
+        dataType: 'json', //받아온 데이터의 타입
+        data: {    
             productID: productID,
             purchaseCnt: purchaseCnt,
         },
-        success: function(response) {
+        success: function(response) { //비동기처리를 성공하면 반환값을 받아옴
             console.log('성공화면1');
-            if (response == 1) {
-                modalCart();
+            if (response == 1) { // 응답으로 1이 들어온다면, 사용자에게 안내메시지를 보여주면서 장바구니로 이동할 수 있는 모달창을 보여줌
+                modalCart(); 
             }else{
             	
             }
         },
-        error: function(error) {
-            console.log("에러: " + error);
+        error: function(error) { //실패할 경우 
+           
         }
     });
 }
