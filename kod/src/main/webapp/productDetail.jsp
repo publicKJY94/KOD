@@ -213,16 +213,17 @@ $(document).ready(function(){
 				<div class="col-md-5">
 					<div class="product-details">
 						<h2 class="product-name">${productWishDetailData.productName}</h2>
-						<div>
-							<div class="rating-avg">
-								<div class="rating-stars" id="averageRatingStars">
-									<!-- 별의 개수를 동적으로 조절할 부분 -->
-								</div>
-							</div>
-								<span>상품만족도 : ${reviewAvgScore}</span><br/>
-							<a class="review-link" href="#">${productReviewDatas.size()}
-								Review(s) | Add your review</a>
-						</div>
+						<c:if test="${not empty reviewAvgScore}"> <!-- 평점이 존재하는 경우에만 아래 정보를 표시함 -->
+						    <div class="rating-avg"> <!-- 별점 평균점수 -->
+						        <div class="rating-stars" id="averageRatingStars">
+						            <!-- 별의 개수를 동적으로 조절할 부분 -->
+						        </div>
+						    </div>
+						    <span>상품만족도 : ${reviewAvgScore}</span><br/>
+						    <a class="review-link" href="#">${productReviewDatas.size()}
+						        Review(s) | Add your review
+						    </a>
+						</c:if>
 						<div>
 							<h3 class="product-price">
 								<fmt:setLocale value="ko_KR" />
