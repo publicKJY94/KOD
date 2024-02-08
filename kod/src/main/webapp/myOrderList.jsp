@@ -54,6 +54,12 @@
     <div class="row">
         <div class="col-md-9" style="margin-left: 10%;">
             <!-- Billing Details -->
+               <c:if test="${empty oDatas}">
+               <div style="height : 400px; padding-top : 20%;" >
+            <h3 style="text-align:center;">주문목록이 없습니다</h3>
+            </div>
+    	    </c:if>
+    	    	<c:if test="${not empty oDatas}">
 						<table class="cart__list">
 							<tbody>
        <c:forEach var="oData" items="${oDatas}" >
@@ -106,6 +112,7 @@
 </c:forEach>
 							</tbody>
 						</table>
+						</c:if>
 						<!-- /Billing Details -->
             <!-- Billing Details -->
             <br>

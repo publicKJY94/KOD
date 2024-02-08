@@ -278,10 +278,16 @@
 		    var productCnt = $input.val();
 		    
 		    // 변경된 수량 계산
-		        var newProductCnt;
+		    var newProductCnt;
+		    
 		    if (type == 'p') {
 		        newProductCnt = Number(productCnt) + 1;
-		    } else {
+		        if(newProductCnt > 10){
+		        	newProductCnt=10;
+		        	alert('최대수량은 10개를 넘길 수 없습니다');
+		        }
+		    } 
+		    else {
 		        if (productCnt > 1) {
 		            newProductCnt = Number(productCnt) - 1;
 		        } else {
@@ -289,9 +295,7 @@
 		        }
 		    }
 		    // 비동기처리 함수
-		    updateCart(productId, newProductCnt , index);
-		    
-		  
+		    updateCart(productId, newProductCnt , index);  
 		}
 		
 		function selectAll(selectAll)  {
@@ -303,7 +307,5 @@
 			  })
 			}
 	</script>
-	
-	
 	</body>
 </html>
