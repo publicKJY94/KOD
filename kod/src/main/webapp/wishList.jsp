@@ -46,7 +46,7 @@
             <div class="box-page-count" style="display: flex; align-items: center; ">
                 <div class="l-cont">
                     <c:set var="memberName" value="${sessionScope.memberDTO.memberName}" />
-                    <div>${memberName} 위시리스트</div>
+                    <div>${memberName}님의 위시리스트</div>
 
                     <c:set var="wishListDatas" value="${requestScope.wishListDatas}" />
                     <c:set var="wishListCntObj" value="${requestScope.wishListCnt}" />

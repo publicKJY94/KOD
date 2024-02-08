@@ -14,7 +14,7 @@ public class WishListDAO {
 	private Connection conn; // DB와의 연결을 담당
 	private PreparedStatement pstmt; // CRUD 수행을 담당
 
-	private static final String SELECTALL_WISH_RANKING_BY_PRODUCTS_LOGIN = // 인기순 정렬 - 로그인상태
+	private static final String SELECTALL_WISH_RANKING_BY_PRODUCTS_LOGIN = // 메인페이지 인기상품 추천 - 로그인상태
 			"SELECT  "
 			+ "     CASE WHEN WL.PRODUCT_ID IS NULL THEN 0 ELSE 1 END AS ISWISHED,  "
 			+ "     ROWNUM AS RANK,  "
@@ -52,7 +52,7 @@ public class WishListDAO {
 			+ " ) WL ON RANKED_PRODUCTS.PRODUCT_ID = WL.PRODUCT_ID "
 			+ " WHERE ROWNUM <= 7";
 
-	private static final String SELECTALL_WISH_RANKING_BY_PRODUCTS_LOGOUT = // 인기순 정렬 - 로그아웃상태
+	private static final String SELECTALL_WISH_RANKING_BY_PRODUCTS_LOGOUT = // 메인페이지 인기상품 추천 - 로그아웃상태
 			  "  SELECT  "
 			  + "   0 AS ISWISHED,  "
 			  + "   RANKED_PRODUCTS.WISHLIST_RANK,  "
@@ -86,7 +86,7 @@ public class WishListDAO {
 			  + "ORDER BY RANKED_PRODUCTS.WISHLIST_RANK ASC ";
 	
 	
-	private static final String SELECTALL_WISHLIST_RANK_BY_GENDER = // 성별 인기순 정렬
+	private static final String SELECTALL_WISHLIST_RANK_BY_GENDER = // 성별 인기순 정렬 - 최종프로젝트에서 구현예정
 			"SELECT "
 			+ "    ROW_NUMBER() OVER (ORDER BY COUNT(W.WISHLIST_ID) DESC) AS RANK, "
 			+ "    COUNT(W.WISHLIST_ID) AS WISHLIST_COUNT, "
@@ -109,7 +109,7 @@ public class WishListDAO {
 			+ "    P.PRODUCT_IMG "
 			+ "ORDER BY RANK ";
 	
-	private static final String SELECTALL_WISH_RANKING_BY_AGE = // 연령별 인기순
+	private static final String SELECTALL_WISH_RANKING_BY_AGE = // 메인페이지&상품상세페이지 연령별 인기상품 추천
 			"SELECT "
 			+ "  AGE_RANGE, "
 			+ "  PRODUCT_ID, "
@@ -160,10 +160,12 @@ public class WishListDAO {
 			+ ") "
 			+ "WHERE ROWNUM <= 6 ";
 	
-	// 상품별 재고를 가져와서 해당 상품 재고가 0일 경우 상품정보를 흐려지게하는 작업 후 버튼 작동불가하게 함
-	// selectOne이 아닌 selectAll에서 재고를 가져와서 
-	// 재고가 0인 상품 반복문을 통해 확인해주고 delete기능 수행
-	private static final String SELECTALL_WISHLIST_BY_MEMBER = // 회원별 찜 목록 - 위시리스트
+	/*
+	 * selectAll에서 상품별 재고를 가져온 후 재고값을 가진 hidden 속성의 div태그로 작성 후
+	 * 재고가 0인 상품의 상품정보를 그레이스케일CSS 작업 후
+	 * 상품목록 중 재고가 0인 상품 반복문을 통해 delete 기능 수행
+	 */
+	private static final String SELECTALL_WISHLIST_BY_MEMBER = // 위시리스트 페이지
 			  "SELECT "
 			+ "    M.MEMBER_NAME, "
 			+ "    P.PRODUCT_ID, "
@@ -172,7 +174,7 @@ public class WishListDAO {
 			+ "    P.PRODUCT_CATEGORY, "
 			+ "    P.PRODUCT_PRICE, "
 			+ "    P.PRODUCT_IMG, "
-			+ "    P.PRODUCT_STOCK " // 상품재고
+			+ "    P.PRODUCT_STOCK " // 상품재고 - 품절상품제거 로직에서 사용
 			+ "FROM  "
 			+ "    WISHLIST W "
 			+ "JOIN "
@@ -181,8 +183,7 @@ public class WishListDAO {
 			+ "    PRODUCT P ON W.PRODUCT_ID = P.PRODUCT_ID "
 			+ "WHERE M.MEMBER_ID=? ";
 	
-	// 회원별 상품찜여부 확인 - 모든상품 로드 (상품목록페이지에서 사용됨)
-	private static final String SELECTALL_WISHLIST_BY_MEMBER_ISWISHED = 
+	private static final String SELECTALL_WISHLIST_BY_MEMBER_ISWISHED = // 상품목록페이지 - 로그인상태
 			"SELECT "
 					+ "    CASE WHEN WL.PRODUCT_ID IS NULL THEN 0 ELSE 1 END AS ISWISHED, "
 					+ "    P.PRODUCT_ID, "
@@ -220,6 +221,7 @@ public class WishListDAO {
 			+ " LIKE UPPER('%'||?||'%') "
 			+ " OR UPPER(p.PRODUCT_NAME) "
 			+ " LIKE UPPER('%'||?||'%') ";
+	
 	// 카테고리별 상품추천 - 로그아웃상태
 //	private static final String SELECTALL_PRODUCT_CATEGORY_WISH_LOGOUT =
 //			"SELECT "
@@ -249,8 +251,7 @@ public class WishListDAO {
 //			+ "WHERE P.PRODUCT_CATEGORY = ? "
 //			+ "AND ROWNUM <= 4";
 	
-	// 상품상세페이지 - 로그인 상태
-	private static final String SELECTONE_PRODUCT_DETAIL_LOGIN = 
+	private static final String SELECTONE_PRODUCT_DETAIL_LOGIN = // 상품상세페이지 - 로그인상태
 			"SELECT "
 			+ "    P.PRODUCT_ID, "
 			+ "    P.PRODUCT_NAME, "
@@ -264,7 +265,7 @@ public class WishListDAO {
 			+ "        SELECT COUNT(W.WISHLIST_ID) "
 			+ "        FROM WISHLIST W "
 			+ "        WHERE W.PRODUCT_ID = P.PRODUCT_ID "
-			+ "    ) AS WISH_TOTAL_CNT, " // 상품별 찜 수량확인
+			+ "    ) AS WISH_TOTAL_CNT, " // 상품별 찜 수량 (WISH_TOTAL_CNT)
 			+ "    MAX(CASE WHEN W.PRODUCT_ID IS NOT NULL THEN 1 ELSE 0 END) AS ISWISHED "
 			+ "FROM "
 			+ "    MEMBER M "
@@ -278,8 +279,7 @@ public class WishListDAO {
 			+ "    P.PRODUCT_ID, P.PRODUCT_NAME, P.PRODUCT_BRAND, P.PRODUCT_PRICE, P.PRODUCT_INFO, "
 			+ "    P.PRODUCT_CATEGORY, P.PRODUCT_STOCK, P.PRODUCT_IMG ";
 	
-	// 상품상세페이지 - 로그아웃 상태
-	private static final String SELECTONE_PRODUCT_DETAIL_LOGOUT = 
+	private static final String SELECTONE_PRODUCT_DETAIL_LOGOUT = // 상품상세페이지 - 로그아웃 상태
 			"SELECT "
 			+ "	0 AS ISWISHED, "
 			+ "    P.PRODUCT_ID, "
@@ -306,18 +306,15 @@ public class WishListDAO {
 			+ "    P.PRODUCT_ID, P.PRODUCT_NAME, P.PRODUCT_BRAND, P.PRODUCT_PRICE, P.PRODUCT_INFO, "
 			+ "    P.PRODUCT_CATEGORY, P.PRODUCT_STOCK, P.PRODUCT_IMG ";
 	
-	// 회원별 위시리스트 수량
-	private static final String SELECTONE_WISHLIST_CNT_BY_MEMBER =
+	private static final String SELECTONE_WISHLIST_CNT_BY_MEMBER = // 헤더페이지 - 회원별 위시리스트 수량
 			"SELECT COUNT(WISHLIST_ID) AS WISHLIST_CNT FROM WISHLIST WHERE MEMBER_ID=? ";
 	
-	// 해당상품 위시리스트 존재여부 확인
-	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST =
+	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST = // 찜 추가/삭제 기능 - 해당상품 찜여부 확인용으로 사용
 			"SELECT WISHLIST_ID "
 			+ "FROM WISHLIST "
 			+ "WHERE MEMBER_ID=? AND PRODUCT_ID=? ";
 	
-	// 상품별 찜 총 수량
-	private static final String SELECTONE_WISH_TOTAL_CNT =
+	private static final String SELECTONE_WISH_TOTAL_CNT = // 상품상세페이지 - 해당상품 찜 총수량
 			"SELECT "
 			+ "	COUNT(W.WISHLIST_ID) AS WISH_TOTAL_CNT  "
 			+ "FROM WISHLIST W "
@@ -325,15 +322,15 @@ public class WishListDAO {
 			+ "WHERE P.PRODUCT_ID=? ";
 	
 	// 회원 나이 계산 - 연령별 상품추천 로직 밑작업
-	private static final String SELECTONE_MEMBER_AGE=
+	private static final String SELECTONE_MEMBER_AGE = // 상품상세페이지(연령별 상품추천로직과 함께 사용) - 회원 나이계산
 			"SELECT "
 			+ "	M.MEMBER_ID, "
-			+ "	TRUNC(MONTHS_BETWEEN(SYSDATE, M.MEMBER_BIrTH)/12) AS AGE "
+			+ "	TRUNC(MONTHS_BETWEEN(SYSDATE, M.MEMBER_BIRTH)/12) AS AGE "
 			+ "FROM MEMBER M "
 			+ "WHERE M.MEMBER_ID= ? ";
 	
 	// 상품상세페이지 찜 여부 확인
-	private static final String SELECTONE_CHECK_ISWISHED=
+	private static final String SELECTONE_CHECK_ISWISHED = // 상품상세페이지(연령별 상품추천로직과 함께 사용) - 회원 찜여부 확인
 			  "SELECT "
 			+ "    CASE WHEN WL.PRODUCT_ID IS NULL THEN 0 ELSE 1 END AS ISWISHED "
 			+ "FROM "
@@ -344,7 +341,7 @@ public class WishListDAO {
 			+ "    M.MEMBER_ID = ? ";
 	
 	// KOD사이트에 가입한 회원들 중 가장 많은 나이대가 속한 연령대 상품추천로직 밑작업 - 상품상세페이지 하단에서 구현, 로그아웃상태
-	private static final String SELECTONE_MOST_AGE_RANGE=
+	private static final String SELECTONE_MOST_AGE_RANGE = // 상품상세페이지 (연령별 상품추천로직과 함께 사용) - 로그아웃상태
 			"SELECT "
 			+ "    AGE_RANGE, "
 			+ "    MEMBER_COUNT "
@@ -383,14 +380,13 @@ public class WishListDAO {
 			+ ") "
 			+ "WHERE RANK_ORDER = 1 ";
 	
-	// 찜 하기
-	private static final String INSERT_WISHLIST_BY_PRODUCT = 
+	private static final String INSERT_WISHLIST_BY_PRODUCT = // 찜 추가 기능
 			"INSERT INTO WISHLIST (WISHLIST_ID,MEMBER_ID, PRODUCT_ID) "
 					+ "VALUES ((SELECT NVL(MAX(WISHLIST_ID),0)+1 FROM WISHLIST),?, ?) ";
-	// 찜 삭제
-	private static final String DELETE_WISHLIST_BY_PRODUCT = 
+	private static final String DELETE_WISHLIST_BY_PRODUCT = // 찜 삭제 기능
 			"DELETE FROM WISHLIST "
 			+ "WHERE MEMBER_ID = ? AND PRODUCT_ID = ? ";
+	
 	/*
 	  isWished 클래스를 가진 버튼이 클릭되면 
 		 비동기적으로 상품을 추가하는 기능을 수행하고 싶어
@@ -409,20 +405,20 @@ public class WishListDAO {
 	
 	public ArrayList<WishListDTO> selectAll(WishListDTO wishListDTO){
 		ArrayList<WishListDTO> datas = new ArrayList<WishListDTO>();
-		if(wishListDTO.getSearchCondition().equals("회원별찜목록")) {
+		if(wishListDTO.getSearchCondition().equals("회원별찜목록")) { // 위시리스트 페이지에서 사용
 			conn=JDBCUtil.connect();
 			try {
-				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISHLIST_BY_MEMBER);
+				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISHLIST_BY_MEMBER); 
 				pstmt.setString(1, wishListDTO.getMemberID());
 				System.out.println("[로그 : 정현진] DAO, 회원ID : "+wishListDTO.getMemberID());
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
 					WishListDTO data = new WishListDTO();
 					data.setProductID(rs.getInt("PRODUCT_ID"));
-//					System.out.println("wlDAO pID : "+rs.getString("PRODUCT_ID"));
+//					System.out.println("[로그 : 정현진] DAO, 상품ID : "+rs.getString("PRODUCT_ID"));
 					data.setProductBrand(rs.getString("PRODUCT_BRAND"));
 					data.setProductName(rs.getString("PRODUCT_NAME"));
-//					System.out.println(rs.getString("PRODUCT_NAME"));
+//					System.out.println("[로그 : 정현진] DAO, 상품명 : "+rs.getString("PRODUCT_NAME"));
 					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
 					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
 					data.setProductImg(rs.getString("PRODUCT_IMG"));
@@ -437,7 +433,7 @@ public class WishListDAO {
 			}
 			return datas;
 		}
-		else if(wishListDTO.getSearchCondition().equals("찜")) {
+		else if(wishListDTO.getSearchCondition().equals("찜")) { // 상품목록페이지 - 로그인상태
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISHLIST_BY_MEMBER_ISWISHED);
@@ -463,7 +459,7 @@ public class WishListDAO {
 			}
 			return datas;
 		}
-		else if(wishListDTO.getSearchCondition().equals("인기상품LOGIN")) {
+		else if(wishListDTO.getSearchCondition().equals("인기상품LOGIN")) { // 메인페이지 인기상품 추천 - 로그인상태
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISH_RANKING_BY_PRODUCTS_LOGIN);
@@ -488,7 +484,7 @@ public class WishListDAO {
 			}
 			return datas;
 		}
-		else if(wishListDTO.getSearchCondition().equals("인기상품LOGOUT")) {
+		else if(wishListDTO.getSearchCondition().equals("인기상품LOGOUT")) { // 메인페이지 인기상품 추천 - 로그아웃상태
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISH_RANKING_BY_PRODUCTS_LOGOUT);
@@ -512,7 +508,7 @@ public class WishListDAO {
 			}
 			return datas;
 		}
-		else if(wishListDTO.getSearchCondition().equals("성별찜랭킹")) {
+		else if(wishListDTO.getSearchCondition().equals("성별찜랭킹")) { // 최종프로젝트에서 구현예정
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISHLIST_RANK_BY_GENDER);
@@ -526,7 +522,7 @@ public class WishListDAO {
 			}
 			return datas;
 		}
-		else if(wishListDTO.getSearchCondition().equals("나이별찜랭킹")) {
+		else if(wishListDTO.getSearchCondition().equals("연령별찜랭킹")) { // 메인페이지&상품상세페이지 연령별 인기상품 추천
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISH_RANKING_BY_AGE);
@@ -555,11 +551,9 @@ public class WishListDAO {
 //			conn=JDBCUtil.connect();
 //			try {
 //				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_PRODUCT_CATEGORY_WISH_LOGIN);
-//				System.out.println("쿼리실행됨?");
 //				pstmt.setString(1, wishListDTO.getMemberID());
 //				pstmt.setString(2, wishListDTO.getProductCategory());
 //				ResultSet rs = pstmt.executeQuery();
-//				System.out.println("됨");
 //				while(rs.next()) {
 //					System.out.println("rs.next()들어옴");
 //					WishListDTO data = new WishListDTO();
@@ -581,8 +575,8 @@ public class WishListDAO {
 //			}
 //			return datas;
 //		}
-		else if(wishListDTO.getSearchCondition().equals("연관상품LOGIN버전2")) {
-			System.out.println("연관상품LOGIN버전2 들어옴 @@@@");
+		else if(wishListDTO.getSearchCondition().equals("연령별상품추천LOGIN")) {
+			System.out.println("[로그 : 정현진] 연령별상품추천LOGIN 들어옴 @@@@");
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISH_RANKING_BY_AGE);
@@ -630,25 +624,25 @@ public class WishListDAO {
 			 * 상품을 선택하면 이동되는 상품상세페이지에서 로그인한 회원의 나이대에 해당하는
 			 * 회원들이 찜을 많이 한 순서로 상품을 조회하는 로직으로 구현되어 있습니다.
 			 * 상품상세페이지에서 보여질 추천상품 리스트들은 현재 보고있는 상품의 정보를 제외하고 
-			 * 보여주기위해 for안에 if문을 사용하여 데이터를 반환하도록 구현하였습니다.
+			 * 보여주기위해 for문 안에 if문을 사용하여 데이터를 반환하도록 구현하였습니다.
 			 * 여기서 주의 할 점은 if문이 참이었을 때, remove 함수를 실행하게 되면
 			 * i번째 인덱스가 삭제되면서 for문의 반복조건이 변경되어 삭제된 횟수만큼 
 			 * 반복을 수행하지 못하는 오류가 발생하게됩니다.
 			 * 해당 오류를 해결하기 위해서는 
 			 * 리스트 내에 중복상품이 여러개일 경우 while문을 사용하거나
-			 * 중복된 상품이 없을 경우엔 for문을 사용하여 if문인 참인 조건을 실행하였다면
-			 * break 예약어를 사용하여 불필요한 반복을 피하고 코드실행을 효율적으로 관리하기 위함입니다. 
+			 * 중복된 상품이 없을 경우엔 for문을 사용하여 if문이 참인 조건을 실행하였다면
+			 * break 예약어를 사용하여 불필요한 반복을 피하고 코드실행이 효율적으로 관리된 코드입니다.
 			 */
 			/*
-			 * 쿼리를 조회한 후 조건문을 사용한 이유는 현재 우리의 프로그램이 데이터의 양이 많지 않아 
+			 * 쿼리를 조회한 후 조건문을 사용한 이유는 현재 우리 프로그램이 데이터의 양이 많지 않아 
 			 * 데이터베이스의 부하가 크지 않고 다양한 조건이 필요한 경우가 아니라서 구현된 로직입니다.
 			 * 만약 데이터의 양이 많아서 데이터베이스의 과부하가 우려되는 상황이나
 			 * 여러가지 조건이 유동적으로 자주 변화해야 되는 로직이라면
 			 * 조건에 맞게 쿼리를 변경하여 필요한 데이터만 가져오게하여 데이터베이스의 액세스 시간을 단축시켜
-			 * 과부하를 줄일 수 있습니다. 
+			 * 과부하를 줄일 수 있습니다. -> 카테고리별 상품조회에서 사용됨
 			 */
 		}
-		else if(wishListDTO.getSearchCondition().equals("연관상품LOGOUT스텝2")) {
+		else if(wishListDTO.getSearchCondition().equals("연령별상품추천LOGOUT스텝2")) {
 			if(wishListDTO.getMemberAge()==10) {
 				wishListDTO.setMemberMinAge(10);
 				wishListDTO.setMemberMaxAge(20);
@@ -759,9 +753,9 @@ public class WishListDAO {
 		conn=JDBCUtil.connect();
 		WishListDTO data=null;
 		if(wishListDTO.getSearchCondition().equals("위시리스트추가삭제")) {
+			System.out.println("[로그 : 정현진] DAO, 위시리스트 추가삭제 들어옴");
 		try {
 			pstmt=conn.prepareStatement(SELECTONE_IS_PRODUCT_IN_WISHLIST);
-			System.out.println("[로그 : 정현진] DAO, 위시리스트 추가삭제");
 			pstmt.setString(1, wishListDTO.getMemberID());
 			pstmt.setInt(2, wishListDTO.getProductID());
 			ResultSet rs = pstmt.executeQuery();
@@ -776,7 +770,7 @@ public class WishListDAO {
 		}
 		return data;
 		}
-		else if(wishListDTO.getSearchCondition().equals("찜수량")) {
+		else if(wishListDTO.getSearchCondition().equals("위시리스트합계갯수")) {
 			try {
 				pstmt=conn.prepareStatement(SELECTONE_WISHLIST_CNT_BY_MEMBER);
 				pstmt.setString(1, wishListDTO.getMemberID());
@@ -793,7 +787,7 @@ public class WishListDAO {
 			}
 			return data;
 		}
-		else if(wishListDTO.getSearchCondition().equals("찜합계")) {
+		else if(wishListDTO.getSearchCondition().equals("상품찜합계")) {
 			try {
 				pstmt=conn.prepareStatement(SELECTONE_WISH_TOTAL_CNT);
 				pstmt.setInt(1, wishListDTO.getProductID());
@@ -870,23 +864,44 @@ public class WishListDAO {
 				pstmt.setString(1, wishListDTO.getMemberID());
 				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
-					System.out.println("wishDAO 나이 들어옴");
+					System.out.println("[로그 : 정현진] wishDAO 나이 들어옴");
 					int age = rs.getInt("AGE");
-					System.out.println("회원나이 : "+age);
+					age /= 10; // 몫 구하기 ex) 23살일 경우 => 2, 복합할당연산자 사용
+					System.out.println("[로그 : 정현진] age : "+age);
 					data = new WishListDTO();
-					if(10<=age&&age<20) {
+					/*
+					 * 몫을 구하여 로직을 실행한 이유 비교연산자의 연산 횟수를 줄여 자원낭비를 막기위함
+					 * 대용량데이터를 다루어야 할 경우 유용함
+					 */
+//					if(10<=age&&age<20) {
+//						data.setMemberMinAge(10);
+//						data.setMemberMaxAge(20);
+//					}
+//					else if(20<=age&&age<20) {
+//						data.setMemberMinAge(20);
+//						data.setMemberMaxAge(30);
+//					}
+//					else if(30<=age&&age<40) {
+//						data.setMemberMinAge(30);
+//						data.setMemberMaxAge(40);
+//					}
+//					else {
+//						data.setMemberMinAge(40);
+//						data.setMemberMaxAge(50);
+//					}  // 위의 로직이 아래처럼 개선됨
+					if(age==1) { // 10대
 						data.setMemberMinAge(10);
 						data.setMemberMaxAge(20);
 					}
-					else if(20<=age&&age<20) {
+					else if(age==2) { // 20대
 						data.setMemberMinAge(20);
 						data.setMemberMaxAge(30);
 					}
-					else if(30<=age&&age<40) {
+					else if(age==3) { // 30대
 						data.setMemberMinAge(30);
 						data.setMemberMaxAge(40);
 					}
-					else {
+					else { // 40대이상은 40대로 적용
 						data.setMemberMinAge(40);
 						data.setMemberMaxAge(50);
 					}
@@ -918,8 +933,8 @@ public class WishListDAO {
 			}
 			return data;
 		}
-		else if(wishListDTO.getSearchCondition().equals("연관상품LOGOUT스텝1")) {
-			System.out.println("DAO, 연관상품LOGOUT스텝1 들어옴");
+		else if(wishListDTO.getSearchCondition().equals("연령별상품추천LOGOUT스텝1")) {
+			System.out.println("DAO, 연령별상품추천LOGOUT스텝1 들어옴");
 			try {
 				pstmt=conn.prepareStatement(SELECTONE_MOST_AGE_RANGE);
 				ResultSet rs = pstmt.executeQuery();

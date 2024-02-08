@@ -32,8 +32,9 @@ public class CheckWishedAction implements Action {
 			memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		} catch (Exception e) {
 //			e.printStackTrace();
-			System.out.println("로그아웃상태 : memberID is null");
+			System.out.println("[로그:정현진] 로그아웃상태 : memberID is null");
 		}
+		
 		WishListDAO wishListDAO = new WishListDAO();
 		WishListDTO wishListDTO = new WishListDTO();
 		wishListDTO.setMemberID(memberID);
@@ -45,24 +46,25 @@ public class CheckWishedAction implements Action {
 			System.out.println("[로그] 검색 null 들어옴");
 			wishListDTO.setSearchCondition("찜");
 		}
-		ArrayList<WishListDTO> isWishedDatas = wishListDAO.selectAll(wishListDTO);
 		
+		ArrayList<WishListDTO> isWishedDatas = wishListDAO.selectAll(wishListDTO);
 		request.setAttribute("isWishedDatas", isWishedDatas);
 		
 		wishListDTO.setMemberID(memberID);
 		System.out.println("memberID >> "+memberID);
-		wishListDTO.setSearchCondition("찜수량");
+		wishListDTO.setSearchCondition("위시리스트합계갯수");
 		wishListDTO = wishListDAO.selectOne(wishListDTO);
-		int updatedWishListCnt = wishListDTO.getWishListCnt();
-		System.out.println("updatedWishListCnt >> "+updatedWishListCnt);
-		response.getWriter().write(String.valueOf(updatedWishListCnt));
-		request.setAttribute("wishListCnt", updatedWishListCnt);
+		int wishListCnt = wishListDTO.getWishListCnt();
+		request.setAttribute("wishListCnt", wishListCnt);
 		
 		//===페이징처리===
-		int productPerPage = 6;
+		int productPerPage = 6; // 페이지당 6개씩 로드
 		int currentPage = (request.getParameter("page") != null && !request.getParameter("page").isEmpty())
 		                    ? Integer.parseInt(request.getParameter("page"))
-		                    : 1;
+		                    : 1; 
+		// 처음 페이지가 로드될 때는 1 , 사용자가 페이지 번호를 눌렀을 때는 사용자가 요청한 페이지번호가 부여됨
+		// 페이지는 url에서 확인가능
+		
 
 		int startIndex = (currentPage - 1) * productPerPage;
 		int endIndex = Math.min(startIndex + productPerPage, isWishedDatas.size());

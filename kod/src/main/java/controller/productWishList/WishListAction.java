@@ -66,7 +66,7 @@ public class WishListAction implements Action{
 			wishListDAO = new WishListDAO();
 			
 			wishListDTO.setMemberID(memberID);
-			wishListDTO.setSearchCondition("찜수량");
+			wishListDTO.setSearchCondition("위시리스트합계갯수");
 			wishListDTO = wishListDAO.selectOne(wishListDTO);
 			int wishListCnt = wishListDTO.getWishListCnt();
 			System.out.println("wishListCnt : "+wishListCnt);
