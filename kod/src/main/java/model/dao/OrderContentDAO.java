@@ -14,14 +14,14 @@ public class OrderContentDAO {
 	private PreparedStatement pstmt;
 	
 	private static final String SELECTALL="SELECT * FROM ORDERCONTENT OC INNER JOIN PRODUCT P ON P.PRODUCT_ID = OC.PRODUCT_ID WHERE OC.ORDERLIST_ID = ?";
-	private static final String SELECTTOP3="SELECT r.PRODUCT_ID , r.PRODUCT_IMG , r.PRODUCT_CATEGORY , r.PRODUCT_NAME , r.PRODUCT_PRICE, r.TOTAL, r.ORDERCONTENT_CNT, r.ORDERLIST_ID, r.ORDERCONTENT_ID "
-			+ "	FROM "
-			+ "	(SELECT p.PRODUCT_ID , p.PRODUCT_IMG , p.PRODUCT_CATEGORY , p.PRODUCT_NAME ,p.PRODUCT_PRICE, SUM(oc.ORDERCONTENT_CNT) AS TOTAL, oc.ORDERCONTENT_CNT, oc.ORDERLIST_ID, oc.ORDERCONTENT_ID "
-			+ "	FROM PRODUCT p "
-			+ "	INNER JOIN ORDERCONTENT oc ON p.PRODUCT_ID = oc.PRODUCT_ID "
-			+ "	GROUP BY p.PRODUCT_ID ,p.PRODUCT_IMG , p.PRODUCT_CATEGORY , p.PRODUCT_NAME ,p.PRODUCT_PRICE, oc.ORDERCONTENT_CNT, oc.ORDERLIST_ID, oc.ORDERCONTENT_ID "
-			+ "	ORDER BY TOTAL DESC) r "
-			+ "	WHERE ROWNUM <=3";
+	private static final String SELECTTOP3="SELECT r.PRODUCT_ID , r.PRODUCT_IMG , r.PRODUCT_CATEGORY , r.PRODUCT_NAME , r.PRODUCT_PRICE, r.TOTAL "
+			+ "FROM "
+			+ "(SELECT p.PRODUCT_ID , p.PRODUCT_IMG , p.PRODUCT_CATEGORY , p.PRODUCT_NAME ,p.PRODUCT_PRICE, SUM(oc.ORDERCONTENT_CNT) AS TOTAL "
+			+ "FROM PRODUCT p "
+			+ "INNER JOIN ORDERCONTENT oc ON p.PRODUCT_ID = oc.PRODUCT_ID "
+			+ "GROUP BY p.PRODUCT_ID ,p.PRODUCT_IMG , p.PRODUCT_CATEGORY , p.PRODUCT_NAME ,p.PRODUCT_PRICE "
+			+ "ORDER BY TOTAL DESC) r "
+			+ "WHERE ROWNUM <=3";
 	private static final String SELECTONE="";
 	private static final String INSERT="INSERT INTO ORDERCONTENT "
 			+ " (ORDERCONTENT_ID, ORDERLIST_ID, PRODUCT_ID, ORDERCONTENT_CNT) "
@@ -35,14 +35,24 @@ public class OrderContentDAO {
 		ArrayList<OrderContentDTO> datas = new ArrayList<OrderContentDTO>();
 		try {
 			if(oContentDTO.getSearchCondition().equals("top3")) { // 판매량 순위 3위까지 선택
-				pstmt=conn.prepareStatement(SELECTTOP3);	
+				pstmt=conn.prepareStatement(SELECTTOP3);
+				ResultSet rs = pstmt.executeQuery();
+				while(rs.next()) {
+				data = new OrderContentDTO();
+				data.setProductID(rs.getInt("PRODUCT_ID"));
+				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
+				data.setProductImg(rs.getString("PRODUCT_IMG"));
+				data.setProductName(rs.getString("PRODUCT_NAME"));
+				data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+				datas.add(data);
+				System.out.println(datas);
+				}
 			}
 			else if(oContentDTO.getSearchCondition().equals("결제내역")) {
 				pstmt=conn.prepareStatement(SELECTALL);
 				pstmt.setInt(1, oContentDTO.getOdListID());
-			}
-			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
+				ResultSet rs = pstmt.executeQuery();
+				while(rs.next()) {
 				data = new OrderContentDTO();
 				data.setProductID(rs.getInt("PRODUCT_ID"));
 				data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
@@ -54,6 +64,7 @@ public class OrderContentDAO {
 				data.setOdContentID(rs.getInt("ORDERCONTENT_ID"));
 				datas.add(data);
 				System.out.println(datas);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
