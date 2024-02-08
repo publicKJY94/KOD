@@ -207,18 +207,6 @@ M은 C한테 1,0 등의 값을 줘야하니까
    SELECTALL이 되는상황
   -->
   
-<!-- 모달창을 추가합니다. -->
-<div id="memberID" memberID="${memberDTO.memberID}"></div>
-<div id="checkLoginModal" class="modal checkLoginModal">
-    <div class="modal-content checkLoginModal">
-        <span class="close checkLoginModal" onclick="closeModal()">&times;</span>
-        <p>로그인 후 이용가능합니다.</p>	
-		<p>로그인 화면으로 이동하시겠습니까?</p>
-		<button id="cancelButton">취소</button>
-		<button id="confirmButton">확인</button>
-     </div>
-</div>  
-  
 						<!-- product -->
 						<c:forEach var="isWishedData" items="${currentPageProducts}">
 						    <div class="col-md-4 col-xs-6" style="margin-top: 30px;">
@@ -299,6 +287,18 @@ M은 C한테 1,0 등의 값을 줘야하니까
 		</div>
 		<!-- /SECTION -->
 	</div>
+	
+<!-- 모달창을 추가합니다. -->
+<div id="memberID" memberID="${memberDTO.memberID}"></div>
+<div id="checkLoginModal" class="modal checkLoginModal">
+    <div class="modal-content checkLoginModal">
+        <span class="close checkLoginModal" onclick="closeModal()">&times;</span>
+        <p>로그인 후 이용가능합니다.</p>	
+		<p>로그인 화면으로 이동하시겠습니까?</p>
+		<button id="cancelButton">취소</button>
+		<button id="confirmButton">확인</button>
+     </div>
+</div>  
 
 	<jsp:include page="util/footer.jsp"></jsp:include>
 	<script src="js/wishList/isWished.js"></script>
