@@ -162,7 +162,8 @@ label:hover {
 					<!-- store products -->
 					<div class="row">
 
-<!-- 	<script>
+<!-- 	
+<script>
 $(document).ready(function(){
     $('.add-to-wishlist').on('click', function(){
         console.log('[로그:정현진] 위시리스트 버튼 클릭됨');
@@ -190,9 +191,10 @@ $(document).ready(function(){
         });
     });
 });
-</script> -->
+</script> 
+-->
 
-						<!--
+<!--
 V는 C한테
    ♥♡를 구분해야하니까
    1,0 등의 신호를 주세요.
@@ -205,7 +207,7 @@ C는 V한테 줘야되니까
 M은 C한테 1,0 등의 값을 줘야하니까
    SQL문을 수정해야됨
    SELECTALL이 되는상황
-  -->
+-->
   
 						<!-- product -->
 						<c:forEach var="isWishedData" items="${currentPageProducts}">
