@@ -78,24 +78,22 @@
 					<div class="col-md-3 clearfix">
 						<div class="header-ctn">
 							<!-- Wishlist -->
-							<div>
+							<div> <!-- 정현진 -->
 								<a href="wishList.do"> <!-- 위시리스트 페이지로 이동하는 링크 -->
 								    <i class="fa fa-heart-o"></i> <!-- 하트 아이콘 -->
 								    <span>My Wishlist</span> <!-- 위시리스트 링크의 텍스트 -->
 								
-								    <!-- JSTL을 사용하여 서버로부터 받은 데이터를 처리하는 부분 -->
-								    <c:set var="updatedWishListCntStr" value="${requestScope.updatedWishListCnt}" /> <!-- 업데이트된 위시리스트 개수를 담은 문자열을 변수에 할당 -->
-								    <c:set var="wishListCnt" value="${empty wishListCnt ? 0 : wishListCnt}" /> <!-- 위시리스트 개수를 정수로 변환하고, 값이 null이면 0으로 설정 -->
-								
-								    <!-- 업데이트된 위시리스트 개수를 나타내는 부분 -->													<!-- \\D는 정규 표현식에서 "숫자가 아닌 문자"를 나타내는 특수한 패턴임 -->
-								    <c:set var="updatedWishListCnt" value="${fn:replace(updatedWishListCntStr, '\\\\D', '')}" /> <!-- 숫자 이외의 문자를 제거한 문자열을 변수에 할당 -->
-								    <c:if test="${empty updatedWishListCnt}">     
-								        <c:set var="updatedWishListCnt" value="${wishListCnt}" /> <!-- 값이 비어 있다면 0으로 설정 -->
+								    <!-- 페이지로드시 위시리스트 수량 --> <!-- 값이 null이면 0으로 설정 -->
+								    <c:set var="wishListCnt" value="${empty wishListCnt ? 0 : wishListCnt}" /> 
+								    <!-- 업데이트된 위시리스트 수량 --> <!-- 비동기반응 반응 -->	
+								    <c:set var="updatedWishListCnt" value="${updatedWishListCnt}" />
+								    <c:if test="${empty updatedWishListCnt}"> <!-- 값이 비어 있다면 0으로 설정 -->  
+							        <c:set var="updatedWishListCnt" value="${wishListCnt}" /> 
 								    </c:if>
 								
 								    <div class="qty wishListCnt">${updatedWishListCnt}</div> <!-- 위시리스트 개수를 출력하는 부분 -->
 								</a>
-							</div>
+							</div> <!-- /정현진  -->
 							<!-- /Wishlist -->
 
 							<!-- Cart -->
