@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import model.dao.WishListDAO;
 import model.dto.WishListDTO;
 
-@WebServlet("/wishTotalCntAction")
-public class WishTotalCntAction extends HttpServlet {
+@WebServlet("/wishTotalCntServlet") // 상품의 찜 합계수량 비동기반응 - 상품상세페이지
+public class WishTotalCntServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public WishTotalCntAction() {
+    public WishTotalCntServlet() {
         super();
     }
 
@@ -25,15 +25,15 @@ public class WishTotalCntAction extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("wishTotalCntAction들어옴");
+		System.out.println("[로그:정현진] wishTotalCntServlet들어옴");
 		
 		int wishTotalCnt = 0; 
 		WishListDAO wishListDAO = new WishListDAO();
 		WishListDTO wishListDTO = new WishListDTO();
-		wishListDTO.setSearchCondition("찜합계");
+		wishListDTO.setSearchCondition("상품찜합계");
 		wishListDTO.setProductID(Integer.parseInt(request.getParameter("productID")));
 		wishListDTO = wishListDAO.selectOne(wishListDTO);
-		wishTotalCnt=wishListDTO.getWishTotalCnt();
+		wishTotalCnt=wishListDTO.getWishTotalCnt(); // 상품찜합계
 		System.out.println("[로그] wishTotalCnt : "+wishTotalCnt);
 		
 		response.getWriter().write(String.valueOf(wishTotalCnt));

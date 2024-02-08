@@ -266,7 +266,10 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						<!-- /product -->
 						<!-- /store products -->
 
-						<!-- store bottom filter -->
+						
+					</div>
+					<!-- /STORE -->
+					<!-- store bottom filter -->
 						<div class="store-filter clearfix">
 						    <span class="store-qty">Showing ${startIndex + 1} - ${endIndex} products</span>
 						    <ul class="store-pagination">
@@ -289,8 +292,6 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						    </ul>
 						</div>
 						<!-- /store bottom filter -->
-					</div>
-					<!-- /STORE -->
 				</div>
 				<!-- /row -->
 			</div>

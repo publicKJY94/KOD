@@ -27,17 +27,18 @@ public class IsWishedServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("[로그 : 정현진] IsWishedServlet들어옴");
+		System.out.println("[로그 : 정현진] isWishedServlet들어옴");
 		
 		HttpSession session = request.getSession();
 		String memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		/*
 		 * memberID에 대해 try~catch걸면 안됨
-		 * 왜냐하면 하트 토글이 반응을 하기 때문
+		 * 왜냐하면 하트 토글이 반응하게 됨
 		 */
 		
 		int productID = Integer.parseInt(request.getParameter("productID"));
-		
+		System.out.println("[로그:정현진] 회원ID : "+memberID);
+		System.out.println("[로그:정현진] 상품ID : "+productID);
 		
 		WishListDAO wishListDAO = new WishListDAO();
 		WishListDTO wishListDTO = new WishListDTO();
@@ -46,34 +47,25 @@ public class IsWishedServlet extends HttpServlet {
 		wishListDTO.setSearchCondition("위시리스트추가삭제");
 		wishListDTO = wishListDAO.selectOne(wishListDTO);
 		
-		System.out.println(memberID);
-		System.out.println(productID);
-		System.out.println("isWishedServlet들어옴");
 		
-		boolean flag = false;
 		if(wishListDTO!=null) {
-			flag=false;
 			wishListDTO.setMemberID(memberID);
 			wishListDTO.setProductID(productID);
 			wishListDAO.delete(wishListDTO);
 			System.out.println("위시리스트 삭제성공");
 		}
 		else if(wishListDTO==null) {
-			flag=true;
 			wishListDTO = new WishListDTO();
 			wishListDTO.setProductID(productID);
 			wishListDTO.setMemberID(memberID);
 			wishListDAO.insert(wishListDTO);
 			System.out.println("위시리스트 추가성공");
 		}
-
 		
-		System.out.println("위시리스트 추가or삭제 : "+flag);
-		request.setAttribute("flag", flag);
 		
 		wishListDTO.setMemberID(memberID);
 		System.out.println("memberID >> "+memberID);
-		wishListDTO.setSearchCondition("찜수량");
+		wishListDTO.setSearchCondition("위시리스트합계갯수");
 		wishListDTO = wishListDAO.selectOne(wishListDTO);
 		int updatedWishListCnt = wishListDTO.getWishListCnt();
 		System.out.println("updatedWishListCnt >> "+updatedWishListCnt);

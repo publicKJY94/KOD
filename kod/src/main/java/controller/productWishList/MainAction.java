@@ -48,9 +48,9 @@ public class MainAction implements Action{
 		WishListDAO wishListDAO = new WishListDAO();
 		
 		wishListDTO.setMemberID(memberID);
-		wishListDTO.setSearchCondition("찜수량");
+		wishListDTO.setSearchCondition("위시리스트합계갯수");
 		wishListDTO = wishListDAO.selectOne(wishListDTO);
-		int wishListCnt = wishListDTO.getWishListCnt();
+		int wishListCnt = wishListDTO.getWishListCnt(); 
 		request.setAttribute("wishListCnt", wishListCnt);
 		System.out.println("wishListCnt : "+wishListCnt);
 		
@@ -68,19 +68,19 @@ public class MainAction implements Action{
 		WishListDTO wishListDTO = new WishListDTO();
 		wishListDTO.setMemberMinAge(10);
 		wishListDTO.setMemberMaxAge(20);
-		wishListDTO.setSearchCondition("나이별찜랭킹");
+		wishListDTO.setSearchCondition("연령별찜랭킹"); // 10대
 		ArrayList<WishListDTO> teenagerRanking = wishListDAO.selectAll(wishListDTO);
 		request.setAttribute("teenagerRanking", teenagerRanking);
 		
 		wishListDTO.setMemberMinAge(20);
 		wishListDTO.setMemberMaxAge(30);
-		wishListDTO.setSearchCondition("나이별찜랭킹");
+		wishListDTO.setSearchCondition("연령별찜랭킹"); // 20대
 		ArrayList<WishListDTO> twentyRanking = wishListDAO.selectAll(wishListDTO);
 		request.setAttribute("twentyRanking", twentyRanking);
 
 		wishListDTO.setMemberMinAge(30);
 		wishListDTO.setMemberMaxAge(40);
-		wishListDTO.setSearchCondition("나이별찜랭킹");
+		wishListDTO.setSearchCondition("연령별찜랭킹"); // 30대
 		ArrayList<WishListDTO> thirtyRanking = wishListDAO.selectAll(wishListDTO);
 		request.setAttribute("thirtyRanking", thirtyRanking);
 		

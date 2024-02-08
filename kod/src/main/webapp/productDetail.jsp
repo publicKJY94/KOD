@@ -85,13 +85,13 @@ $(document).ready(function(){
 	        
 		    $.ajax({
 			      type: "POST",
-			      url: "wishTotalCntAction",
+			      url: "wishTotalCntServlet",
 			      data: {"productID": productID},
 			      success: function(data){
 			        console.log(data);
 
 			        var updatedwishTotalCnt = parseInt(data);
-			        $(".wishTotalCnt").text(updatedwishTotalCnt);
+			        $(".wishTotalCnt").text(updatedwishTotalCnt); // 상품의 찜 합계수량
 			        console.log("updatedwishTotalCnt >> " + updatedwishTotalCnt);
 
 			      },
@@ -237,9 +237,9 @@ $(document).ready(function(){
 								<div class="qty-label">
 									수량
 									<div class="input-number">
-									<input type="hidden" name="productImg" value="${productWishDetailData.productImg}">
+                                    <input type="hidden" name="productImg" value="${productWishDetailData.productImg}">
 										<input type="hidden" name="productID"
-											value="${productWishDetailData.productID}" id="productID" />
+											value="${productWishDetailData.productID}" ID="productID" />
 										<input type="hidden" name="productName"
 											value="${productWishDetailData.productName}" /> <input
 											type="hidden" name="productPrice"
@@ -688,10 +688,10 @@ function cartInsert() {
 							<div class="col-md-12">
 								<div class="section-title text-center">
 									<c:if test="${not empty memberDTO.memberID}">
-										<h3 class="title">${memberDTO.memberID}님을위한 추천상품</h3>
+										<h3 class="title">${memberDTO.memberName}님을 위한 추천상품</h3>
 									</c:if>
 									<c:if test="${empty memberDTO.memberID}">
-										<h3 class="title">KOD쇼핑몰 추천상품</h3>
+										<h3 class="title">회원님을 위한 추천상품</h3>
 									</c:if>
 								</div>
 							</div>

@@ -79,30 +79,22 @@
 						<div class="header-ctn">
 							<!-- Wishlist -->
 							<div>
-								<a href="wishList.do"> <i class="fa fa-heart-o"></i> <span>My
-										Wishlist</span>
-								<%
-								    // request.getAttribute("wishListCnt")의 값을 가져오기
-								    Integer wishListCntObj = (Integer)request.getAttribute("wishListCnt");
-								    // 값이 null이면 0으로 설정, 그렇지 않으면 가져온 값 사용
-								    int wishListCnt = (wishListCntObj != null) ? wishListCntObj : 0;
-								    // JavaScript에서 받아온 값을 JSP 변수에 할당
-								    String updatedWishListCntStr = (String) request.getAttribute("updatedWishListCnt");
+								<a href="wishList.do"> <!-- 위시리스트 페이지로 이동하는 링크 -->
+								    <i class="fa fa-heart-o"></i> <!-- 하트 아이콘 -->
+								    <span>My Wishlist</span> <!-- 위시리스트 링크의 텍스트 -->
 								
-								    int updatedWishListCnt = wishListCnt; // 기본값 설정
+								    <!-- JSTL을 사용하여 서버로부터 받은 데이터를 처리하는 부분 -->
+								    <c:set var="updatedWishListCntStr" value="${requestScope.updatedWishListCnt}" /> <!-- 업데이트된 위시리스트 개수를 담은 문자열을 변수에 할당 -->
+								    <c:set var="wishListCnt" value="${empty wishListCnt ? 0 : wishListCnt}" /> <!-- 위시리스트 개수를 정수로 변환하고, 값이 null이면 0으로 설정 -->
 								
-								    if (updatedWishListCntStr != null && !updatedWishListCntStr.isEmpty()) {
-								        try {
-								            updatedWishListCnt = Integer.parseInt(updatedWishListCntStr);
-								        } catch (NumberFormatException e) {  
-								            // 변환에 실패한 경우에 대한 예외 처리
-								            e.printStackTrace(); // 또는 다른 로깅 방식을 사용할 수 있습니다.
-								        }
-								    }
-								%>
-								<div class="qty wishListCnt"><%=updatedWishListCnt%></div>
+								    <!-- 업데이트된 위시리스트 개수를 나타내는 부분 -->													<!-- \\D는 정규 표현식에서 "숫자가 아닌 문자"를 나타내는 특수한 패턴임 -->
+								    <c:set var="updatedWishListCnt" value="${fn:replace(updatedWishListCntStr, '\\\\D', '')}" /> <!-- 숫자 이외의 문자를 제거한 문자열을 변수에 할당 -->
+								    <c:if test="${empty updatedWishListCnt}">     
+								        <c:set var="updatedWishListCnt" value="${wishListCnt}" /> <!-- 값이 비어 있다면 0으로 설정 -->
+								    </c:if>
+								
+								    <div class="qty wishListCnt">${updatedWishListCnt}</div> <!-- 위시리스트 개수를 출력하는 부분 -->
 								</a>
-								
 							</div>
 							<!-- /Wishlist -->
 
