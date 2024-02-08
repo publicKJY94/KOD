@@ -78,19 +78,25 @@ public class ReviewDAO {
 			+ "WHERE  "
 			+ "    R.REVIEW_ID = ? ";
 	
-	private static final String SELECTONE_REVIEW_CHECK= "SELECT O.*, "
-			+ "NVL(R.REVIEW_ID,0) AS "
-			+ "REVIEW_ID, "
+	private static final String SELECTONE_REVIEW_CHECK= "SELECT "
+			+ "O.ORDERCONTENT_ID, "
+			+ "O.ORDERLIST_ID, "
+			+ "O.PRODUCT_ID, "
+			+ "O.ORDERCONTENT_CNT, "
+			+ "NVL(R.REVIEW_ID, 0) AS REVIEW_ID, "
 			+ "R.MEMBER_ID, "
-			+ "R.REVIEW_TITLE,"
-			+ "R.REVIEW_CONTENT,"
-			+ " R.REVIEW_DATE, "
+			+ "R.REVIEW_TITLE, "
+			+ "R.REVIEW_CONTENT, "
+			+ "R.REVIEW_DATE, "
 			+ "R.REVIEW_SCORE, "
 			+ "R.REVIEW_IMG, "
 			+ "R.REVIEW_REPLY "
-			+ "FROM ORDERCONTENT O LEFT OUTER JOIN "
-			+ "REVIEW R ON O.ORDERCONTENT_ID  = R.ORDERCONTENT_ID "
-			+ "WHERE O.ORDERCONTENT_ID = ?"; 
+			+ "FROM "
+			+ "ORDERCONTENT O "
+			+ "LEFT OUTER JOIN "
+			+ "REVIEW R ON O.ORDERCONTENT_ID = R.ORDERCONTENT_ID "
+			+ "WHERE "
+			+ "O.ORDERCONTENT_ID = ?";
 	
 	private static final String INSERT=
 			"INSERT INTO REVIEW ( "
