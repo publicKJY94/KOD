@@ -14,7 +14,7 @@ $('.add-to-wishlist').on('click', function(){
     $.ajax({
         type: "POST", // HTTP 요청 메서드
         url: 'isWishedServlet', // 서버의 URL
-        data: { 'productID': productID }, // 전송할 데이터
+        data: { 'productID': productID }, // 전송할 데이터 -> String 타입으로 전송됨 -> getParameter() 사용가능
         success: function(data){ // 성공 시 실행되는 콜백 함수, 변수data에는 찜한 상품 총 갯수가 들어있음
             console.log('[로그:정현진] data : '+data); // 서버로부터 받은 데이터 콘솔에 출력
             console.log('[로그:정현진] data타입 : '+typeof data);

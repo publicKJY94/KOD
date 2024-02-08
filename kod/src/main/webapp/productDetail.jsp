@@ -60,7 +60,7 @@
 		crossorigin="anonymous">
 </script>
 
-	<script>
+<!-- <script>
 $(document).ready(function(){
 	  $(".add-to-wishlist2").on("click", function(e){
 	    e.preventDefault(); // 기본 클릭 이벤트를 중단하여 링크가 이동하는 것을 방지
@@ -111,7 +111,7 @@ $(document).ready(function(){
 
 </script>
 
-	<script>
+<script>
 $(document).ready(function(){
 	  $(".add-to-wishlist").on("click", function(e){
 	    e.preventDefault(); // 기본 클릭 이벤트를 중단하여 링크가 이동하는 것을 방지
@@ -141,22 +141,20 @@ $(document).ready(function(){
 	    });
 	  });
 	});
+</script> -->
 
-</script>
-	<!-- 모달창을 추가합니다. -->
+<!-- 모달창을 추가합니다. -->
 
-	<div id="memberID" memberID="${memberDTO.memberID}"></div>
-	<div id="checkLoginModal" class="modal checkLoginModal">
-		<div class="modal-content checkLoginModal">
-			<span class="close checkLoginModal" onclick="closeModal()">&times;</span>
-			<p>로그인 후 이용가능합니다.</p>
-			<p>로그인 화면으로 이동하시겠습니까?</p>
-			<button id="cancelButton">취소</button>
-			<button id="confirmButton">확인</button>
-		</div>
+<div id="memberID" memberID="${memberDTO.memberID}"></div>
+<div id="checkLoginModal" class="modal checkLoginModal">
+	<div class="modal-content checkLoginModal">
+		<span class="close checkLoginModal" onclick="closeModal()">&times;</span>
+		<p>로그인 후 이용가능합니다.</p>
+		<p>로그인 화면으로 이동하시겠습니까?</p>
+		<button id="cancelButton">취소</button>
+		<button id="confirmButton">확인</button>
 	</div>
-
-
+</div>
 
 
 	<!-- SECTION -->
@@ -337,13 +335,16 @@ function addToCart(){ //안내멘트와 함께 장바구니로 이동하는 함�
 	
 
 </script>
+
+
+
+
 				<!-- Product tab -->
 				<div class="col-md-12">
 					<div id="product-tab">
 						<!-- product tab nav -->
-						<ul class="tab-nav">
-							<li class="active"><a data-toggle="tab" href="#tab1">Reviews
-									(${productReviewDatas.size()})</a></li>
+						<ul class="tab-nav" id="pageButtons">
+						    <li class="active"><a data-toggle="tab" href="#tab1">Reviews (${productReviewDatas.size()})</a></li>
 						</ul>
 						<!-- /product tab nav -->
 
@@ -518,7 +519,7 @@ function cartInsert() { // [조형련] 장바구니에 상품 추가하는 비�
 											                        </script>
 																	</div>
 
-																	<div class="review-body">
+																	<div class="review-body" style="width: 80%">
 																		<h5>${review.reviewTitle}</h5>
 																		<p>${review.reviewContent}</p>
 																	</div>
@@ -731,9 +732,9 @@ function cartInsert() { // [조형련] 장바구니에 상품 추가하는 비�
 																	<a href="productDetail.do?productID=${data.productID}">${data.productName}</a>
 																</h3>
 																<h4 class="product-price">
-                                  <fmt:setLocale value="ko_KR" />
-                                  <fmt:formatNumber value="${data.productPrice}" type="currency" />
-                                </h4>
+								                                  <fmt:setLocale value="ko_KR" />
+								                                  <fmt:formatNumber value="${data.productPrice}" type="currency" />
+								                                </h4>
 																<div class="product-rating">
 																	<%-- 평점 들어가는 라인 --%>
 																</div>
@@ -806,6 +807,10 @@ function cartInsert() { // [조형련] 장바구니에 상품 추가하는 비�
 				<script src="js/nouislider.min.js"></script>
 				<script src="js/jquery.zoom.min.js"></script>
 				<script src="js/main.js"></script>
+				<script src="js/wishList/isWished.js"></script>
+				<script src="js/wishList/isWishedVersion2.js"></script>
 				<script src="js/wishList/checkLogin.js"></script>
+				<script src="js/review/moveToPage.js"></script>
+				
 </body>
 </html>

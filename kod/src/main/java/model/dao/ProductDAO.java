@@ -27,7 +27,7 @@ public class ProductDAO {
 			+ "FROM PRODUCT WHERE PRODUCT_ID=?";
 	private static final String SELECTONE_CHOICE = "SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_BRAND, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CATEGORY, PRODUCT_STOCK, PRODUCT_IMG "
 			+ " FROM PRODUCT ";
-	private static final String INSERT_CRAWLING = 
+	private static final String INSERT_CRAWLING = // [담당 : 정현진]
 			  "INSERT "
 			+ "INTO PRODUCT( "
 			+ "  PRODUCT_ID, "
@@ -183,7 +183,8 @@ public class ProductDAO {
 	}
 
 	public boolean insert(ProductDTO productDTO) {
-		if(productDTO.getSearchCondition().equals("크롤링")) {
+		if(productDTO.getSearchCondition().equals("크롤링")) { 
+			// [담당 : 정현진] - 리스너를 활용하여 프로그램 실행 시 자동으로 상품크롤링을 구현
 			conn=JDBCUtil.connect();
 			try {
 				pstmt = conn.prepareStatement(INSERT_CRAWLING);
