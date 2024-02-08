@@ -45,80 +45,63 @@ function selectProduct(categoryList, max, min) {
 			$.each(productDTO, function(index, product) {
 				elem += `
 					<div class="col-md-4 col-xs-6" style="margin-top: 30px;">
-							<div class="product">
-								<div class="product-body">
-									<div class="product-label"
-										style="display: flex; justify-content: space-between; align-items: center;">
-										<span class="new" style="color: #D10024;"><strong>NEW</strong></span>
-										<div class="product-btns">
-											<button class="add-to-wishlist">
-												<div class="productID" hidden>${product.productID}</div>`
+						        <div class="product">
+						            <div class="product-body">
+						                <div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
+						                    <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
+						                    <div class="product-btns">
+						                        <button class="add-to-wishlist" onclick="checkLogin()">
+						                            <div class="productID" style="display:none;">${product.productID}</div>
+						                            `
 				if (product.isWished != 0) {
-					elem += '<i class="fa fa-heart" id="heartIcon" onclick="wishtoggle()"></i>'
+					elem += '<i class="fa fa-heart" id="heartIcon" onclick="isWished()"></i>'
 				} else {
-					elem += '<i class="fa fa-heart-o" id="heartIcon" onclick="wishtoggle()"></i>'
+					elem += '<i class="fa fa-heart-o" id="heartIcon" onclick="isWished()" ></i>'
 				}
 				elem += `
-												<span class="tooltipp">위시리스트에 추가</span>
-											</button>
-										</div>
-									</div>
-								</div>
-								<div class="product-img">
-									<img src="${product.productImg}" alt="">
-								</div>
-								<div class="product-body">
-									<p class="product-category">${product.productCategory}</p>
-									<h3 class="product-name" style="height: 31px;">
-										<a
-											href="productDetail.do?productID=${product.productID}&productCategory=${product.productCategory}">${product.productName}</a>
-									</h3>
-									<h4 class="product-price">`
+						                            <span class="tooltipp">위시리스트에 추가</span>
+						                        </button>
+						                    </div>
+						                </div>
+						            </div>
+						            <a href="productDetail.do?productID=${product.productID}&productCategory=${product.productCategory}">
+						                <div class="product-img">
+						                    <img src="${product.productImg}" alt="${product.productName}" />
+						                </div>
+						            </a>
+						            <div class="product-body">
+						                <p class="product-category">${product.productCategory}</p>
+						                <h3 class="product-name" style="height: 31px;">
+						                    <a href="productDetail.do?productID=${product.productID}&productCategory=${product.productCategory}">
+						                       ${product.productName}
+						                    </a>
+						                </h3>
+						                <h4 class="product-price">`
 				elem += won.format(product.productPrice);
-				elem += `</h4>
-								</div>
-								<div class="add-to-cart">
-									<button class="add-to-cart-btn">
-										<i class="fa fa-shopping-cart"></i> add to cart
-									</button>
-								</div>
-							</div>
-						</div>`;
+				elem += 
+						                `</h4>
+						                <div class="product-rating">
+						                </div>
+						            </div>
+						            <div class="add-to-cart">
+						                <button class="add-to-cart-btn">
+						                    <i class="fa fa-shopping-cart"></i> add to cart
+						                </button>
+						            </div>
+						        </div>
+						    </div>`
+
 			});
+			// ajax요청 후 해제된 이벤트 리스너 재등록
+			elem+=`	
+				<script src="js/wishList/isWished.js"></script>
+			`
 			product.html(elem);
 		},
 		error: function(err) {
-			console.log(err.status);
-			console.log('ggg');
+			console.log(err);
+			elem += `<h3>검색결과가 없습니다</h3>`;
+			product.html(elem);
 		}
-
 	});
 }
-function wishtoggle() {
-	$('.add-to-wishlist').on('click', function() {
-		console.log('위시리스트 버튼 클릭됨');
-
-		var productID = $(this).find('.productID').text();
-		var heartIcon = $(this).find('#heartIcon');
-		console.log('productID:', productID);
-
-		$.ajax({
-			type: "POST",
-			url: 'isWishedAction',
-			data: { 'productID': productID },
-			success: function(data) {
-				console.log(data);
-				// 클릭 시 하트 아이콘 토글
-				heartIcon.toggleClass('fa-heart-o fa-heart');
-
-				var updatedWishListCnt = parseInt(data); // data가 업데이트된 카운트를 받아와야합니다.
-				$('.wishListCnt').text(updatedWishListCnt); // 위시리스트의 개수를 업데이트해줌
-				console.log("updatedWishListCnt >> " + updatedWishListCnt)
-			},
-			error: function(error) {
-				console.log("에러: " + error);
-			}
-		});
-	});
-};
-
