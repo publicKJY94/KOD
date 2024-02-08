@@ -214,11 +214,12 @@ $(document).ready(function(){
 					<div class="product-details">
 						<h2 class="product-name">${productWishDetailData.productName}</h2>
 						<div>
-							<div class="product-rating">
-								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star-o"></i>
+							<div class="rating-avg">
+								<div class="rating-stars" id="averageRatingStars">
+									<!-- 별의 개수를 동적으로 조절할 부분 -->
+								</div>
 							</div>
+								<span>상품만족도 : ${reviewAvgScore}</span><br/>
 							<a class="review-link" href="#">${productReviewDatas.size()}
 								Review(s) | Add your review</a>
 						</div>

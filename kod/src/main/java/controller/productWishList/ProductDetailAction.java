@@ -139,10 +139,12 @@ public class ProductDetailAction implements Action {
 		} 
 		else { // 리뷰데이터가 존재한다면
 				for (ReviewDTO data : productReviewDatas) {
+					System.out.println("[로그:정현진] " + data.getMemberName() + "회원 " + data.getReviewScore() + "점");
+					totalScore += data.getReviewScore();
+					
 				    // 리뷰 이미지가 존재하는지 확인
 				    if (data.getReviewImg() != null && !data.getReviewImg().isEmpty()) {
 				        // 이미지를 업로드 한 경우의 처리
-				        totalScore += data.getReviewScore();
 				        Path path = null;
 						try { // DB의 이미지 경로가 알수없는 경로일 경우 페이지에러발생을 막기위함
 							path = Paths.get(data.getReviewImg());
@@ -155,7 +157,6 @@ public class ProductDetailAction implements Action {
 							// 추출한 파일명을 리뷰 데이터의 이미지 경로로 설정
 							data.setReviewImg(relativePath);
 							
-							System.out.println("[로그:정현진] " + data.getMemberName() + "회원 " + data.getReviewScore() + "점");
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
