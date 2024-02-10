@@ -97,7 +97,7 @@
         </div>
         <div class="input__block" style="padding-left: 27px; ">
             <label>핸드폰</label>
-            <input type="number" id="memberPhNum" class="input" name="memberPhNum"  value="${memberDTO.memberPhNum}" maxlength="11" oninput="removeWhitespace(this)">
+            <input type="text" id="memberPhNum" class="input" name="memberPhNum"  value="${memberDTO.memberPhNum}" maxlength="11" oninput="removeWhitespace(this)">
         </div>
         <div class="input__block" style="padding-left: 27px; ">
             <label for="inputDescription">이메일</label>
