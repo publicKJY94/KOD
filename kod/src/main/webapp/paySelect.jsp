@@ -108,7 +108,7 @@
 					<button class="cart__bigorderbtn right">주문하기</button>
 				</div>
 			</form>
-				<form action="checkWished.do" method="POST" style="display: inline-block; ">
+				<form action="store.do" method="POST" style="display: inline-block; ">
 					<button class="cart__bigorderbtn left" style="width: ">쇼핑 계속하기</button>
 				</form>
 	
