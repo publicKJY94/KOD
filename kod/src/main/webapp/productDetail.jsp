@@ -238,6 +238,7 @@ $(document).ready(function(){
 									수량
 									<div class="input-number">
                                     <input type="hidden" name="productImg" value="${productWishDetailData.productImg}">
+                                    <input type="hidden" name="payCk" value="1"/>
 										<input type="hidden" name="productID"
 											value="${productWishDetailData.productID}" ID="productID" />
 										<input type="hidden" name="productName"

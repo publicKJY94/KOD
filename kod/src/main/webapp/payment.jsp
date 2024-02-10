@@ -6,7 +6,7 @@
 <%
     String name = request.getParameter("memberName");
     int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
-    int purchaseCnt = Integer.parseInt(request.getParameter("productCnt"));
+    //int purchaseCnt = Integer.parseInt(request.getParameter("productCnt"));
     ArrayList<CartDTO> datas = (ArrayList<CartDTO>) request.getAttribute("payDTO"); 
     //String selectPg = request.getParameter("pg");
     
@@ -36,19 +36,33 @@
 	<%-- <%
 	for(CartDTO cart : datas){
 	%> --%>
+	
+	
+	
+	
 	<c:set var="cDatasSize" value="${fn:length(payDTO)}" />
 	<c:if test="${cDatasSize >= 1}">
 		<c:forEach var="cart" items="${payDTO}">
 			<input type="hidden" name="pid" id="pid" value="${cart.productID }">
 			<input type="hidden" name="cnt" id="cnt" value="${cart.cartProductCnt}">
+			<input type="hidden" name="payCk" id="payCk" value="${cart.payCk}">
 		</c:forEach>
 	</c:if>
 	
 	<c:if test="${cDatasSize < 1 }">
 		<input type="hidden" name="pid" id="pid" value="${payNow.productID }">
 		<input type="hidden" name="cnt" id="cnt" value="${payNow.cartProductCnt}">
+		<input type="hidden" name="payCk" id="payCk" value="${payNow.payCk}">
 	</c:if>
 	
+	<%-- <c:if test="${cDatasSize >= 1}">
+		<c:set var="payNow" value="${payDTO[0].payCk}" />
+	</c:if> --%>
+	
+	
+	<%-- <c:if test="${cDatasSize < 1}">
+		<c:set var="payNow" value="${payNow.payCk}" />
+	</c:if> --%>
 	<%-- <input type="hidden" name="pid" id="pid" value="<%=cart.getProductID()%>">
 	<input type="hidden" name="cnt" id="cnt" value="<%=cart.getCartProductCnt()%>"> --%>
 	<%-- <%
@@ -59,9 +73,11 @@
     $(function(){
 	    var pid = document.querySelectorAll('input[name=pid]');
 	    var cnt = document.querySelectorAll('input[name=cnt]');
+	    var payCk = document.querySelectorAll('input[name=payCk]');
 	    
 	    console.log(pid);
         console.log(cnt);
+        console.log(payNow);
         
 	    var IMP = window.IMP; // 생략가능
         IMP.init('imp01807501'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -85,6 +101,13 @@
         var purchaseCnts = JSON.stringify(purchaseCnt);
         console.log(purchaseCnts);
         
+        
+        var payNow = [];
+        payCk.forEach(function(cartItem){
+        	payNow.push(cartItem.value);
+        });
+        var payNows = JSON.stringify(payNow);
+        console.log("결제방식 : "+payNows);
         /* 
         	결제가 승인되었을 때 웹훅이 호출됨
         	
@@ -114,7 +137,8 @@
                     data: {
                         imp_uid : rsp.imp_uid,
                         productIDs : productIDs,
-                        purchaseCnts : purchaseCnts
+                        purchaseCnts : purchaseCnts,
+                        payNows : payNows
                     },
                 	success: function(){
                 		console.log('결제 성공');
@@ -123,6 +147,7 @@
                 	},
                 	error : function(error){
                 		console.log('에러' , error);
+                		//location.href='goback.do';
                 	}
                 })
             } 

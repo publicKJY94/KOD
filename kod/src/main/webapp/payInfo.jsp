@@ -199,18 +199,20 @@
 		                                        <input type="hidden" name="productName" value="${cData.productName}">
 		                                        <input type="hidden" name="productCnt" value="${cData.cartProductCnt}">
 		                                        <input type="hidden" name="productPrice" value="${cData.productPrice}">
+		                                        <input type="hidden" name="payCk" value="${param.payCk}">
 		                                    </div>
 	                                	</c:forEach>
 									</c:if>
 									
 									<c:if test="${cDatasSize < 1}">
 	                                    <div class="order-col">
-	                                        <div>${cData.productName}</div>
+	                                        <div>${param.productName}</div>
 	                                        <div style="text-align: right;">${param.productPrice}원</div>
 	                                        <input type="hidden" name="productID" value="${param.productID}">
 	                                        <input type="hidden" name="productName" value="${param.productName}">
-	                                        <input type="hidden" name="productCnt" value="${param.purchaseCnt}">
+	                                        <input type="hidden" name="purchaseCnt" value="${param.purchaseCnt}">
 	                                        <input type="hidden" name="productPrice" value="${param.productPrice}">
+	                                        <input type="hidden" name="payCk" value="${param.payCk}">
 	                                    </div>
 									</c:if>
 									
