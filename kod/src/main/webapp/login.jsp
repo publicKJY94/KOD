@@ -28,11 +28,14 @@
   
   <!-- Form -->
   <form name="loginform" action="login.do" method="post">
-    <!-- email input -->
+   
+   
+    <!-- 아이디 입력란 -->
     <div class="first-input input__block first-input__block">
        <input type="text" placeholder="ID를 입력하세요." class="input" id="memberID" name="memberID" oninput="removeWhitespace(this)" />
     </div>
-    <!-- password input -->
+    
+    <!-- 비밀번호 입력란 -->
     <div class="input__block">
        <input type="password" placeholder="비밀번호를 입력하세요." class="input" id="memberPW" name="memberPW" oninput="removeWhitespace(this)" />
     </div>
