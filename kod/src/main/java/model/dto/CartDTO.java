@@ -12,9 +12,16 @@ public class CartDTO {
 	private int sumProductPrice;
 	private String searchCondition;
 	private String pg;
+	private int payCk; // 바로결제 / 장바구니 결제 체크
 	
 	
 	
+	public int getPayCk() {
+		return payCk;
+	}
+	public void setPayCk(int payCk) {
+		this.payCk = payCk;
+	}
 	public String getPg() {
 		return pg;
 	}
@@ -81,8 +88,10 @@ public class CartDTO {
 		return "CartDTO [cartID=" + cartID + ", cartProductCnt=" + cartProductCnt + ", memberID=" + memberID
 				+ ", productID=" + productID + ", productName=" + productName + ", productPrice=" + productPrice
 				+ ", productImg=" + productImg + ", sumProductPrice=" + sumProductPrice + ", searchCondition="
-				+ searchCondition + ", pg=" + pg + "]";
+				+ searchCondition + ", pg=" + pg + ", payCk=" + payCk + "]";
 	}
+	
+	
 	
 	
 	

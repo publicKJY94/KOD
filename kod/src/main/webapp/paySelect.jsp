@@ -56,6 +56,7 @@
 				</ul>
 			</div>
 			<form action="payInfo.do" method="POST">
+				<input type="hidden" name="payCk" value="0">
 				<table class="cart__list">
 					<thead>
 						<tr>

@@ -48,25 +48,29 @@ public class PaymentPageAction implements Action{
 		System.out.println(payInfoProducts);
 		
 		if (payInfoProducts != null) {	// 결제할 상품이 있다면 해당 상품들의 정보 cartDTO에 저장
-		    for (String product : payInfoProducts) {
-		        System.out.println("결제할 상품번호 : " + product);
-		        cartDTO = new CartDTO();
-		        cartDTO.setMemberID(memberID);
-		        cartDTO.setProductID(Integer.parseInt(product));
-		        cartDTO = cartDAO.selectOne(cartDTO);
-		        //cartDTO.setPg(request.getParameter("pg")); // 추후 pg로 다양한 결제방법 선택(ex : kakaopay, tosspay)
-		        System.out.println(cartDTO);
-		        if(cartDTO != null) {
-		        	datas.add(cartDTO);
-			        System.out.println("선택된 결제 정보 : "+ datas);
-		        }else {
-		        	//바로 구매
-		        	cartDTO = new CartDTO();
-		        	cartDTO.setProductID(Integer.parseInt(product));
-		        	cartDTO.setProductName(request.getParameter("productName"));
-		        	cartDTO.setCartProductCnt(Integer.parseInt(request.getParameter("productCnt")));
-		        	request.setAttribute("payNow", cartDTO);
-		        }
+			if(payInfoProducts.length <= 1) {
+				cartDTO = new CartDTO();
+	        	cartDTO.setProductID(Integer.parseInt(payInfoProducts[0]));
+	        	cartDTO.setProductName(request.getParameter("productName"));
+	        	cartDTO.setCartProductCnt(Integer.parseInt(request.getParameter("purchaseCnt")));
+	        	cartDTO.setPayCk(Integer.parseInt(request.getParameter("payCk"))); // 바로 결제 확인
+	        	System.out.println("바로결제 cartDTO : "+cartDTO);
+	        	request.setAttribute("payNow", cartDTO);
+			}else {
+				for (String product : payInfoProducts) {
+			        System.out.println("결제할 상품번호 : " + product);
+			        cartDTO = new CartDTO();
+			        cartDTO.setMemberID(memberID);
+			        cartDTO.setProductID(Integer.parseInt(product));
+			        cartDTO = cartDAO.selectOne(cartDTO);
+			        cartDTO.setPayCk(Integer.parseInt(request.getParameter("payCk"))); // 장바구니 결제 확인
+			        //cartDTO.setPg(request.getParameter("pg")); // 추후 pg로 다양한 결제방법 선택(ex : kakaopay, tosspay)
+			        System.out.println(cartDTO);
+			        if(cartDTO != null) {
+			        	datas.add(cartDTO);
+				        System.out.println("선택된 결제 정보 : "+ datas);
+			        }
+				}
 		    }
 		} else {	// 결제할 상품이 없다면 문구 출력
 		    System.out.println("선택된 상품이 없습니다."); // 추후 alert창 띄우기
