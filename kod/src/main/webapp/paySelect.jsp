@@ -55,7 +55,7 @@
 					<li>가격, 옵션 등 정보가 변경된 경우 주문이 불가할 수 있습니다.</li>
 				</ul>
 			</div>
-			<form action="payInfo.do" method="POST">
+			<form action="payInfo.do" method="POST" onsubmit="return submitForm()">
 				<input type="hidden" name="payCk" value="0">
 				<table class="cart__list">
 					<thead>
@@ -72,7 +72,7 @@
 						<tbody>
 							<tr class="cart__list__detail">
 								<td><input type="checkbox" name="selectedProducts" value="${cData.productID}"
-										id="selectedCheckBox"></td>
+										id="selectedCheckBox" ></td>
 								<td><img src="${cData.productImg}" alt="product"></td>
 								<td>
 									<a href="main.do">KOD스토어</a>
@@ -248,7 +248,7 @@
 			}
 		</script>
 		<script>
-			function updateCart(productId, productCnt, index) {
+			function updateCart(productId, productCnt, index) { // 장바구니 수량 변경을 처리할 비동기 함수
 				$.ajax({
 					type: 'POST',
 					url: 'cartUpdateActionServlet', // 장바구니 업데이트를 처리할 서블릿 URL
@@ -272,8 +272,7 @@
 
 					},
 					error: function (xhr, status, error) {
-						// 오류 발생 시 추가 로직 작성
-						console.error('장바구니 업데이트 오류:', status, error);
+						console.error('장바구니 업데이트 실패:', status, error);
 					}
 				});
 			}
@@ -305,11 +304,11 @@
 						newProductCnt = 1; // 최소 수량은 1로 설정
 					}
 				}
-				// 비동기처리 함수
+				// 장바구니 수량 비동기처리 함수
 				updateCart(productId, newProductCnt, index);
 			}
 
-			function selectAll(selectAll) {
+			function selectAll(selectAll) { //상품 체크박스 전체선택 함수 
 				const checkboxes
 					= document.querySelectorAll('input[type="checkbox"]');
 
@@ -317,7 +316,23 @@
 					checkbox.checked = selectAll.checked
 				})
 			}
+			
+			  function submitForm() { //장바구니에서 주문으로 이동하는 submit 함수
+			        var checkboxes = document.getElementsByName('selectedProducts');
+			  // ※id가 아니라 name으로 호출하는 이유 : 폼 내에 여러개의 체크박스가 생성될 수 있기 때문에 단일 요소에 대한 참조를 가져오는 id 대신 name을 사용
+			        var isChecked = false;
+			        for (var i = 0; i < checkboxes.length; i++) {
+			            if (checkboxes[i].checked) {
+			            	isChecked = true;
+			                break;
+			            }
+			        }
+			        if (!isChecked) { //하나의 상품도 선택하지 않은 경우
+			            alert('최소 하나의 상품을 선택해주세요');
+			            return false; 
+			        }
+			        return true; // 하나이상의 상품을 선택한 경우 
+			    }
 		</script>
 	</body>
-
 	</html>
