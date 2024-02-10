@@ -104,6 +104,9 @@
             <input type="email" id="memberEmail" class="input" name="memberEmail" value="${memberDTO.memberEmail}" oninput="removeWhitespace(this)">
         </div><br>
 
+
+
+
 			<script>
 				// 이 함수는 사용자가 입력란에 공백을 입력할 때 호출됩니다.
 				    function removeWhitespace(input) {
@@ -111,6 +114,8 @@
 				        input.value = input.value.replace(/\s/g, '');
 				    }
 				</script>
+
+
 
 
         <script>
@@ -133,8 +138,14 @@
         </script>
 
 
+
+
+
         <button  class="signin__btn" onclick="return formCheck(this.form)">회원정보 변경</button> 
     </form>
+
+
+
 
 <script>
     // HTML 폼에서 사용자가 입력한 값들을 가져와서 유효성을 체크하는 JavaScript 함수
@@ -223,7 +234,7 @@
             return false;
         }
         
-
+     // 모든 조건이 충족되면 폼을 제출
         updateform.submit();
     }
 </script>
