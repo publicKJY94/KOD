@@ -47,17 +47,6 @@
 		<jsp:include page="util/header.jsp"></jsp:include>
         <jsp:include page="util/navigation.jsp"></jsp:include>
 		<!-- /HEADER, NAVIGATION -->
-	<%
-	
-		System.out.println("[payInfo]");
-		//ArrayList<CartDTO> cDatas =(ArrayList<CartDTO>)request.getAttribute("cartDTO");
-		//System.out.println(cDatas);
-		MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("memberDTO");
-		System.out.println(memberDTO);
-		AddressDTO addressDTO = (AddressDTO)request.getAttribute("addressDTO");
-		System.out.println("payInfo 주소지 : "+addressDTO);
-		
-	%>
 		<!-- BREADCRUMB -->
 		<div id="breadcrumb" class="section">
 			<!-- container -->
@@ -90,25 +79,25 @@
 								<h3 class="title">구매자 정보</h3>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="memberName" placeholder="이름" value="<%=memberDTO.getMemberName()%>" disabled>
+								<input class="input" type="text" name="memberName" placeholder="이름" value="${memberDTO.memberName}" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="email" name="memberEmail" placeholder="Email" value="<%=memberDTO.getMemberEmail()%>" disabled>
+								<input class="input" type="email" name="memberEmail" placeholder="Email" value="${memberDTO.memberEmail}" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="tel" name="memberPhNum" placeholder="전화번호" value="<%=memberDTO.getMemberPhNum()%>" disabled>
+								<input class="input" type="tel" name="memberPhNum" placeholder="전화번호" value="${memberDTO.memberPhNum}" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsZipcode" placeholder="우편번호" value="<%=addressDTO.getAdrsZipcode()%>" disabled>
+								<input class="input" type="text" name="adrsZipcode" placeholder="우편번호" value="${addressDTO.adrsZipcode}" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsStreet" placeholder="도로명주소" value="<%=addressDTO.getAdrsStreet()%>" disabled>
+								<input class="input" type="text" name="adrsStreet" placeholder="도로명주소" value="${addressDTO.adrsStreet}" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsLotNum" placeholder="지번주소" value="<%=addressDTO.getAdrsLotNum()%>" disabled>
+								<input class="input" type="text" name="adrsLotNum" placeholder="지번주소" value="${addressDTO.adrsLotNum}" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsDetail" placeholder="상세주소" value="<%=addressDTO.getAdrsDetail()%>" disabled>
+								<input class="input" type="text" name="adrsDetail" placeholder="상세주소" value="${addressDTO.adrsDetail}" disabled>
 							</div>
 						</div>
 						<!-- /Billing Details -->
@@ -150,18 +139,6 @@
 						        </tbody>
 					        </c:if>
 					        
-					        <%-- <%for(CartDTO cData:cDatas){ %>
-					        
-					        <tbody>
-					            <tr>
-					                <td><img src="<%=cData.getProductImg()%>" alt="img" style="width: 200px; height: 200px;"></td>
-					                <td><%=cData.getProductName()%></td>
-					                <td><%=cData.getCartProductCnt()%></td>
-					                <td><%=cData.getProductPrice()%></td>
-					            </tr>
-					        </tbody>
-					        
-					        <%} %> --%>
 					        
 					    </table>
 					    </div>
@@ -177,18 +154,6 @@
 								</div>
 								<div class="order-products">
 								
-								
-								
-									<%-- <%for(int i=0; i<cDatas.size(); i++){ %>
-										<div class="order-col">
-											<div><%=cDatas.get(i).getProductName()%></div>
-											<div style="text-align: right;"><%=cDatas.get(i).getProductPrice()%>원</div>
-											<input type="hidden" name="productID" value="<%=cDatas.get(i).getProductID()%>">
-											<input type="hidden" name="productName" value="<%=cDatas.get(i).getProductName()%>">
-											<input type="hidden" name="productCnt" value="<%=cDatas.get(i).getCartProductCnt()%>">
-											<input type="hidden" name="productPrice" value="<%=cDatas.get(i).getProductPrice()%>">
-										</div>
-									<%} %> --%>
 									
 									<c:if test="${cDatasSize >= 1}">
 										<c:forEach var="cData" items="${cartDTO}">
@@ -225,12 +190,6 @@
 								<div class="order-col">
 									<div><strong>TOTAL</strong></div>
 									
-									<%-- <%
-									int total=0;
-									for(CartDTO cData : cDatas){
-										total += cData.getProductPrice(); 
-									}
-									%> --%>
 									
 									<c:if test="${cDatasSize >= 1}">
 										<c:set var="total" value="0"></c:set>

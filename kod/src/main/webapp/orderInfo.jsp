@@ -44,16 +44,16 @@
 	<%
 	
 		System.out.println("[orderInfo jsp]");
-		ArrayList<CartDTO> cDatas =(ArrayList<CartDTO>)request.getAttribute("cartDTO");
+		//ArrayList<CartDTO> cDatas =(ArrayList<CartDTO>)request.getAttribute("cartDTO");
 		
 		
-		ArrayList<OrderContentDTO> ocDatas = (ArrayList<OrderContentDTO>)request.getAttribute("oContentDTO");
-		System.out.println("ocDatas : "+ocDatas);
+		//ArrayList<OrderContentDTO> ocDatas = (ArrayList<OrderContentDTO>)request.getAttribute("oContentDTO");
+		//System.out.println("ocDatas : "+ocDatas);
 		
-		MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("memberDTO");
-		System.out.println(memberDTO);
-		AddressDTO addressDTO = (AddressDTO)request.getAttribute("addressDTO");
-		System.out.println("orderInfo 주소지 : "+addressDTO);
+		//MemberDTO memberDTO = (MemberDTO)request.getSession().getAttribute("memberDTO");
+		//System.out.println(memberDTO);
+		//AddressDTO addressDTO = (AddressDTO)request.getAttribute("addressDTO");
+		//System.out.println("orderInfo 주소지 : "+addressDTO);
 		
 	%>
 		<!-- HEADER, NAVIGATION -->
@@ -91,19 +91,19 @@
 								<h3 class="title">구매자 정보</h3>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="memberName" placeholder="이름" value="<%=memberDTO.getMemberName()%>" disabled>
+								<input class="input" type="text" name="memberName" placeholder="이름" value="${memberDTO.memberName}" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="email" name="memberEmail" placeholder="Email" value="<%=memberDTO.getMemberEmail()%>" disabled>
+								<input class="input" type="email" name="memberEmail" placeholder="Email" value="${memberDTO.memberEmail}" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="tel" name="memberPhNum" placeholder="전화번호" value="<%=memberDTO.getMemberPhNum()%>" disabled>
+								<input class="input" type="tel" name="memberPhNum" placeholder="전화번호" value="${memberDTO.memberPhNum}" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsStreet" placeholder="도로명주소" value="<%=addressDTO.getAdrsStreet()%>" disabled>
+								<input class="input" type="text" name="adrsStreet" placeholder="도로명주소" value="${addressDTO.adrsStreet}" disabled>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="adrsDetail" placeholder="상세주소" value="<%=addressDTO.getAdrsDetail()%>" disabled>
+								<input class="input" type="text" name="adrsDetail" placeholder="상세주소" value="${addressDTO.adrsDetail}" disabled>
 							</div>
 						</div>
 						<!-- /Billing Details -->
@@ -123,7 +123,22 @@
 					                <th style="text-align: center;">가격</th>
 					            </tr>
 					        </thead>
-					        <%for(OrderContentDTO ocdata : ocDatas){%>
+					        
+					        <c:forEach var="ocdata" items="${oContentDTO}">
+					        	<tbody>
+					            <tr>
+					                <td><img src="${ocdata.productImg}" alt="img" style="width: 200px; height: 200px;"></td>
+					                <td>${ocdata.productName}</td>
+					                <td>${ocdata.odContentCnt}개</td>
+					                <td>${ocdata.productPrice*ocdata.odContentCnt}원</td>
+					            </tr>
+					       		</tbody>
+					        </c:forEach>
+					        
+					        
+					        
+					        
+					        <%-- <%for(OrderContentDTO ocdata : ocDatas){%>
 					        <tbody>
 					            <tr>
 					                <td><img src="<%=ocdata.getProductImg()%>" alt="img" style="width: 200px; height: 200px;"></td>
@@ -132,7 +147,7 @@
 					                <td><%=ocdata.getProductPrice()*ocdata.getOdContentCnt()%>원</td>
 					            </tr>
 					        </tbody>
-					        <%} %>
+					        <%} %> --%>
 					    </table>
 					    <div class="cart__mainbtns" style="margin-left: 40%;">
 						    <form action="main.do" method="POST">
