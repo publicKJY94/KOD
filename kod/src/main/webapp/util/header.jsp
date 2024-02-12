@@ -59,9 +59,9 @@
 					<!-- /LOGO -->
 
 					<!-- SEARCH BAR -->
-					<div class="col-md-6">
+					<div class="col-md-6" style="padding-top : 1%">
 						<div class="header-search" >
-							<form method="POST" action="checkWished.do" style="padding-left: 10%;">
+							<form method="POST" action="store.do" style="padding-left: 10%;">
 								<!-- <select class="input-select" style="">
 									<option value="0">All Categories</option>
 									<option value="1">Category 01</option>
@@ -75,8 +75,8 @@
 					<!-- /SEARCH BAR -->
 
 					<!-- ACCOUNT -->
-					<div class="col-md-3 clearfix">
-						<div class="header-ctn">
+					<div class="col-md-3 clearfix" style="padding-top : 2%">
+						<div class="header-ctn" style="display : flex">
 							<!-- Wishlist -->
 							<div> <!-- 정현진 -->
 								<a href="wishList.do"> <!-- 위시리스트 페이지로 이동하는 링크 -->
@@ -97,48 +97,44 @@
 							<!-- /Wishlist -->
 
 							<!-- Cart -->
-							<c:set var="cart" value="${requestScope.cartDTO}" />
-							<c:set var="cartSize" value="${fn:length(cart)}" />
-							<c:set var="totalPrice" value="0" />
-							<div class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown"
-									aria-expanded="true"> <i class="fa fa-shopping-cart"></i> <span>Your
-										Cart</span>
-									<div class="qty">${cartSize}</div>
-								    <c:set var="itemPrice" value="${cdata.productPrice * cdata.cartProductCnt}" />
-									<c:set var="totalPrice" value="${totalPrice + itemPrice}" />
-								</a>
-								<div class="cart-dropdown">
-									<div class="cart-list">
-									<c:forEach var="cdata" items="${cart}">
-										<div class="product-widget">
-											<div class="product-img">
-												<img src="${cdata.productImg}" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-name">
-													<a href="productDetail.do?productID=${cdata.productID}">${cdata.productName}</a>
-												</h3>
-												<h4 class="product-price">
-													<span class="qty">${cdata.cartProductCnt}</span>${cdata.productPrice}
-												</h4>
-											</div>
-											<button class="delete">
-												<i class="fa fa-close"></i>
-											</button>
-										</div>
-									</c:forEach>
-									</div>
-									<div class="cart-summary">
-										<small>${cartSize} Item(s) selected</small>
-										<h5>SUBTOTAL: $${totalPrice}</h5>
-									</div>
-									<div class="cart-btns">
-										<a href="paySelect.do">View Cart</a> <a href="#">Checkout <i
-											class="fa fa-arrow-circle-right"></i></a>
-									</div>
-								</div>
-							</div>
+							<!-- Cart -->
+                     <div class="dropdown">
+                        <a href="paySelect.do" class="dropdown-toggle" aria-expanded="false">
+                        <!-- data-toggle="dropdown"-->
+                            <i class="fa fa-shopping-cart"></i> <span>Your
+                              Cart</span>
+                           <div class="qty">3</div>
+                        </a>
+                         <div class="cart-dropdown">
+                           <div class="cart-list">
+                              <div class="product-widget">
+                                 <div class="product-img">
+                                    <img src="./img/product01.png" alt="">
+                                 </div>
+                                 <div class="product-body">
+                                    <h3 class="product-name">
+                                       <a href="#">product name goes here</a>
+                                    </h3>
+                                    <h4 class="product-price">
+                                       <span class="qty">1x</span>$980.00
+                                    </h4>
+                                 </div>
+                                 <button class="delete">
+                                    <i class="fa fa-close"></i>
+                                 </button>
+                              </div>
+                           </div>
+                           <div class="cart-summary">
+                              <small>3 Item(s) selected</small>
+                              <h5>SUBTOTAL: $2940.00</h5>
+                           </div>
+                           <div class="cart-btns">
+                              <a href="#">View Cart</a> <a href="#">Checkout <i
+                                 class="fa fa-arrow-circle-right"></i></a>
+                           </div>
+                        </div> -->
+                     </div>
+                     <!-- /Cart -->
 							<!-- /Cart -->
 
 							<!-- Menu Toogle -->
