@@ -46,12 +46,10 @@
 		<!-- Heading -->
 		<h1>Sign up</h1>
 
-		<!-- Links -->
+	
 
 		<!-- Form -->
 		<form name="joinform" onsubmit="formCheck(this);" action="join.do" method="post">
-			
-
 
 			<!-- 아이디 입력란 -->
 			<!-- oninput이벤트를 사용해 사용자가 입력할때마다 공백을 제거하는 함수 호출 -->
@@ -111,11 +109,11 @@
                 // 'memberPWCK' 요소의 input 이벤트에 대한 리스너를 등록
                 document.getElementById('memberPWCK').addEventListener('input', function () {
                 	
-                	// 비밀번호와 비밀번호 확인 값을 가져옴
+                	// 현재문서(input)에서 비밀번호와 비밀번호 확인 값을 가져옴
                 	var password = document.getElementById('memberPW').value; // 비밀번호 입력란의 값
                     var confirmPassword = this.value; // 'memberPWCK' 입력란의 값
 
-                    // 비밀번호 불일치 시 메시지를 표시할 요소
+                    // 비밀번호 불일치 시 메시지를 표시할 변수(요소)생성
                     var mismatchSpan = document.getElementById('passwordMismatch');
 
                     // 비밀번호와 비밀번호 확인 값이 일치하는지 확인
@@ -141,10 +139,10 @@
 
 			<!-- 성별 선택버튼 -->
 			<div style="padding-left: 27px;">
-				<input type="radio" id="memberGender" name="memberGender"
-					value="male">남 <input type="radio" id="memberGender"
-					name="memberGender" value="female">여
-					<br><label> 성별을 체크해주세요. </label>
+				<input type="radio" id="memberGender" name="memberGender" value="male">남
+				<input type="radio" id="memberGender" name="memberGender" value="female">여
+				<br><label> 성별을 체크해주세요. </label>
+					
 			</div>
 
 			<!-- 생년월일 입력란 -->
@@ -167,7 +165,9 @@
                          selectElement.add(option);
                         }
                     </script>
-				</select> <input type="text" id="day" name="day" placeholder=" ex) 11 "
+				</select> 
+				
+				<input type="text" id="day" name="day" placeholder=" ex) 11 "
 					style="display: inline-block; width: 26%;" minlength="2"
 					maxlength="2" oninput="removeWhitespace(this)" required>
 			</div>
@@ -211,7 +211,7 @@
 			</div>
 
 
-  </script>  
+  
 
 	<div class="input__block">
    		<input class="input" type="text" id="adrsName" name="adrsName" placeholder="집 / 회사 / 친구" oninput="removeWhitespace(this)">
@@ -240,7 +240,6 @@
       // HTML 폼에서 사용자가 입력한 값들을 가져와서 유효성을 체크하는 JavaScript 함수
 	function formCheck(form){
 		console.log(" formCheck 들어옴");
-    	// var form = document.getElementById(" 폼 아이디 ");
     	  
 		var memberID = document.getElementById("memberID"); // 회원아이디를 입력하는 입력란(input text) 의 값을 memberID 저장 
 		var memberPW = document.getElementById("memberPW");
@@ -267,15 +266,19 @@
 		var sample4_roadAddress = document.getElementById("sample4_roadAddress");
 		var sample4_jibunAddress = document.getElementById("sample4_jibunAddress");
 		var sample4_detailAddress = document.getElementById("sample4_detailAddress");
-		/* var memberEmali1 = document.getElementById("memberEmali1");
-		var memberEmali2 = ""; */
 		
-		//정규식
+		
+		// 이름입력란 유효성검사를 위한 정규식
 		var regName = /^[가-힣]{2,}$/;      // 한글만입력가능 , 2글자이상 입력	
- 		var regId = /^[0-9a-z]{6,13}$/;    // 숫자 , 소문자만 입력가능 6글자이상 13글자 이하
+ 		// 아이디입력 유효성검사를 위한 정규식
+		var regId = /^[0-9a-z]{6,13}$/;    // 숫자 , 소문자만 입력가능 6글자이상 13글자 이하
+		
+		// 비밀번호 입력 유효성검사를위한 정규식
 		// 숫자, 대소문자, 특수문자 입력가능(숫자, 소문자, 특수문자 1개이상 반드시 포함시켜야함) 6글자이상 13글자 이하
 		var regPw = /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[a-z\d!@#$%^&*]{6,13}$/;
-		var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;//이메일
+		
+		// 이메일 유효성검사를 하기위한 정규식
+		var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 		
 		
 		 

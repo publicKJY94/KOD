@@ -17,38 +17,46 @@ public class MypageMemberUpdateAction implements Action{
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// 새로운 ActionForward 객체생성
 		ActionForward forward = new ActionForward();
 		
-		
+		// 요청 문자 인코딩 설정
 		request.setCharacterEncoding("UTF-8");
 		  
+		// MemberDAO,MemberDTO 객체 생성
 		  MemberDTO mDTO=new MemberDTO(); 
 		  MemberDAO mDAO=new MemberDAO();
 		  
+		// session 객체를 생성
 		  HttpSession session=request.getSession();
-		 // ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 	
+		// 검색조건(SearchCondition)"로그인"설정  mDTO객체에 저장
 		  mDTO.setSearchCondition("로그인");
 		  
-		  //mDTO.setMemberID((String)session.getAttribute("memberDTO")).getMemberID());
+		// 현재 session(memberDTO)에 저장되있는 아이디(.getMemberID)
+		// 본인 인증페이지에서 입력받은 비밀번호(memberPW)를 mDTO객체에 담아
+		// mDAO.selectOne 메서드실행
+		// 실행후 반환값 mDTO에 저장
 		  mDTO.setMemberID(((MemberDTO)session.getAttribute("memberDTO")).getMemberID());
-		  System.out.println(session.getAttribute("MemberID"));
 		  mDTO.setMemberPW(request.getParameter("memberPW"));
 				  
 		  mDTO=mDAO.selectOne(mDTO);
 		  
-		 
-		  if(mDTO != null) {
-			 // HttpSession session = request.getSession();
-				session.setAttribute("memberDTO",mDTO);
+		// 만약 mDTO 값이 null이 아니라면
+		  if(mDTO != null) {	
+				// session에 "memberDTO"속성에  mDTO변수를 저장
+			  	session.setAttribute("memberDTO",mDTO);
 				
-				
+			 // msg 값에 안내문구를 설정
+			 // 페이지 이동
 				request.setAttribute("msg", "비밀번호 일치. 정보수정페이지로 이동합니다. ");
 				forward.setPath("memberUpdatePWCKSuccess.jsp");
 				forward.setRedirect(false);
 				
 				
-			}else {
+			}else {// 아니라면
+				// msg 값에 안내문구를 설정
+				// 페이지 이동
 				request.setAttribute("msg", "비밀번호 불일치 다시입력해주세요. ");
 				
 				forward.setPath("goback.do");

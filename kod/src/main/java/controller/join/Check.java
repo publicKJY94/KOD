@@ -30,8 +30,10 @@ public class Check extends HttpServlet {
 		MemberDAO mDAO=new MemberDAO();
 		// MemberDTO 속성의 mDTO 객체 생성
 		MemberDTO mDTO=new MemberDTO();
+		
+		// 검색조건으로 ID중복검사
 		mDTO.setSearchCondition("ID중복검사");
-		// check.js에서 받아온 memberID mDTO에 저장
+		// check.js에서 받아온 "memberID" mDTO객체에 저장
 		mDTO.setMemberID(request.getParameter("memberID"));
 		// mDTO의 데이터(memberID,ID중복검사)값을 가지고 mDAO.selectOne 으로 이동 반환받은 결과값(data)를 mDTO변수에 저장
 		mDTO=mDAO.selectOne(mDTO);
