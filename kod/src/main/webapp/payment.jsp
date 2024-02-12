@@ -150,6 +150,9 @@
                 		//location.href='goback.do';
                 	}
                 })
+            } else if(rsp.success == false){
+            	alert('결제를 취소했습니다. 이전 화면으로 돌아갑니다!!!');
+        		history.go(-2);
             } 
         }); 
        /* function (rsp) {
