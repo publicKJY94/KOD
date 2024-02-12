@@ -16,9 +16,10 @@ public class JoinMemberAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		// 새로운 ActionForward 객체생성	
 		ActionForward forward = new ActionForward();
-
+		
+		// 요청 문자 인코딩 설정
 		request.setCharacterEncoding("UTF-8");
 		
 		// 회원가입페이지(join.jsp)에서 입력받은 년(year),월(month),일(day)값을 받아와 
@@ -60,7 +61,7 @@ public class JoinMemberAction implements Action {
 		MemberDTO mDTO = new MemberDTO();
 		MemberDAO mDAO = new MemberDAO();
 
-		// 회원가입페이지(join.jsp)에서 입력받은 memberID(반환값)를 mDTO.setMemberID에 저장
+		// 회원가입페이지(join.jsp)에서 입력받은 memberID를 객체 mDTO.setMemberID에 저장
 		mDTO.setMemberID(request.getParameter("memberID"));
 		mDTO.setMemberPW(request.getParameter("memberPW"));
 		mDTO.setMemberName(request.getParameter("memberName"));
@@ -69,6 +70,9 @@ public class JoinMemberAction implements Action {
 		mDTO.setMemberGender(request.getParameter("memberGender"));
 		mDTO.setMemberBirth(memberBirth);
 		System.out.println(mDTO.getMemberID());
+		
+		// mDAO.insert메서드 실행 인자값으로(mDTO) 가지고감
+		// 실행결과를 논리형 변수 flag에 저장 
 		boolean flag = mDAO.insert(mDTO);
 
 		// 만약 논리형변수 flag가 true면
@@ -76,6 +80,7 @@ public class JoinMemberAction implements Action {
 			forward.setPath("joinAddress.do");
 			forward.setRedirect(false);
 		} else { // 아니라면
+			 // msg 값에 안내문구를 설정
 			request.setAttribute("msg","회원가입에 실패하였습니다");
 
 			forward.setPath("goback.do");

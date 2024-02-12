@@ -44,7 +44,10 @@ public class MemberDAO {
 	private static final String INSERT="INSERT INTO MEMBER VALUES(?,?,?,?,?,'user',?,?)";
 	
 	
-	private static final String UPDATE="UPDATE "
+	// 회원 정보를 변경 하기위한 쿼리문
+	// MEMBER의 각 열을 업데이트할 값 MEMBER_NAME=?, MEMBER_PW=?, MEMBER_EMAIL=?, MEMBER_PHONE=?
+	// WHERE MEMBER_ID=? 어떠한 회원 정보를 업데이트할지 결정하는 조건
+ 	private static final String UPDATE="UPDATE "
 			+ "MEMBER SET MEMBER_NAME=?, MEMBER_PW=?, MEMBER_EMAIL=?, MEMBER_PHONE=? WHERE MEMBER_ID=?"; 
 	
 	
@@ -103,18 +106,22 @@ public class MemberDAO {
 		}
 		else {// 검색조건(SearchCondition)이 로그인이 아니라면
 			
-			// 아이디 중복검사를위한 쿼리문 실행준비
+			// 특정 회원정보를 조회하기위한 쿼리문(SELECTONE_CHECK) 실행준비
 			// 데이터베이스 준비문 prepareStatement에 위에서 정의된 SELECTONE_CHECK퀴리문을 인자로받아 실행대기시키고 pstmt변수에 저장함
 			pstmt=conn.prepareStatement(SELECTONE_CHECK);
 			   
-			// pstmt의 첫 번째 매개변수(위치)에 check.java에서 받아온 데이터(mDTO) 값을 문자열로 설정함
+			// 쿼리문에 데이터 저장
+			// JoinAddressAction 에서 받아온값을 쿼리문에 저장 
+			// check.java 에서 받아온값을 쿼리문에 저장 
 			pstmt.setString(1,mDTO.getMemberID());
 		} 
 			// 쿼리문을 실행시키고 실행결과를 담을 ResultSet 변수(rs)를 생성하고 실행결과를 저장함
 			ResultSet rs=pstmt.executeQuery();
+			
 			// 변수(rs)에 데이터가 있는지 확인함
 			// 데이터가 있다면 해당 데이터를 추출함
 			if(rs.next()) {
+			
 				// scope 이슈로 조건문안에 data변수 생성 
 				// SELECTONE_CHECK 쿼리문 실생결과를 담은rs변수의 회원 아이디, 비밀번호, 이메일, 핸드폰번호를 data변수에 저장
 				data=new MemberDTO();
@@ -147,6 +154,7 @@ public class MemberDAO {
 		
 		
 		try {
+			// 회원가입을 위한 쿼리문 실행준비
 			// 쿼리문을 실행하기 위한 객체 생성 
 			pstmt=conn.prepareStatement(INSERT);
 			System.out.println(mDTO.getMemberID());
@@ -184,33 +192,42 @@ public class MemberDAO {
 		
 		
 	
-	
+	// 회원 정보 변경 메서드
 	public boolean update(MemberDTO mDTO) {
-		System.out.println(mDTO + "dao <<<");
+		System.out.println(mDTO + "[본승] 로그 mDTO <<<");
+		// 데이터 베이스 연결
 		conn=JDBCUtil.connect();
 		try {
+			// 회원 정보 변경을 위한 쿼리문 실행준비
+			// 쿼리문을 실행하기 위한 객체 생성
 			pstmt=conn.prepareStatement(UPDATE);
+			
+			// 퀴리문에 데이터 저장
+			// MemberUpdateAction.java에서 받아온 mDTO객체  회원이름, 비밀번호, 이메일, 핸드폰번호, 아이디 저장 
 			pstmt.setString(1,mDTO.getMemberName());
 			pstmt.setString(2,mDTO.getMemberPW());
 			pstmt.setString(3,mDTO.getMemberEmail());
 			pstmt.setString(4,mDTO.getMemberPhNum());			
 			pstmt.setString(5,mDTO.getMemberID());
-			System.out.println("[로그] memberDAO update -> memberEmail"+mDTO.getMemberEmail());
-			System.out.println("[로그] memberDAO update -> memberPhNum"+mDTO.getMemberPhNum());
+			System.out.println("[본승] 로그 memberDAO update -> memberEmail"+mDTO.getMemberEmail());
+			System.out.println("[본승] 로그 memberDAO update -> memberPhNum"+mDTO.getMemberPhNum());
+			
+			// 퀴리 실행후 결과값 변수(rs)에 저장 
 			int rs=pstmt.executeUpdate();
-			System.out.println("[로그] memberDAO update -> memberPhNum"+mDTO.getMemberPhNum());
+			System.out.println("[본승] 로그memberDAO update -> memberPhNum"+mDTO.getMemberPhNum());
+			
+			// 삽입된 데이터가 없으면 false 
 			if(rs <= 0) {
 				return false;
 			}
-			System.out.println(rs+" rs ");
 		} catch (SQLException e) {
+			// 예외 발생시 예외 내용 출력
 			e.printStackTrace();
 			return false;
-		}finally {
+		}finally {// 데이터 베이스 연결 해제
 			JDBCUtil.disconnect(pstmt, conn);
-			
 		}
-		
+		// 정상적으로 데이터를 저장했을경우 true 반환
 		return true;
 		
 	}

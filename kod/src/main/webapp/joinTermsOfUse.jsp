@@ -38,7 +38,7 @@
 
 //JavaScript 함수: 모든 체크박스를 선택 상태로 변경하는 기능을 수행함
 function checkAllCheckboxes() {
-    // 모든 체크박스에 대한 NodeList(체크박스 목력) 가져오기 
+    // 모든 체크박스에 대한 NodeList(체크박스 목록) 가져오기 
     var checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
     // "약관 전체 동의하기" 체크박스의 상태 가져오기
@@ -70,6 +70,9 @@ function checkAllCheckboxes() {
   </div>
   <br>
 
+
+
+
 <!-- 개인정보 수집동의 체크박스 -->
   <div style="padding-left: 27px;">
     <input type="checkbox" class="input" id="privacyAgreeCheckbox" name="privacyAgreeCheckbox">
@@ -91,6 +94,9 @@ function checkAllCheckboxes() {
   </div>
   <br>
 
+
+
+
 <!-- KOD 이용약관 동의 체크박스 -->
   <div style="padding-left: 27px;">
     <input type="checkbox" class="input" id="KODAgreeCheckbox" name="KODAgreeCheckbox">
@@ -111,6 +117,9 @@ function checkAllCheckboxes() {
     <br>
   </div>
   <br>
+
+
+
 
 <!-- 마케팅 활용 및 광고성 정보 수신 동의 체크박스 -->
   <div style="padding-left: 27px;">

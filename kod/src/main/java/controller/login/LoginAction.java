@@ -39,9 +39,9 @@ public class LoginAction implements Action{
 		mDTO=mDAO.selectOne(mDTO);
 		
 		
-		// 만약 mDTO값이 있다면
+		// 만약 mDTO값이 있다면 
 		// session 객체를 생성
-		// session에 "memberDTO"라는 이름으로 mDTO변수를 저장
+		// session에 "memberDTO"속성에 mDTO변수를 저장
 		if(mDTO != null) {
 			HttpSession session=request.getSession();
 			session.setAttribute("memberDTO",mDTO);
@@ -55,6 +55,8 @@ public class LoginAction implements Action{
 			
 		}else {// 아니라면
 			// msg 값에 안내문구를 설정
+			// 페이지 이동
+			
 			// forward객체에 setPath(goback.do)를 저장 후 반환
 			request.setAttribute("msg", "로그인에 실패하였습니다. ");
 			
