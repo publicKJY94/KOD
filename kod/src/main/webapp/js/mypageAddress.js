@@ -50,6 +50,9 @@ window.onload = function() { // 마이페이지에 들어왔을 때, 쿠키가 �
 	if (addressManageCookie) { 
 		handleAddressManage();
 	}
+	else{
+		handleAddressManage();
+	}
 }
 // 쿠키를 가져오는 함수
 function getCookie(name) {
@@ -89,38 +92,7 @@ document.getElementById("deleteButton_").addEventListener("click", function() {
 // 배송지 추가 버튼이 클릭됐을 때 실행되는 이벤트 리스너
 document.getElementById("insertButton_").addEventListener("click", function() {
 	openInsertModal();
-});			
-	
-$(document).ready(function() {
-	console.log('성공');
-	 $('input[type="text"]').attr('maxlength', 50);
-	$('textarea').attr('maxlength', 50);
-        $('#insertForm').submit(function(event) {
-            // 입력 필드의 값이 공백인지 확인합니다.
-            if (!blankSpace()) {
-                event.preventDefault(); // 폼 제출을 막습니다.
-                alert('입력 필드에 값을 입력하세요 또는 기호 입력은 불가합니다'); // 사용자에게 알립니다.
-            }
-        });
 });		
-
-function blankSpace() {
-    var flag = true;
-    // 모든 input 요소의 value 확인하기
-    $('input[type="text"]').each(function() {
-        var content = $(this).val().trim(); // trim() 함수를 호출합니다.
-        // < 나 > 가 하나라도 입력되었는지 확인
-        if (content.includes('<') || content.includes('>')) {
-			console.log('< 입력');
-            flag = false;     
-        }
-        $(this).val(content);
-        if (content === '') { // 입력 값이 공백이면
-            flag = false;
-        }
-    });
-    return flag;
-}		
 			  //수정 함수가 호출되는 경우, 해당 모달창을 호출함
 				function openModifyModal(adrsID) {
 				    document.querySelector(".modal").classList.remove("hidden");
@@ -145,10 +117,12 @@ function blankSpace() {
 				    document.querySelector(".modal").classList.add("hidden");
 				    document.querySelector(".modalDelete").classList.add("hidden");
 				    document.querySelector(".modalInsert").classList.add("hidden");
-				    document.querySelector(".bg").addEventListener("click", closeModal);
+				    
+				}
+					document.querySelector(".bg").addEventListener("click", closeModal);
 					document.querySelector(".bg2").addEventListener("click", closeModal);
 				    document.querySelector(".bg3").addEventListener("click", closeModal);
-				}
+				    
 				//※ 쿠키를 사용하는 이유 : 사용자가 수정,삭제,추가 등을 진행했을 때 해당 화면에서 변경된 결과값을 자연스럽게 보여주기 위해서 사용함
 				function addressUpdate(){ //배송지 수정 form을 submit하는 함수, 해당 함수가 실행되면 쿠키 생성함수가 같이 실행되면서 페이지에 쿠키 생성
 					setCookie("addressManageClicked", true);
@@ -162,3 +136,37 @@ function blankSpace() {
 					setCookie("addressManageClicked", true);
 					document.getElementById('form3').submit();
 				}
+				
+		function validateForm(event) {
+    console.log('validateForm() 함수 호출됨');
+    var form = document.getElementById('form3');
+    var adrsNameValue = form.adrsName.value;
+    var adrsDetailValue = form.adrsDetail.value;
+
+    // 특수 문자 검사
+    var regex = /^[a-zA-Z0-9가-힣]*$/;
+
+    if (!regex.test(adrsNameValue) || !regex.test(adrsDetailValue)) {
+        alert('주소지 이름 또는 상세주소에 공백이나 특수 문자를 사용할 수 없습니다.');
+        event.preventDefault(); // 폼 제출 방지
+    } else {
+        addressInsert(); // 유효성 검사를 통과한 경우 addressInsert() 함수 호출
+    }
+}
+
+function validateForm2(event) {
+    console.log('validateForm2() 함수 호출됨');
+    var form = document.getElementById('form1');
+    var adrsNameValue = form.adrsName.value;
+    var adrsDetailValue = form.adrsDetail.value;
+
+    // 특수 문자 검사
+    var regex = /^[a-zA-Z0-9가-힣]*$/;
+
+    if (!regex.test(adrsNameValue) || !regex.test(adrsDetailValue)) {
+        alert('주소지 이름 또는 상세주소에 공백이나 특수 문자를 사용할 수 없습니다.');
+        event.preventDefault(); // 폼 제출 방지
+    } else {
+        addressUpdate(); // 유효성 검사를 통과한 경우 addressInsert() 함수 호출
+    }
+}

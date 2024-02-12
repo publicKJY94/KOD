@@ -8,6 +8,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="js/blankSpace.js"></script>
+<script src="js/submitBlankCheck.js"></script>
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 <title>마이 페이지</title>
@@ -70,7 +72,7 @@
 			<div class="modal hidden">
 				<div class="bg"></div>
 				<div class="modalBox1">
-					<form action="addressUpdate.do" method="post" id="form1">
+					<form action="addressUpdate.do" method="post" id="form1" onsubmit="return validateForm2(event)">
 						<div class="form-group">
 							<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
 						</div>
@@ -82,7 +84,7 @@
 						<input type="text" id="sample4_jibunAddress" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;" readonly>
 						<span id="guide" style="color: #999; display: none"></span>
 						<input type="text" id="sample4_detailAddress" name="adrsDetail" placeholder="상세주소" style="margin-top: 5px;">
-						<input type="button" value="변경하기" onclick="addressUpdate()">
+						<input type="button" value="변경하기" onclick="validateForm2()">
 					</form>
 					<button onclick="closeModal()">✖</button>
 				</div>
@@ -113,18 +115,18 @@
 		<div class="modalInsert hidden">
 			<div class="bg3"></div>
 			<div class="modalBox1">
-				<form action="addressInsert.do" method="post" id="form3">
+				<form action="addressInsert.do" method="post" id="form3" onsubmit="return validateForm(event)">
 					<div class="form-group">
 						<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
 					</div>
-					<input type="text" id="sample4_postcode2" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%; margin-left: 26px;" readonly>
+					<input type="text" id="sample4_postcode2" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%; margin-left: 26px;" readonly >
 					<input type="button" onclick="sample4_execDaumPostcode2()" value="우편번호 찾기" style="display: inline-block; width: 20%; height: inherit; padding: 1rem 1rem;">
 					<br> <br>
-					<input type="text" id="sample4_roadAddress2" name="adrsStreet" placeholder="도로명주소" readonly>
-					<input type="text" id="sample4_jibunAddress2" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;" readonly>
+					<input type="text" id="sample4_roadAddress2" name="adrsStreet" placeholder="도로명주소" readonly >
+					<input type="text" id="sample4_jibunAddress2" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;" readonly required>
 					<span id="guide" style="color: #999; display: none"></span>
-					<input type="text" id="sample4_detailAddress" name="adrsDetail" placeholder="상세주소" style="margin-top: 5px;">
-					<input type="button" value="주소지 추가하기" onclick="addressInsert()">
+					<input type="text" id="sample4_detailAddress" name="adrsDetail" placeholder="상세주소" style="margin-top: 5px;" required>
+					<input type="button" value="주소지 추가하기" onclick="validateForm()">
 				</form>
 				<button onclick="closeModal()">✖</button>
 			</div>
@@ -254,6 +256,8 @@
         }).open();
     }
     </script>	
+
+ 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="js/mypageAddress.js"></script>
