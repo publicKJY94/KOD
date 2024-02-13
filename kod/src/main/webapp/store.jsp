@@ -48,6 +48,17 @@
 label:hover {
 	cursor: pointer;
 }
+/* [김진영] 이미지 크기가 달라서 정렬이 깨지는 부분 수정을 위한 미디어 쿼리 */
+@media only screen and (min-width : 991px) {
+	.product .product-img>img{
+		max-height: 260px;
+	}
+}
+@media only screen and (min-width: 200px) {
+   .product .product-img>img{
+    	max-height: 212.5px;
+  }
+}
 </style>
 </head>
 <!-- jQuery Plugins -->
@@ -140,7 +151,7 @@ label:hover {
 				<!-- STORE -->
 				<div id="store" class="col-md-9">
 					<!-- store top filter -->
-					<div class="store-filter clearfix">
+					<!-- <div class="store-filter clearfix">
 						<div class="store-sort">
 							<label> Sort By: <select class="input-select">
 									<option value="0">Popular</option>
@@ -156,7 +167,7 @@ label:hover {
 							<li class="active"><i class="fa fa-th"></i></li>
 							<li><a href="#"><i class="fa fa-th-list"></i></a></li>
 						</ul>
-					</div>
+					</div> -->
 					<!-- /store top filter -->
 
 					<!-- store products -->
@@ -208,8 +219,9 @@ M은 C한테 1,0 등의 값을 줘야하니까
    SQL문을 수정해야됨
    SELECTALL이 되는상황
 -->
-  
+  					
 						<!-- product -->
+					<c:if test="${not empty currentPageProducts}">
 						<c:forEach var="isWishedData" items="${currentPageProducts}">
 						    <div class="col-md-4 col-xs-6" style="margin-top: 30px;">
 						        <div class="product">
@@ -245,14 +257,19 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						                    <%-- 평점 들어가는 라인 --%>
 						                </div>
 						            </div>
-						            <div class="add-to-cart">
+						            <!-- <div class="add-to-cart">
 						                <button class="add-to-cart-btn">
 						                    <i class="fa fa-shopping-cart"></i> add to cart
 						                </button>
-						            </div>
+						            </div> -->
 						        </div>
 						    </div>
 						</c:forEach>
+					</c:if>
+					
+					<c:if test="${empty currentPageProducts}">
+						<h3>검색결과가 없습니다</h3>
+					</c:if>
 						<!-- /product -->
 						<!-- /store products -->
 
