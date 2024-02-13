@@ -24,6 +24,8 @@ public class OrderInfoPageAction implements Action{
 		forward.setPath("orderInfo.do");
 		forward.setRedirect(false);
 		
+		System.out.println("[로그 : 박현민] OrderInfoPageAction 시작");
+		
 		MemberDTO memberDTO = new MemberDTO();
 		HttpSession session =request.getSession();
 		//System.out.println("멤버 세션  : "+request.getAttribute("memberDTO"));

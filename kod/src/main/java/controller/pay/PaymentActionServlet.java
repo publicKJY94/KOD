@@ -40,34 +40,28 @@ public class PaymentActionServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
-		System.out.println("[로그 : 박현민] paymentActionServlet 시작");
+		System.out.println("[로그 : 박현민] PaymentActionServlet 시작");
 		
 		String preview = (String)request.getParameter("productIDs");	// 결제할 상품 번호 받아오기
 		preview = preview.replace("[", "");
 		preview = preview.replace("]", "");
 		preview = preview.replace("\"", "");							// ajax를 통해 넘어온 데이터를 사용하기 위해 가공하는 과정
 		String[] productIDs = preview.split(",");						// 들고온 데이터를 ,(쉼표)를 기준으로 나누기
-		System.out.println(Arrays.toString(productIDs));
-//		System.out.println(productIDs[0]);
-//		System.out.println(productIDs.length);
+		//System.out.println(Arrays.toString(productIDs));
 
 		String cnt = (String)request.getParameter("purchaseCnts");		// 결제할 상품 개수 받아오기
 		cnt = cnt.replace("[", "");
 		cnt = cnt.replace("]", "");
 		cnt = cnt.replace("\"", "");
 		String[] cnts = cnt.split(",");
-		System.out.println(Arrays.toString(cnts));
-//		System.out.println(cnts[0]);
-//		System.out.println(cnts.length);
+		//System.out.println(Arrays.toString(cnts));
 		
 		String payCk = (String)request.getParameter("payNows");			// 결제할 방법 받아오기 (바로 구매 = 1, 선택 구매 = 2)
 		payCk = payCk.replace("[", "");
 		payCk = payCk.replace("]", "");
 		payCk = payCk.replace("\"", "");
 		String[] payCks = payCk.split(",");
-		System.out.println("결제방식 : "+Arrays.toString(payCks));
-//		System.out.println(payCks[0]);
-//		System.out.println(payCks.length);
+		//System.out.println("결제방식 : "+Arrays.toString(payCks));
 		
 		OrderListDTO oDTO = new OrderListDTO();
 		OrderListDAO oDAO = new OrderListDAO();
@@ -86,7 +80,7 @@ public class PaymentActionServlet extends HttpServlet {
 		
 		if(payCks[0].equals("1")) { // 바로 결제
 			
-			System.out.println("바로 결제 실행");
+			System.out.println("[로그 : 박현민] 바로 구매 실행");
 			oDTO.setMemberID(memberID);
 			oDTO = oDAO.selectOne(oDTO);								// 위에서 저장되며 만들어진 ORDERLIST의 ID값을 받아오기 위해 selectOne 실행
 			
@@ -107,19 +101,19 @@ public class PaymentActionServlet extends HttpServlet {
 			//System.out.println("구매 후 재고 감소를 위한 pDTO : " + pDTO);
 			pDAO.update(pDTO);											// 구매한 상품을 구매 개수만큼 재고 감소
 			
-			System.out.println("바로 결제 끝");
+			System.out.println("[로그 : 박현민] 바로 구매 끝");
 		} else {
 			for(int i=0;i<productIDs.length;i++) {						// 사용자가 선택한 상품의 개수만큼 반복문 실행
-				System.out.println("장바구니 결제 실행");
+				System.out.println("[로그 : 박현민] 선택 구매 실행");
 				oDTO.setMemberID(memberID);
 				oDTO = oDAO.selectOne(oDTO);							// ORDERLIST의 ID값을 받아오기 위해 selectOne 실행
 				
 				oContentDTO.setOdListID(oDTO.getOdListID());			// selectOne을 통해 들고온 ORDERLIST_ID를 oContentDTO에 저장
 				oContentDTO.setProductID(Integer.parseInt(productIDs[i])); 
 				oContentDTO.setOdContentCnt(Integer.parseInt(cnts[i]));
-				System.out.println("[서블릿] 주문 상세 내역 상품 번호 : "+productIDs[i]);
-				System.out.println("[서블릿] 주문 상세 내역 주문 개수 : "+cnts[i]);
-				System.out.println("[서블릿] 주문 상세 내역 : "+oContentDTO);
+//				System.out.println("[서블릿] 주문 상세 내역 상품 번호 : "+productIDs[i]);
+//				System.out.println("[서블릿] 주문 상세 내역 주문 개수 : "+cnts[i]);
+//				System.out.println("[서블릿] 주문 상세 내역 : "+oContentDTO);
 				oContentDAO.insert(oContentDTO);						// 상품의 상세 정보를 ORDERCONTENT 테이블에 저장
 				
 				// 구매한 상품 재고 감소
@@ -138,7 +132,7 @@ public class PaymentActionServlet extends HttpServlet {
 				cDTO.setMemberID(memberID);
 				cDTO.setSearchCondition("개별상품삭제");
 				cDAO.delete(cDTO);										// 구매한 상품을 장바구니에서 제거
-				System.out.println("장바구니 삭제 완료");
+				System.out.println("[로그 : 박현민] 선택 구매 끝");
 			}
 		}
 		System.out.println("[로그 : 박현민] paymentActionServlet 끝");

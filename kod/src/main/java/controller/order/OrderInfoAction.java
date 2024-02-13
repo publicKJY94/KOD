@@ -24,6 +24,8 @@ public class OrderInfoAction implements Action{
 		forward.setPath("/orderInfo.jsp");
 		forward.setRedirect(false);
 		
+		System.out.println("[로그 : 박현민] OrderInfoAction 시작");
+		
 		ArrayList<OrderContentDTO> ocDatas = new ArrayList<OrderContentDTO>();
 		OrderContentDTO oContentDTO = new OrderContentDTO();
 		OrderContentDAO oContentDAO = new OrderContentDAO();

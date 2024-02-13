@@ -23,6 +23,7 @@ public class PayInfoAction implements Action{
 			throws ServletException, IOException {
 		ActionForward forward = new ActionForward();
 		
+		System.out.println("[로그 : 박현민] PayInfoAction 시작");
 		CartDAO cartDAO = new CartDAO();
 		//cartDTO.setCartProductCnt(Integer.parseInt(request.getParameter("purchaseCnt")));
 		ArrayList<CartDTO> datas = new ArrayList<CartDTO>();

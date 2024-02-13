@@ -14,8 +14,13 @@ public class OrderListDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	
+	// 주문 내역 최신순 출력
 	private static final String SELECTALL="SELECT ORDERLIST_ID, MEMBER_ID, ORDERLIST_DATE FROM ORDERLIST WHERE MEMBER_ID=? ORDER BY ORDERLIST_ID DESC";
+	
+	// 주문 상세 내역을 저장하기 위한 주문번호 최댓값 가져오기
 	private static final String SELECTONE="SELECT NVL(MAX(ORDERLIST_ID),0) AS MAX_ID FROM ORDERLIST WHERE MEMBER_ID=?";
+	
+	// 결제 후 주문 내역 저장
 	private static final String INSERT="INSERT INTO ORDERLIST "
 			+ " (ORDERLIST_ID, MEMBER_ID, ORDERLIST_DATE) "
 			+ " VALUES((SELECT NVL(MAX(ORDERLIST_ID),0)+1 FROM ORDERLIST), ?, SYSDATE)";
