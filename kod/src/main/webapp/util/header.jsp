@@ -99,11 +99,16 @@
 							<!-- Cart -->
 							<!-- Cart -->
                      <div class="dropdown">
-                        <a href="paySelect.do" class="dropdown-toggle" aria-expanded="false">
-                        <!-- data-toggle="dropdown"-->
-                            <i class="fa fa-shopping-cart"></i> <span>Your
-                              Cart</span>
-                        </a>
+                     	<c:if test="${memberDTO != null}">
+	                        <a href="paySelect.do" class="dropdown-toggle" aria-expanded="false">
+	                            <i class="fa fa-shopping-cart"></i> <span>Your Cart</span>
+	                        </a>
+                        </c:if>
+                        <c:if test="${memberDTO == null}">
+	                        <a href="loginPage.do" class="dropdown-toggle" aria-expanded="false">
+	                            <i class="fa fa-shopping-cart"></i> <span>Your Cart</span>
+	                        </a>
+                        </c:if>
                          <div class="cart-dropdown">
                            <div class="cart-list">
                               <div class="product-widget">
