@@ -77,7 +77,7 @@ public class ReviewWriteAction implements Action {
 	            System.out.println("uploadFilePath : "+uploadFilePath);
 //	            System.out.println("copyFilePath : " + copyFilePath);
 	            
-	            // KOD팀끼리 공유하기 위한 복사경로 만들기
+	            // 여러 작업 환경(PC)에서도 쉽게 공유할 수 있는 복사 경로 만들기
 	            int num = uploadFilePath.indexOf("."); // 첫번째 만나는 .의 인덱스값
 	            String forwardUrlParts = uploadFilePath.substring(0, num);
 	            System.out.println("forwardUrlParts : "+forwardUrlParts);

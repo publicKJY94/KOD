@@ -265,19 +265,19 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						    <ul class="store-pagination">
 						        <%-- 이전 페이지 링크 --%>
 						        <c:if test="${currentPage > 1}">
-						            <li><a href="checkWished.do?page=${currentPage - 1}"><i class="fa fa-angle-left"></i></a></li>
+						            <li><a href="store.do?page=${currentPage - 1}"><i class="fa fa-angle-left"></i></a></li>
 						        </c:if>
 						
 						        <%-- 페이지 번호 출력 --%>
 						        <c:forEach var="i" begin="1" end="${totalPages}">
 						            <li class="${currentPage == i ? 'active' : ''}">
-						                <a href="checkWished.do?page=${i}">${i}</a>
+						                <a href="store.do?page=${i}">${i}</a>
 						            </li>
 						        </c:forEach>
 						
 						        <%-- 다음 페이지 링크 --%>
 						        <c:if test="${currentPage < totalPages}">
-						            <li><a href="checkWished.do?page=${currentPage + 1}"><i class="fa fa-angle-right"></i></a></li>
+						            <li><a href="store.do?page=${currentPage + 1}"><i class="fa fa-angle-right"></i></a></li>
 						        </c:if>
 						    </ul>
 						</div>

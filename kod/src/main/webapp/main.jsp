@@ -175,10 +175,8 @@
 														<div class="product-btns">
 															<button class="add-to-wishlist" onclick="checkLogin()">
 																<div class="productID" hidden>${item.productID}</div>
-																<i
-																	class="fa ${item.isWished == 1 ? 'fa-heart' : 'fa-heart-o'}"
-																	id="heartIcon"></i><span class="tooltipp">위시리스트에
-																	추가</span>
+																<i class="fa ${item.isWished == 1 ? 'fa-heart' : 'fa-heart-o'}" id="heartIcon"></i>
+																<span class="tooltipp">위시리스트에 추가</span>
 															</button>
 														</div>
 													</div>
