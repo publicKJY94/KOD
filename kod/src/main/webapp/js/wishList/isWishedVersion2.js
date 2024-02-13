@@ -1,14 +1,12 @@
-$(document).ready(function(){
-	  $(".add-to-wishlist2").on("click", function(e){
-	    e.preventDefault(); // 기본 클릭 이벤트를 중단하여 링크가 이동하는 것을 방지
-
-	    console.log("위시리스트 버튼 클릭됨");
+$(document).ready(function(){ /*[정현진](찜기능 심화버전)하나의 함수에서 2가지 기능을 실행*/
+	  $(".add-to-wishlist2").on("click", function(){
+	    console.log("[로그:정현진] 위시리스트 버튼 클릭됨");
 	    
 	    var productID = $(this).find(".productID").text();
 	    var heartIcon = $(this).find("#heartIcon");
 	    console.log("productID", productID);
 	    
-	    $.ajax({
+	    $.ajax({ /*찜기능*/
 	      type: "POST",
 	      url: "isWishedServlet",
 	      data: {"productID": productID},
@@ -18,9 +16,9 @@ $(document).ready(function(){
 	        
 	        var updatedWishListCnt = parseInt(data);
 	        $(".wishListCnt").text(updatedWishListCnt);
-	        console.log("updatedWishListCnt >> " + updatedWishListCnt);
+	        console.log("[로그:정현진] updatedWishListCnt >> " + updatedWishListCnt);
 	        
-		    $.ajax({
+		    $.ajax({ /*상품의 찜 합계수량 비동기 반응*/
 			      type: "POST",
 			      url: "wishTotalCntServlet",
 			      data: {"productID": productID},
@@ -29,19 +27,21 @@ $(document).ready(function(){
 
 			        var updatedwishTotalCnt = parseInt(data);
 			        $(".wishTotalCnt").text(updatedwishTotalCnt); // 상품의 찜 합계수량
-			        console.log("updatedwishTotalCnt >> " + updatedwishTotalCnt);
+			        console.log("[로그:정현진] updatedwishTotalCnt >> " + updatedwishTotalCnt);
 
 			      },
 			      error: function(error){
 			        console.log("에러: " + error);
 			      } 
 			    });
-	        
 	      },
 	      error: function(error){
 	        console.log("에러: " + error);
 	      } 
 	    });
-	    
 	  });
 });
+
+
+
+

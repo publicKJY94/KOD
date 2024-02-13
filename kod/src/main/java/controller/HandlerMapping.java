@@ -51,7 +51,6 @@ public class HandlerMapping {
 	
 	public HandlerMapping() {
 		this.mappings=new HashMap<String,Action>();
-		this.mappings.put("/main.do", new MainAction());
 		this.mappings.put("/myPage.do", new MypageAction());
 		this.mappings.put("/login.do", new LoginAction());
 		this.mappings.put("/logout.do", new LogoutAction());
@@ -59,7 +58,6 @@ public class HandlerMapping {
 		this.mappings.put("/join.do", new JoinMemberAction());
 		this.mappings.put("/joinAddress.do", new JoinAddressAction());
 		this.mappings.put("/joinPage.do", new JoinPageAction());
-		this.mappings.put("/productDetail.do", new ProductDetailAction());
 		this.mappings.put("/mapPage.do", new MapPageAction());
 		this.mappings.put("/addressInsert.do", new AddressInsertAction());
 		this.mappings.put("/addressUpdate.do", new AddressUpdateAction());
@@ -72,12 +70,7 @@ public class HandlerMapping {
 		this.mappings.put("/paymentPage.do", new PaymentPageAction());
 		this.mappings.put("/orderInfoPage.do", new OrderInfoPageAction());
 		this.mappings.put("/orderInfo.do", new OrderInfoAction());
-		this.mappings.put("/wishList.do", new WishListAction());
-		this.mappings.put("/store.do", new StoreAction());
 		this.mappings.put("/alert.do", new AlertAction());
-		this.mappings.put("/product.do", new ProductAction());
-		this.mappings.put("/productRank.do", new ProductRankAction());
-		this.mappings.put("/productCategory.do", new ProductActionCategory());
 		this.mappings.put("/goback.do", new GobackAction());
 		this.mappings.put("/loginsuccess.do", new LoginsuccessAction());
 		this.mappings.put("/joinsuccess.do", new JoinsuccessAction());
@@ -88,11 +81,18 @@ public class HandlerMapping {
 		this.mappings.put("/memberUpdateLogout.do", new MemberUpdateLogoutAction());
 		this.mappings.put("/myOrderList.do", new MypageOrderListAction());
 		this.mappings.put("/mypageCartList.do", new MypageCartListAction());
-		this.mappings.put("/reviewWritePage.do", new ReviewWritePageAction());
-		this.mappings.put("/reviewWriteAction.do", new ReviewWriteAction());
 		this.mappings.put("/cartDeleteAll.do", new CartDeleteAllAction());
 	    this.mappings.put("/cartDeleteEach.do", new CartDeleteEachAction());
 	    this.mappings.put("/joinTermsOfUse.do", new JoinTermsOfUseAction());
+	    this.mappings.put("/product.do", new ProductAction());
+	    this.mappings.put("/main.do", new MainAction());
+	    this.mappings.put("/store.do", new StoreAction());
+	    this.mappings.put("/productCategory.do", new ProductActionCategory());
+	    this.mappings.put("/productRank.do", new ProductRankAction());
+	    this.mappings.put("/productDetail.do", new ProductDetailAction());
+	    this.mappings.put("/wishList.do", new WishListAction());
+	    this.mappings.put("/reviewWritePage.do", new ReviewWritePageAction());
+	    this.mappings.put("/reviewWriteAction.do", new ReviewWriteAction());
 	    
 	}
 	

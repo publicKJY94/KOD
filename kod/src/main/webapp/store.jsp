@@ -140,7 +140,7 @@ label:hover {
 				<!-- STORE -->
 				<div id="store" class="col-md-9">
 					<!-- store top filter -->
-					<!-- <div class="store-filter clearfix">
+					<div class="store-filter clearfix">
 						<div class="store-sort">
 							<label> Sort By: <select class="input-select">
 									<option value="0">Popular</option>
@@ -156,7 +156,7 @@ label:hover {
 							<li class="active"><i class="fa fa-th"></i></li>
 							<li><a href="#"><i class="fa fa-th-list"></i></a></li>
 						</ul>
-					</div> -->
+					</div>
 					<!-- /store top filter -->
 
 					<!-- store products -->
@@ -217,7 +217,7 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						                <div class="product-label" style="display: flex; justify-content: space-between; align-items: center;">
 						                    <span class="new" style="color: #D10024;"><strong>NEW</strong></span>
 						                    <div class="product-btns">
-						                        <button class="add-to-wishlist" onclick="checkLogin()">
+						                        <button class="add-to-wishlist" onclick="checkLogin()"> <!-- 찜 버튼 -->
 						                            <div class="productID" hidden>${isWishedData.productID}</div>
 						                            <i class="fa ${isWishedData.isWished != 0 ? 'fa-heart' : 'fa-heart-o'}" id="heartIcon"></i>
 						                            <span class="tooltipp">위시리스트에 추가</span>
@@ -245,11 +245,11 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						                    <%-- 평점 들어가는 라인 --%>
 						                </div>
 						            </div>
-						            <!-- <div class="add-to-cart">
+						            <div class="add-to-cart">
 						                <button class="add-to-cart-btn">
 						                    <i class="fa fa-shopping-cart"></i> add to cart
 						                </button>
-						            </div> -->
+						            </div>
 						        </div>
 						    </div>
 						</c:forEach>
