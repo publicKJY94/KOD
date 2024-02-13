@@ -3,27 +3,7 @@
     pageEncoding="UTF-8" import="model.dto.*, java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%
-    String name = request.getParameter("memberName");
-    int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
-    //int purchaseCnt = Integer.parseInt(request.getParameter("productCnt"));
-    ArrayList<CartDTO> datas = (ArrayList<CartDTO>) request.getAttribute("payDTO"); 
-    //String selectPg = request.getParameter("pg");
-    
-    String[] payInfoProductNames = request.getParameterValues("productName");
-	System.out.println(payInfoProductNames);
-	String productName = null;
-	String encodingName = null;
-	if(payInfoProductNames.length >1 ) {
-		productName = payInfoProductNames[0] + "외 " + (payInfoProductNames.length-1) + "개";
-		//encodingName = new String(productName.getBytes("UTF-8"));
-	}else {
-		productName = payInfoProductNames[0];
-	}
-	System.out.println(productName);
 	
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,14 +13,28 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
-	<%-- <%
-	for(CartDTO cart : datas){
-	%> --%>
 	
+	<!-- 구매자 이름 -->
+	<c:set var="name" value="${param.memberName}" />
 	
+	<!-- 상품 총 가격 -->
+	<c:set var="totalPrice" value="${param.totalPrice}" />
+	
+	<!-- 구매할 상품 이름 -->
+	<c:set var="payInfoProductNames" value="${paramValues.productName}" />
+	<c:choose>
+		<c:when test="${fn : length(payInfoProductNames) > 1}">
+			<c:set var="productName" value="${payInfoProductNames[0]} 외 ${fn : length(payInfoProductNames) -1}개" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="productName" value="${payInfoProductNames[0]}" />
+		</c:otherwise>
+	</c:choose>
 	
 	
 	<c:set var="cDatasSize" value="${fn:length(payDTO)}" />
+	
+	<!-- payDTO를 통해 들어오는 데이터가 있다면 선택 구매(장바구니를 통한 구매) -->	
 	<c:if test="${cDatasSize >= 1}">
 		<c:forEach var="cart" items="${payDTO}">
 			<input type="hidden" name="pid" id="pid" value="${cart.productID }">
@@ -49,25 +43,12 @@
 		</c:forEach>
 	</c:if>
 	
+	<!-- 바로 구매 -->
 	<c:if test="${cDatasSize < 1 }">
 		<input type="hidden" name="pid" id="pid" value="${payNow.productID }">
 		<input type="hidden" name="cnt" id="cnt" value="${payNow.cartProductCnt}">
 		<input type="hidden" name="payCk" id="payCk" value="${payNow.payCk}">
 	</c:if>
-	
-	<%-- <c:if test="${cDatasSize >= 1}">
-		<c:set var="payNow" value="${payDTO[0].payCk}" />
-	</c:if> --%>
-	
-	
-	<%-- <c:if test="${cDatasSize < 1}">
-		<c:set var="payNow" value="${payNow.payCk}" />
-	</c:if> --%>
-	<%-- <input type="hidden" name="pid" id="pid" value="<%=cart.getProductID()%>">
-	<input type="hidden" name="cnt" id="cnt" value="<%=cart.getCartProductCnt()%>"> --%>
-	<%-- <%
-	}
-	%> --%>
 	
     <script>
     $(function(){
@@ -75,15 +56,15 @@
 	    var cnt = document.querySelectorAll('input[name=cnt]');
 	    var payCk = document.querySelectorAll('input[name=payCk]');
 	    
-	    console.log(pid);
-        console.log(cnt);
-        console.log(payNow);
+	    /* 들어오는 결제 데이터 확인용 로그*/
+	    //console.log(pid);
+        //console.log(cnt);
+        //console.log(payNow);
         
-	    var IMP = window.IMP; // 생략가능
-        IMP.init('imp01807501'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+	    var IMP = window.IMP; 
+        IMP.init('imp01807501'); 
         var msg;
         var everythings_fine=true;
-        
         
         // 결제할 상품 번호를 배열에 저장하기
         var productID = [];
@@ -91,7 +72,7 @@
         	productID.push(cartItem.value);
         });
         var productIDs = JSON.stringify(productID);
-        console.log(productIDs);
+        //console.log("상품번호 : " + productIDs);
 		
         // 결제할 상품의 개수를 배열에 저장하기
         var purchaseCnt = [];
@@ -99,28 +80,24 @@
         	purchaseCnt.push(cartItem.value);
         });
         var purchaseCnts = JSON.stringify(purchaseCnt);
-        console.log(purchaseCnts);
+        //console.log("구매개수 : " + purchaseCnts);
         
-        
+        // 결제 방식 저장
         var payNow = [];
         payCk.forEach(function(cartItem){
         	payNow.push(cartItem.value);
         });
         var payNows = JSON.stringify(payNow);
-        console.log("결제방식 : "+payNows);
-        /* 
-        	결제가 승인되었을 때 웹훅이 호출됨
-        	
-        */
+        //console.log("결제방식 : "+payNows);
         
         IMP.request_pay({
-            pg : 'kakaopay',
+            pg : 'kakaopay',			// 결제 방식
             pay_method : 'card',
             merchant_uid : 'merchant_' + new Date().getTime(), 
-            name : '<%=productName%>',
-            amount : '<%=totalPrice%>',
-            productIDs : 'productIDs',
-            purchaseCnt : 'purchaseCnt',
+            name : '${productName}', 	// 상품명
+            amount : '${totalPrice}',	// 총 가격
+            productIDs : 'productIDs',	// 상품 번호
+            purchaseCnt : 'purchaseCnt',// 구매 개수
             buyer_email : 'email',
             buyer_name : 'name',
             buyer_tel : 'phone',
@@ -131,9 +108,8 @@
             	console.log('로그');
                 //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
                 $.ajax({
-                    url: "paymentActionServlet", //cross-domain error가 발생하지 않도록 주의해주세요
+                    url: "paymentActionServlet", // 결제 서블릿
                     type: 'POST',
-                    //dataType:'json', // 상품번호를 여러개 받기 위해 사용
                     data: {
                         imp_uid : rsp.imp_uid,
                         productIDs : productIDs,
@@ -145,34 +121,12 @@
                 		//성공시 이동할 페이지
                         location.href='orderInfoPage.do';
                 	},
-                	error : function(error){
-                		console.log('에러' , error);
-                		//location.href='goback.do';
-                	}
                 })
-            } else if(rsp.success == false){
+            } else if(rsp.success == false){ // 결제 취소할 경우 이전 페이지로 돌아감
             	alert('결제를 취소했습니다. 이전 화면으로 돌아갑니다.');
         		history.go(-2);
             } 
         }); 
-       /* function (rsp) {
-        	console.log(rsp);
-        	if (rsp.success) {
-        		var msg = '결제가 완료되었습니다.';
-        		msg += '고유ID : ' + rsp.imp_uid;
-        		msg += '상점 거래ID : ' + rsp.merchant_uid;
-        		msg += '결제 금액 : ' + rsp.paid_amount;
-        		msg += '카테고리  : ' + rsp.category;
-        		msg += '상품정보  : ' + rsp.info;
-        		msg += '카드 승인번호 : ' + rsp.apply_num;
-        		msg += '구매자 : ' + rsp.buyer_name;
-        		
-        		} else {
-        			var msg = '결제에 실패하였습니다.';
-        			msg += '에러내용 : ' + rsp.error_msg;
-        			}
-        	alert(msg);
-        	}); */
     }); 
     </script>
  

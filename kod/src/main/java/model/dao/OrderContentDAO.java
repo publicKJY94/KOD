@@ -13,7 +13,9 @@ public class OrderContentDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	
+	// 주문 상세 내역 출력
 	private static final String SELECTALL="SELECT OC.ORDERCONTENT_ID ,OC.ORDERLIST_ID, OC.ORDERCONTENT_CNT, OC.PRODUCT_ID, P.PRODUCT_IMG, P.PRODUCT_NAME, P.PRODUCT_CATEGORY, P.PRODUCT_PRICE FROM ORDERCONTENT OC INNER JOIN PRODUCT P ON P.PRODUCT_ID = OC.PRODUCT_ID WHERE OC.ORDERLIST_ID = ?";
+	
 	private static final String SELECTTOP3="SELECT r.PRODUCT_ID , r.PRODUCT_IMG , r.PRODUCT_CATEGORY , r.PRODUCT_NAME , r.PRODUCT_PRICE, r.TOTAL "
 			+ "FROM "
 			+ "(SELECT p.PRODUCT_ID , p.PRODUCT_IMG , p.PRODUCT_CATEGORY , p.PRODUCT_NAME ,p.PRODUCT_PRICE, SUM(oc.ORDERCONTENT_CNT) AS TOTAL "
@@ -23,6 +25,8 @@ public class OrderContentDAO {
 			+ "ORDER BY TOTAL DESC) r "
 			+ "WHERE ROWNUM <=3";
 	private static final String SELECTONE="";
+	
+	// 결제 후 해당 주문 번호를 가져와 주문 상세 내역을 저장
 	private static final String INSERT="INSERT INTO ORDERCONTENT "
 			+ " (ORDERCONTENT_ID, ORDERLIST_ID, PRODUCT_ID, ORDERCONTENT_CNT) "
 			+ " VALUES((SELECT NVL(MAX(ORDERCONTENT_ID),0)+1 FROM ORDERCONTENT), ?, ?, ?)";

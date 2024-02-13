@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import controller.util.Action;
 import controller.util.ActionForward;
 
-public class PayInfoPageAction implements Action{
+public class PayInfoPageAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
@@ -17,9 +17,8 @@ public class PayInfoPageAction implements Action{
 		ActionForward forward = new ActionForward();
 		forward.setPath("paySelect.do");
 		forward.setRedirect(true);
-		
+
 		return forward;
 	}
 
-	
 }
