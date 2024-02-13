@@ -68,6 +68,15 @@
 							<td></td>
 						</tr>
 					</thead>
+					<c:choose>
+    				<c:when test="${empty cDatas}">
+      				  <tbody>
+            				<tr>
+              			  <td colspan="7"><h3 style="text-align: center;">장바구니에 상품이 없습니다</h3></td>
+           				 </tr>
+        					</tbody>
+    					</c:when>
+    						<c:otherwise>
 					<c:forEach var="cData" items="${cDatas}" varStatus="status">
 						<tbody>
 							<tr class="cart__list__detail">
@@ -103,6 +112,8 @@
 							</tr>
 						</tbody>
 					</c:forEach>
+					  </c:otherwise>
+				</c:choose>
 				</table>
 				<div class="cart__mainbtns" style="float: right">
 					<button class="cart__bigorderbtn right">주문하기</button>
@@ -254,12 +265,11 @@
 					url: 'cartUpdateActionServlet', // 장바구니 업데이트를 처리할 서블릿 URL
 					dataType: 'json',
 					data: {
-						productId: productId,
-						productCnt: productCnt
+						productId: productId, // 상품번호
+						productCnt: productCnt // 상품수량
 
 					},
-					success: function (response) {
-
+					success: function (response) { //성공한 경우
 						var changedCnt = response;
 						console.log('장바구니 업데이트 성공');
 						console.log(response);
@@ -269,7 +279,6 @@
 
 						var totalPrice = changedCnt * parseInt($('#eachPrice').text().replace('원', ''));
 						$('#totalPrice_' + index).text(totalPrice + '원');
-
 					},
 					error: function (xhr, status, error) {
 						console.error('장바구니 업데이트 실패:', status, error);
