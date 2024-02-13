@@ -15,7 +15,7 @@
 <body>
 
 		
-<div class="container">
+<div id="container">
   <!-- Heading -->
   <h1><img src="img/shopimg.png"></h1>
   
