@@ -39,7 +39,7 @@
 </head>
 <body>
 
-		
+	<jsp:include page="util/header.jsp"></jsp:include>
 
 
 	<div class="big-box">
@@ -72,7 +72,7 @@
 
 
 
-	<div class="container">
+	<div id="container">
 		<!-- Heading -->
 		<h1>회원정보변경</h1>
 

@@ -86,7 +86,6 @@ function selectProduct(categoryList, max, min) {
 						            </div>
 						        </div>
 						    </div>`
-
 			});
 			// ajax요청 후 해제된 이벤트 리스너 재등록
 			elem+=`	
@@ -95,9 +94,15 @@ function selectProduct(categoryList, max, min) {
 			product.html(elem);
 		},
 		error: function(err) {
-			console.log(err);
-			elem += `<h3>검색결과가 없습니다</h3>`;
-			product.html(elem);
+			var product = $('div#store div.row');
+			console.log(err.status);
+			hiddenPagination();
+			var alertMessage = `<h3>검색결과가 없습니다</h3>`;
+			product.html(alertMessage);
 		}
 	});
+}
+function hiddenPagination(){
+	var page = document.querySelector('div.store-filter');
+	page.setAttribute('style','display:none;')
 }
