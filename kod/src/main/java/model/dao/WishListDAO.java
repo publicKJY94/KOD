@@ -585,37 +585,40 @@ public class WishListDAO { // [담당 : 정현진]
 		else if(wishListDTO.getSearchCondition().equals("연령별상품추천LOGIN")) {
 			System.out.println("[로그 : 정현진] 연령별상품추천LOGIN 들어옴 @@@@");
 			conn=JDBCUtil.connect();
-			try {
+			try { //프로그램 안정성 향상									 /*연령별 상품추천 쿼리*/
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISH_RANKING_BY_AGE);
 				pstmt.setInt(1, wishListDTO.getMemberMinAge());
 				pstmt.setInt(2, wishListDTO.getMemberMaxAge());
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
 					WishListDTO data = new WishListDTO();
-					data.setProductID(rs.getInt("PRODUCT_ID"));
-					data.setProductImg(rs.getString("PRODUCT_IMG"));
-					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
-					data.setProductName(rs.getString("PRODUCT_NAME"));
-					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+					data.setProductID(rs.getInt("PRODUCT_ID")); // 상품ID
+					data.setProductName(rs.getString("PRODUCT_NAME")); // 상품명
+					data.setProductCategory(rs.getString("PRODUCT_CATEGORY")); // 상품카테고리
+					data.setProductPrice(rs.getInt("PRODUCT_PRICE")); // 상품가격
+					data.setProductImg(rs.getString("PRODUCT_IMG")); // 상품이미지
 					datas.add(data);
 				}
-				rs.close();
-			} catch (SQLException e) {
+				rs.close(); // 자원해제(리소스 누수 방지, 시스템자원 효율적 관리)
+			} catch (SQLException e) { // SQL구문 등의 오류 시 정상적인 프로그램 진행을 위함	
 				e.printStackTrace();
-			} finally {
+			} finally { // 예외 발생 여부와 상관없이 리소스 해제 코드 실행
 				JDBCUtil.disconnect(pstmt, conn);
 			}
-			System.out.println("[로그]datas.size()"+datas.size());
+			System.out.println("[로그:정현진] datas.size() : "+datas.size());
 			int productID=wishListDTO.getProductID();
-			for (int i = 0; i < datas.size(); i++) {
-				System.out.println("위시DTO가 받아온 ProductID"+productID);
+			for (int i = 0; i < datas.size(); i++) { /*중복상품 제거 로직*/
+				System.out.println("[로그:정현진] "+i+"번째 반복");
+				System.out.println("[로그:정현진] 매개변수DTO ProductID : "+productID);
+				System.out.println("[로그:정현진] datas["+i+"] ProductID : "+productID);
 				if(datas.get(i).getProductID()==productID) {
-					System.out.println("datas"+i+"번째 인덱스 삭제됨");
-					datas.remove(i);
-					break; 
+					System.out.println("[로그:정현진] ProductID : "+datas.get(i).getProductID()+" 중복상품 발견!");
+					System.out.println("[로그:정현진] datas["+i+"] 번째 인덱스 삭제됨, 반복문 종료!");
+					datas.remove(i); /*중복상품 제거*/
+					break;  /*반복문종료, 불필요한 반복을 피하고 효율적인 코드실행을 위함*/
 				}
-				System.out.println("몇번째"+i);
 			}
+			return datas;
 //			int i=0;
 //			while(true) {
 //				if(datas.get(i).getProductID()==productID) {
@@ -624,7 +627,6 @@ public class WishListDAO { // [담당 : 정현진]
 //				}
 //				i++;
 //			}
-			return datas;
 			/*
 			 * 해당 코드의 특징
 			 * SELECTALL_WISH_RANKING_BY_AGE 쿼리는 연령별 추천상품을 조회하는 쿼리로서
@@ -650,26 +652,37 @@ public class WishListDAO { // [담당 : 정현진]
 			 */
 		}
 		else if(wishListDTO.getSearchCondition().equals("연령별상품추천LOGOUT스텝2")) {
-			if(wishListDTO.getMemberAge()==10) {
-				wishListDTO.setMemberMinAge(10);
-				wishListDTO.setMemberMaxAge(20);
+//			if(wishListDTO.getMemberAge()==10) {
+//				wishListDTO.setMemberMinAge(10);
+//				wishListDTO.setMemberMaxAge(20);
+//			}
+//			else if(wishListDTO.getMemberAge()==20) {
+//				wishListDTO.setMemberMinAge(20);
+//				wishListDTO.setMemberMaxAge(30);
+//			}
+//			else if(wishListDTO.getMemberAge()==30) {
+//				wishListDTO.setMemberMinAge(30);
+//				wishListDTO.setMemberMaxAge(40);
+//			}
+//			else if(wishListDTO.getMemberAge()==40) {
+//				wishListDTO.setMemberMinAge(40);
+//				wishListDTO.setMemberMaxAge(50);
+//			}
+//			else {
+//				wishListDTO.setMemberMinAge(50);
+//				wishListDTO.setMemberMaxAge(60);
+//			}
+			System.out.println("[로그:정현진] 매개변수DTO의 나이 : "+wishListDTO.getMemberAge());
+			if(wishListDTO.getMemberAge()>=10&&wishListDTO.getMemberAge()<=40) { // 10대 ~ 40대
+				wishListDTO.setMemberMinAge(wishListDTO.getMemberAge()); // 10~20, 20~30, 30~40, 40~50
+				wishListDTO.setMemberMaxAge(wishListDTO.getMemberAge()+10);
 			}
-			else if(wishListDTO.getMemberAge()==20) {
-				wishListDTO.setMemberMinAge(20);
-				wishListDTO.setMemberMaxAge(30);
-			}
-			else if(wishListDTO.getMemberAge()==30) {
-				wishListDTO.setMemberMinAge(30);
-				wishListDTO.setMemberMaxAge(40);
-			}
-			else if(wishListDTO.getMemberAge()==40) {
-				wishListDTO.setMemberMinAge(40);
-				wishListDTO.setMemberMaxAge(50);
-			}
-			else {
+			else { // 50대 이상
 				wishListDTO.setMemberMinAge(50);
 				wishListDTO.setMemberMaxAge(60);
 			}
+			System.out.println("[로그:정현진] minAge : "+wishListDTO.getMemberMinAge());
+			System.out.println("[로그:정현진] maxAge : "+wishListDTO.getMemberMaxAge());
 			conn=JDBCUtil.connect();
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SELECTALL_WISH_RANKING_BY_AGE);
@@ -678,29 +691,31 @@ public class WishListDAO { // [담당 : 정현진]
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
 					WishListDTO data = new WishListDTO();
-					data.setProductID(rs.getInt("PRODUCT_ID"));
-					data.setProductImg(rs.getString("PRODUCT_IMG"));
-					data.setProductName(rs.getString("PRODUCT_NAME"));
-					System.out.println("로그 pName : "+rs.getString("PRODUCT_NAME"));
-					data.setProductCategory(rs.getString("PRODUCT_CATEGORY"));
-					data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
+					data.setProductID(rs.getInt("PRODUCT_ID")); // 상품ID
+					data.setProductName(rs.getString("PRODUCT_NAME")); // 상품명
+					data.setProductCategory(rs.getString("PRODUCT_CATEGORY")); // 상품카테고리
+					data.setProductPrice(rs.getInt("PRODUCT_PRICE")); // 상품가격
+					data.setProductImg(rs.getString("PRODUCT_IMG")); // 상품이미지
 					datas.add(data);
 				}
-			} catch (SQLException e) {
+				rs.close(); // 자원해제(리소스 누수 방지, 시스템자원 효율적 관리)
+			} catch (SQLException e) { // SQL구문 등의 오류 시 정상적인 프로그램 진행을 위함	
 				e.printStackTrace();
-			} finally {
+			} finally { // 예외 발생 여부와 상관없이 리소스 해제 코드 실행
 				JDBCUtil.disconnect(pstmt, conn);
 			}
-			System.out.println("로그datas.size()"+datas.size());
+			System.out.println("[로그:정현진] datas.size() : "+datas.size());
 			int productID=wishListDTO.getProductID();
-			for (int i = 0; i < datas.size(); i++) {
-				System.out.println("위시DTO가 받아온 ProductID"+productID);
+			for (int i = 0; i < datas.size(); i++) { /*중복상품 제거 로직*/
+				System.out.println("[로그:정현진] "+i+"번째 반복");
+				System.out.println("[로그:정현진] 매개변수DTO ProductID : "+productID);
+				System.out.println("[로그:정현진] datas["+i+"] ProductID : "+productID);
 				if(datas.get(i).getProductID()==productID) {
-					System.out.println("datas"+i+"번째 인덱스 삭제됨");
-					datas.remove(i);
-					break; 
+					System.out.println("[로그:정현진] ProductID : "+datas.get(i).getProductID()+" 중복상품 발견!");
+					System.out.println("[로그:정현진] datas["+i+"] 번째 인덱스 삭제됨, 반복문 종료!");
+					datas.remove(i); /*중복상품 제거*/
+					break;  /*반복문종료, 불필요한 반복을 피하고 효율적인 코드실행을 위함*/
 				}
-				System.out.println("몇번째"+i);
 			}
 			return datas;
 		}

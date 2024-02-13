@@ -83,8 +83,8 @@ public class ReviewWriteAction implements Action {
 	            System.out.println("forwardUrlParts : "+forwardUrlParts);
 	            String middleUrlParts = request.getContextPath();
 	            System.out.println("middleUrlParts : "+middleUrlParts);
-	            String lastUrlParts = "/main/webapp/uploads";
-	            String copyFilePathForKOD = forwardUrlParts+"kod/src"+lastUrlParts+File.separator;
+	            String lastUrlParts = "/src/main/webapp/uploads";
+	            String copyFilePathForKOD = forwardUrlParts+middleUrlParts+lastUrlParts+File.separator;
 	            System.out.println("copyFilePathForKOD : "+copyFilePathForKOD);
 	            	            
 	            // MultipartRequest를 생성하여 파일 업로드 처리
@@ -95,7 +95,6 @@ public class ReviewWriteAction implements Action {
 	                    "UTF-8",
 	                    new DefaultFileRenamePolicy()
 	            );
-	            
 	            
 	            // 업로드된 파일 정보 가져오기
 	            String fileName = multipartRequest.getFilesystemName("imageUpload");
