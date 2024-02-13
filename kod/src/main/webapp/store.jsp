@@ -140,7 +140,7 @@ label:hover {
 				<!-- STORE -->
 				<div id="store" class="col-md-9">
 					<!-- store top filter -->
-					<div class="store-filter clearfix">
+					<!-- <div class="store-filter clearfix">
 						<div class="store-sort">
 							<label> Sort By: <select class="input-select">
 									<option value="0">Popular</option>
@@ -156,7 +156,7 @@ label:hover {
 							<li class="active"><i class="fa fa-th"></i></li>
 							<li><a href="#"><i class="fa fa-th-list"></i></a></li>
 						</ul>
-					</div>
+					</div> -->
 					<!-- /store top filter -->
 
 					<!-- store products -->
@@ -245,11 +245,11 @@ M은 C한테 1,0 등의 값을 줘야하니까
 						                    <%-- 평점 들어가는 라인 --%>
 						                </div>
 						            </div>
-						            <div class="add-to-cart">
+						            <!-- <div class="add-to-cart">
 						                <button class="add-to-cart-btn">
 						                    <i class="fa fa-shopping-cart"></i> add to cart
 						                </button>
-						            </div>
+						            </div> -->
 						        </div>
 						    </div>
 						</c:forEach>

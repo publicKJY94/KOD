@@ -37,7 +37,7 @@ public class FilterActionServlet extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8");
 		/* ajax요청 로그 */
 		System.out.println("\n [김진영] 서블릿에 ajax요청 들어옴");
-		/* 선언부 */
+		/* 선언 및 객체화 */
 		String memberID = "";
 		String transDatas ="";
 		final int won = 10000;	// 가격 단위가 너무 크기때문에 일정 수량만 받고 가격을 조정해주기위한 상수 선언
@@ -74,7 +74,6 @@ public class FilterActionServlet extends HttpServlet {
 		// System.out.println(productDTO.getCategoryList());
 		productDTO.setSearchCondition("filter");
 		productFilterDatas = productDAO.selectAll(productDTO);
-//		productFilterDatas = productDAO.selectCategory(productDTO);
 		/* 필터검색 결과 확인용 코드 */
 		if(productFilterDatas!=null) {
 			System.out.println("필터검색결과 : " + productFilterDatas.get(0));
@@ -84,6 +83,8 @@ public class FilterActionServlet extends HttpServlet {
 		/* ajax로 결과 전달 */
 		if (productFilterDatas != null) {
 			transDatas = gson.toJson(productFilterDatas);
+			out.println(transDatas);
+		}else {
 			out.println(transDatas);
 		}
 	}

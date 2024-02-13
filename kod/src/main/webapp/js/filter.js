@@ -1,8 +1,9 @@
 // 버튼 클릭시 실행되는 함수
 function selectcheckbox() {
-	var checkboxes = document.querySelectorAll('input[type=checkbox]:checked'); // 카테고리명은 실제 카테고리의 이름으로 대체해야 합니다.
-	var inputMax = document.querySelector('#maxPrice'); // 카테고리명은 실제 카테고리의 이름으로 대체해야 합니다.
-	var inputMin = document.querySelector('#minPrice'); // 카테고리명은 실제 카테고리의 이름으로 대체해야 합니다.
+	// 체크박스 체크된 것만 가져오기(복수선택 가능)
+	var checkboxes = document.querySelectorAll('input[type=checkbox]:checked'); 
+	var inputMax = document.querySelector('#maxPrice'); 
+	var inputMin = document.querySelector('#minPrice'); 
 	var lists = [];
 	checkboxes.forEach(function(checkbox) {
 		lists.push(checkbox.name); // 체크박스의 name 속성 값 가져오기
@@ -27,7 +28,7 @@ let won = Intl.NumberFormat('ko-KR', {
 });
 // 버튼 클릭 시 ajax를 실행시킬 함수
 function selectProduct(categoryList, max, min) {
-	console.log(categoryList + "max:" + max + "min:" + min);
+	// console.log(categoryList + "max:" + max + "min:" + min);
 	$.ajax({
 		type: "POST",
 		url: "filter",
@@ -82,11 +83,6 @@ function selectProduct(categoryList, max, min) {
 						                `</h4>
 						                <div class="product-rating">
 						                </div>
-						            </div>
-						            <div class="add-to-cart">
-						                <button class="add-to-cart-btn">
-						                    <i class="fa fa-shopping-cart"></i> add to cart
-						                </button>
 						            </div>
 						        </div>
 						    </div>`
