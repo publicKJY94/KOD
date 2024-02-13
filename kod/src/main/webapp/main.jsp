@@ -229,11 +229,11 @@
 	</div>
 	<!-- /SECTION -->
 
-	<!-- HOT DEAL SECTION -->
+	<!-- HOT DEAL SECTION 
 	<div id="hot-deal" class="section">
-		<!-- container -->
+		container
 		<div class="container">
-			<!-- row -->
+			row
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hot-deal">
@@ -269,20 +269,20 @@
 					</div>
 				</div>
 			</div>
-			<!-- /row -->
+			/row
 		</div>
-		<!-- /container -->
+		/container
 	</div>
-	<!-- /HOT DEAL SECTION -->
+	/HOT DEAL SECTION
 
-	<!-- SECTION -->
+	SECTION
 	<div class="section">
-		<!-- container -->
+		container
 		<div class="container">
-			<!-- row -->
+			row
 			<div class="row">
 
-				<!-- section title -->
+				section title
 				<div class="col-md-12">
 					<div class="section-title">
 						<h3 class="title">Top selling</h3>
@@ -296,16 +296,16 @@
 						</div>
 					</div>
 				</div>
-				<!-- /section title -->
+				/section title
 
-				<!-- Products tab & slick -->
+				Products tab & slick
 				<div class="col-md-12">
 					<div class="row">
 						<div class="products-tabs">
-							<!-- tab -->
+							tab
 							<div id="tab2" class="tab-pane fade in active">
 								<div class="products-slick" data-nav="#slick-nav-2">
-									<!-- product -->
+									product
 									<div class="product">
 										<div class="product-img">
 											<img src="./img/product06.png" alt="">
@@ -348,9 +348,9 @@
 											</button>
 										</div>
 									</div>
-									<!-- /product -->
+									/product
 
-									<!-- product -->
+									product
 									<div class="product">
 										<div class="product-img">
 											<img src="./img/product07.png" alt="">
@@ -393,9 +393,9 @@
 											</button>
 										</div>
 									</div>
-									<!-- /product -->
+									/product
 
-									<!-- product -->
+									product
 									<div class="product">
 										<div class="product-img">
 											<img src="./img/product08.png" alt="">
@@ -434,9 +434,9 @@
 											</button>
 										</div>
 									</div>
-									<!-- /product -->
+									/product
 
-									<!-- product -->
+									product
 									<div class="product">
 										<div class="product-img">
 											<img src="./img/product09.png" alt="">
@@ -476,9 +476,9 @@
 											</button>
 										</div>
 									</div>
-									<!-- /product -->
+									/product
 
-									<!-- product -->
+									product
 									<div class="product">
 										<div class="product-img">
 											<img src="./img/product01.png" alt="">
@@ -518,21 +518,21 @@
 											</button>
 										</div>
 									</div>
-									<!-- /product -->
+									/product
 								</div>
 								<div id="slick-nav-2" class="products-slick-nav"></div>
 							</div>
-							<!-- /tab -->
+							/tab
 						</div>
 					</div>
 				</div>
-				<!-- /Products tab & slick -->
+				/Products tab & slick
 			</div>
-			<!-- /row -->
+			/row
 		</div>
-		<!-- /container -->
+		/container
 	</div>
-	<!-- /SECTION -->
+	/SECTION -->
 
 
 	<!-- SECTION -->
