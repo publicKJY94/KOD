@@ -26,38 +26,27 @@ public class OrderInfoPageAction implements Action{
 		
 		MemberDTO memberDTO = new MemberDTO();
 		HttpSession session =request.getSession();
-		System.out.println("멤버 세션  : "+request.getAttribute("memberDTO"));
+		//System.out.println("멤버 세션  : "+request.getAttribute("memberDTO"));
 		memberDTO = (MemberDTO)session.getAttribute("memberDTO");
 		
-		String memberID = memberDTO.getMemberID();
+		String memberID = memberDTO.getMemberID();	// 세선에서 받아온 사용자의 ID를 memberID 변수에 저장
 		
 		AddressDTO aDTO = new AddressDTO();
 		AddressDAO aDAO = new AddressDAO();
 		
 		aDTO.setMemberID(memberID);
 		aDTO.setSearchCondition("장바구니배송지");
-		aDTO = aDAO.selectOne(aDTO);
-		request.setAttribute("addressDTO", aDTO);
+		aDTO = aDAO.selectOne(aDTO);				// 사용자의 주소지 중 가장 최근에 생성된 주소지 정보를 가져옴
+		request.setAttribute("addressDTO", aDTO);	// 'addressDTO'에 가져온 사용자의 주소지 정보를 저장
 		
 		OrderListDTO oDTO = new OrderListDTO();
 		OrderListDAO oDAO = new OrderListDAO();
 		
 		oDTO.setMemberID(memberID);
-		oDTO = oDAO.selectOne(oDTO);
-		System.out.println("oDTO : " + oDTO);
-		
-		request.setAttribute("orderDTO", oDTO);
-		
-//		ArrayList<OrderContentDTO> ocDatas = new ArrayList<OrderContentDTO>();
-//		OrderContentDTO oContentDTO = new OrderContentDTO();
-//		OrderContentDAO oContentDAO = new OrderContentDAO();
-//		
-//		oContentDTO.setMemberID(memberID);
-//		oContentDTO.setOdListID(oDTO.getOdListID());
-//		System.out.println("주문내역 상세 dao 들어가기 전 oContentDTO : " + oContentDTO);
-//		ocDatas = oContentDAO.selectAll(oContentDTO);
-//		System.out.println("ocDatas 로그 : " + ocDatas);
-//		request.setAttribute("oContentDTO", ocDatas);
+		oDTO = oDAO.selectOne(oDTO);				// 주문내역 중 가장 최근 번호(방금 구매한 내역)을 가져옴
+		//System.out.println("oDTO : " + oDTO);
+			
+		request.setAttribute("orderDTO", oDTO);		// 'orderDTO'에 주문 내역 번호를 저장
 		
 		return forward;
 	}

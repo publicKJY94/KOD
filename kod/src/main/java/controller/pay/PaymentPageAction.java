@@ -31,7 +31,7 @@ public class PaymentPageAction implements Action{
 		
 		ArrayList<CartDTO> datas = new ArrayList<CartDTO>();
 		HttpSession session =request.getSession();
-		String memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
+		String memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID(); // 세션에 저장된 사용자의 아이디를 저장
 		System.out.println("주문자명 : "+memberID);
 		
 		
@@ -53,9 +53,9 @@ public class PaymentPageAction implements Action{
 	        	cartDTO.setProductID(Integer.parseInt(payInfoProducts[0]));
 	        	cartDTO.setProductName(request.getParameter("productName"));
 	        	cartDTO.setCartProductCnt(Integer.parseInt(request.getParameter("purchaseCnt")));
-	        	cartDTO.setPayCk(Integer.parseInt(request.getParameter("payCk"))); // 바로 결제 확인
-	        	System.out.println("바로결제 cartDTO : "+cartDTO);
-	        	request.setAttribute("payNow", cartDTO);
+	        	cartDTO.setPayCk(Integer.parseInt(request.getParameter("payCk"))); 	// 바로 결제 확인
+	        	//System.out.println("바로결제 cartDTO : "+cartDTO);
+	        	request.setAttribute("payNow", cartDTO);	// 'payNow'변수에 바로 결제할 상품 정보 저장
 			}else {
 				for (String product : payInfoProducts) {
 			        System.out.println("결제할 상품번호 : " + product);
@@ -67,7 +67,7 @@ public class PaymentPageAction implements Action{
 			        //cartDTO.setPg(request.getParameter("pg")); // 추후 pg로 다양한 결제방법 선택(ex : kakaopay, tosspay)
 			        System.out.println(cartDTO);
 			        if(cartDTO != null) {
-			        	datas.add(cartDTO);
+			        	datas.add(cartDTO);	// 리스트에 장바구니를 통해 구매할 상품 정보 저장
 				        System.out.println("선택된 결제 정보 : "+ datas);
 			        }
 				}
@@ -76,20 +76,8 @@ public class PaymentPageAction implements Action{
 		    System.out.println("선택된 상품이 없습니다."); // 추후 alert창 띄우기
 		}
 		
-		request.setAttribute("payDTO", datas);
-		System.out.println("payDTO에 담긴 datas 정보 : " + datas);
-
-		//		datas = cartDAO.selectAll(cartDTO);  // 쿼리 수정 필요 : payInfo페이지에서 넘어오는 productID값만 들고가야함
-//		request.setAttribute("cData", datas);
-		
-		
-//		Gson cartData = new Gson();
-//		String cData = cartData.toJson(datas);
-//		System.out.println("결제전 정보 들어오는거 확인 : " + cData);
-//		
-//		PrintWriter out = response.getWriter();
-//		out.print(cData);
-//		System.out.println("printout : " + cData);
+		request.setAttribute("payDTO", datas);	// 'payDTO'변수에 장바구니를 통해 구매할 상품 정보 저장
+		System.out.println("payDTO에 담긴 상품 정보 : " + datas);
 		
 		return forward;
 	}
