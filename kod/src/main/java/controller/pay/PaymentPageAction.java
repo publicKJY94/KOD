@@ -37,15 +37,16 @@ public class PaymentPageAction implements Action {
 		System.out.println("주문자명 : " + memberID);
 
 		String[] payInfoProducts = request.getParameterValues("productID"); // 결제할 상품 번호들 받아오기
-
+		int payCk = Integer.parseInt(request.getParameter("payCk"));
+		System.out.println("payCk : " + payCk);
 		if (payInfoProducts != null) { // 결제할 상품이 있다면 해당 상품들의 정보 cartDTO에 저장
-			if (payInfoProducts.length <= 1) {
+			if (payInfoProducts.length <= 1  && payCk == 1) {
 				cartDTO = new CartDTO();
 				cartDTO.setProductID(Integer.parseInt(payInfoProducts[0]));
 				cartDTO.setProductName(request.getParameter("productName"));
 				cartDTO.setCartProductCnt(Integer.parseInt(request.getParameter("purchaseCnt")));
 				cartDTO.setPayCk(Integer.parseInt(request.getParameter("payCk"))); // 바로 결제 확인
-				// System.out.println("바로결제 cartDTO : "+cartDTO);
+				System.out.println("바로결제 cartDTO : "+cartDTO);
 				request.setAttribute("payNow", cartDTO); // 'payNow'변수에 바로 결제할 상품 정보 저장
 			} else {
 				for (String product : payInfoProducts) {
