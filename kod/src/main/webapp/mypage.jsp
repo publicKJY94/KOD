@@ -73,6 +73,7 @@
 				<div class="bg"></div>
 				<div class="modalBox1">
 					<form action="addressUpdate.do" method="post" id="form1" onsubmit="return validateForm2(event)">
+						<button onclick="closeModal()" style="margin-bottom: 5%; float: right;">✖</button>
 						<div class="form-group">
 							<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
 						</div>
@@ -84,13 +85,13 @@
 						<input type="text" id="sample4_jibunAddress" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;" readonly>
 						<span id="guide" style="color: #999; display: none"></span>
 						<input type="text" id="sample4_detailAddress" name="adrsDetail" placeholder="상세주소" style="margin-top: 5px;">
-						<input type="button" value="변경하기" onclick="validateForm2()">
+						<input type="button" value="변경하기" onclick="validateForm2()" style="margin-left: 40%; margin-top: 5%;">
 					</form>
-					<button onclick="closeModal()">✖</button>
+					
 				</div>
 			</div>
 		</div>
-		<div id="addressContainer"></div> <!-- 해당 회원의 배송지 목록 (JS에서 처리된)데이터를 보여주는 코드 -->
+		<div id="addressContainer" style="justify-content: center;"></div> <!-- 해당 회원의 배송지 목록 (JS에서 처리된)데이터를 보여주는 코드 -->
 		<!-- 배송지 수정 모달창 -->
 		
 		<!-- 배송지 삭제 모달창 -->
@@ -116,19 +117,20 @@
 			<div class="bg3"></div>
 			<div class="modalBox1">
 				<form action="addressInsert.do" method="post" id="form3" onsubmit="return validateForm(event)">
+				<button onclick="closeModal()" style="margin-bottom: 5%; float: right;">✖</button>
 					<div class="form-group">
 						<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
 					</div>
-					<input type="text" id="sample4_postcode2" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%; margin-left: 26px;" readonly >
+					<input type="text" id="sample4_postcode2" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%;" readonly >
 					<input type="button" onclick="sample4_execDaumPostcode2()" value="우편번호 찾기" style="display: inline-block; width: 20%; height: inherit; padding: 1rem 1rem;">
 					<br> <br>
 					<input type="text" id="sample4_roadAddress2" name="adrsStreet" placeholder="도로명주소" readonly >
 					<input type="text" id="sample4_jibunAddress2" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;" readonly required>
 					<span id="guide" style="color: #999; display: none"></span>
 					<input type="text" id="sample4_detailAddress" name="adrsDetail" placeholder="상세주소" style="margin-top: 5px;" required>
-					<input type="button" value="주소지 추가하기" onclick="validateForm()">
+					<input type="button" value="주소지 추가하기" onclick="validateForm()" style="margin-left: 40%; margin-top: 5%;">
 				</form>
-				<button onclick="closeModal()">✖</button>
+				
 			</div>
 		</div>
 	</div>
