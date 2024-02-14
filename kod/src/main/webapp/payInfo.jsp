@@ -172,7 +172,7 @@
 									<c:if test="${cDatasSize < 1}">
 	                                    <div class="order-col">
 	                                        <div>${param.productName}</div>
-	                                        <div style="text-align: right;">${param.productPrice}원</div>
+	                                        <div style="text-align: right;">${param.productPrice*param.purchaseCnt}원</div>
 	                                        <input type="hidden" name="productID" value="${param.productID}">
 	                                        <input type="hidden" name="productName" value="${param.productName}">
 	                                        <input type="hidden" name="purchaseCnt" value="${param.purchaseCnt}">
