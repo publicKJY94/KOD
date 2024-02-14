@@ -106,15 +106,14 @@
         }, function(rsp) {
             if ( rsp.success ) {
             	console.log('로그');
-                //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
                 $.ajax({
                     url: "paymentActionServlet", // 결제 서블릿
                     type: 'POST',
                     data: {
                         imp_uid : rsp.imp_uid,
-                        productIDs : productIDs,
-                        purchaseCnts : purchaseCnts,
-                        payNows : payNows
+                        productIDs : productIDs,		// 상품 번호
+                        purchaseCnts : purchaseCnts,	// 구매 개수
+                        payNows : payNows				// 결제 방식
                     },
                 	success: function(){
                 		console.log('결제 성공');

@@ -19,13 +19,6 @@
   <!-- Heading -->
   <h1><img src="img/shopimg.png"></h1>
   
-  <!-- Links -->
-  <ul class="links">
-    <li>
-      <a href="#" id="signin"></a>
-    </li>
-  </ul>
-  
   <!-- Form -->
   <form name="loginform" action="login.do" method="post">
    
