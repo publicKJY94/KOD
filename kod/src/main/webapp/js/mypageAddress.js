@@ -7,7 +7,7 @@ function handleAddressManage() { //[조형련] 해당 회원의 배송지 정보
 		success: function(data) { //[조형련] 비동기 처리가 정상적으로 끝났다면 Json타입으로 받아옴
 			var contentHtml = ""; // 해당 데이터를 contentHtml에 배열횟수만큼 저장함
 			$.each(data, function(index, addressDTO) {
-				contentHtml += '<div class="content box" style="display: flex; flex-direction: column;">' +
+				contentHtml += '<div class="content box" style="display: flex; flex-direction: column; margin-bottom: 1%; margin-right: 200px;">' +
 					'<input type="hidden" name="adrsID" value="' + addressDTO.adrsID + '">' + //수정과 삭제를 위한 PK번호를 hidden으로 전달함
 					'<div style="margin-bottom: 5px; width:100%;">' +
 					'<span> 주소지 이름 : </span>' +
@@ -18,11 +18,11 @@ function handleAddressManage() { //[조형련] 해당 회원의 배송지 정보
 					'<span>' + addressDTO.adrsZipcode + '</span>' + // 우편번호
 					'</div>' +
 					'<div style="margin-bottom: 5px; width:100%;">' +
-					'<span> 도로명 주소 :</span>' +
+					'<span> 도로명 주소 : </span>' +
 					'<span>' + addressDTO.adrsStreet + '</span>' + // 도로명 주소
 					'</div>' +
 					'<div style="margin-bottom: 5px; width:100%;">' +
-					'<span> 상세 주소 :</span>' +
+					'<span> 상세 주소 : </span>' +
 					'<span>' + addressDTO.adrsDetail + '</span>' + // 상세주소
 					'</div>' +
 						'<div style="width:100%; margin-bottom:5px; display:flex; justify-content:end;">' +
