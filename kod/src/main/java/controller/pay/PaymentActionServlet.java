@@ -56,7 +56,7 @@ public class PaymentActionServlet extends HttpServlet {
 		String[] cnts = cnt.split(",");
 		//System.out.println(Arrays.toString(cnts));
 		
-		String payCk = (String)request.getParameter("payNows");			// 결제할 방법 받아오기 (바로 구매 = 1, 선택 구매 = 2)
+		String payCk = (String)request.getParameter("payNows");			// 결제할 방법 받아오기 (바로 구매 = 1, 선택 구매 = 0)
 		payCk = payCk.replace("[", "");
 		payCk = payCk.replace("]", "");
 		payCk = payCk.replace("\"", "");
