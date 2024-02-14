@@ -740,11 +740,11 @@ function cartInsert() { // [조형련] 장바구니에 상품 추가하는 비�
 																	<%-- 평점 들어가는 라인 --%>
 																</div>
 															</div>
-															<div class="add-to-cart">
+															<!-- <div class="add-to-cart">
 																<button class="add-to-cart-btn">
 																	<i class="fa fa-shopping-cart"></i> add to cart
 																</button>
-															</div>
+															</div> -->
 														</div>
 													</div>
 													<!-- /product -->

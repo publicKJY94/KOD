@@ -202,11 +202,11 @@
 														<%--평점 들어가는 라인 --%>
 													</div>
 												</div>
-												<div class="add-to-cart">
+												<!-- <div class="add-to-cart">
 													<button class="add-to-cart-btn">
 														<i class="fa fa-shopping-cart"></i> add to cart
 													</button>
-												</div>
+												</div> -->
 											</div>
 										</div>
 									</c:forEach>
