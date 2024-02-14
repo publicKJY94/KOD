@@ -237,23 +237,18 @@ $(document).ready(function(){
 								<div class="qty-label">
 									수량
 									<div class="input-number">
-                                    <input type="hidden" name="productImg" value="${productWishDetailData.productImg}">
-                                    <input type="hidden" name="payCk" value="1"/>
-										<input type="hidden" name="productID"
-											value="${productWishDetailData.productID}" ID="productID" />
-										<input type="hidden" name="productName"
-											value="${productWishDetailData.productName}" /> <input
-											type="hidden" name="productPrice"
-											value="${productWishDetailData.productPrice}" /> 
-											<div>
+										<input type="hidden" name="productImg" value="${productWishDetailData.productImg}">
+										<input type="hidden" name="payCk" value="1" />
+										<input type="hidden" name="productID" value="${productWishDetailData.productID}" ID="productID" />
+										<input type="hidden" name="productName" value="${productWishDetailData.productName}" />
+										<input type="hidden" name="productPrice" value="${productWishDetailData.productPrice}" />
+										<div>
 											<input id="purchaseCnt" name="purchaseCnt" type="number" value="1" min="1" max="10" readonly>
-											<span class="qty-up" >+</span>
-											<span class="qty-down" >-</span>
-											</div>
+											<span class="qty-up">+</span> <span class="qty-down">-</span>
+										</div>
 									</div>
 								</div>
-								<button class="add-to-cart-btn" type="button"
-									onclick="cartInsert()">
+								<button class="add-to-cart-btn" type="button" onclick="cartInsert()">
 									<i class="fa fa-shopping-cart"></i>장바구니 담기
 								</button>
 								<button class="buy-now add-to-cart-btn" type="submit">
@@ -678,7 +673,9 @@ function cartInsert() { // [조형련] 장바구니에 상품 추가하는 비�
 					<!-- /container -->
 				</div>
 				<!-- /SECTION -->
-
+				</div>
+				</div>
+				</div>
 				<!-- Section -->
 				<div class="section">
 					<!-- container -->
@@ -764,7 +761,6 @@ function cartInsert() { // [조형련] 장바구니에 상품 추가하는 비�
 					<!-- /container -->
 				</div>
 				<!-- /Section -->
-
 
 				<jsp:include page="util/footer.jsp"></jsp:include>
 
