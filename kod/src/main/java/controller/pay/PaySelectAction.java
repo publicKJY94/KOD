@@ -34,6 +34,15 @@ public class PaySelectAction implements Action{
 		cartDTO.setMemberID(memberID);
 		datas = cartDAO.selectAll(cartDTO);
 		
+		//System.out.println("최대 개수 로직 실행 전 데이터 : " + datas);
+		for(CartDTO cData : datas) {
+			if(cData.getCartProductCnt()>10) {
+				System.out.println("최대 개수는 10개입니다.");
+				cData.setCartProductCnt(10);
+			}
+		}
+		//System.out.println("최대 개수 로직 실행 후 데이터 : " + datas);
+		
 		request.setAttribute("cartDTO", datas);
 		
 		System.out.println("형련 [로그] 장바구니데이터: "+datas);

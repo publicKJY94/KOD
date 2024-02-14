@@ -87,6 +87,7 @@ public class PaymentActionServlet extends HttpServlet {
 			oContentDTO.setOdListID(oDTO.getOdListID());				// selectOne을 통해 들고온 ORDERLIST_ID를 oContentDTO에 저장
 			oContentDTO.setProductID(Integer.parseInt(productIDs[0])); 
 			oContentDTO.setOdContentCnt(Integer.parseInt(cnts[0]));
+//			바로 구매 데이터 확인
 //			System.out.println("[서블릿] 주문 상세 내역 상품 번호 : "+productIDs[0]);
 //			System.out.println("[서블릿] 주문 상세 내역 주문 개수 : "+cnts[0]);
 //			System.out.println("[서블릿] 주문 상세 내역 : "+oContentDTO);
