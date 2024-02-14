@@ -30,7 +30,7 @@ public class ReviewWriteAction implements Action {
 		
 		System.out.println("[로그:정현진] reviewWriteAction 들어옴");
 		ActionForward forward = new ActionForward();
-		forward.setPath("myPage.do");
+		forward.setPath("myOrderList.do");
 		forward.setRedirect(true); // true는 전달할 데이터가 없다는 것 , false는 전달할 데이터가 있다는것
 		
 		HttpSession session = request.getSession();
@@ -71,39 +71,38 @@ public class ReviewWriteAction implements Action {
 		 */
 		
 		 try {
-	            // 업로드된 파일을 저장할 경로 설정/..
+	            // 업로드된 파일을 저장할 경로 설정
 	            String uploadFilePath = request.getServletContext().getRealPath("uploads");
-//	            String copyFilePath = "C:/Users/Springonward/Desktop/KOIT/KODsounds/kod/src/main/webapp/uploads/";
-	            System.out.println("uploadFilePath : "+uploadFilePath);
-//	            System.out.println("copyFilePath : " + copyFilePath);
+	            System.out.println("[로그:정현진] uploadFilePath : "+uploadFilePath);
 	            
-	            // 여러 작업 환경(PC)에서도 쉽게 공유할 수 있는 복사 경로 만들기
-	            int num = uploadFilePath.indexOf("."); // 첫번째 만나는 .의 인덱스값
+	            	            
+	            // MultipartRequest를 생성하여 파일 업로드 처리, 이미지 업로드 실행
+	            MultipartRequest multipartRequest = new MultipartRequest(
+	                    request, // HTTP 요청객체
+	                    uploadFilePath, // 이미지 업로드 경로
+	                    5 * 1024 * 1024, // 최대 업로드 파일 크기 제한 (5MB)
+	                    "UTF-8", // 한글로 번역
+	                    new DefaultFileRenamePolicy() // 동일한 파일명이 존재하면 파일명 뒤에 일련번호를 붙임
+	            );
+
+	            // 서로다른 작업 환경(PC)에서도 별도의 작업없이 경로를 공유할 수 있는 복사 경로 만들기
+	            int num = uploadFilePath.indexOf("."); // 첫번째 만나는 .의 인덱스 값 (.metadata)
 	            String forwardUrlParts = uploadFilePath.substring(0, num);
-	            System.out.println("forwardUrlParts : "+forwardUrlParts);
+	            System.out.println("[로그:정현진] forwardUrlParts : "+forwardUrlParts);
 	            String middleUrlParts = request.getContextPath();
-	            System.out.println("middleUrlParts : "+middleUrlParts);
+	            System.out.println("[로그:정현진] middleUrlParts : "+middleUrlParts);
 	            String lastUrlParts = "/src/main/webapp/uploads";
 	            String copyFilePathForKOD = forwardUrlParts+middleUrlParts+lastUrlParts+File.separator;
-	            System.out.println("copyFilePathForKOD : "+copyFilePathForKOD);
-	            	            
-	            // MultipartRequest를 생성하여 파일 업로드 처리
-	            MultipartRequest multipartRequest = new MultipartRequest(
-	                    request,
-	                    uploadFilePath,
-	                    50 * 1024 * 1024, // 최대 업로드 파일 크기 제한 (5MB)
-	                    "UTF-8",
-	                    new DefaultFileRenamePolicy()
-	            );
+	            System.out.println("[로그:정현진] copyFilePathForKOD : "+copyFilePathForKOD);
 	            
 	            // 업로드된 파일 정보 가져오기
 	            String fileName = multipartRequest.getFilesystemName("imageUpload");
 	            System.out.println("[로그:정현진] fileName : "+fileName);
-	            
+	            // zisoo1.png
 	            String filePath =null;
 	            ReviewDTO reviewDTO = new ReviewDTO();
-				if (fileName != null) {
-	                // 파일이 업로드되었을 경우에만 파일 복사 및 경로 설정
+				if (fileName != null) { // 파일이 업로드 되었을 경우
+	                // 파일 복사 및 경로 설정
 	                filePath = uploadFilePath + File.separator + fileName;
 	                System.out.println("filePath: " + filePath);
 
@@ -127,6 +126,8 @@ public class ReviewWriteAction implements Action {
 	                System.out.println("copy success");
 
 	                reviewDTO.setReviewImg(isFileExists ? filePath : null);
+	                reviewDTO.setReviewImg(filePath);
+	                System.out.println("@[로그:정현진] filePath : "+filePath);
 	                /* [정현진]
 	                 * 아래의 주석 로직은 비동기 처리시 실행되어야하는 로직입니다.
 	                 * 리뷰작성 로직을 처음에 서블릿파일로 만들어 비동기로 구현 하였으나,
@@ -147,8 +148,6 @@ public class ReviewWriteAction implements Action {
 	                }
 	                */
 	                // 리뷰 작성 시 이미지 파일 경로 설정
-	                reviewDTO.setReviewImg(filePath);
-	                System.out.println("@[로그:정현진] filePath : "+filePath);
 	            } else {
 	                // 파일이 없는 경우에는 리뷰 작성 시 이미지 파일 경로를 null 또는 빈 문자열로 설정
 	                reviewDTO.setReviewImg(""); // 또는 reviewDTO.setReviewImg(null);

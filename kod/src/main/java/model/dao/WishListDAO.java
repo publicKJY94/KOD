@@ -316,7 +316,8 @@ public class WishListDAO { // [담당 : 정현진]
 	private static final String SELECTONE_WISHLIST_CNT_BY_MEMBER = // 헤더페이지 - 회원별 위시리스트 수량
 			"SELECT COUNT(WISHLIST_ID) AS WISHLIST_CNT FROM WISHLIST WHERE MEMBER_ID=? ";
 	
-	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST = // 찜 추가/삭제 기능 - 해당상품 찜여부 확인용으로 사용
+	
+	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST = /*찜여부 확인*/
 			"SELECT WISHLIST_ID "
 			+ "FROM WISHLIST "
 			+ "WHERE MEMBER_ID=? AND PRODUCT_ID=? ";
@@ -387,10 +388,11 @@ public class WishListDAO { // [담당 : 정현진]
 			+ ") "
 			+ "WHERE RANK_ORDER = 1 ";
 	
-	private static final String INSERT_WISHLIST_BY_PRODUCT = // 찜 추가 기능
+	private static final String INSERT_WISHLIST_BY_PRODUCT = // 위시리스트 추가
 			"INSERT INTO WISHLIST (WISHLIST_ID,MEMBER_ID, PRODUCT_ID) "
 					+ "VALUES ((SELECT NVL(MAX(WISHLIST_ID),0)+1 FROM WISHLIST),?, ?) ";
-	private static final String DELETE_WISHLIST_BY_PRODUCT = // 찜 삭제 기능
+	
+	private static final String DELETE_WISHLIST_BY_PRODUCT = // 위시리스트 삭제
 			"DELETE FROM WISHLIST "
 			+ "WHERE MEMBER_ID = ? AND PRODUCT_ID = ? ";
 	
