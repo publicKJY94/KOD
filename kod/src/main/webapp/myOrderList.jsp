@@ -81,7 +81,11 @@
 										<!--[조형련] 주문번호가 같은 상품별로 해당 상품의 정보를 표시 -->
 										<c:forEach var="data" items="${datasTotal}">
 											<c:if test="${oData.odListID == data.odListID}">
-												<td><img src="${data.productImg}" alt="product"></td>
+												<td>
+													<a href="productDetail.do?productCategory=${data.productCategory}&productID=${data.productID}">
+													<img src="${data.productImg}" alt="product">
+													</a>
+												</td>
 												<td>
 													<p>${data.productName}${data.productID}번/수량 : ${data.odContentCnt} 개</p>
 													<p>${data.productCategory}</p>

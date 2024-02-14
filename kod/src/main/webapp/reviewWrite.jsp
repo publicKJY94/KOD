@@ -76,7 +76,7 @@
 			<div class="FormRow">
 				<label for="imageUpload" class="imageUploadBtn">이미지 업로드</label> 
 				<input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(event)" />
-				<img id="imagePreview" src="#" alt="미리 보기 이미지" style="width: 100%" height="100%">
+				<img id="imagePreview" src="#" alt="미리 보기 이미지" style="width: 50%" height="50%">
 				<button type="button" id="cancelImageButton" style="display: none;" onclick="cancelImageUpload()">이미지 취소</button>
 			</div>
 			<div class="FormRow">
