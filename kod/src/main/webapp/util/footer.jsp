@@ -9,10 +9,10 @@
 </head>
 <style>
 ul.footer-links li a{
-	cursor:none;
+	cursor:default;
 }
 ul.footer-payments li a{
-	cursor:none;
+	cursor:default;
 }
 </style>
 <body>
