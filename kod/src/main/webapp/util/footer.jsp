@@ -7,6 +7,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style>
+ul.footer-links li a{
+	cursor:none;
+}
+ul.footer-payments li a{
+	cursor:none;
+}
+</style>
 <body>
 <!-- FOOTER -->
 		<footer id="footer">
