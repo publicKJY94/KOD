@@ -74,10 +74,11 @@
 				</div>
 			</div>
 			<div class="FormRow">
-				<label for="imageUpload" class="imageUploadBtn">이미지 업로드</label> 
-				<input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(event)" />
-				<img id="imagePreview" src="#" alt="미리 보기 이미지" style="width: 50%" height="50%">
-				<button type="button" id="cancelImageButton" style="display: none;" onclick="cancelImageUpload()">이미지 취소</button>
+			    <label for="imageUpload" class="imageUploadBtn">이미지 업로드<br/>
+			    <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(event)" />
+			    <img id="imagePreview" src="img/imagePreview.png" alt="미리 보기 이미지" style="width: 40px; height: 40px;">
+			    </label> 
+			    <button type="button" id="cancelImageButton" style="display: none;" onclick="cancelImageUpload()">이미지 취소</button>
 			</div>
 			<div class="FormRow">
 				<button type="submit" class="SubmitBtn">작성하기</button>

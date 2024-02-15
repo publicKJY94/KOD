@@ -721,9 +721,11 @@ function cartInsert() { // [조형련] 장바구니에 상품 추가하는 비�
 																	</div>
 																</div>
 															</div>
-															<div class="product-img">
-																<img src="${data.productImg}" alt="">
-															</div>
+															<a href="productDetail.do?productCategory=${data.productCategory}&productID=${data.productID}">
+																<div class="product-img">
+																	<img src="${data.productImg}" alt="">
+																</div>
+															</a>
 															<div class="product-body">
 																<p class="product-category">${data.productCategory}</p>
 																<h3 class="product-name" style="height: 31px;">

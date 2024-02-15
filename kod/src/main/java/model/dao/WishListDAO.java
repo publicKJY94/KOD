@@ -389,11 +389,11 @@ public class WishListDAO { // [담당 : 정현진]
 			+ "WHERE RANK_ORDER = 1 ";
 	
 	private static final String INSERT_WISHLIST_BY_PRODUCT = // 위시리스트 추가
-			"INSERT INTO WISHLIST (WISHLIST_ID,MEMBER_ID, PRODUCT_ID) "
-					+ "VALUES ((SELECT NVL(MAX(WISHLIST_ID),0)+1 FROM WISHLIST),?, ?) ";
+			  "INSERT INTO WISHLIST (WISHLIST_ID,MEMBER_ID, PRODUCT_ID) "
+			+ "VALUES ((SELECT NVL(MAX(WISHLIST_ID),0)+1 FROM WISHLIST),?, ?) ";
 	
 	private static final String DELETE_WISHLIST_BY_PRODUCT = // 위시리스트 삭제
-			"DELETE FROM WISHLIST "
+			  "DELETE FROM WISHLIST "
 			+ "WHERE MEMBER_ID = ? AND PRODUCT_ID = ? ";
 	
 	/*

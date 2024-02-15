@@ -97,8 +97,7 @@ public class ReviewWriteAction implements Action {
 	            
 	            // 업로드된 파일 정보 가져오기
 	            String fileName = multipartRequest.getFilesystemName("imageUpload");
-	            System.out.println("[로그:정현진] fileName : "+fileName);
-	            // zisoo1.png
+	            System.out.println("[로그:정현진] fileName : "+fileName); // headphone.jpg
 	            String filePath =null;
 	            ReviewDTO reviewDTO = new ReviewDTO();
 				if (fileName != null) { // 파일이 업로드 되었을 경우
@@ -110,23 +109,24 @@ public class ReviewWriteAction implements Action {
 	                boolean isFileExists = new File(filePath).exists();
 	                
 	                // 파일 복사
-	                InputStream in = new FileInputStream(filePath);
-	                OutputStream os = new FileOutputStream(copyFilePathForKOD + fileName);
+	                InputStream in = new FileInputStream(filePath); // 데이터를 읽어오는 스트림(Byte단위)
+	                // 복사파일에 데이터를 출력하는 스트림
+	                OutputStream os = new FileOutputStream(copyFilePathForKOD + fileName); 
 
-	                long start = System.currentTimeMillis();
+	                // 파일복사 시간을 측정을 위한 코드
+	                long start = System.currentTimeMillis(); // 파일복사 시작시간
 	                while (true) {
-	                    int inputData = in.read();
-	                    if (inputData == -1) break;
-	                    os.write(inputData);
+	                    int inputData = in.read(); // 1Byte씩 데이터를 읽어옴
+	                    if (inputData == -1) break; // -1이 되면 반복종료
+	                    os.write(inputData); // 출력스트림에 쓰기(파일복사를 의미)
 	                }
-	                long end = System.currentTimeMillis();
+	                long end = System.currentTimeMillis(); // 파일복사 종료시간
 	                System.out.println(end - start); // 파일 복사 걸린 시간
-	                in.close();
+	                in.close(); // 자원해제(자원낭비를 막아 시스템 안정성 유지)
 	                os.close();
-	                System.out.println("copy success");
+	                System.out.println("파일복사 성공");
 
 	                reviewDTO.setReviewImg(isFileExists ? filePath : null);
-	                reviewDTO.setReviewImg(filePath);
 	                System.out.println("@[로그:정현진] filePath : "+filePath);
 	                /* [정현진]
 	                 * 아래의 주석 로직은 비동기 처리시 실행되어야하는 로직입니다.

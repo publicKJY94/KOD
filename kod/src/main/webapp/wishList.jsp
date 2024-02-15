@@ -80,8 +80,8 @@
     <div class="row">
         <div class="products-tabs">
             <!-- tab -->
-            <div id="tab1" class="tab-pane active">
-                <div class="products-slick slick-initialized slick-slider" data-nav="#slick-nav-1" style="display: flex; flex-wrap: wrap;">
+            <div id="tab1" class="section">
+                <div class="row" data-nav="#slick-nav-1" style="display: flex; flex-wrap: wrap;">
                     <!-- /product -->
                     <c:choose>
                         <c:when test="${empty wishListDatas}">
