@@ -898,13 +898,7 @@ textarea.input {
   color: #FFF;
 }
 
-.product .product-body {
-  position: relative;
-  padding: 15px;
-  background-color: #FFF;
-  text-align: center;
-  z-index: 20;
-}
+
 
 .product .product-body .product-category {
   text-transform: uppercase;
@@ -985,21 +979,29 @@ textarea.input {
   border-radius: 50%;
 }
 
+.product .product-body {
+  position: relative;
+  padding: 15px;
+  background-color: #FFF;
+  text-align: center;
+  z-index: 20;
+}
+
 .product .product-body .product-btns>button .tooltipp {
   position: absolute;
   bottom: 100%;
-  left: 50%;
+  left: 0%;
   -webkit-transform: translate(-50%, -15px);
   -ms-transform: translate(-50%, -15px);
   transform: translate(-50%, -15px);
-  width: 150px;
+  width: 140px;
   padding: 10px;
   font-size: 12px;
   line-height: 10px;
   background: #1e1f29;
   color: #FFF;
   text-transform: uppercase;
-  z-index: 10;
+  z-index: 9999;
   opacity: 0;
   visibility: hidden;
   -webkit-transition: 0.2s all;

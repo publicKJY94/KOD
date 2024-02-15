@@ -86,7 +86,7 @@
 								<td>
 									<a href="main.do">KOD스토어</a>
 									<p>${cData.productName}</p>
-									<span class="price" id="eachPrice">${cData.productPrice}원</span>
+									<span class="price" id="eachPrice_${status.index}">${cData.productPrice}원</span>
 								</td>
 								<td class="bseq_ea" style="text-align: center;">
 									<p>${cData.productName}</p>
@@ -178,9 +178,8 @@
 						console.log('cart 변경수량 :  ' + changedCnt);
 
 						$('#changedCnt_' + index).val(changedCnt);
-
-						var totalPrice = changedCnt * parseInt($('#eachPrice').text().replace('원', ''));
-						$('#totalPrice_' + index).text(totalPrice + '원');
+		                  var totalPrice = changedCnt * parseInt($('#eachPrice_' + index).text().replace('원', ''));
+		                  $('#totalPrice_' + index).text(totalPrice + '원');
 					},
 					error: function (xhr, status, error) {
 						console.error('장바구니 업데이트 실패:', status, error);
