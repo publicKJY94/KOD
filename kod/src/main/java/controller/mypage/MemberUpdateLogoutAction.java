@@ -23,7 +23,7 @@ public class MemberUpdateLogoutAction implements Action{
 		
 		HttpSession session=request.getSession();
 		session.removeAttribute("memberDTO");
-		request.setAttribute("msg", "정보변경에 성공하였습니다! 로그인후 이용해주세여");
+		request.setAttribute("msg", "정보변경에 성공하였습니다! 로그인 후 이용해주세요");
 		return forward;
 	}
 
