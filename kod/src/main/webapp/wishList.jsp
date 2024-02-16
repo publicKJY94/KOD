@@ -28,6 +28,27 @@
 		<link type="text/css" rel="stylesheet" href="css/soldOut.css"/>
 
 <title>위시리스트</title>
+<style>
+ #soldOutDelBtn {
+    display: inline-block;
+    padding: 8px 16px; /* 작게 조절 */
+    font-size: 14px; /* 작게 조절 */
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #3498db;
+    background-color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#soldOutDelBtn:hover {
+    background-color: #3498db;
+    color: #fff;
+}
+</style>
 </head>
 <body>
 
@@ -86,7 +107,7 @@
                     <c:choose>
                         <c:when test="${empty wishListDatas}">
                             <div class="product" style="flex: 0 0 calc(33.33% - 20px); margin: 10px;">
-                                <input class="info" type="text" name="content" disabled value="위시리스트 목록이 없습니다." />
+                                <input style="width: 100%" class="info" type="text" name="content" disabled value="위시리스트 목록이 없습니다." />
                             </div>
                         </c:when>
                         <c:otherwise>
