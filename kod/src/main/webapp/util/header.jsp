@@ -67,7 +67,7 @@
 									<option value="1">Category 01</option>
 									<option value="1">Category 02</option>
 								</select> -->  
-								<input name="searchKeyword" id="searchKeyword" class="input" placeholder="Search here" style="border-bottom-left-radius: 40px; border-top-left-radius: 40px; padding-left: 4%; width: 80%;">
+								<input name="searchKeyword" id="searchKeyword" class="input" placeholder="Search here" style="border-bottom-left-radius: 40px; border-top-left-radius: 40px; padding-left: 4%; width: 75%;">
 								<button class="search-btn" >Search</button>
 							</form>
 						</div>

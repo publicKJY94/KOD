@@ -6,26 +6,42 @@ function handleAddressManage() { //[조형련] 해당 회원의 배송지 정보
 		dataType: "json", 
 		success: function(data) { //[조형련] 비동기 처리가 정상적으로 끝났다면 Json타입으로 받아옴
 			var contentHtml = ""; // 해당 데이터를 contentHtml에 배열횟수만큼 저장함
+			var header= 
+               `<header class="n-section-title">
+                    <h1 class="tit">
+                        배송지 관리 
+                    </h1>`;
+            // 배송지 개수가 5개를 초과하는 경우에만 추가 버튼 렌더링
+            if (data.length < 5) {
+                header += `<button id="insertButton_" onclick="openInsertModal()" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn" style="color: blue; float: right;">배송지 추가하기</button>`;
+            }
+            header += `</header>
+                <table id="addressContainer" class="n-table table-row">
+                </table>`;
+				contentHtml += 
+				`<colgroup>
+						<col style="width: 20%">
+						<col style="width: 1%">
+						<col style="width: 50%">
+				</colgroup>`;
 			$.each(data, function(index, addressDTO) {
-				contentHtml += '<div class="content box" style="display: flex; flex-direction: column; margin-bottom: 1%; margin-right: 200px;">' +
-					'<input type="hidden" name="adrsID" value="' + addressDTO.adrsID + '">' + //수정과 삭제를 위한 PK번호를 hidden으로 전달함
-					'<div style="margin-bottom: 5px; width:100%;">' +
-					'<span> 주소지 이름 : </span>' +
-					'<span>' + addressDTO.adrsName + '</span>' + // 배송지의 별칭
-					'</div>' +
-					'<div style="margin-bottom: 5px; width:100%;">' +
-					'<span> 우편번호 : </span>' +
-					'<span>' + addressDTO.adrsZipcode + '</span>' + // 우편번호
-					'</div>' +
-					'<div style="margin-bottom: 5px; width:100%;">' +
-					'<span> 도로명 주소 : </span>' +
-					'<span>' + addressDTO.adrsStreet + '</span>' + // 도로명 주소
-					'</div>' +
-					'<div style="margin-bottom: 5px; width:100%;">' +
-					'<span> 상세 주소 : </span>' +
-					'<span>' + addressDTO.adrsDetail + '</span>' + // 상세주소
-					'</div>' +
-						'<div style="width:100%; margin-bottom:5px; display:flex; justify-content:end;">' +
+				contentHtml += 
+					`<input type="hidden" name="adrsID" value="' + addressDTO.adrsID + '">'
+					<tbody>
+						<tr>
+							<th scope="row">${addressDTO.adrsName}</th>
+							<td> </td>
+							<td>
+							<p>우편번호 : ${addressDTO.adrsZipcode}</p>
+							<p>도로명주소 : ${addressDTO.adrsStreet} </p>
+							<p>상세주소 : ${addressDTO.adrsDetail}</p>
+							</td>
+							<td><button id="modifyButton_" onclick="openModifyModal(${addressDTO.adrsID})" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn">수정</button>
+								<button id="deleteButton_" onclick="openDeleteModal(${addressDTO.adrsID})" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn" style="color:red;">삭제</button>
+							</td>
+						</tr>
+					</tbody>`
+				
 					'<button id="modifyButton_" onclick="openModifyModal(' + addressDTO.adrsID + ')" style="background-color: #0fbcf9; color: white; border: none; margin-right:10px;">수정</button>'
 				if(data.length>1){ // 배송지 숫자가 1개인 경우에는 삭제버튼을 노출 시키지 않기 위한 조건
 					contentHtml +='<button id="deleteButton_" onclick="openDeleteModal(' + addressDTO.adrsID + ')" style="background-color: #00d8d6; color: white; border: none;">삭제</button>'
@@ -33,10 +49,11 @@ function handleAddressManage() { //[조형련] 해당 회원의 배송지 정보
 				contentHtml +='</div>' +
 					'</div>'
 			});
+			$('#coffee').html(header);
 			$('#addressContainer').html(contentHtml); // 배송지 숫자가 5개보다 적은 경우에만 "배송지 추가하기 버튼 활성화"
-			if (data.length < 5) {
-				$('#addressContainer').append('<button id="insertButton_" onclick="openInsertModal()" style="margin-left:150px; width : 800px; background-color: #d10024; color: white; margin-top:10px; border:none; padding: 20px 0px; font-size : large">배송지 추가하기</button>');    
-			}		
+			/*if (data.length < 5) {
+				$('#addressContainer').append('<button id="insertButton_" onclick="openInsertModal()" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn" style="color : blue;">배송지 추가하기</button>');    
+			} */		
 		},
 		error: function(error) {
 			console.error(error);
@@ -51,7 +68,7 @@ window.onload = function() { // 마이페이지에 들어왔을 때, 쿠키가 �
 		handleAddressManage();
 	}
 	else{
-		handleAddressManage();
+		
 	}
 }
 // 쿠키를 가져오는 함수
@@ -114,10 +131,11 @@ document.getElementById("insertButton_").addEventListener("click", function() {
 				}
 				// 모달창을 닫기 위한 함수 : 각 모달창에서 x버튼이나 배경을 클릭하면 모달창을 닫아주는 기능
 				function closeModal() {
-				    document.querySelector(".modal").classList.add("hidden");
-				    document.querySelector(".modalDelete").classList.add("hidden");
-				    document.querySelector(".modalInsert").classList.add("hidden");
-				    
+					document.querySelector(".modal").classList.add("hidden");
+					document.querySelector(".modalDelete").classList.add("hidden");
+					document.querySelector(".modalInsert").classList.add("hidden");
+
+					event.preventDefault();
 				}
 					document.querySelector(".bg").addEventListener("click", closeModal);
 					document.querySelector(".bg2").addEventListener("click", closeModal);
@@ -137,7 +155,7 @@ document.getElementById("insertButton_").addEventListener("click", function() {
 					document.getElementById('form3').submit();
 				}
 				
-		function validateForm(event) {
+	function validateForm(event) {
     console.log('validateForm() 함수 호출됨');
     var form = document.getElementById('form3');
     var adrsNameValue = form.adrsName.value;
@@ -154,7 +172,7 @@ document.getElementById("insertButton_").addEventListener("click", function() {
     }
 }
 
-function validateForm2(event) {
+	function validateForm2(event) {
     console.log('validateForm2() 함수 호출됨');
     var form = document.getElementById('form1');
     var adrsNameValue = form.adrsName.value;
