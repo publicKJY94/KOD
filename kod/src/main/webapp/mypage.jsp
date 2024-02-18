@@ -71,6 +71,9 @@
      	-->
       <body>
       
+      
+
+      
       <jsp:include page="util/header.jsp"></jsp:include>
 	<jsp:include page="util/navigation.jsp"></jsp:include> 
 <div class="container mypage musinsa" >
@@ -116,17 +119,21 @@
 									<div class="img" id="profile-backGround-image" style="background-image: url(https://image.msscdn.net/mfile_s01/_simbols/_basic/g.png)"></div>
 								</div>
 								<p class="txt">
-									asdf
+									
 								</p>
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">아이디</th>
-							<td colspan="2"><strong>abcdefg</strong></td>
+							<td colspan="2"><strong> ${memberDTO.memberID}</strong></td>
 						</tr>
+						
+						
+						<form name="updatePWform" onsubmit="PWformCheck(this);" action="memberPWUpdateAction.do" method="POST">
+						
 						<tr id="password-area">
 							<th scope="row">비밀번호</th>
-							<td><strong>**************</strong></td>
+							<td><strong></strong></td>
 							<td>
 								<button type="button" class="n-btn w100 btn-sm btn-default cert-hidden" id="change-password-btn">비밀번호 변경</button>
 							</td>
@@ -137,7 +144,7 @@
 							<td colspan="2">
 								<div class="my-info-modify">
 									<div class="my-info-modify">
-										<input type="hidden" id="encryptPassword">
+									  <!--    <input type="hidden" id="encryptPassword"> --> 
 										<input type="hidden" id="encryptNewPassword">
 										<input type="hidden" id="encryptConfirmPassword">
 										<!--
@@ -151,19 +158,22 @@
 										<div class="input">
 											<label for="newPassword">신규 비밀번호</label>
 											<div class="input-password__wrap " id="newPassword_div">
-												<input type="password" class="n-input" id="newPassword" maxlength="30">
+												<input type="password" class="n-input" name="memberPW"id="memberPW" maxlength="30">
 											</div>
-											<span id="new-password-invalid" class="validate danger"></span> <span id="valid-newPassword" class="validate" style="display: none">사용 가능한 비밀번호입니다.</span>
+											<!-- <span id="new-password-invalid" class="validate danger"></span> 
+											<span id="valid-newPassword" class="validate" style="display: none">사용 가능한 비밀번호입니다.</span> -->
 										</div>
 										<div class="input">
 											<label for="confirmPassword">신규 비밀번호 재 입력</label>
 											<div class="input-password__wrap " id="confirmPassword_div">
-												<input type="password" class="n-input" id="confirmPassword" maxlength="30">
+												<input type="password" class="n-input" id="memberPWCK" maxlength="30">
 											</div>
-											<span id="confirm-password-invalid" class="validate danger"></span> <span id="valid-confirmPassword" class="validate" style="display: none">사용 가능한 비밀번호입니다.</span>
+											<span id="passwordMismatch" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</span>
+											<!--  <span id="confirm-password-invalid" class="validate danger"></span> <span id="valid-confirmPassword" class="validate" style="display: none">사용 가능한 비밀번호입니다.</span> -->
 										</div>
 										<div class="btn-group">
-											<button type="button" class="n-btn btn-sm btn-lighter" style="color : red;" id="change-password-finish-btn">완료</button>
+										 
+											<button type="button" class="n-btn btn-sm btn-lighter" style="color : red;" id="change-password-finish-btn" onclick="return PWformCheck(this.form)">완료</button>
 											<button type="button" class="n-btn btn-sm btn-lighter" id="change-password-cancel-btn">취소</button>
 										</div>
 									</div>
@@ -171,9 +181,79 @@
 							</td>
 						</tr>
 						
+						       <script>
+            // 'memberPWCK' 요소의 input 이벤트에 대한 리스너를 등록
+            document.getElementById('memberPWCK').addEventListener('input', function () {
+                // 비밀번호와 비밀번호 확인 값을 가져옴
+                var password = document.getElementById('memberPW').value;
+                var confirmPassword = this.value;
+
+                // 비밀번호 불일치 시 메시지를 표시할 요소
+                var mismatchSpan = document.getElementById('passwordMismatch');
+
+                // 비밀번호와 비밀번호 확인 값이 일치하는지 확인
+                if (password === confirmPassword) {
+                    mismatchSpan.style.display = 'none';
+                } else {
+                    mismatchSpan.style.display = 'block';
+                }
+            });
+        </script>
+          </form>
+          
+          
+          <script>
+    // HTML 폼에서 사용자가 입력한 값들을 가져와서 유효성을 체크하는 JavaScript 함수
+    function PWformCheck(form) {
+        var memberPW = document.getElementById("memberPW");       
+        var memberPWCK = document.getElementById("memberPWCK");
+     
+		// 숫자, 대소문자, 특수문자 입력가능(숫자, 소문자, 특수문자 1개이상 반드시 포함시켜야함) 6글자이상 13글자 이하
+		var regPw = /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[a-z\d!@#$%^&*]{6,13}$/;
+
+
+        // 만약 memberPW 값이 없다면 알람창 출력 후 비밀번호 입력간에 마우스 포커스 후 false 반환하여 form 제출을 막음
+        if (memberPW.value == '') {
+            alert('비밀번호를 입력해주세요.');
+            memberPW.focus();
+            return false;
+        }
+        // 만약 비밀번호 입력값이 위에서 정의한 정규식 값이 아니라면 알람창 출력 후 비밀번호 입력창에 마우스 포커스 후 false 반환하여 form 제출을 막음
+        else if (!regPw.test(memberPW.value)) {
+            alert("비밀번호는 6~13자의 영문 소문자, 숫자, 특수문자가 각각 최소 \n1개 이상 포함되어야 합니다.");
+            memberPW.focus();
+            return false;
+        }
+
+        // 만약 비밀번호 확인 값이 없다면 알람창 실행 후 비밀번호 확인 입력창에 마우스 포커스 후 false 반환하여 form 제출을 막음    
+        if (memberPWCK.value == '') {
+            alert('비밀번호 확인을 입력해주세요.');
+            memberPWCK.focus();
+            return false;
+        }
+
+        // 만약 비밀번호 값과, 비밀번호 확인 값이 같지 않다면 알람창 출력 후 비밀번호 확인 입력란에 마우스 포커스 후 false 반환하여 form 제출을 막음    
+        else if (memberPW.value != form.memberPWCK.value) {
+            alert('비밀번호와 비밀번호 확인이 동일하지 않습니다.\n다시 입력해주세요.');
+            memberPWCK.focus();
+            return false;
+        }
+
+        
+
+  
+     // 모든 조건이 충족되면 폼을 제출
+        updatePWform.submit();
+    }
+</script>
+          
+        
+						
+						<form name="updateNameform" onsubmit="NameformCheck(this);" action="memberNameUpdateAction.do" method="POST">
+						
 							<tr id="nickName-area">
-								<th scope="row">이름(실명)</th>
-								<td><strong>티모</strong></td>
+								<th scope="row">이름</th>
+								<td><strong>${memberDTO.memberName}</strong></td>
 								<td>
 									<button type="button" class="n-btn w100 btn-sm btn-default cert-hidden" id="change-nickName-btn">이름 변경</button>
 								</td>
@@ -184,23 +264,57 @@
 								<td colspan="2">
 									<div class="my-info-modify my-info-modify--nickname">
 										<ul class="n-info-txt">
-											<li>이모티콘 및 일부 특수문자 사용 불가합니다. &amp;&lt;&gt;()'/"</li>
+											<li> 2자이상 한글로만 입력가능합니다. </li>
 										</ul>
 										<div class="input">
-											<input type="text" id="nickName" class="n-input" placeholder="이름 입력(최소 2자)" maxlength="10">
-											<span id="currentNickName" class="validate">현재 이름 : 티모</span> <span id="nicknameValidationMessage" class="validate" hidden></span>
+											<input type="text" id="memberName" name="memberName" class="n-input" placeholder="이름 입력(최소 2자)" maxlength="10">
+											<span id="currentNickName" class="validate">현재 이름 : ${memberDTO.memberName}</span> <span id="nicknameValidationMessage" class="validate" hidden></span>
 										</div>
 										<div class="btn-group">
-											<button type="button" class="n-btn btn-sm btn-lighter" id="change-nickName-finish-btn" style="color:red;">완료</button>
+										
+											<button type="button" class="n-btn btn-sm btn-lighter" id="change-nickName-finish-btn" style="color:red;"id="change-password-finish-btn" onclick="return NameformCheck(this.form);">완료</button>
 											<button type="button" class="n-btn btn-sm btn-lighter" id="change-nickName-cancel-btn">취소</button>
 										</div>
 									</div>
 								</td>
 							</tr>
 
+						</form>
+						
+						         <script>
+    // HTML 폼에서 사용자가 입력한 값들을 가져와서 유효성을 체크하는 JavaScript 함수
+    function NameformCheck(form) {
+    	 var memberName = document.getElementById("memberName");
+     
+    	 var regName = /^[가-힣]{2,}$/;  // 한글만 입력 가능, 2글자 이상 입력
+
+    	 // 만약 이름 입력란에 값이 없다면 알람창 출력 후 이름 입력란에 마우스 커서 포커스 후 false 반환하여 form 제출을 막음    
+         if (memberName.value == '') {
+             alert('이름을 입력해주세요.');
+             memberName.focus();
+             return false;
+         }
+         // 만약 이름 입력값이 위에서 정의한 정규식 코드와 같지 않다면 알람창 출력 후 이름 입력란에 마우스 포커스 후 false 반환하여 form 제출을 막음
+         else if (!regName.test(memberName.value)) {
+             alert("2자 이상 한글만 입력 가능합니다.");
+             memberName.focus();
+             return false;
+         }
+
+        
+
+  
+     // 모든 조건이 충족되면 폼을 제출
+        updateNameform.submit();
+    }
+</script>
+
+	
+				<form name="updateEmailform" onsubmit="EmailformCheck(this);" action="memberEmailUpdateAction.do" method="POST">
+						
 							<tr id="email-area">
 							<th scope="row">이메일</th>
-							<td><strong id="currentEmail" value="">abcd@gmail.com</strong></td>
+							<td><strong id="currentEmail" value="">${memberDTO.memberEmail}</strong></td>
 							<td>
 								<button type="button" class="n-btn w100 btn-sm btn-default cert-hidden" id="change-email-btn">이메일 변경</button>
 							</td>
@@ -213,18 +327,51 @@
 										<ul class="n-info-txt">
 										</ul>
 										<div class="input input-btn">
-											<input type="text" class="n-input" placeholder="이메일 주소 입력" id="email" maxlength="50">
+											<input type="text" class="n-input" placeholder="이메일 주소 입력" id="memberEmail" name="memberEmail" maxlength="50">
 										</div>
 										<div class="btn-group">
-											<button type="button" class="n-btn btn-sm btn-lighter" id="change-nickName-finish-btn" style="color: red;">완료</button>
+										
+											<button type="button" class="n-btn btn-sm btn-lighter" id="change-nickName-finish-btn" style="color: red;" onclick="return EmailformCheck(this.form);">완료</button>
 											<button type="button" class="n-btn btn-sm btn-lighter" id="change-email-cancel-btn">취소</button>
 										</div>
 									</div>
 								</td>
 							</tr>
+				</form>
+
+  <script>
+    // HTML 폼에서 사용자가 입력한 값들을 가져와서 유효성을 체크하는 JavaScript 함수
+    function EmailformCheck(form) {
+    	 var memberEmail = document.getElementById("memberEmail");
+     
+    	 // 이메일 형식 검사 정규식
+         var emailRule = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net)$/i;
+
+         if (memberEmail.value == '') {
+             alert('이메일을 입력해주세요.');
+             memberPW.focus();
+             return false;
+         }
+         // 이메일 형식이 맞지 않으면 알림을 띄우고 이메일 입력란으로 포커스 이동 후 false 반환
+         if (!emailRule.test(document.getElementById("memberEmail").value)) {
+             alert("이메일을 형식에 맞게 입력해주세요.\n올바른 이메일 형식 [ email@domain.com ]\n[ .com , .net ]을 도메인(domain)뒤에 입력해주세요.");
+             document.getElementById("memberEmail").focus();
+             return false;
+         }
+        
+
+  
+     // 모든 조건이 충족되면 폼을 제출
+        updateEmailform.submit();
+    }
+</script>
+							
+							
+							
+							
 							<tr id="mobile-area">
 							<th scope="row">휴대전화</th>
-							<td><strong>010-1234-5678</strong> <span class="certify"></span></td>
+							<td><strong>${memberDTO.memberPhNum}</strong> <span class="certify"></span></td>
 							<td>
 							</td>
 						</tr>

@@ -5,97 +5,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>본인확인 - 마이페이지</title>
+	
+	
+	
 
-<title>마이 페이지</title>
-
-<!-- Google font -->
-<link
-	href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700"
-	rel="stylesheet">
 <!-- Bootstrap -->
-<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
-<!-- Slick -->
-<link type="text/css" rel="stylesheet" href="css/slick.css" />
-<link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
-
-<!-- nouislider -->
-<link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
-
-<!-- Font Awesome Icon -->
-<link rel="stylesheet" href="css/font-awesome.min.css">
-
-<!-- Custom stlylesheet -->
-<link type="text/css" rel="stylesheet" href="css/style.css" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+	
 
 <!--  my page bigbox -->
-<link type="text/css" rel="stylesheet" href="css/mypage.css" />
-</head>
-<body>
-	<jsp:include page="util/header.jsp"></jsp:include>
-	<jsp:include page="util/navigation.jsp"></jsp:include>
+
+    <!-- 
+    <link rel="shortcut icon" href="https://static.msscdn.net/favicon.ico?202307311841" type="image/x-icon">
+     --> 
+    <link rel="stylesheet" type="text/css" href="https://static.msscdn.net/skin/musinsa/css/magazine_common.css?202307311841">
+    <!-- 폰트 -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://static.msscdn.net/skin/musinsa/css/store_common.css?202307311841"> -->
+    <!--  
+    <link rel="stylesheet" href="https://static.msscdn.net/ui/build/pc/css/common.css">
+    <link rel="stylesheet" type="text/css" href="https://static.msscdn.net/ui/musinsa/resources/common/css/icon.min.css?202307311841">
+    <link rel="shortcut icon" href="https://static.msscdn.net/favicon.ico?202307311841" type="image/x-icon">
+    <link rel="stylesheet" href="https://static.msscdn.net/platform/css/common.css">
+    <link rel="stylesheet" type="text/css" href="https://static.msscdn.net/skin/musinsa/css/new.css?202307311841">
+    -->
+     <link rel="stylesheet" type="text/css" href="https://static.msscdn.net/skin/musinsa/css/sub.css?202307311841"> 
+    <!-- 중요한거 -->
+    <link rel="stylesheet" type="text/css" href="https://static.msscdn.net/skin/musinsa/css/layout.min.css?202307311841">
+    <link rel="stylesheet" type="text/css" href="https://static.msscdn.net/skin/musinsa/css/style.min.css?202307311841">
+    <link rel="stylesheet" type="text/css" href="https://static.msscdn.net/skin/musinsa/css/media_query.css?202307311841">
+    <script src="https://static.msscdn.net/skin/musinsa/js/jquery.lazyload.min.js?202307311841" type="text/javascript"></script>
+    <link type="text/css" rel="stylesheet" href="https://static.msscdn.net/skin/musinsa/css/mypage.min.css?202307311841">
+    <link rel="stylesheet" type="text/css" href="https://static.msscdn.net/skin/musinsa/css/guide.min.css?202307311841">
+    <link type="text/css" rel="stylesheet" href="css/mypage2.css" />
+    <script src="https://static.msscdn.net/static/member/js/ajax.js?202307311841" type="text/javascript"></script>
+    <script src="https://static.msscdn.net/static/member/js/crypto-js.min.js?202307311841"></script>
+    <script src="https://static.msscdn.net/static/member/js/security.js?202307311841"></script>
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+    <script type="text/javascript" src="https://static.msscdn.net/platform/js/common.js"></script>
+    <script src="https://static.msscdn.net/static/member/js/constant.js?202307311841" type="text/javascript"></script>
+    <script src="https://static.msscdn.net/static/member/js/ui/config.js?202307311841" type="text/javascript"></script>
+    <script src="https://static.msscdn.net/static/member/js/ui.js?202307311841" type="text/javascript"></script>
+    <script src="https://static.msscdn.net/static/member/js/string.js?202307311841" type="text/javascript"></script>
+    <!-- /중요한거 -->
+    
+    <link type="text/css" rel="stylesheet" href="css/mypage.css" />
+    <!-- Font Awesome Icon -->
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+	<!-- Slick -->
+	<link type="text/css" rel="stylesheet" href="css/slick.css" />
+	<link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
 	
+	<!-- nouislider -->
+	<link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
 	
-	
-	
-	<div class="big-box">
-		<!-- aside Widget -->
-		<div class="aside">
-  		<h3 class="aside-title">
-   		 <a href="mypageMemberUpdatePWCK.do">개인정보변경</a>
-  		</h3>
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+    	<!-- 
+    
+        <script type="text/javascript" src="https://static.msscdn.net/static/common/1.2.0/pc.js"></script>
+    	<input type="hidden" id="imageResourceUrl" value="https://image.msscdn.net">
+     	-->
+      <body>
+      
+      
+
+      
+      <jsp:include page="util/header.jsp"></jsp:include>
+	<jsp:include page="util/navigation.jsp"></jsp:include> 
+<div class="container mypage musinsa" >
+	<main class="content" style="height: 100%; margin-bottom: 10vh;">
+		<div id="commonMypage" style="position : absolute; top: 250px; left: 170px;">
+			<nav class="sc-1t1fxnz-0 bdKVYa">
+				<div class="sc-1t1fxnz-3 dMLoMw">
+					<h3>나의 쇼핑 활동</h3>
+					<a href="" class="sc-14dbciz-0 bblXMI">개인 정보 변경</a>
+					<a href="myOrderList.do" class="sc-14dbciz-0 bblXMI">주문 목록 조회</a>
+					<a href="paySelect.do" class="sc-14dbciz-0 bblXMI">장바구니 관리</a>
+					<a href="javascript:handleAddressManage()" id="addressManage" class="sc-14dbciz-0 bblXMI">배송지 관리</a>
+				</div>
+				<div class="sc-1t1fxnz-3 dMLoMw">
+					<h3>커뮤니티</h3>
+					<a href="" class="sc-14dbciz-0 bblXMI">커뮤니티</a>
+				</div>
+			</nav>
 		</div>
-		<hr>
-		<div class="aside">
-  		<h3 class="aside-title">
-   		 <a href="">주문내역조회</a>
-  		</h3>
-		</div>
-		<hr>
-		<div class="aside">
-  		<h3 class="aside-title">
-   		 <a href="">장바구니관리</a>
-  		</h3>
-		</div>
-		<hr>
-	<div class="aside">
-  		<h3 class="aside-title">
-   		 <a href="javascript:handleAddressManage()" id="addressManage">배송지관리</a>
-  		</h3>
-		</div>
-</div>
-
-
-
-
-	<div class="container">
-		<!-- Heading -->
-		<h1>본인 인증</h1>
-
-		<form action="mypageMemberUpdate.do" method="POST"">
-			
-			<div class="input__block" style="padding-left: 27px; ">
-				<label for="inputName">비밀번호 확인</label> 
-				<input type="password" class="input"  name="memberPW" style=" display: inline-block;  width: 58%;" required>
-				 <input type="submit" class="input" value="회원정보변경 입장" style="display: inline-block; width: 25%;"><br>
+		<section class="mypage-cont" >
+			<input type="hidden" id="defaultImage" name="defaultImage">
+			<h1 class="hidden">회원 정보 변경</h1>
+			<!-- 기본 회원정보 -->
+			<section class="n-section-block">
+				<header class="n-section-title first info_views-area">
+					<h1 class="tit">
+						본인인증 <span></span>
+					</h1>
+				</header>
+				<table class="n-table table-row my-info-modify">
+					<colgroup>
+						<col style="width: 190px">
+						<col style="width: *">
+						<col style="width: 50%">
+					</colgroup>
+					<tbody>
+						<tr>
+						</tr>
+						<tr class="my-info-img" style="display: none" id="change-profile-image-area">
+							<th scope="row">사진</th>
+							<td>
+								<div>
+									<div class="img" id="profile-backGround-image" style="background-image: url(https://image.msscdn.net/mfile_s01/_simbols/_basic/g.png)"></div>
+								</div>
+								<p class="txt">
+									
+								</p>
+							</td>
+						</tr>
+						
+						
+						<form action="mypageMemberUpdate.do" method="POST"">
+						
+						<tr>
+							<th scope="row">비밀번호 확인</th>
+							<td><input type="password" class="input"  name="memberPW" style=" display: inline-block;  width: 58%;" required></td>
+							<td>
+								<input type="submit" class="input" value="회원정보변경 입장" ">
+							</td>
+						</tr>
+						
 					
-			</div>
-		</form>
-
-
-	</div>
-
-
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-
-		
+						
+					</tbody>
+				</table>
+			
+			
+					</form>
+			
+			</section>
+			
+			<!-- //기본 회원정보 -->
+			<!-- 추가 회원정보 -->
+			<section class="n-section-block" id="coffee">
 				
+			</section>
+		</section>
+	</main>
+
+</div>
+</body>
+
+ 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<jsp:include page="util/footer.jsp"></jsp:include>
 <script src="js/mypageAddress.js"></script>
-</body>
 </html>

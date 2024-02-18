@@ -35,7 +35,7 @@
 					<ul class="header-links pull-right">
 						<li><a href="logout.do"><i class="fa fa-user-o"></i>
 								로그아웃</a></li>
-						<li><a href="myPage.do"><i class="fa fa-user-o"></i>
+						<li><a href="mypageMemberUpdatePWCK.do"><i class="fa fa-user-o"></i>
 								마이페이지</a></li>
 					</ul>
 				</c:if>

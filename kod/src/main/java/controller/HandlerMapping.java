@@ -18,6 +18,9 @@ import controller.login.LoginAction;
 import controller.login.LoginPageAction;
 import controller.login.LoginsuccessAction;
 import controller.login.LogoutAction;
+import controller.mypage.AlertMyPageAction;
+import controller.mypage.MemberNameUpdateAction;
+import controller.mypage.MemberPWUpdateAction;
 import controller.mypage.MemberUpdateAction;
 import controller.mypage.MemberUpdateLogoutAction;
 import controller.mypage.MemberUpdatePageAction;
@@ -45,6 +48,7 @@ import controller.util.Action;
 import controller.util.AlertAction;
 import controller.util.GobackAction;
 import controller.util.MapPageAction;
+import memberEmailUpdateAction.MemberEmailUpdateAction;
 
 public class HandlerMapping {
 	private Map<String,Action> mappings;
@@ -93,6 +97,10 @@ public class HandlerMapping {
 	    this.mappings.put("/wishList.do", new WishListAction());
 	    this.mappings.put("/reviewWritePage.do", new ReviewWritePageAction());
 	    this.mappings.put("/reviewWriteAction.do", new ReviewWriteAction());
+	    this.mappings.put("/memberPWUpdateAction.do", new MemberPWUpdateAction());
+	    this.mappings.put("/memberNameUpdateAction.do", new MemberNameUpdateAction());
+	    this.mappings.put("/memberEmailUpdateAction.do", new MemberEmailUpdateAction());
+	    this.mappings.put("/alertMyPage.do", new AlertMyPageAction());
 	    
 	}
 	
