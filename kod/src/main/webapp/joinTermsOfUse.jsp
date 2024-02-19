@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>이용 약관 페이지</title>
-
+<!-- Bootstrap -->
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
 <link type="text/css" rel="stylesheet" href="css/login.css" />
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 <link rel="icon" type="image/x-icon" href="/img/favion.png" >
@@ -19,16 +20,15 @@
 </head>
 <body>
 
-<header>
+	<header>
 	<!-- LOGO -->
-					<div class="col-md-3">
-						<div class="header-logo">
-							<a href="main.do" class="logo"> <img src="./img/logo.gif"  style="width: 250px" height="65px" alt="">
-							</a>
-						</div>
-					</div>
-					<!-- /LOGO -->
-</header>
+		<div>
+			<div class="header-logo">
+				<a href="main.do" class="logo"> <img src="./img/logo.gif"  style="width: 250px" height="65px" alt=""></a>
+			</div>
+		</div>
+	<!-- /LOGO -->
+	</header>
 
 
 
@@ -78,9 +78,8 @@ function checkAllCheckboxes() {
     <input type="checkbox" class="input" id="privacyAgreeCheckbox" name="privacyAgreeCheckbox">
     <label for="privacyAgreeCheckbox"> [필수] 개인정보 수집 및 이용 동의 </label> 
 <!-- 자세히 버튼을 클릭하면 아래 자바스크립트에서 생성한 함수실행 -->
-    <button type="button" onclick="javascript:openWin1()">자세히</button>
-    <br>
-    <textarea rows="7" cols="84" readonly="readonly">
+    <button type="button" onclick="javascript:openWin1()" class="btn btn-secondary" style="border: 1px solid black; margin-bottom: 1%;">자세히</button>
+    <textarea rows="7" cols="92" readonly="readonly">
 [ 개인정보 수집 이용 동의 ]
 
 1. 개인정보의 수집항목 및 수집방법 
@@ -138,9 +137,9 @@ function checkAllCheckboxes() {
     <input type="checkbox" class="input" id="KODAgreeCheckbox" name="KODAgreeCheckbox">
     <label for="KODAgreeCheckbox"> [필수] KOD 스토어 이용 악관 </label>
 <!-- 자세히 버튼을 클릭하면 아래 자바스크립트에서 생성한 함수실행 -->    
-    <button type="button" onclick="javascript:openWin2()">자세히</button>
+    <button type="button" onclick="javascript:openWin2()" class="btn btn-secondary" style="border: 1px solid black; margin-bottom: 1%;">자세히</button>
     <br>
-    <textarea rows="7" cols="84" readonly="readonly">
+    <textarea rows="7" cols="92" readonly="readonly">
 [ KOD 이용 약관 ]
 제 1 장 총칙
 
@@ -299,9 +298,9 @@ function checkAllCheckboxes() {
     <input type="checkbox" class="input" id="marketingAgreeCheckbox" name="marketingAgreeCheckbox">
     <label for="marketingAgreeCheckbox"> [선택] 마케팅 활용 및 광고성 정보 수신 동의 </label>
 <!-- 자세히 버튼을 클릭하면 아래 자바스크립트에서 생성한 함수실행 -->    
-    <button type="button" onclick="javascript:openWin3()">자세히</button>
+    <button type="button" onclick="javascript:openWin3()" class="btn btn-secondary" style="border: 1px solid black; margin-bottom: 1%;">자세히</button>
     <br>
-    <textarea rows="7" cols="84" readonly="readonly">
+    <textarea rows="7" cols="92" readonly="readonly">
 [선택] 마케팅 목적 개인정보 수집 및 이용에 대한 동의
 제50조(영리목적의 광고성 정보 전송 제한) 
 ① 누구든지 전자적 전송매체를 이용하여 영리목적의 광고성 정보를 전송하려면 그 수신자의 명시적인 사전 동의를 받아야 한다. 
