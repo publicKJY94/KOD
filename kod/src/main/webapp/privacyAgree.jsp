@@ -6,16 +6,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+<style>
+body{
+margin: 0 auto;
+width: fit-content;
+}
+</style>
 <body>
-
- <span > 개인정보 수집 이용 동의 </span><br>
- <br>
-
-
- <textarea rows="40" cols="78" readonly="readonly">
-
 [ 개인정보 수집 이용 동의 ]
-
+ <textarea rows="40" cols="78" readonly style="overflow: scroll; scrollbar-width: none; display: block; margin-bottom: 1vh;">
 1. 개인정보의 수집항목 및 수집방법 
 통계청 나라통계사이트에서는 기본적인 회원 서비스 제공을 위한 필수정보로 실명인증정보와 가입정보로 구분하여 다음의 정보를 수집하고 있습니다. 필수정보를 입력해주셔야 회원 서비스 이용이 가능합니다.
 
@@ -57,13 +57,11 @@
   * 수탁업체
     - 행정자치부
       · 위탁업무 내용 : 공공 I-PIN, GPKI 인증
-      · 개인정보 보유 및 이용 기간 : 행정자치부에서는 이미 보유하고 있는 개인정보이기 때문에 별도로 저장하지 않음
-								
+      · 개인정보 보유 및 이용 기간 : 행정자치부에서는 이미 보유하고 있는 개인정보이기 때문에 별도로 저장하지 않음						
 </textarea>
-
 <!-- 확인 버튼 추가 -->
 <!-- 확인 버튼을 클릭하면 closeWindow() 함수실행 -->
-<button onclick="closeWindow()">확인</button>
+<button onclick="closeWindow()" class="btn btn-secondary" style="position: absolute; left: 48%">확인</button>
 
 <script>
 	// 현제 창을 닫는 함수

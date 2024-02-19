@@ -6,15 +6,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+<style>
+body{
+margin: 0 auto;
+width: fit-content;
+}
+</style>
 <body>
-
-<span > [ KOD 이용 약관 ] </span><br>
- <br>
-
-
- <textarea rows="40" cols="78" readonly="readonly">
-
 [ KOD 이용 약관 ]
+ <textarea rows="40" cols="78" readonly style="overflow: scroll; scrollbar-width: none; display: block; margin-bottom: 1vh;">
+
 제 1 장 총칙
 
 제 1 조 (목적)
@@ -163,7 +165,7 @@
 </textarea>
 
 <!-- 확인 버튼 추가 -->
-<button onclick="closeWindow()">확인</button>
+<button onclick="closeWindow()" class="btn btn-secondary" style="position: absolute; left: 48%">확인</button>
 
 <script>
     function closeWindow() {

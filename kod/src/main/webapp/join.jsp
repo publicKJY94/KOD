@@ -132,12 +132,11 @@
 			</div>
 
 			<!-- 성별 선택버튼 -->
-			<div style="padding-left: 27px;">
+			<div style="padding-left: 27px; border: 1.5px solid rgb(192, 192, 192); border-radius: 8px; width: 91.5%; margin-left: 4%; align-items: center; display: flex; height: 5vh;">
 				<input type="radio" class="form-check-label" id="memberGender" name="memberGender" value="male" style="margin-left: 30%;">남
 				<input type="radio" class="form-check-label" id="memberGender" name="memberGender" value="female" style="margin-left: 30%;">여
-				<br><label> 성별을 체크해주세요. </label>
 			</div>
-
+			<label style="margin-left: 4%;"> 성별을 체크해주세요. </label>
 			<!-- 생년월일 입력란 -->
 			<div class="input__block" style="padding-left: 27px;">
 				<input type="text" id="year" name="year" placeholder=" ex) 1997 "
