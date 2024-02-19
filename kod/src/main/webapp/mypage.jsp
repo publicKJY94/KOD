@@ -71,18 +71,15 @@
      	-->
       <body>
       
-      
-
-      
       <jsp:include page="util/header.jsp"></jsp:include>
 	<jsp:include page="util/navigation.jsp"></jsp:include> 
 <div class="container mypage musinsa" >
 	<main class="content" style="height: 100%; margin-bottom: 10vh;">
-		<div id="commonMypage" style="position : absolute; top: 250px; left: 170px;">
+		<div id="commonMypage" style="position : absolute; top: 30%; left: 10%;">
 			<nav class="sc-1t1fxnz-0 bdKVYa">
 				<div class="sc-1t1fxnz-3 dMLoMw">
 					<h3>나의 쇼핑 활동</h3>
-					<a href="" class="sc-14dbciz-0 bblXMI">개인 정보 변경</a>
+					<a href="myPage.do" class="sc-14dbciz-0 bblXMI">개인 정보 변경</a>
 					<a href="myOrderList.do" class="sc-14dbciz-0 bblXMI">주문 목록 조회</a>
 					<a href="paySelect.do" class="sc-14dbciz-0 bblXMI">장바구니 관리</a>
 					<a href="javascript:handleAddressManage()" id="addressManage" class="sc-14dbciz-0 bblXMI">배송지 관리</a>
@@ -202,7 +199,7 @@
           </form>
           
           
-          <script>
+<script>
     // HTML 폼에서 사용자가 입력한 값들을 가져와서 유효성을 체크하는 JavaScript 함수
     function PWformCheck(form) {
         var memberPW = document.getElementById("memberPW");       
@@ -238,19 +235,11 @@
             memberPWCK.focus();
             return false;
         }
-
-        
-
-  
      // 모든 조건이 충족되면 폼을 제출
         updatePWform.submit();
     }
 </script>
-          
-        
-						
-						<form name="updateNameform" onsubmit="NameformCheck(this);" action="memberNameUpdateAction.do" method="POST">
-						
+						<form name="updateNameform" onsubmit="nameformCheck(this);" action="memberNameUpdateAction.do" method="POST">
 							<tr id="nickName-area">
 								<th scope="row">이름</th>
 								<td><strong>${memberDTO.memberName}</strong></td>
@@ -272,7 +261,7 @@
 										</div>
 										<div class="btn-group">
 										
-											<button type="button" class="n-btn btn-sm btn-lighter" id="change-nickName-finish-btn" style="color:red;"id="change-password-finish-btn" onclick="return NameformCheck(this.form);">완료</button>
+											<button type="button" class="n-btn btn-sm btn-lighter" id="change-nickName-finish-btn" style="color:red;"id="change-password-finish-btn" onclick="return nameformCheck(this.form);">완료</button>
 											<button type="button" class="n-btn btn-sm btn-lighter" id="change-nickName-cancel-btn">취소</button>
 										</div>
 									</div>
@@ -281,9 +270,9 @@
 
 						</form>
 						
-						         <script>
+<script>
     // HTML 폼에서 사용자가 입력한 값들을 가져와서 유효성을 체크하는 JavaScript 함수
-    function NameformCheck(form) {
+    function nameformCheck(form) {
     	 var memberName = document.getElementById("memberName");
      
     	 var regName = /^[가-힣]{2,}$/;  // 한글만 입력 가능, 2글자 이상 입력
@@ -300,75 +289,37 @@
              memberName.focus();
              return false;
          }
-
-        
-
-  
      // 모든 조건이 충족되면 폼을 제출
         updateNameform.submit();
     }
 </script>
-
-	
-				<form name="updateEmailform" onsubmit="EmailformCheck(this);" action="memberEmailUpdateAction.do" method="POST">
-						
-							<tr id="email-area">
-							<th scope="row">이메일</th>
-							<td><strong id="currentEmail" value="">${memberDTO.memberEmail}</strong></td>
-							<td>
-								<button type="button" class="n-btn w100 btn-sm btn-default cert-hidden" id="change-email-btn">이메일 변경</button>
-							</td>
-						</tr>
-						<!--이메일 인증-->
-							<tr id="change-email-area" style="display: none">
-								<th scope="row">이메일</th>
-								<td colspan="2">
-									<div class="my-info-modify">
-										<ul class="n-info-txt">
-										</ul>
-										<div class="input input-btn">
-											<input type="text" class="n-input" placeholder="이메일 주소 입력" id="memberEmail" name="memberEmail" maxlength="50">
+							<form id="emailform" name="updateEmailform" onsubmit="return emailformCheck(this,event)" action="memberEmailUpdateAction.do" method="POST">
+								<tr id="email-area">
+									<th scope="row">이메일</th>
+									<td><strong id="currentEmail" value="">${memberDTO.memberEmail}</strong></td>
+									<td>
+										<button type="button" class="n-btn w100 btn-sm btn-default cert-hidden" id="change-email-btn">이메일 변경</button>
+									</td>
+								</tr>
+								<!--이메일 인증-->
+								<tr id="change-email-area" style="display: none">
+									<th scope="row">이메일</th>
+									<td colspan="2">
+										<div class="my-info-modify">
+											<ul class="n-info-txt">
+											</ul>
+											<div class="input input-btn">
+												<input type="text" class="n-input" placeholder="이메일 주소 입력" id="memberEmail" name="memberEmail" maxlength="50">
+											</div>
+											<div class="btn-group">
+												<button type="submit" class="n-btn btn-sm btn-lighter" id="change-nickName-finish-btn" style="color: red;" >완료</button>
+												<button type="button" class="n-btn btn-sm btn-lighter" id="change-email-cancel-btn">취소</button>
+											</div>
 										</div>
-										<div class="btn-group">
-										
-											<button type="button" class="n-btn btn-sm btn-lighter" id="change-nickName-finish-btn" style="color: red;" onclick="return EmailformCheck(this.form);">완료</button>
-											<button type="button" class="n-btn btn-sm btn-lighter" id="change-email-cancel-btn">취소</button>
-										</div>
-									</div>
-								</td>
-							</tr>
-				</form>
+									</td>
+								</tr>
+							</form>
 
-  <script>
-    // HTML 폼에서 사용자가 입력한 값들을 가져와서 유효성을 체크하는 JavaScript 함수
-    function EmailformCheck(form) {
-    	 var memberEmail = document.getElementById("memberEmail");
-     
-    	 // 이메일 형식 검사 정규식
-         var emailRule = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net)$/i;
-
-         if (memberEmail.value == '') {
-             alert('이메일을 입력해주세요.');
-             memberPW.focus();
-             return false;
-         }
-         // 이메일 형식이 맞지 않으면 알림을 띄우고 이메일 입력란으로 포커스 이동 후 false 반환
-         if (!emailRule.test(document.getElementById("memberEmail").value)) {
-             alert("이메일을 형식에 맞게 입력해주세요.\n올바른 이메일 형식 [ email@domain.com ]\n[ .com , .net ]을 도메인(domain)뒤에 입력해주세요.");
-             document.getElementById("memberEmail").focus();
-             return false;
-         }
-        
-
-  
-     // 모든 조건이 충족되면 폼을 제출
-        updateEmailform.submit();
-    }
-</script>
-							
-							
-							
-							
 							<tr id="mobile-area">
 							<th scope="row">휴대전화</th>
 							<td><strong>${memberDTO.memberPhNum}</strong> <span class="certify"></span></td>
@@ -446,7 +397,7 @@
 			
 			<!-- //기본 회원정보 -->
 			<!-- 추가 회원정보 -->
-			<section class="n-section-block" id="coffee">
+			<section class="n-section-block" id="address">
 				
 			</section>
 		</section>
@@ -645,6 +596,34 @@
          $("#email-authTempKey").val("");
      });
 	
+     // HTML 폼에서 사용자가 입력한 값들을 가져와서 유효성을 체크하는 JavaScript 함수
+     function emailformCheck(form,event) {
+     	console.log('이메일제출1');
+     	 var memberEmail = document.getElementById('memberEmail');
+     	 var regName = /^[가-힣]{2,}$/; 
+     	 // 이메일 형식 검사 정규식
+          var emailRule = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net)$/i;
+          if (memberEmail.value === '') {
+         	 console.log('이메일제출1.5');
+              alert('이메일을 입력해주세요.');
+              event.preventDefault();
+          }
+          // 이메일 형식이 맞지 않으면 알림을 띄우고 이메일 입력란으로 포커스 이동 후 false 반환
+          else if (!emailRule.test(document.getElementById("memberEmail").value) || regName.test(document.getElementById("memberEmail").value)){
+         	 console.log('이메일제출2');
+              alert("이메일을 형식에 맞게 입력해주세요.\n올바른 이메일 형식 [ email@domain.com ]\n[ .com , .net ]을 도메인(domain)뒤에 입력해주세요.");
+              event.preventDefault();
+          }
+          else{
+        	  // 모든 조건이 충족되면 폼을 제출
+            	console.log('이메일제출3');
+            	submitemail();
+          }
+     }
+     
+     function submitemail(){ 
+ 		document.getElementById('emailform').submit();
+ 	}
 	</script>
  
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

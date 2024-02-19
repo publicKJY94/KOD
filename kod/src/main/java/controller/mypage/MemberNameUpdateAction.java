@@ -37,17 +37,19 @@ public class MemberNameUpdateAction implements Action{
 	      mDTO.setMemberID(((MemberDTO)session.getAttribute("memberDTO")).getMemberID());
 	      System.out.println(request.getParameter("memberName") + "[본승] 로그 이름");
 	      
-		
 	      
 	      // mDAO.update 메서드 실행 인자로(mDTO)를 가져감
 	      // 실행후 결과값 논리형 변수 falg에 저장
 	      boolean flag = mDAO.update(mDTO);
-	      
+	      System.out.println("이름변경 1: "+mDTO);
 	      // flag값이 true라면
 	      if(flag) {	// 로그아웃 
-	         forward.setRedirect(false);
-	         forward.setPath("alertMyPage.do");
+	         mDTO=mDAO.selectOne(mDTO);
+	         System.out.println("이름변경 2: "+mDTO);
+	    	 forward.setRedirect(false);
+	         forward.setPath("myPage.do");
 	         request.setAttribute("msg", "정보변경에 성공하였습니다!");
+	         session.setAttribute("memberDTO", mDTO);
 	         
 	      }else { // 아니라면 이전페이지로 이동
 	    	  forward.setRedirect(false);
