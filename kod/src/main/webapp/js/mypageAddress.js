@@ -26,7 +26,7 @@ function handleAddressManage() { //[조형련] 해당 회원의 배송지 정보
 				</colgroup>`;
 			$.each(data, function(index, addressDTO) {
 				contentHtml += 
-					`<input type="hidden" name="adrsID" value="' + addressDTO.adrsID + '">'
+					`<input type="hidden" name="adrsID" value="${addressDTO.adrsID}">
 					<tbody>
 						<tr>
 							<th scope="row">${addressDTO.adrsName}</th>
@@ -38,18 +38,20 @@ function handleAddressManage() { //[조형련] 해당 회원의 배송지 정보
 							</td>
 							<td><button id="modifyButton_" onclick="openModifyModal(${addressDTO.adrsID})" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn">수정</button>`
 							if(data.length>1){ // 배송지 숫자가 1개인 경우에는 삭제버튼을 노출 시키지 않기 위한 조건
-								`<button id="deleteButton_" onclick="openDeleteModal(${addressDTO.adrsID})" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn" style="color:red;">삭제</button>`
+								contentHtml+= `<button id="deleteButton_" onclick="openDeleteModal(${addressDTO.adrsID})" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn" style="color:red;">삭제</button>`
 							}
+					contentHtml +=	
 							`</td>
 						</tr>
-					</tbody>`
+					</tbody>
 				
-					'<button id="modifyButton_" onclick="openModifyModal(' + addressDTO.adrsID + ')" style="background-color: #0fbcf9; color: white; border: none; margin-right:10px;">수정</button>'
+					'<button id="modifyButton_" onclick="openModifyModal(' + addressDTO.adrsID + ')" style="background-color: #0fbcf9; color: white; border: none; margin-right:10px;">수정</button>`
 				if(data.length>1){ // 배송지 숫자가 1개인 경우에는 삭제버튼을 노출 시키지 않기 위한 조건
-					contentHtml +='<button id="deleteButton_" onclick="openDeleteModal(' + addressDTO.adrsID + ')" style="background-color: #00d8d6; color: white; border: none;">삭제</button>'
+					contentHtml +=`<button id="deleteButton_" onclick="openDeleteModal(${addressDTO.adrsID})" style="background-color: #00d8d6; color: white; border: none;">삭제</button>`
 				}
-				contentHtml +='</div>' +
-					'</div>'
+					contentHtml +=
+						`</div>
+					</div>`
 			});
 			$('#address').html(header);
 			$('#addressContainer').html(contentHtml); // 배송지 숫자가 5개보다 적은 경우에만 "배송지 추가하기 버튼 활성화"

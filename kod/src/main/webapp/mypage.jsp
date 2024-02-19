@@ -48,6 +48,7 @@
     <script src="https://static.msscdn.net/static/member/js/ui/config.js?202307311841" type="text/javascript"></script>
     <script src="https://static.msscdn.net/static/member/js/ui.js?202307311841" type="text/javascript"></script>
     <script src="https://static.msscdn.net/static/member/js/string.js?202307311841" type="text/javascript"></script>
+    <script src="js/mypageAddress.js"></script>
     <!-- /중요한거 -->
     
     <link type="text/css" rel="stylesheet" href="css/mypage.css" />
@@ -625,9 +626,9 @@
  		document.getElementById('emailform').submit();
  	}
 	</script>
- 
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <jsp:include page="util/footer.jsp"></jsp:include>
-<script src="js/mypageAddress.js"></script>
+
 </html>
