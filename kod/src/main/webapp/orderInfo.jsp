@@ -86,7 +86,7 @@
 
 					<div class="col-md-9" style="margin-left: 10%;">
 						<!-- Billing Details -->
-						<div class="billing-details">
+						<%-- <div class="billing-details">
 							<div class="section-title">
 								<h3 class="title">구매자 정보</h3>
 							</div>
@@ -105,9 +105,29 @@
 							<div class="form-group">
 								<input class="input" type="text" name="adrsDetail" placeholder="상세주소" value="${addressDTO.adrsDetail}" disabled>
 							</div>
-						</div>
+						</div> --%>
 						<!-- /Billing Details -->
-
+						 
+					 	<div class="memberInfo">
+						<h2>구매자 정보</h2><br>
+						<table style="width: 100%; border: 1px solid #000;">
+				            <tbody>
+				            	<tr>
+				                	<th style="text-align: left; background-color: white; color:black; border: 1px solid gray; border-right: hidden; width: 15%;">배송지</th>
+				                	<td style="background-color: white; border: 1px solid gray; text-align: left;">${addressDTO.adrsName}</td>
+				            	</tr>
+					            <tr>
+					            	<th style="text-align: left; background-color: white; color:black; border: 1px solid gray; border-right: hidden; ">이름 / 연락처</th>
+				                	<td style="background-color: white; border: 1px solid gray; text-align: left;">${memberDTO.memberName} | ${memberDTO.memberPhNum}</td>
+					            </tr>
+					            <tr>
+					            	<th style="text-align: left; background-color: white; color:black; border: 1px solid gray; border-right: hidden;">주소</th>
+				                	<td style="background-color: white; border: 1px solid gray; text-align: left;">(${addressDTO.adrsZipcode}) ${addressDTO.adrsStreet} ${addressDTO.adrsDetail} </td>
+					            </tr>
+				        	</tbody>
+					    </table>
+					    </div>
+						<br>
 						<!-- Billing Details -->
 						<div class="billing-details">
 							<div class="section-title">
