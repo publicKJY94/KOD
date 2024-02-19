@@ -9,11 +9,8 @@
 <title>본인확인 - 마이페이지</title>
 
 
-
-
 <!-- Bootstrap -->
 <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
-
 
 <!--  my page bigbox -->
 
@@ -75,7 +72,7 @@
 	<div class="container mypage musinsa">
 		<main class="content" style="height: 100%; margin-bottom: 10vh;">
 			<div id="commonMypage" style="position: absolute; top: 250px; left: 170px;" >
-				<nav class="sc-1t1fxnz-0 bdKVYa" style="display: none">
+				<nav class="sc-1t1fxnz-0 bdKVYa">
 					<div class="sc-1t1fxnz-3 dMLoMw">
 						<h3>나의 쇼핑 활동</h3>
 						<a href="" class="sc-14dbciz-0 bblXMI">개인 정보 변경</a>
@@ -89,30 +86,35 @@
 					</div>
 				</nav>
 			</div>
-			<section class="mypage-cont">
+			<section class="mypage-cont" style="min-height: 40vh;">
 				<input type="hidden" id="defaultImage" name="defaultImage">
 				<h1 class="hidden">회원 정보 변경</h1>
 				<!-- 기본 회원정보 -->
 				<section class="n-section-block">
 					<header class="n-section-title first info_views-area">
 						<h1 class="tit">
-							본인인증 <span></span>
+							본인인증
 						</h1>
 					</header>
 					<table class="n-table table-row my-info-modify">
 						<colgroup>
-							<col style="width: 190px">
+							<col style="width: 15%">
 							<col style="width: *">
-							<col style="width: 50%">
+							<col style="width: 30%">
 						</colgroup>
 						<tbody>
 						<form action="mypageMemberUpdate.do" method="POST">
 								<tr>
-									<th scope="row">비밀번호 확인</th>
-									<td><input type="password" class="input" name="memberPW" style="display: inline-block; width: 58%;" required></td>
-									<td><input type="submit" class="input" value="회원정보변경 입장" style="color : red;"></td>
+									<td>비밀번호 확인</td>
+									<td>
+										<div class="form-floating">
+											<input type="password" class="form-control" name="memberPW" placeholder="Password" style="display: inline-block; width: 100%;" required>
+										</div>
+									</td>
+									
+									<td><button type="submit" class="btn btn-outline-primary" value="회원정보변경 입장" style="margin-left: 10%; border: 1px solid gray; background-color: gray; color: white;">확인</button></td>
 								</tr>
-							</form>
+						</form>
 						</tbody>
 					</table>
 				</section>
