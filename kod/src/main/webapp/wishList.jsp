@@ -106,7 +106,7 @@
                     <!-- /product -->
                     <c:choose>
                         <c:when test="${empty wishListDatas}">
-                            <span>위시리스트에 추가된 상품이 없습니다.</span>
+                            <h4 style="margin: 0 auto;">위시리스트에 추가된 상품이 없습니다.</h4>
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="wishList" items="${wishListDatas}">
