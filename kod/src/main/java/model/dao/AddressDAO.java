@@ -89,6 +89,7 @@ public class AddressDAO {
 				data.setAdrsLotNum(rs.getString("ADDRESS_LOTNUM"));
 				data.setAdrsZipcode(rs.getString("ADDRESS_ZIPCODE"));
 				data.setAdrsDetail(rs.getString("ADDRESS_DETAIL"));
+				data.setAdrsName(rs.getString("ADDRESS_NAME"));
 			}
 			rs.close();
 

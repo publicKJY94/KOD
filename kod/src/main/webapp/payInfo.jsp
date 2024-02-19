@@ -74,7 +74,7 @@
 					<div class="col-md-9" style="margin-left: 10%;">
 						<!-- Billing Details -->
 						
-						<div class="billing-details"  >
+						<%-- <div class="billing-details"  >
 							<div class="section-title">
 								<h3 class="title">구매자 정보</h3>
 							</div>
@@ -99,11 +99,36 @@
 							<div class="form-group">
 								<input class="input" type="text" name="adrsDetail" placeholder="상세주소" value="${addressDTO.adrsDetail}" disabled>
 							</div>
-						</div>
+						</div> --%>
 						<!-- /Billing Details -->
-
+						
+						<!-- css 수정 테스트 -->
+						
+						<div class="memberInfo">
+						<h2>배송 정보</h2><br>
+						<table style="width: 100%; border: 1px solid #000;">
+				            <tbody>
+				            	<tr>
+				                	<th style="text-align: left; background-color: white; color:black; border: 1px solid gray; border-right: hidden; width: 15%;">배송지</th>
+				                	<td style="background-color: white; border: 1px solid gray; text-align: left;">${addressDTO.adrsName}</td>
+				            	</tr>
+					            <tr>
+					            	<th style="text-align: left; background-color: white; color:black; border: 1px solid gray; border-right: hidden; ">이름 / 연락처</th>
+				                	<td style="background-color: white; border: 1px solid gray; text-align: left;">${memberDTO.memberName} | ${memberDTO.memberPhNum}</td>
+					            </tr>
+					            <tr>
+					            	<th style="text-align: left; background-color: white; color:black; border: 1px solid gray; border-right: hidden;">주소</th>
+				                	<td style="background-color: white; border: 1px solid gray; text-align: left;">(${addressDTO.adrsZipcode}) ${addressDTO.adrsStreet} ${addressDTO.adrsDetail} </td>
+					            </tr>
+				        	</tbody>
+					    </table>
+					    </div>
+						
+						<!-- /css 수정 테스트 -->
+						
 						<!-- Billing Details -->
 						<br><br>
+						<h2>상품 정보</h2><br>
 						<div class="billing-details">
 						<table style="width: 100%; text-align: center;">
 					        <thead>
@@ -121,8 +146,8 @@
 							            <tr>
 							                <td><img src="${cData.productImg}" alt="img" style="width: 200px; height: 200px;"></td>
 							                <td>${cData.getProductName()}</td>
-							                <td>${cData.cartProductCnt}</td>
-							                <td>${cData.productPrice}</td>
+							                <td>${cData.cartProductCnt}개</td>
+							                <td>${cData.productPrice}원</td>
 							            </tr>
 						        	</tbody>
 						        </c:forEach>
@@ -133,8 +158,8 @@
 						            <tr>
 						                <td><img src="${param.productImg}" alt="img" style="width: 200px; height: 200px;"></td>
 						                <td>${param.productName}</td>
-						                <td>${param.purchaseCnt}</td>
-						                <td>${param.productPrice*param.purchaseCnt}</td>
+						                <td>${param.purchaseCnt}개</td>
+						                <td>${param.productPrice*param.purchaseCnt}원</td>
 						            </tr>
 						        </tbody>
 					        </c:if>
