@@ -80,7 +80,7 @@ function checkAllCheckboxes() {
 <!-- 자세히 버튼을 클릭하면 아래 자바스크립트에서 생성한 함수실행 -->
     <button type="button" onclick="javascript:openWin1()">자세히</button>
     <br>
-    <textarea rows="7" cols="84">
+    <textarea rows="7" cols="84" readonly="readonly">
 [ 개인정보 수집 이용 동의 ]
 
 1. 개인정보의 수집항목 및 수집방법 
@@ -140,7 +140,7 @@ function checkAllCheckboxes() {
 <!-- 자세히 버튼을 클릭하면 아래 자바스크립트에서 생성한 함수실행 -->    
     <button type="button" onclick="javascript:openWin2()">자세히</button>
     <br>
-    <textarea rows="7" cols="84">
+    <textarea rows="7" cols="84" readonly="readonly">
 [ KOD 이용 약관 ]
 제 1 장 총칙
 
@@ -301,7 +301,7 @@ function checkAllCheckboxes() {
 <!-- 자세히 버튼을 클릭하면 아래 자바스크립트에서 생성한 함수실행 -->    
     <button type="button" onclick="javascript:openWin3()">자세히</button>
     <br>
-    <textarea rows="7" cols="84">
+    <textarea rows="7" cols="84" readonly="readonly">
 [선택] 마케팅 목적 개인정보 수집 및 이용에 대한 동의
 제50조(영리목적의 광고성 정보 전송 제한) 
 ① 누구든지 전자적 전송매체를 이용하여 영리목적의 광고성 정보를 전송하려면 그 수신자의 명시적인 사전 동의를 받아야 한다. 

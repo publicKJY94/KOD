@@ -63,7 +63,7 @@
 							<td><input type="checkbox" onclick='selectAll(this)' /> <b></b></td>
 							<td colspan="2">상품정보</td>
 							<td>옵션</td>
-							<td>상품금액</td>
+							<td style="width: 15%;">상품금액</td>
 							<td>배송비</td>
 							<td></td>
 						</tr>
@@ -90,19 +90,19 @@
 								</td>
 								<td class="bseq_ea" style="text-align: center;">
 									<p>${cData.productName}</p>
-									<button type="button"
+									<button style="border : none; color : black;" type="button"
 										onclick="fnCalCount('m', this, ${status.index});">-</button>
 									<input type="text" id="changedCnt_${status.index}" name="pop_out"
 										value="${cData.cartProductCnt}" readonly="readonly"
 										style="text-align:center;" />
-									<button type="button"
+									<button style="border : none; color : black;" type="button"
 										onclick="fnCalCount('p', this, ${status.index});">+</button>
 									<!-- <button class="cart__list__optionbtn">주문조건 추가/변경</button> -->
 								</td>
 								<td>
 									<span class="price"
 										id="totalPrice_${status.index}">${cData.sumProductPrice}원</span><br>
-									<button class="cart__list__orderbtn">주문하기</button>
+								<!--  	<button class="cart__list__orderbtn">주문하기</button> -->
 								</td>
 								<td>무료</td>
 								<td>

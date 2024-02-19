@@ -12,7 +12,7 @@
  <br>
 
 
- <textarea rows="40" cols="78">
+ <textarea rows="40" cols="78" readonly="readonly">
 
 [ KOD 이용 약관 ]
 제 1 장 총칙

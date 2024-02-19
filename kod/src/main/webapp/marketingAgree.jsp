@@ -12,7 +12,7 @@
  <br>
 
 
- <textarea rows="40" cols="78">
+ <textarea rows="40" cols="78" readonly="readonly">
 
 [선택] 마케팅 목적 개인정보 수집 및 이용에 대한 동의
 제50조(영리목적의 광고성 정보 전송 제한) 

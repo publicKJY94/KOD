@@ -12,7 +12,7 @@
  <br>
 
 
- <textarea rows="40" cols="78">
+ <textarea rows="40" cols="78" readonly="readonly">
 
 [ 개인정보 수집 이용 동의 ]
 
