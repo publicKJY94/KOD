@@ -6,15 +6,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+<style>
+body{
+margin: 0 auto;
+width: fit-content;
+}
+</style>
 <body>
-
-<span > 마케팅 목적 개인정보 수집 및 이용에 대한 동의 </span><br>
- <br>
-
-
- <textarea rows="40" cols="78" readonly="readonly">
-
 [선택] 마케팅 목적 개인정보 수집 및 이용에 대한 동의
+<textarea rows="40" cols="78" readonly style="overflow: scroll; scrollbar-width: none; display: block; margin-bottom: 1vh;">
+
 제50조(영리목적의 광고성 정보 전송 제한) 
 ① 누구든지 전자적 전송매체를 이용하여 영리목적의 광고성 정보를 전송하려면 그 수신자의 명시적인 사전 동의를 받아야 한다. 
 
@@ -55,7 +57,7 @@
 </textarea>
 
 <!-- 확인 버튼 추가 -->
-<button onclick="closeWindow()">확인</button>
+<button onclick="closeWindow()" class="btn btn-secondary" style="position: absolute; left: 48%">확인</button>
 
 <script>
     function closeWindow() {
