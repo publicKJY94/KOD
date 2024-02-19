@@ -36,9 +36,11 @@ function handleAddressManage() { //[조형련] 해당 회원의 배송지 정보
 							<p>도로명주소 : ${addressDTO.adrsStreet} </p>
 							<p>상세주소 : ${addressDTO.adrsDetail}</p>
 							</td>
-							<td><button id="modifyButton_" onclick="openModifyModal(${addressDTO.adrsID})" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn">수정</button>
-								<button id="deleteButton_" onclick="openDeleteModal(${addressDTO.adrsID})" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn" style="color:red;">삭제</button>
-							</td>
+							<td><button id="modifyButton_" onclick="openModifyModal(${addressDTO.adrsID})" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn">수정</button>`
+							if(data.length>1){ // 배송지 숫자가 1개인 경우에는 삭제버튼을 노출 시키지 않기 위한 조건
+								`<button id="deleteButton_" onclick="openDeleteModal(${addressDTO.adrsID})" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn" style="color:red;">삭제</button>`
+							}
+							`</td>
 						</tr>
 					</tbody>`
 				
@@ -49,7 +51,7 @@ function handleAddressManage() { //[조형련] 해당 회원의 배송지 정보
 				contentHtml +='</div>' +
 					'</div>'
 			});
-			$('#coffee').html(header);
+			$('#address').html(header);
 			$('#addressContainer').html(contentHtml); // 배송지 숫자가 5개보다 적은 경우에만 "배송지 추가하기 버튼 활성화"
 			/*if (data.length < 5) {
 				$('#addressContainer').append('<button id="insertButton_" onclick="openInsertModal()" class="n-btn w100 btn-sm btn-default cert-hidden" id="refund-account-btn" style="color : blue;">배송지 추가하기</button>');    
@@ -160,7 +162,7 @@ document.getElementById("insertButton_").addEventListener("click", function() {
     var form = document.getElementById('form3');
     var adrsNameValue = form.adrsName.value;
     var adrsDetailValue = form.adrsDetail.value;
-
+ 
     // 특수 문자 검사
     var regex = /^[a-zA-Z0-9가-힣]*$/;
 
