@@ -87,7 +87,7 @@
 				</div>
 				<div class="sc-1t1fxnz-3 dMLoMw">
 					<h3>커뮤니티</h3>
-					<a href="" class="sc-14dbciz-0 bblXMI">커뮤니티</a>
+					<a style="pointer-events: none;" href="" class="sc-14dbciz-0 bblXMI">커뮤니티</a>
 				</div>
 			</nav>
 		</div>
@@ -334,24 +334,25 @@
 						<div class="bg"></div>
 						<div class="modalBox1">
 							<form action="addressUpdate.do" method="post" id="form1" onsubmit="return validateForm2(event)">
-							<button onclick="closeModal()" style="margin-bottom: 5%; float:right;">취소하기</button>
+							<button class="n-btn btn-close" onclick="closeModal()" style="margin-left:97%; text-align:right; color:gray; background-color : white; font-size:x-large; height:30px; min-width:0px;">X</button>
+						<h1 style="font-size: x-large">배송지 수정</h1>
+						<br>
 								<div class="form-group">
 									<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
 								</div>
 								<input type="hidden" name="adrsId" value="" id="ADRSID">
-								<input type="text" id="sample4_postcode" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%; margin-left: 26px;" readonly>
-								<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="display: inline-block; width: 20%; height: inherit; padding: 1rem 1rem;">
+								<input type="text" id="sample4_postcode" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%; margin-left: 0px;" readonly>
+								<input class="n-btn btn-sm btn-accent" type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="display: inline-block; width: 21%; height: 14%;">
 								<br> <br>
-								<input type="text" id="sample4_roadAddress" name="adrsStreet" placeholder="도로명주소" readonly>
-								<input type="text" id="sample4_jibunAddress" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;" readonly>
+								<input type="text" id="sample4_roadAddress" name="adrsStreet" placeholder="도로명주소" style="width:33%;" readonly>
+								<input type="text" id="sample4_jibunAddress" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px; width:33%;"readonly>
 								<span id="guide" style="color: #999; display: none"></span>
-								<input type="text" id="sample4_detailAddress" name="adrsDetail" placeholder="상세주소" style="margin-top: 5px;">
-								<input type="button" value="변경하기" onclick="validateForm2()" style="margin-left: 40%; margin-top: 5%;">
+								<input type="text" id="sample4_detailAddress" name="adrsDetail" placeholder="상세주소" style="margin-top: 5px; width:32%;">
+								<input class="n-btn btn-sm btn-accent" type="button" value="변경하기" onclick="validateForm2()" style="margin-left: 40%; margin-top: 5%;">
 							</form>
 						</div>
 					</div>
 					<!-- 배송지 수정 모달 -->
-					
 					<!-- 배송지 삭제 모달 -->
 					<form action="addressDelete.do" method="POST" id="form2">
 						<div style="margin-bottom: 5px;">
@@ -375,19 +376,21 @@
 						<div class="bg3"></div>
 						<div class="modalBox1">
 							<form action="addressInsert.do" method="post" id="form3" onsubmit="return validateForm(event)">
-								<button onclick="closeModal()" style="margin-bottom: 5%; float: right;">취소하기</button>
+								<button class="n-btn btn-close" onclick="closeModal()" style="margin-left:97%; text-align: right; color:gray; background-color:white; height:30px; min-width:0px; font-size:x-large;">X</button>
+							<h1 style="font-size: x-large">배송지 추가</h1>
+							<br>
 								<div class="form-group">
 									<input class="input" type="text" name="adrsName" placeholder="주소지 이름">
 								</div>
 								<input type="hidden" name="adrsId" value="" id="ADRSID">
 								<input type="text" id="sample4_postcode2" name="adrsZipcode" placeholder="우편번호" style="display: inline-block; width: 30%;" readonly>
-								<input type="button" onclick="sample4_execDaumPostcode2()" value="우편번호 찾기" style="display: inline-block; width: 20%; height: inherit; padding: 1rem 1rem;">
+								<input class="n-btn btn-sm btn-accent" type="button" onclick="sample4_execDaumPostcode2()" value="우편번호 찾기" style="display: inline-block; width: 21%; height: 14%;">
 								<br> <br>
-								<input type="text" id="sample4_roadAddress2" name="adrsStreet" placeholder="도로명주소" readonly>
-								<input type="text" id="sample4_jibunAddress2" placeholder="지번주소" name="adrsLotNum" style="margin-top: 5px;" readonly>
+								<input type="text" id="sample4_roadAddress2" name="adrsStreet" placeholder="도로명주소" style="width:33%;" readonly>
+								<input type="text" id="sample4_jibunAddress2" placeholder="지번주소" name="adrsLotNum" style="width:33%;" readonly>
 								<span id="guide" style="color: #999; display: none"></span>
-								<input type="text" id="sample4_detailAddress" name="adrsDetail" placeholder="상세주소" style="margin-top: 5px;" required>
-								<input type="button" value="주소지 추가하기" onclick="validateForm()" style="margin-left: 40%; margin-top: 5%;">
+								<input type="text" id="sample4_detailAddress" name="adrsDetail" placeholder="상세주소" style="width:32%;" required>
+								<input class="n-btn btn-sm btn-accent" type="button" value="추가하기" onclick="validateForm()" style="margin-left: 40%; margin-top: 5%;">
 							</form>
 						</div>
 					</div>
