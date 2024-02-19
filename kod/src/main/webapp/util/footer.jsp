@@ -20,7 +20,7 @@
 					<div class="row">
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Our's Blog</h3>
+								<h3 class="footer-title">Our Blog</h3>
 								<p></p>
 								<ul class="footer-links">
 									<li><!-- <i class="fa fa-map-marker"></i> -->
