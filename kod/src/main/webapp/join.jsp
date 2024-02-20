@@ -54,13 +54,13 @@
 			<!-- 아이디 입력란 -->
 			<!-- oninput이벤트를 사용해 사용자가 입력할때마다 공백을 제거하는 함수 호출 -->
 			<div class="input__block" style="padding-left: 27px;">
-				<input type="text" placeholder="아이디를 입력해주세요." class="input" id="memberID" name="memberID"
+				<input type="text" placeholder="아이디" class="input" id="memberID" name="memberID"
 					style="display: inline-block; width: 70%;" minlength="6" maxlength="13"
 					oninput="removeWhitespace(this)" required />
 
 				<!-- ID중복검사 버튼생성 클릭시 check()함수호출 -->
 				<input type="button" id="but" value="ID중복검사" onclick="check()"
-					style="display: inline-block; width: 25%; text-align: center;"><br>
+					style="display: inline-block; width: 25%; padding-right: 2%;"><br>
 				<label> 아이디는 6~13자의 영문 소문자, 숫자로 입력해주세요. </label>
 			</div>
 			<div class="first-input input__block first-input__block" style="padding-left: 27px;">
@@ -78,7 +78,7 @@
 
 			<!-- 비밀번호 입력란 -->
 			<div class="input__block" style="padding-left: 27px;">
-				<input type="password" placeholder="비밀번호를 입력해주세요." class="input" id="memberPW" name="memberPW"
+				<input type="password" placeholder="비밀번호" class="input" id="memberPW" name="memberPW"
 					style="width: 95%; display: inline-block;" minlength="6" maxlength="13"
 					oninput="removeWhitespace(this)" required /><br>
 				<!-- oninput이벤트를 사용해 사용자가 입력할때마다 공백을 제거하는 함수 호출 -->
@@ -89,7 +89,7 @@
 
 			<!-- 비밀번호 확인입력란 -->
 			<div class="input__block" style="padding-left: 27px;">
-				<input type="password" placeholder="비밀번호를 확인." class="input" id="memberPWCK" name="memberPWCK"
+				<input type="password" placeholder="비밀번호 확인" class="input" id="memberPWCK" name="memberPWCK"
 					style="width: 95%; display: inline-block;" minlength="6" maxlength="13"
 					oninput="removeWhitespace(this)" required />
 				<!-- 비밀번호 불일치 메시지 -->
@@ -125,7 +125,7 @@
 			
 			<!-- 이름 입력란 -->
 			<div class="input__block" style="padding-left: 27px;">
-				<input type="name" placeholder="이름을 입력해주세요" class="input" id="memberName" name="memberName"
+				<input type="name" placeholder="이름" class="input" id="memberName" name="memberName"
 					style="width: 95%; display: inline-block; margin-top: 2%;" minlength="2" maxlength="10"
 					oninput="removeWhitespace(this)" required />
 				<br><label> 2글자 이상 한글로 입력해주세요. </label>
