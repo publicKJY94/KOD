@@ -41,7 +41,7 @@ img {
 }
 
 .cart ul :first-child {
-  color: limegreen;
+  color: red;
 }
 
 table {
@@ -157,7 +157,7 @@ td {
 }
 
 .cart__bigorderbtn.right {
-  background-color: limegreen;
+  background-color: red;
   color: white;
   border: none;
 }
