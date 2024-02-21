@@ -1,6 +1,8 @@
 <%@page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="model.dto.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 	<!DOCTYPE html>
 	<html lang="en">
 
@@ -101,7 +103,10 @@
 								</td>
 								<td>
 									<span class="price"
-										id="totalPrice_${status.index}">${cData.sumProductPrice}원</span><br>
+										id="totalPrice_${status.index}">
+										<fmt:setLocale value="ko_KR" />
+										<fmt:formatNumber value="${cData.sumProductPrice}" type="currency" />원
+									</span><br>
 								<!--  	<button class="cart__list__orderbtn">주문하기</button> -->
 								</td>
 								<td>무료</td>
