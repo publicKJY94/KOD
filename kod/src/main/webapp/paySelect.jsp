@@ -104,8 +104,7 @@
 								<td>
 									<span class="price"
 										id="totalPrice_${status.index}">
-										<fmt:setLocale value="ko_KR" />
-										<fmt:formatNumber value="${cData.sumProductPrice}" type="currency" />원
+										${cData.sumProductPrice}원
 									</span><br>
 								<!--  	<button class="cart__list__orderbtn">주문하기</button> -->
 								</td>
