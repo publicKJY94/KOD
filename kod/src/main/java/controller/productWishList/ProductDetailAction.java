@@ -80,7 +80,7 @@ public class ProductDetailAction implements Action {
 			wishListDTO.setSearchCondition("나이"); // 로그인한 회원 나이 조회
 			wishListDTO.setMemberID(memberID);
 			WishListDTO memberMinMaxAge = wishListDAO.selectOne(wishListDTO);
-			wishListDTO.setSearchCondition("연령별상품추천LOGIN");
+			wishListDTO.setSearchCondition("연령별상품추천LOGIN"); // 연령별 추천상품 조회
 			wishListDTO.setProductID(Integer.parseInt(request.getParameter("productID")));
 			wishListDTO.setMemberMinAge(memberMinMaxAge.getMemberMinAge());
 			wishListDTO.setMemberMaxAge(memberMinMaxAge.getMemberMaxAge());
@@ -99,7 +99,7 @@ public class ProductDetailAction implements Action {
 			}
 			for (int i = 0; i < productWishDatas.size(); i++) {
 				productWishDatas.get(i).setIsWished(productIsWishedDatas.get(i).getIsWished());
-				System.out.println(productIsWishedDatas.get(i).getIsWished());
+				System.out.println("[로그:정현진] productIsWishedDatas찜여부 확인 : "+productIsWishedDatas.get(i).getIsWished());
 			}
 			
 		}    

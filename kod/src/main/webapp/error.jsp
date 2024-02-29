@@ -35,7 +35,7 @@
     <div id="errorModal" class="modal">
         <div class="modal-content">
             <h1>오류 발생!</h1>
-            <p>죄송합니다. 예상치 못한 오류가 발생했습니다.</p>
+            <p>ㅈㅅ</p>
             <p><a href="main.do">홈페이지로 이동</a></p>
         </div>
     </div>

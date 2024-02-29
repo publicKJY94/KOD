@@ -81,7 +81,7 @@
 						<a href="javascript:handleAddressManage()" id="addressManage" class="sc-14dbciz-0 bblXMI">배송지 관리</a>
 					</div>
 					<div class="sc-1t1fxnz-3 dMLoMw">
-						<h3>커뮤니티</h3>
+						<h3>개발예정</h3>
 						<a href="" class="sc-14dbciz-0 bblXMI">커뮤니티</a>
 					</div>
 				</nav>

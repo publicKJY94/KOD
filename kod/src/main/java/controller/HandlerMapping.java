@@ -44,6 +44,7 @@ import controller.productWishList.ProductRankAction;
 import controller.productWishList.StoreAction;
 import controller.productWishList.WishListAction;
 import controller.review.ReviewWriteAction;
+import controller.review.ReviewWritePageAction;
 import controller.util.Action;
 import controller.util.AlertAction;
 import controller.util.GobackAction;
@@ -104,8 +105,20 @@ public class HandlerMapping {
 	    
 	}
 	
-	public Action getAction(String commed) {
-		return mappings.get(commed);
+	public Action getAction(String commed) { 
+		return mappings.get(commed); // [정현진] commend 변수에는 경로가 저장되어 있음
 	}
 	
 }
+
+
+/* [정현진]
+ * 핸들러 맵핑은 MVC패턴의 핵심요소로
+ * 해당 클래스에서 구현된 핸들러 맵핑 로직은 Map클래스를 활용한 것으로 key와 value로 구성된 자료구조입니다.
+ * put메소드는 인자로 받은 key와 value값을 Map타입의 객체에 추가하고 만약 이미 동일한 키가 존재한다면
+ * 기존값은 새로운 값으로 대체하는 함수입니다.
+ * 
+ * 핸들러맵핑을 싱글톤 패턴으로 구현하여 리소스를 절약하고 객체의 일관성을 유지하여
+ * 메모리를 효율적으로 활용하였습니다.
+ * 
+ */

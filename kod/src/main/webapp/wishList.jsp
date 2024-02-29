@@ -49,10 +49,11 @@
     color: #fff;
 }
 </style>
+<jsp:include page="util/header.jsp"></jsp:include>
 </head>
 <body>
 
-<jsp:include page="util/header.jsp"></jsp:include>
+
 		
 		<div class="section">
 			<!-- container -->

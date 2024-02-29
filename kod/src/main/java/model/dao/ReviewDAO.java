@@ -146,6 +146,7 @@ public class ReviewDAO {
 		try {
 			if(reviewDTO.getSearchCondition().equals("상품리뷰전체조회")) {
 				System.out.println("DAO, 상품리뷰전체조회 들어옴");
+				System.out.println("@@@리뷰DAO들어옴@@@");
 					pstmt = conn.prepareStatement(SELECTALL_PRODUCT_REVIEW);
 					pstmt.setInt(1, reviewDTO.getProductID());
 					
@@ -159,14 +160,16 @@ public class ReviewDAO {
 				return null;
 			}
 			ResultSet rs = pstmt.executeQuery();
+			int i=0;
 			while(rs.next()) {
+				i++;
 				data=new ReviewDTO();
 				data.setMemberID(rs.getString("MEMBER_ID"));
 				data.setMemberName(rs.getString("MEMBER_NAME"));
 				data.setProductID(rs.getInt("PRODUCT_ID"));
 				data.setReviewID(rs.getInt("REVIEW_ID"));
 				data.setReviewTitle(rs.getString("REVIEW_TITLE"));
-				System.out.println("리뷰제목 : "+rs.getString("REVIEW_TITLE"));
+				System.out.println(i+"번째 @@"+"리뷰제목 : "+rs.getString("REVIEW_TITLE"));
 				data.setReviewContent(rs.getString("REVIEW_CONTENT"));
 				data.setReviewScore(rs.getInt("REVIEW_SCORE"));
 				data.setReviewDate(rs.getDate("REVIEW_DATE"));

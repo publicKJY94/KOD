@@ -18,7 +18,7 @@
     /* 기타 원하는 스타일 변경 가능 */
 }
 
-#soldOutDelBtn {
+ #soldOutDelBtn {
     display: inline-block;
     padding: 8px 16px; /* 작게 조절 */
     font-size: 14px; /* 작게 조절 */

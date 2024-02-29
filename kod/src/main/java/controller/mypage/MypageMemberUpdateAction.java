@@ -10,7 +10,9 @@ import javax.servlet.http.HttpSession;
 import controller.util.Action;
 import controller.util.ActionForward;
 import model.dao.MemberDAO;
+import model.dao.WishListDAO;
 import model.dto.MemberDTO;
+import model.dto.WishListDTO;
 
 public class MypageMemberUpdateAction implements Action{
 
@@ -62,6 +64,30 @@ public class MypageMemberUpdateAction implements Action{
 				forward.setPath("goback.do");
 				forward.setRedirect(false);
 			}
+		  
+		    session = request.getSession();
+			String memberID = null;
+			try {
+				memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
+			} catch (Exception e) {
+//				e.printStackTrace();
+				System.out.println("[로그:정현진] 로그아웃상태 : memberID is null");
+			}
+			System.out.println("[로그:정현진] memberID : "+memberID);
+		  
+		    WishListDTO wishListDTO = new WishListDTO();
+			WishListDAO wishListDAO = new WishListDAO();
+			
+			wishListDTO.setMemberID(memberID);
+			wishListDTO.setSearchCondition("위시리스트합계갯수");
+			wishListDTO = wishListDAO.selectOne(wishListDTO);
+			int wishListCnt = wishListDTO.getWishListCnt(); 
+			request.setAttribute("wishListCnt", wishListCnt);
+			System.out.println("[로그:정현진] wishListCnt : "+wishListCnt);
+		  
+		  
+		  
+		  
 				
 			return forward;
 		}

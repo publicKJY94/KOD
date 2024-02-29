@@ -53,9 +53,10 @@
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
+	<jsp:include page="util/header.jsp"></jsp:include>
 </head>
 <body>
-	<jsp:include page="util/header.jsp"></jsp:include>
+	
 	<jsp:include page="util/navigation.jsp"></jsp:include>
 
 <!-- SECTION -->
@@ -156,6 +157,7 @@
 					</div>
 				</div>
 
+
 				<!-- Products tab & slick -->
 				<div class="col-md-12">
 					<div class="row">
@@ -173,7 +175,7 @@
 														style="display: flex; justify-content: space-between; align-items: center;">
 														<span class="new" style="color: #D10024;"><strong>NEW</strong></span>
 														<div class="product-btns">
-															<button class="add-to-wishlist" onclick="checkLogin()">
+															<button class="add-to-wishlist" onclick="checkLogin()"> <!-- 찜 여부 -->
 																<div class="productID" hidden>${item.productID}</div>
 																<i class="fa ${item.isWished == 1 ? 'fa-heart' : 'fa-heart-o'}" id="heartIcon"></i>
 																<span class="tooltipp">위시리스트에 추가</span>
