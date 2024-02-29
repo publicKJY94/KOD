@@ -80,7 +80,7 @@ public class ReviewWriteAction implements Action {
 	            MultipartRequest multipartRequest = new MultipartRequest(
 	                    request, // HTTP 요청객체
 	                    uploadFilePath, // 이미지 업로드 경로
-	                    5 * 1024 * 1024, // 최대 업로드 파일 크기 제한 (5MB)
+	                    50 * 1024 * 1024, // 최대 업로드 파일 크기 제한 (5MB)
 	                    "UTF-8", // 한글로 번역
 	                    new DefaultFileRenamePolicy() // 동일한 파일명이 존재하면 파일명 뒤에 일련번호를 붙임
 	            );
@@ -88,6 +88,7 @@ public class ReviewWriteAction implements Action {
 	            // 서로다른 작업 환경(PC)에서도 별도의 작업없이 경로를 공유할 수 있는 복사 경로 만들기
 	            int num = uploadFilePath.indexOf("."); // 첫번째 만나는 .의 인덱스 값 (.metadata)
 	            String forwardUrlParts = uploadFilePath.substring(0, num);
+	            System.out.println("[로그:정현진] num : "+num); // 45
 	            System.out.println("[로그:정현진] forwardUrlParts : "+forwardUrlParts);
 	            String middleUrlParts = request.getContextPath();
 	            System.out.println("[로그:정현진] middleUrlParts : "+middleUrlParts);
@@ -111,9 +112,9 @@ public class ReviewWriteAction implements Action {
 	                // 파일 복사
 	                InputStream in = new FileInputStream(filePath); // 데이터를 읽어오는 스트림(Byte단위)
 	                // 복사파일에 데이터를 출력하는 스트림
-	                OutputStream os = new FileOutputStream(copyFilePathForKOD + fileName); 
+	                OutputStream os = new FileOutputStream(copyFilePathForKOD + fileName);
 
-	                // 파일복사 시간을 측정을 위한 코드
+	                // 파일복사 시간을 측정하기 위한 코드
 	                long start = System.currentTimeMillis(); // 파일복사 시작시간
 	                while (true) {
 	                    int inputData = in.read(); // 1Byte씩 데이터를 읽어옴

@@ -33,9 +33,9 @@ public class MainAction implements Action{
 			memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
 		} catch (Exception e) {
 //			e.printStackTrace();
-			System.out.println("로그아웃상태 : memberID is null");
+			System.out.println("[로그:정현진] 로그아웃상태 : memberID is null");
 		}
-		System.out.println("memberID : "+memberID);
+		System.out.println("[로그:정현진] memberID : "+memberID);
 		if(memberID==null) {
 			WishListDAO wishListDAO = new WishListDAO();
 			WishListDTO wishListDTO = new WishListDTO();
@@ -52,7 +52,7 @@ public class MainAction implements Action{
 		wishListDTO = wishListDAO.selectOne(wishListDTO);
 		int wishListCnt = wishListDTO.getWishListCnt(); 
 		request.setAttribute("wishListCnt", wishListCnt);
-		System.out.println("wishListCnt : "+wishListCnt);
+		System.out.println("[로그:정현진] wishListCnt : "+wishListCnt);
 		
 		wishListDAO = new WishListDAO();
 		wishListDTO = new WishListDTO();

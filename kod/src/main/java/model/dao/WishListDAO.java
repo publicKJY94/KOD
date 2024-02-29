@@ -316,8 +316,8 @@ public class WishListDAO { // [담당 : 정현진]
 	private static final String SELECTONE_WISHLIST_CNT_BY_MEMBER = // 헤더페이지 - 회원별 위시리스트 수량
 			"SELECT COUNT(WISHLIST_ID) AS WISHLIST_CNT FROM WISHLIST WHERE MEMBER_ID=? ";
 	
-	
-	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST = /*찜여부 확인*/
+	/*찜여부 확인*/
+	private static final String SELECTONE_IS_PRODUCT_IN_WISHLIST = 
 			"SELECT WISHLIST_ID "
 			+ "FROM WISHLIST "
 			+ "WHERE MEMBER_ID=? AND PRODUCT_ID=? ";
@@ -350,43 +350,33 @@ public class WishListDAO { // [담당 : 정현진]
 	
 	// KOD사이트에 가입한 회원들 중 가장 많은 나이대가 속한 연령대 상품추천로직 밑작업 - 상품상세페이지 하단에서 구현, 로그아웃상태
 	private static final String SELECTONE_MOST_AGE_RANGE = // 상품상세페이지 (연령별 상품추천로직과 함께 사용) - 로그아웃상태
-			"SELECT "
-			+ "    AGE_RANGE, "
-			+ "    MEMBER_COUNT "
-			+ "FROM ( "
-			+ "    SELECT "
-			+ "        AGE_RANGE, "
-			+ "        MEMBER_COUNT, "
-			+ "        RANK() OVER (ORDER BY MIN_AGE ASC) AS RANK_ORDER " // 연령별 회원 수가 같은 경우, 나이가 적은 연령이 상위에 랭크될 수 있게 하기 위함
-			+ "    FROM ( "
-			+ "        SELECT "
-			+ "            CASE "
-			+ "                WHEN AGE >= 10 AND AGE < 20 THEN 10 "
-			+ "                WHEN AGE >= 20 AND AGE < 30 THEN 20 "
-			+ "                WHEN AGE >= 30 AND AGE < 40 THEN 30 "
-			+ "                WHEN AGE >= 40 AND AGE < 50 THEN 40 "
-			+ "                ELSE 50 "
-			+ "            END AS AGE_RANGE, "
-			+ "            COUNT(*) AS MEMBER_COUNT, "  // 연령별 회원 수
-			+ "            MIN(AGE) AS MIN_AGE " // 나이가 적은 순으로 정렬하기 위한 변수
-			+ "        FROM ( "
-			+ "            SELECT "
-			+ "                MEMBER_ID, "
-			+ "                TRUNC(MONTHS_BETWEEN(SYSDATE, MEMBER_BIRTH) / 12) AS AGE "
-			+ "            FROM "
-			+ "                MEMBER "
-			+ "        ) AGE_DATA "
-			+ "        GROUP BY "
-			+ "            CASE "
-			+ "                WHEN AGE >= 10 AND AGE < 20 THEN 10 "
-			+ "                WHEN AGE >= 20 AND AGE < 30 THEN 20 "
-			+ "                WHEN AGE >= 30 AND AGE < 40 THEN 30 "
-			+ "                WHEN AGE >= 40 AND AGE < 50 THEN 40 "
-			+ "                ELSE 50 "
-			+ "            END "
-			+ "    ) "
-			+ ") "
-			+ "WHERE RANK_ORDER = 1 ";
+			"SELECT AGE_RANGE, MEMBER_COUNT FROM ( "
+			+ "    SELECT  "
+			+ "        CASE  "
+			+ "            WHEN AGE >= 10 AND AGE < 20 THEN 10  "
+			+ "            WHEN AGE >= 20 AND AGE < 30 THEN 20  "
+			+ "            WHEN AGE >= 30 AND AGE < 40 THEN 30  "
+			+ "            WHEN AGE >= 40 AND AGE < 50 THEN 40  "
+			+ "            ELSE 50  "
+			+ "        END AS AGE_RANGE,  "
+			+ "        COUNT(MEMBER_ID) AS MEMBER_COUNT "
+			+ "    FROM (  "
+			+ "        SELECT  "
+			+ "            MEMBER_ID,  "
+			+ "            TRUNC(MONTHS_BETWEEN(SYSDATE, MEMBER_BIRTH) / 12) AS AGE  "
+			+ "        FROM  "
+			+ "            MEMBER  "
+			+ "    ) AGE_DATA  "
+			+ "    GROUP BY  "
+			+ "        CASE  "
+			+ "            WHEN AGE >= 10 AND AGE < 20 THEN 10  "
+			+ "            WHEN AGE >= 20 AND AGE < 30 THEN 20  "
+			+ "            WHEN AGE >= 30 AND AGE < 40 THEN 30  "
+			+ "            WHEN AGE >= 40 AND AGE < 50 THEN 40  "
+			+ "            ELSE 50  "
+			+ "        END  "
+			+ "    ORDER BY MEMBER_COUNT DESC, AGE_RANGE ASC "
+			+ ") WHERE ROWNUM = 1";
 	
 	private static final String INSERT_WISHLIST_BY_PRODUCT = // 위시리스트 추가
 			  "INSERT INTO WISHLIST (WISHLIST_ID,MEMBER_ID, PRODUCT_ID) "
@@ -654,26 +644,6 @@ public class WishListDAO { // [담당 : 정현진]
 			 */
 		}
 		else if(wishListDTO.getSearchCondition().equals("연령별상품추천LOGOUT스텝2")) {
-//			if(wishListDTO.getMemberAge()==10) {
-//				wishListDTO.setMemberMinAge(10);
-//				wishListDTO.setMemberMaxAge(20);
-//			}
-//			else if(wishListDTO.getMemberAge()==20) {
-//				wishListDTO.setMemberMinAge(20);
-//				wishListDTO.setMemberMaxAge(30);
-//			}
-//			else if(wishListDTO.getMemberAge()==30) {
-//				wishListDTO.setMemberMinAge(30);
-//				wishListDTO.setMemberMaxAge(40);
-//			}
-//			else if(wishListDTO.getMemberAge()==40) {
-//				wishListDTO.setMemberMinAge(40);
-//				wishListDTO.setMemberMaxAge(50);
-//			}
-//			else {
-//				wishListDTO.setMemberMinAge(50);
-//				wishListDTO.setMemberMaxAge(60);
-//			}
 			System.out.println("[로그:정현진] 매개변수DTO의 나이 : "+wishListDTO.getMemberAge());
 			if(wishListDTO.getMemberAge()>=10&&wishListDTO.getMemberAge()<=40) { // 10대 ~ 40대
 				wishListDTO.setMemberMinAge(wishListDTO.getMemberAge()); // 10~20, 20~30, 30~40, 40~50
@@ -893,26 +863,6 @@ public class WishListDAO { // [담당 : 정현진]
 					age /= 10; // 몫 구하기 ex) 23살일 경우 => 2, 복합할당연산자 사용
 					System.out.println("[로그 : 정현진] age : "+age);
 					data = new WishListDTO();
-					/*
-					 * 몫을 구하여 로직을 실행한 이유 비교연산자의 연산 횟수를 줄여 자원낭비를 막기위함
-					 * 대용량데이터를 다루어야 할 경우 유용함
-					 */
-//					if(10<=age&&age<20) {
-//						data.setMemberMinAge(10);
-//						data.setMemberMaxAge(20);
-//					}
-//					else if(20<=age&&age<20) {
-//						data.setMemberMinAge(20);
-//						data.setMemberMaxAge(30);
-//					}
-//					else if(30<=age&&age<40) {
-//						data.setMemberMinAge(30);
-//						data.setMemberMaxAge(40);
-//					}
-//					else {
-//						data.setMemberMinAge(40);
-//						data.setMemberMaxAge(50);
-//					}  // 위의 로직이 아래처럼 개선됨
 					if(age==1) { // 10대
 						data.setMemberMinAge(10);
 						data.setMemberMaxAge(20);

@@ -14,10 +14,12 @@ import model.dao.MemberDAO;
 import model.dao.OrderContentDAO;
 import model.dao.OrderListDAO;
 import model.dao.ReviewDAO;
+import model.dao.WishListDAO;
 import model.dto.MemberDTO;
 import model.dto.OrderContentDTO;
 import model.dto.OrderListDTO;
 import model.dto.ReviewDTO;
+import model.dto.WishListDTO;
 
 public class MypageOrderListAction implements Action {
 	
@@ -103,6 +105,26 @@ public class MypageOrderListAction implements Action {
 		/*[조형련] 가공한 정보들을 배열에 담아서 전달*/
 		request.setAttribute("oContentData", oContentDatas);
 		request.setAttribute("datasTotal", datasTotal);
+		
+//		HttpSession session = request.getSession();
+		session = request.getSession();
+		String memberID = null;
+		try {
+			memberID = ((MemberDTO)session.getAttribute("memberDTO")).getMemberID();
+		} catch (Exception e) {
+//			e.printStackTrace();
+			System.out.println("[로그:정현진] 로그아웃상태 : memberID is null");
+		}
+		System.out.println("[로그:정현진] memberID : "+memberID);
+		
+		WishListDTO wishListDTO = new WishListDTO();
+		WishListDAO wishListDAO = new WishListDAO();
+		wishListDTO.setMemberID(memberID);
+		wishListDTO.setSearchCondition("위시리스트합계갯수");
+		wishListDTO = wishListDAO.selectOne(wishListDTO);
+		int wishListCnt = wishListDTO.getWishListCnt(); 
+		request.setAttribute("wishListCnt", wishListCnt);
+		System.out.println("[로그:정현진] wishListCnt : "+wishListCnt);
 		
 		forward.setPath("myOrderList.jsp");
 		forward.setRedirect(false);

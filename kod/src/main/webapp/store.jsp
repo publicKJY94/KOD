@@ -60,6 +60,7 @@ label:hover {
   }
 }
 </style>
+<jsp:include page="util/header.jsp"></jsp:include>
 </head>
 <!-- jQuery Plugins -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"
@@ -82,7 +83,7 @@ label:hover {
 		[김진영] 헤더와 네비게이션은 활용되는 페이지가 많아서 
 		액션태그로 페이지를 분리하여 유지보수 활용성을 향상
 	--%>
-	<jsp:include page="util/header.jsp"></jsp:include>
+	
 	<jsp:include page="util/navigation.jsp"></jsp:include>
 	<!-- SECTION -->
 	<div class="section">

@@ -11,8 +11,10 @@ import javax.servlet.http.HttpSession;
 import controller.util.Action;
 import controller.util.ActionForward;
 import model.dao.CartDAO;
+import model.dao.WishListDAO;
 import model.dto.CartDTO;
 import model.dto.MemberDTO;
+import model.dto.WishListDTO;
 
 public class PaySelectAction implements Action{
 
@@ -48,6 +50,18 @@ public class PaySelectAction implements Action{
 		System.out.println("형련 [로그] 장바구니데이터: "+datas);
 		
 		System.out.println("형련[로그] payselectAction 끝 ");
+		
+		// [정현진]위시리스트 상품수량 
+		WishListDTO wishListDTO = new WishListDTO();
+		WishListDAO wishListDAO = new WishListDAO();
+		
+		wishListDTO.setMemberID(memberID);
+		wishListDTO.setSearchCondition("위시리스트합계갯수");
+		wishListDTO = wishListDAO.selectOne(wishListDTO);
+		int wishListCnt = wishListDTO.getWishListCnt(); 
+		request.setAttribute("wishListCnt", wishListCnt);
+		System.out.println("[로그:정현진] wishListCnt : "+wishListCnt);
+		
 		
 		
 		return forward;

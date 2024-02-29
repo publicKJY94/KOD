@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="icon" type="image/x-icon" href="/img/favion.png" >
+<link rel="icon" type="image/x-icon" href="img/favicon.png" >
 </head>
 <body>
 	<!-- HEADER -->

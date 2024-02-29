@@ -49,9 +49,10 @@
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
+<jsp:include page="util/header.jsp"></jsp:include>
 </head>
 <body>
-	<jsp:include page="util/header.jsp"></jsp:include>
+	
 	<jsp:include page="util/navigation.jsp"></jsp:include>
 
 
