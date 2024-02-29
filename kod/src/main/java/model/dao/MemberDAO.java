@@ -138,7 +138,7 @@ public class MemberDAO {
 				data.setMemberName(rs.getString("MEMBER_NAME"));
 				data.setMemberEmail(rs.getString("MEMBER_EMAIL"));
 				data.setMemberPhNum(rs.getString("MEMBER_PHONE"));
-				
+				data.setMemberGrade(rs.getString("MEMBER_GRADE"));
 			}
 			// rs 객체 닫기
 			rs.close();

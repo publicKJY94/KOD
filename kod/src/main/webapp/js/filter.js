@@ -8,14 +8,6 @@ function selectcheckbox() {
 	checkboxes.forEach(function(checkbox) {
 		lists.push(checkbox.name); // 체크박스의 name 속성 값 가져오기
 	});
-	var lists2 = [];
-	var productIDs = document.querySelectorAll("input[name=productID]");
-	productIDs.forEach(
-		function(product) {
-			lists2.push(product.value);
-		}
-	);
-
 	var max = inputMax.value;
 	var min = inputMin.value;
 	var categoryList = JSON.stringify(lists);

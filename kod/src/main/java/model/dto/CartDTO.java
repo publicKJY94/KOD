@@ -12,7 +12,7 @@ public class CartDTO {
 	private int sumProductPrice;
 	private String searchCondition;
 	private String pg;
-	private int payCk; // 바로결제 / 장바구니 결제 체크
+	private int payCk; // 결제 방식 : 바로 구매 / 선택 구매 
 	
 	
 	
