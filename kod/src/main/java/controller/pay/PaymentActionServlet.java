@@ -78,7 +78,7 @@ public class PaymentActionServlet extends HttpServlet {
 		OrderContentDAO oContentDAO = new OrderContentDAO();
 		
 		
-		if(payCks[0].equals("1")) { // 바로 결제
+		if(payCks[0].equals("1")) { // 바로 구매
 			
 			System.out.println("[로그 : 박현민] 바로 구매 실행");
 			oDTO.setMemberID(memberID);

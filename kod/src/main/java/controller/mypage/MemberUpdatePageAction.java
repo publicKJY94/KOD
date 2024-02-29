@@ -15,7 +15,7 @@ public class MemberUpdatePageAction implements Action{
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ActionForward forward = new ActionForward();
-		forward.setPath("mypageMemberUpdate.jsp");
+		forward.setPath("mypage.jsp");
 		forward.setRedirect(false);
 		
 		return forward;

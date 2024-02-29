@@ -44,7 +44,6 @@ import controller.productWishList.ProductRankAction;
 import controller.productWishList.StoreAction;
 import controller.productWishList.WishListAction;
 import controller.review.ReviewWriteAction;
-import controller.review.ReviewWritePageAction;
 import controller.util.Action;
 import controller.util.AlertAction;
 import controller.util.GobackAction;
@@ -96,7 +95,6 @@ public class HandlerMapping {
 	    this.mappings.put("/productRank.do", new ProductRankAction());
 	    this.mappings.put("/productDetail.do", new ProductDetailAction());
 	    this.mappings.put("/wishList.do", new WishListAction());
-	    this.mappings.put("/reviewWritePage.do", new ReviewWritePageAction());
 	    this.mappings.put("/reviewWriteAction.do", new ReviewWriteAction());
 	    this.mappings.put("/memberPWUpdateAction.do", new MemberPWUpdateAction());
 	    this.mappings.put("/memberNameUpdateAction.do", new MemberNameUpdateAction());

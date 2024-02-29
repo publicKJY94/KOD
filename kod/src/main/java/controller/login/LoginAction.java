@@ -42,7 +42,7 @@ public class LoginAction implements Action{
 		// 만약 mDTO값이 있다면 
 		// session 객체를 생성
 		// session에 "memberDTO"속성에 mDTO변수를 저장
-		if(mDTO != null) {
+		if(mDTO != null && mDTO.getMemberGrade().equals("USER")) {
 			HttpSession session=request.getSession();
 			session.setAttribute("memberDTO",mDTO);
 			// msg 값에 안내문구를 설정
@@ -53,7 +53,18 @@ public class LoginAction implements Action{
 			forward.setRedirect(false);
 			
 			
-		}else {// 아니라면
+		}
+		else if(mDTO != null && mDTO.getMemberGrade().equals("ADMIN")) {
+			HttpSession session=request.getSession();
+			session.setAttribute("memberDTO",mDTO);
+			// msg 값에 안내문구를 설정
+			request.setAttribute("msg", "로그인에 성공. ");
+			
+			// 로그인 성공 시 loginsuccess.do로 이동
+			forward.setPath("adminMain.jsp");
+			forward.setRedirect(true);
+		}
+		else {// 아니라면
 			// msg 값에 안내문구를 설정
 			// 페이지 이동
 			

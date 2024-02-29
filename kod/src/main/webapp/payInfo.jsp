@@ -72,37 +72,6 @@
 					<form action="paymentPage.do" method="POST">
 						
 					<div class="col-md-9" style="margin-left: 10%;">
-						<!-- Billing Details -->
-						
-						<%-- <div class="billing-details"  >
-							<div class="section-title">
-								<h3 class="title">구매자 정보</h3>
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="memberName" placeholder="이름" value="${memberDTO.memberName}" disabled>
-							</div>
-							<div class="form-group">
-								<input class="input" type="email" name="memberEmail" placeholder="Email" value="${memberDTO.memberEmail}" disabled>
-							</div>
-							<div class="form-group">
-								<input class="input" type="tel" name="memberPhNum" placeholder="전화번호" value="${memberDTO.memberPhNum}" disabled>
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="adrsZipcode" placeholder="우편번호" value="${addressDTO.adrsZipcode}" disabled>
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="adrsStreet" placeholder="도로명주소" value="${addressDTO.adrsStreet}" disabled>
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="adrsLotNum" placeholder="지번주소" value="${addressDTO.adrsLotNum}" disabled>
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="adrsDetail" placeholder="상세주소" value="${addressDTO.adrsDetail}" disabled>
-							</div>
-						</div> --%>
-						<!-- /Billing Details -->
-						
-						<!-- css 수정 테스트 -->
 						
 						<div class="memberInfo">
 						<h2>배송 정보</h2><br>
@@ -123,8 +92,6 @@
 				        	</tbody>
 					    </table>
 					    </div>
-						
-						<!-- /css 수정 테스트 -->
 						
 						<!-- Billing Details -->
 						<br><br>
