@@ -29,6 +29,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
 </head>
 <body class="hold-transition sidebar-mini">
 	<div class="wrapper">
@@ -48,7 +50,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					class="nav-link">회원 관리</a></li>
 				<li class="nav-item d-none d-sm-inline-block"><a href="#"
 					class="nav-link">상품 관리</a></li>
-				<li class="nav-item d-none d-sm-inline-block"><a href="adminCouponManage.jsp"
+				<li class="nav-item d-none d-sm-inline-block"><a href="#"
 					class="nav-link">쿠폰 관리</a></li>
 				<li class="nav-item d-none d-sm-inline-block"><a href="#"
 					class="nav-link">리뷰 관리</a></li>				
@@ -296,7 +298,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</a>
 							<ul class="nav nav-treeview">
 								<li class="nav-item">
-									<a href="adminCouponIssue.jsp" class="nav-link">
+									<a href="#" class="nav-link">
 										<i class="far fa-circle nav-icon"></i>
 										<p>쿠폰 발행</p>
 									</a>
@@ -359,7 +361,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0">대시보드</h1>
+							<h1 class="m-0">쿠폰 관리</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
@@ -379,272 +381,133 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			<!-- Main content -->
 			<div class="content">
 				<div class="container-fluid">
-					<div class="row">
-						<div class="col-sm-6">
-						
-						<!-- 쇼핑몰 통계 -->
-							<div class="card">
-								<div class="card-header">
-									<h3 class="card-title">
-										<i class="far fa-chart-bar"></i> 쇼핑몰 통계
-									</h3>
-
-									<div class="card-tools">
-										<button type="button" class="btn btn-tool"
-											data-card-widget="collapse">
-											<i class="fas fa-minus"></i>
-										</button>
-										<button type="button" class="btn btn-tool"
-											data-card-widget="remove">
-											<i class="fas fa-times"></i>
-										</button>
-									</div>
-								</div>
-								<!-- /.card-header -->
-								<div class="card-body">
-									<div class="row">
-										<div class="col-6 col-md-3 text-center">
-											<input type="text" class="knob" value="30" data-width="90"
-												data-height="90" data-fgColor="#3c8dbc">
-
-											<div class="knob-label">새로운 방문자 수</div>
-										</div>
-										<!-- ./col -->
-										<div class="col-6 col-md-3 text-center">
-											<input type="text" class="knob" value="70" data-width="90"
-												data-height="90" data-fgColor="#f56954">
-
-											<div class="knob-label">일일 방문자 수</div>
-										</div>
-										<!-- ./col -->
-										<div class="col-6 col-md-3 text-center">
-											<input type="text" class="knob" value="80" data-min="0"
-												data-max="150" data-width="90" data-height="90"
-												data-fgColor="#00a65a">
-
-											<div class="knob-label">일일 매출액(단위 : 만원)</div>
-										</div>
-										<!-- ./col -->
-										<div class="col-6 col-md-3 text-center">
-											<input type="text" class="knob" value="10" data-width="90"
-												data-height="90" data-fgColor="#00c0ef">
-
-											<div class="knob-label">주문 취소 비율</div>
-										</div>
-										<!-- ./col -->
-									</div>
-									<!-- /.row -->
-
-									<div class="row">
-										<div class="col-6 text-center">
-											<input type="text" class="knob" value="90" data-width="90"
-												data-height="90" data-fgColor="#932ab6">
-
-											<div class="knob-label">누적 방문자 수</div>
-										</div>
-										<!-- ./col -->
-										<div class="col-6 text-center">
-											<input type="text" class="knob" value="500" data-min="0"
-												data-max="1000" data-width="90" data-height="90"
-												data-fgColor="#39CCCC">
-
-											<div class="knob-label">이번달 매출액(단위 : 만원)</div>
-										</div>
-										<!-- ./col -->
-									</div>
-									<!-- /.row -->
-								</div>
-								<!-- /.card-body -->
-							</div>
-							<!-- /쇼핑몰 통계 -->
-						</div>
-							
+					
 							<!-- 회원 목록 테이블 -->
-							<div class="col-sm-6">
-								<div class="card">
-					              <div class="card-header">
-					                <h3 class="card-title">KOD 회원 목록</h3>
-					              </div>
-					              <!-- /.card-header -->
-					              <div class="card-body">
-					                <table id="example2" class="table table-bordered table-hover">
-					                  <thead>
-					                  <tr>
-					                    <th>번호</th>
-					                    <th>아이디</th>
-					                    <th>이름</th>
-					                    <th>전화번호</th>
-					                    <th>등급</th>
-					                  </tr>
-					                  </thead>
-					                  <tbody>
-					                  <tr>
-					                    <td>1</td>
-					                    <td>user1</td>
-					                    <td>홍길동</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>2</td>
-					                    <td>user2</td>
-					                    <td>박현민</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>3</td>
-					                    <td>user3</td>
-					                    <td>김진영</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>4</td>
-					                    <td>user4</td>
-					                    <td>조형련</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>5</td>
-					                    <td>user5</td>
-					                    <td>정현진</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>6</td>
-					                    <td>user6</td>
-					                    <td>홍길동6</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>7</td>
-					                    <td>user7</td>
-					                    <td>홍길동7</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>8</td>
-					                    <td>user8</td>
-					                    <td>홍길동8</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>9</td>
-					                    <td>user9</td>
-					                    <td>홍길동9</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>10</td>
-					                    <td>user10</td>
-					                    <td>홍길동10</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>11</td>
-					                    <td>user11</td>
-					                    <td>홍길동11</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>12</td>
-					                    <td>user12</td>
-					                    <td>홍길동12</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>13</td>
-					                    <td>user13</td>
-					                    <td>홍길동13</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>14</td>
-					                    <td>user14</td>
-					                    <td>홍길동14</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>15</td>
-					                    <td>user15</td>
-					                    <td>홍길동15</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>16</td>
-					                    <td>user16</td>
-					                    <td>홍길동16</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>17</td>
-					                    <td>user17</td>
-					                    <td>홍길동17</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>18</td>
-					                    <td>user18</td>
-					                    <td>홍길동18</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>19</td>
-					                    <td>user19</td>
-					                    <td>홍길동19</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>20</td>
-					                    <td>user21</td>
-					                    <td>홍길동21</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>22</td>
-					                    <td>user22</td>
-					                    <td>홍길동22</td>
-					                    <td>010-1234-5678</td>
-					                    <td>USER</td>
-					                  </tr>
-					                   <tr>
-					                    <td>23</td>
-					                    <td>user23</td>
-					                    <td>관리자</td>
-					                    <td>010-1234-5678</td>
-					                    <td>ADMIN</td>
-					                  </tr>
-					                </table>
-					              </div>
-					              <!-- /.card-body -->
+							<!-- SELECT2 EXAMPLE -->
+				        <div class="card">
+				          <div class="card-header">
+				            <h3 class="card-title">쿠폰 발행</h3>
+				
+				            <div class="card-tools">
+				              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                <i class="fas fa-minus"></i>
+				              </button>
+				              <button type="button" class="btn btn-tool" data-card-widget="remove">
+				                <i class="fas fa-times"></i>
+				              </button>
+				            </div>
+				          </div>
+				          <!-- /.card-header -->
+				          <div class="card-body" style="display: flex;">
+				            
+				              <div class="col-sm-6">
+				              	<div class="col-sm-10">
+					                <div class="form-group">
+					                  <label>쿠폰 종류</label>
+					                  <select class="form-control select2" id="coupon-type" style="width: 100%;">
+					                    <option selected="selected">자동 발행</option>
+					                    <option>관리자 발행</option>
+					                    <option>프로모션 쿠폰</option>
+					                  </select>
+					                </div>
+				                </div>
+				                <!-- /.form-group -->
+				                <div class="col-sm-10">
+					                <div class="form-group">
+					                  <label>쿠폰명</label>
+					                  <input class="form-control" type="text" placeholder="쿠폰명을 입력하세요.">
+					                </div>
+				            	</div>
+				                <!-- /.form-group -->
+				              
+				              <!-- /.col -->
+				              	<div class="col-sm-10">
+					                <div class="form-group">
+					                  <label>쿠폰 코드</label>
+					                   <input class="form-control" type="text" placeholder="쿠폰 코드를 입력하세요.">
+					                </div>
 					            </div>
-            <!-- /.card -->
-							</div>
-							<!-- /회원 목록 테이블 -->
-							
-							
+				                <!-- /.form-group -->
+				                <div class="col-sm-10">
+					                <div class="form-group">
+					                  <label>쿠폰 설명</label>
+					                  <input class="form-control" type="text" placeholder="쿠폰 설명을 입력하세요.">
+					                </div>
+				                </div>
+				                <!-- /.form-group -->
+				                <div class="col-sm-10">
+				                <label>할인율</label>
+					                <div class="form-group" >
+					                  	<div style="width: 100%;">
+					                  		<input class="form-control" type="text" placeholder="할인율을 입력하세요." style="width: 75%; display: inline-block;">
+						                        <div class="form-check" style="display: inline-block; margin-left: 5%;">
+						                          <input class="form-check-input" type="radio" name="radio1">
+						                          <label class="form-check-label">%</label>
+						                        </div>
+						                        <div class="form-check" style="display: inline-block; margin-left: 5%;">
+						                          <input class="form-check-input" type="radio" name="radio1" checked>
+						                          <label class="form-check-label">원</label>
+						                        </div>
+				                  		</div>
+					                </div>
+				                </div>
+				                <div class="col-sm-10">
+					                <div class="form-group">
+				                  		<label>쿠폰 기간</label>
+				                  		<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="far fa-calendar-alt"></i>
+												</span>
+											</div>
+										<input type="text" class="form-control float-right" id="reservation">
+										</div>
+					                </div>
+				                </div>
+				                <!-- /.form-group -->
+				                
+				                <div class="col-sm-10">
+					                <div class="form-group">
+					                  <label>쿠폰 사용 최소금액</label>
+					                  <input class="form-control" type="text" placeholder="쿠폰 사용 최소금액을 입력하세요.">
+					                </div>
+				                </div>
+				                
+				                <div class="col-sm-10">
+					                <div class="form-group">
+					                  <label>쿠폰 최대 할인금액</label>
+					                  <input class="form-control" type="text" placeholder="쿠폰 최대 할인금액을 입력하세요.">
+					                </div>
+				                </div>
+				                <button type="button" class="btn btn-primary" style="float: right;">쿠폰 발행</button>
+				              </div>
+				              
+				              	<div class="col-sm-6" id="user-grade" style="float: right; display: none;">
+				              		<div class="col-sm-10">
+					              		<div class="form-group">
+					                  		<label>사용자 등급</label>
+				        	          		<select class="form-control select2" style="width: 100%;">
+							                    <option selected="selected">Bronze</option>
+							                    <option>Silver</option>
+							                    <option>Gold</option>
+							                    <option>VIP</option>
+						                  	</select>
+					                	</div>
+				                	</div>
+		                		</div>
+		                		
+				              <!-- /.col -->
+				              
+				        </div>
+				              
+				        <!-- /.card -->
+				
+				        <!-- SELECT2 EXAMPLE -->
+							<!-- /발행 쿠폰 목록 -->
 							<!-- /.card-body -->
-						</div>
+						
 						<!-- /.card -->
-					</div>
+					
 					<!-- /.col-md-6 -->
 
 					<!-- /.col-md-6 -->
@@ -690,19 +553,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<script src="plugins/sparklines/sparkline.js"></script>
 	<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
 	<!-- ChartJS -->
-	<!-- DataTables  & Plugins -->
-	<script src="plugins/datatables/jquery.dataTables.min.js"></script>
-	<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-	<script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-	<script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-	<script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-	<script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-	<script src="plugins/jszip/jszip.min.js"></script>
-	<script src="plugins/pdfmake/pdfmake.min.js"></script>
-	<script src="plugins/pdfmake/vfs_fonts.js"></script>
-	<script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-	<script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
-	<script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+	<!-- Select2 -->
+	<script src="plugins/select2/js/select2.full.min.js"></script>
+	<!-- Bootstrap4 Duallistbox -->
+	<script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+	<!-- InputMask -->
+	<script src="plugins/moment/moment.min.js"></script>
+	<script src="plugins/inputmask/jquery.inputmask.min.js"></script>
+	<!-- Date Range -->
+	<script src="plugins/daterangepicker/daterangepicker.js"></script>
 	<script>
 		$(function() {
 			/* jQueryKnob */
@@ -797,7 +656,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		})
 	</script>
 	
-<!-- 회원 목록 js -->
+<!-- 쿠폰 목록 js -->
 <!-- Page specific script -->
 <script>
   $(function () {
@@ -819,9 +678,49 @@ scratch. This page gets rid of all links and provides the needed markup only.
     });
   });
 </script>
-
-
-
+<!-- 쿠폰 목록 js -->
+<!-- Page specific script -->
+<script>
+  $(function () {
+    /* $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)'); */
+    $('#example3').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+      "columnDefs": [
+    	  {"orderable": false, "targets":[2,3,4]} // target은 0부터 시작, 1,2,3(아이디, 이름, 전화번호)는 정렬에서 제외
+      ],
+    });
+  });
+</script>
+<!-- Date Range -->
+<script>
+  $(function () {
+    $('#reservation').daterangepicker(
+      {
+     	startDate: moment(),					// 발행 날짜(moment : 현재 날짜)
+        endDate  : moment().add(1,'month') , 	// 종료 날짜 (디폴트값 : 1달)
+      }
+    )
+  });
+</script>
+<script>
+document.getElementById('coupon-type').addEventListener('change', function() {
+	  var userGradeSection = document.getElementById('user-grade');
+	  if (this.value === '관리자 발행') {
+	    userGradeSection.style.display = 'block';
+	  } else {
+	    userGradeSection.style.display = 'none';
+	  }
+	});
+</script>
 	<!-- jQuery -->
 
 
