@@ -1,1 +1,1 @@
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTdxTDFthErB6XqYfxMOteEjya_qwSMpbzjMfy5wDl09TVN7Ycj2Nf1Dt7geesLFA/embed?start=false&loop=false&delayms=3000" frameborder="0" width="1280" height="749" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+[KOD_중간프로젝트 발표자료.pptx의 사본.pdf](https://github.com/KingOfDevelope/KOD/files/14696613/KOD_.pptx.pdf)
